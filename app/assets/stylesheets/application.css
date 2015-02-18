@@ -12,16 +12,16 @@
  *
  *= require_tree .
  *= require_self
- *= bootstrap.min
- *= font-awesome.min
- *= jquery-ui
- *= fullcalendar
- *= prettyPhoto
- *= rateit
- *= bootstrap-datetimepicker.min
- *= jquery.cleditor
- *= jquery.dataTables
- *= jquery.onoff
- *= style
- *= widgets
+ *= require bootstrap.min
+ *= require font-awesome.min
+ *= require jquery-ui
+ *= require fullcalendar
+ *= require prettyPhoto
+ *= require rateit
+ *= require bootstrap-datetimepicker.min
+ *= require jquery.cleditor
+ *= require jquery.dataTables
+ *= require jquery.onoff
+ *= require style
+ *= require widgets
  */

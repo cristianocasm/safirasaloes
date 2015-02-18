@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Professional:</strong>
+  <%= @schedule.professional_id %>
+</p>
+
+<p>
+  <strong>Customer:</strong>
+  <%= @schedule.customer_id %>
+</p>
+
+<p>
+  <strong>Service:</strong>
+  <%= @schedule.service_id %>
+</p>
+
+<p>
+  <strong>Hora:</strong>
+  <%= @schedule.hora %>
+</p>
+
+<%= link_to 'Edit', edit_schedule_path(@schedule) %> |
+<%= link_to 'Back', schedules_path %>

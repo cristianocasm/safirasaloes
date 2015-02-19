@@ -17,7 +17,9 @@
 //= require respond.min
 //= require bootstrap.min
 //= require jquery-ui.min
-//= require fullcalendar.min
+//= require moment.min
+//= require fullcalendar
+//= require pt-br
 //= require jquery.rateit.min
 //= require jquery.prettyPhoto
 //= require jquery.slimscroll.min

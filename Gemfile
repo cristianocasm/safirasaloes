@@ -40,3 +40,16 @@ gem 'spring',        group: :development
 # gem 'debugger', group: [:development, :test]
 
 gem 'devise'
+
+gem 'annotate', '~> 2.6.5'
+
+group :test, :development do
+  gem 'byebug'
+end
+
+group :test do
+  gem 'shoulda' # Adiciona métodos simples para testes
+  gem 'minitest-reporters' # Cria output dos testes colorido
+  gem 'capybara'
+  gem 'selenium-webdriver'
+end

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+  
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
@@ -17,14 +18,27 @@
     <![endif]-->
   </head>
 
+      <nav class="navbar navbar-inverse" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <%# link_to(image_tag("e-editora_logo.png", :alt => "E-Editora", id: :logo), root_path) %>
+        </div>
+      </div>
+    </nav>
+  
   <body>
-    <%= render "layouts/main_header" %>
-    <%= render "layouts/secondary_header" %>
-    <div class="content">
-      <%= render "layouts/sidebar" %>
-      <%= yield %>
+    <div class="container">
+      <% flash.each do |name, msg| %>
+        <div class="alert alert-<%= name == 'notice' ? "success" : "danger" %>">
+          <a class="close" data-dismiss="alert">×</a>
+          <%= msg %>
+        </div>
+      <% end %>
+
+      <div class="row">
+        <%= yield %>
+      </div>
     </div>
-    <%= render "layouts/footer" %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   </body>
+  
 </html>

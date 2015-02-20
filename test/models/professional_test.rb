@@ -34,6 +34,9 @@
 #  status_id              :integer
 #  data_expiracao_status  :datetime
 #  contato_definido       :boolean
+#  hashtag                :string(255)
+#  site                   :string(255)
+#  pagina_facebook        :string(255)
 #
 
 require 'test_helper'
@@ -41,4 +44,6 @@ require 'test_helper'
 class ProfessionalTest < ActiveSupport::TestCase
   should validate_presence_of(:email)
   should have_many(:schedules)
+  should belong_to(:status)
+  should belong_to(:plan)
 end

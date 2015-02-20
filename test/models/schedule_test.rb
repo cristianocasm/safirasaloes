@@ -6,9 +6,10 @@
 #  professional_id :integer
 #  customer_id     :integer
 #  service_id      :integer
-#  hora            :datetime
+#  datahora_inicio :datetime
 #  created_at      :datetime
 #  updated_at      :datetime
+#  datahora_fim    :datetime
 #
 
 require 'test_helper'

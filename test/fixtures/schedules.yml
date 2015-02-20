@@ -6,9 +6,10 @@
 #  professional_id :integer
 #  customer_id     :integer
 #  service_id      :integer
-#  hora            :datetime
+#  datahora_inicio :datetime
 #  created_at      :datetime
 #  updated_at      :datetime
+#  datahora_fim    :datetime
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

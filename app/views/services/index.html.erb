@@ -1,0 +1,31 @@
+<h1>Listing services</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Preco</th>
+      <th>Hora duracao</th>
+      <th>Minuto duracao</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @services.each do |service| %>
+      <tr>
+        <td><%= service.nome %></td>
+        <td><%= service.preco %></td>
+        <td><%= service.hora_duracao %></td>
+        <td><%= service.minuto_duracao %></td>
+        <td><%= link_to 'Show', service %></td>
+        <td><%= link_to 'Edit', edit_service_path(service) %></td>
+        <td><%= link_to 'Destroy', service, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Service', new_service_path %>

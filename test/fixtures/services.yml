@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nome: MyString
+  preco: MyString
+  hora_duracao: 1
+  minuto_duracao: 1
+
+two:
+  nome: MyString
+  preco: MyString
+  hora_duracao: 1
+  minuto_duracao: 1

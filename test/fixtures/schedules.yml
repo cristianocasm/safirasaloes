@@ -17,10 +17,12 @@ one:
   professional_id: 1
   customer_id: 1
   service_id: 1
-  hora: 2015-02-10 15:41:56
+  datahora_inicio: 2015-02-10 15:41:56
+  datahora_fim: 2015-02-10 15:41:56
 
 two:
   professional_id: 1
   customer_id: 1
   service_id: 1
-  hora: 2015-02-10 15:41:56
+  datahora_inicio: 2015-02-10 15:41:56
+  datahora_fim: 2015-02-10 15:41:56

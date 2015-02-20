@@ -10,4 +10,5 @@
 #
 
 class Customer < ActiveRecord::Base
+  has_many :schedules
 end

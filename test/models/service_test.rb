@@ -14,7 +14,5 @@
 require 'test_helper'
 
 class ServiceTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  should have_many(:schedules)
 end

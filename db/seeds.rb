@@ -20,3 +20,22 @@ Status.create!([
     descricao: 'Profissional que paga mensalmente para utilizar a plataforma',
     dias_vigencia: 60000 }
   ])
+
+####
+
+p = Professional.create!([
+  { email: 'cristiano.souza.mendonca@gmail.com',
+    password: '123456' }
+  ])
+
+c = Customer.create!(
+  nome: 'Aline',
+  email: 'cristiano.souza.mendonca+aline@gmail.com'
+  )
+
+Schedule.create!([
+  { professional_id: p.first.id,
+    customer_id: c.id,
+    datahora_inicio: DateTime.now,
+    datahora_fim: 1.hour.from_now.to_datetime }
+  ])

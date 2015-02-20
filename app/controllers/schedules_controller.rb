@@ -4,7 +4,10 @@ class SchedulesController < ApplicationController
   # GET /schedules
   # GET /schedules.json
   def index
-    @schedules = Schedule.all
+    start = params['start']
+    hend  = params['end'] # hend, pois end é uma palavra reservada
+    schedules = current_professional.schedules_to_calendar(start, hend)
+    render json: schedules
   end
 
   # GET /schedules/1
@@ -40,14 +43,10 @@ class SchedulesController < ApplicationController
   # PATCH/PUT /schedules/1
   # PATCH/PUT /schedules/1.json
   def update
-    respond_to do |format|
-      if @schedule.update(schedule_params)
-        format.html { redirect_to @schedule, notice: 'Schedule was successfully updated.' }
-        format.json { render :show, status: :ok, location: @schedule }
-      else
-        format.html { render :edit }
-        format.json { render json: @schedule.errors, status: :unprocessable_entity }
-      end
+    if @schedule.update(schedule_params)
+      render json: @schedule, status: :ok, location: @schedule
+    else
+      render json: @schedule.errors, status: :unprocessable_entity
     end
   end
 
@@ -69,6 +68,7 @@ class SchedulesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def schedule_params
-      params.require(:schedule).permit(:professional_id, :customer_id, :service_id, :hora)
+      params.require(:schedule).permit(:professional_id, :customer_id, :service_id, :datahora_inicio, :datahora_fim, :observacao)
     end
+
 end

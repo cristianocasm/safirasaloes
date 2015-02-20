@@ -12,10 +12,6 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :professional_id %><br>
-    <%= f.number_field :professional_id %>
-  </div>
-  <div class="field">
     <%= f.label :customer_id %><br>
     <%= f.number_field :customer_id %>
   </div>
@@ -24,8 +20,12 @@
     <%= f.number_field :service_id %>
   </div>
   <div class="field">
-    <%= f.label :hora %><br>
-    <%= f.datetime_select :hora %>
+    <%= f.label :início %><br>
+    <%= f.datetime_select :datahora_inicio %>
+  </div>
+  <div class="field">
+    <%= f.label :fim %><br>
+    <%= f.datetime_select :datahora_fim %>
   </div>
   <div class="actions">
     <%= f.submit %>

@@ -44,4 +44,23 @@ class Professional < ActiveRecord::Base
          :validatable, :confirmable
 
   has_many :schedules
+
+  def schedules_to_calendar(start, hend)
+    scs = self.schedules.where(updated_at: start..hend)
+    transform(scs)
+  end
+
+  private
+
+  def transform(scs)
+    scs.map do |sc|
+      {
+        id:    sc.id,
+        title: sc.customer.nome,
+        start: sc.datahora_inicio,
+        end:   sc.datahora_fim
+      }
+    end
+  end
+
 end

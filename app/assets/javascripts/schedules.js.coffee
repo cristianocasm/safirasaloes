@@ -2,6 +2,11 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 jQuery ->
+  config_callendar()
+  load_events('schedules')
+
+
+config_callendar = ->
   $('#calendar').fullCalendar({
     header: {
       left: 'prev',
@@ -19,12 +24,71 @@ jQuery ->
     maxTime: "23:00:00",
     allDayDefault: false,
     timeFormat: 'HH:mm',
-    
-    events: [
-    ]
+    eventDrop:   (event, delta, revertFunc) -> dealChangeEvent(event, delta, revertFunc),
+    eventResize: (event, delta, revertFunc) -> dealChangeEvent(event, delta, revertFunc),
+    select:      (start, end, jsEvent, view) -> dealNewEvent(start, end, jsEvent, view)
   })
 
-    
+load_events = (source) ->
+  $('#calendar').fullCalendar('addEventSource', source)
+
+dealChangeEvent = (event, delta, revertFunc) ->
+  $.ajax
+    url: "/schedules/#{event.id}",
+    type: 'patch'
+    dataType: "json"
+    data:
+      schedule:
+        datahora_inicio: event.start.format(),
+        datahora_fim: event.end.format()
+    success: (data, textStatus, jqXHR) ->
+      $('#calendar').fullCalendar('render')
+    error: (jqXHR, textStatus, errorThrown) ->
+      alert("Um erro inesperado ocorreu e não foi possível atualizar o horário.")
+
+dealNewEvent = (start, end, jsEvent, view) ->
+  $("#myModal").modal(show: true)
+
+# /* jQuery Notification */
+
+# $(document).ready(function(){
+
+#   setTimeout(function() {noty({text: '<strong>Howdy! Hope you are doing good...</strong>',layout:'topRight',type:'information',timeout:15000});}, 7000);
+
+#   setTimeout(function() {noty({text: 'This is an all in one theme which includes Front End, Admin & E-Commerce. Dont miss it. Grab it now',layout:'topRight',type:'alert',timeout:13000});}, 9000);
+
+# });
+
+
+# $(document).ready(function() {
+
+#   $('.noty-alert').click(function (e) {
+#       e.preventDefault();
+#       noty({text: 'Some notifications goes here...',layout:'topRight',type:'alert',timeout:2000});
+#   });
+
+#   $('.noty-success').click(function (e) {
+#       e.preventDefault();
+#       noty({text: 'Some notifications goes here...',layout:'top',type:'success',timeout:2000});
+#   });
+
+#   $('.noty-error').click(function (e) {
+#       e.preventDefault();
+#       noty({text: 'Some notifications goes here...',layout:'topRight',type:'error',timeout:2000});
+#   });
+
+#   $('.noty-warning').click(function (e) {
+#       e.preventDefault();
+#       noty({text: 'Some notifications goes here...',layout:'bottom',type:'warning',timeout:2000});
+#   });
+
+#   $('.noty-information').click(function (e) {
+#       e.preventDefault();
+#       noty({text: 'Some notifications goes here...',layout:'topRight',type:'information',timeout:2000});
+#   });
+
+# });
+
 # $(document).ready(function() {
   
 #     var date = new Date();

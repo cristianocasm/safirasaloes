@@ -26,11 +26,30 @@ config_callendar = ->
     timeFormat: 'HH:mm',
     eventDrop:   (event, delta, revertFunc) -> dealChangeEvent(event, delta, revertFunc),
     eventResize: (event, delta, revertFunc) -> dealChangeEvent(event, delta, revertFunc),
-    select:      (start, end, jsEvent, view) -> dealNewEvent(start, end, jsEvent, view)
+    eventRender:     (event, element, view) -> assocPopOver(event, element, view),
+    select:     (start, end, jsEvent, view) -> dealNewEvent(start, end, jsEvent, view)
   })
 
 load_events = (source) ->
   $('#calendar').fullCalendar('addEventSource', source)
+
+assocPopOver = (event, element, view) ->
+  element.popover({
+    title: "My Title",
+    placement: setPlacement(event, view),
+    html: true,
+    content: event.msg,
+    trigger: "hover",
+    delay: { "show": 0, "hide": 1000 }
+  });
+
+setPlacement = (event, view) ->
+  if view.name == 'month'
+    if (event.start.get("date") > 15) then 'top' else 'bottom'
+  else if view.name == 'agendaWeek' || view.name == 'agendaDay'
+    if (event.start.get("hour") > 12) then 'top' else 'bottom'
+  else
+    $("#myModalError").modal(show: true)
 
 dealChangeEvent = (event, delta, revertFunc) ->
   $.ajax

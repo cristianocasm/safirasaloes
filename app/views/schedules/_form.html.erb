@@ -12,12 +12,12 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :customer_id %><br>
+    <%= f.label :nome_do_cliente %><br>
     <%= f.number_field :customer_id %>
   </div>
   <div class="field">
-    <%= f.label :service_id %><br>
-    <%= f.number_field :service_id %>
+    <%= f.label :serviço %><br>
+    <%= f.select :service_id, current_professional.services.collect {|p| [ p.nome, p.id ] } %>
   </div>
   <div class="field">
     <%= f.label :início %><br>

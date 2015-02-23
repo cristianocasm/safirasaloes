@@ -35,13 +35,22 @@ load_events = (source) ->
 
 assocPopOver = (event, element, view) ->
   element.popover({
-    title: "My Title",
+    title: createTitle(event),
     placement: setPlacement(event, view),
     html: true,
     content: event.msg,
     trigger: "hover",
-    delay: { "show": 0, "hide": 1000 }
+    delay: { "show": 0, "hide": 1000 },
+    template: '
+    <div class="popover" role="tooltip">
+      <div class="arrow"></div>
+      <h3 class="popover-title"></h3>
+      <div class="popover-content"></div>
+    </div>'
   });
+
+createTitle = (event) ->
+  "#{event.title} <a href='/schedules/#{event.id}' data-method='delete' data-remote='true'><i class='fa fa-trash-o'></i></a> <a href='schedules/#{event.id}/edit'><i class='fa fa-pencil'></i></a>"
 
 setPlacement = (event, view) ->
   if view.name == 'month'

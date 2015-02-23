@@ -63,6 +63,7 @@ class Professional < ActiveRecord::Base
         id:    sc.id,
         title: sc.customer.nome,
         start: sc.datahora_inicio,
+        #service: sc.service.nome,
         end:   sc.datahora_fim
       }
     end

@@ -47,7 +47,41 @@ dealChangeEvent = (event, delta, revertFunc) ->
       alert("Um erro inesperado ocorreu e não foi possível atualizar o horário.")
 
 dealNewEvent = (start, end, jsEvent, view) ->
+  ano = start.get("year")
+  mes = start.get("month") + 1
+  dia = start.get("date")
+
+  if view.name == 'month'
+    hour = 10
+    min = 0
+    hourFim = 11
+    minFim = 0
+  else if view.name == 'agendaWeek' || view.name == 'agendaDay'
+    hour = start.get("hour")
+    min = start.get("minute")
+    hourFim = hour + 1
+    minFim = min
+  else
+    $("#myModalError").modal(show: true)
+    return
+
+  fillFields(ano, mes, dia, hour, min, hourFim, minFim)
   $("#myModal").modal(show: true)
+
+fillFields = (ano, mes, dia, hour, min, hourFim, minFim) ->
+  $("#schedule_datahora_inicio_1i").val(ano)
+  $("#schedule_datahora_inicio_2i").val(mes)
+  $("#schedule_datahora_inicio_3i").val(dia)
+  $("#schedule_datahora_inicio_4i").val(pad2(hour))
+  $("#schedule_datahora_inicio_5i").val(pad2(min))
+  $("#schedule_datahora_fim_1i").val(ano)
+  $("#schedule_datahora_fim_2i").val(mes)
+  $("#schedule_datahora_fim_3i").val(dia)
+  $("#schedule_datahora_fim_4i").val(pad2(hourFim))
+  $("#schedule_datahora_fim_5i").val(pad2(minFim))
+
+pad2 = (number) ->
+  (if number < 10 then '0' else '') + number
 
 # /* jQuery Notification */
 

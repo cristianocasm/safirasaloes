@@ -15,4 +15,5 @@ require 'test_helper'
 
 class ServiceTest < ActiveSupport::TestCase
   should have_many(:schedules)
+  should belong_to(:professional)
 end

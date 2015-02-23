@@ -49,6 +49,7 @@ class Professional < ActiveRecord::Base
   belongs_to :plan
   belongs_to :status
   has_many :schedules
+  has_many :services
 
   def schedules_to_calendar(start, hend)
     scs = self.schedules.where(updated_at: start..hend)

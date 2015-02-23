@@ -46,4 +46,5 @@ class ProfessionalTest < ActiveSupport::TestCase
   should have_many(:schedules)
   should belong_to(:status)
   should belong_to(:plan)
+  should have_many(:services)
 end

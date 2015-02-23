@@ -13,4 +13,5 @@
 
 class Service < ActiveRecord::Base
   has_many :schedules
+  belongs_to :professional
 end

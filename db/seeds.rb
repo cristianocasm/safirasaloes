@@ -39,3 +39,21 @@ Schedule.create!([
     datahora_inicio: DateTime.now,
     datahora_fim: 1.hour.from_now.to_datetime }
   ])
+
+Service.create!([
+  { nome: 'Corte Masculino',
+    preco: '25.00',
+    professional_id: p.first.id },
+  { nome: 'Corte Feminino',
+    preco: '45.00',
+    professional_id: p.first.id },
+  { nome: 'Unha mão',
+    preco: '10.00',
+    professional_id: p.first.id },
+  { nome: 'Unha pé',
+    preco: '10.00',
+    professional_id: p.first.id },
+  { nome: 'Unha mão e pé',
+    preco: '15.00',
+    professional_id: p.first.id }
+  ])

@@ -1,15 +1,12 @@
 Rails.application.routes.draw do
-  resources :rewards
-
-  resources :services
-
-  resources :customers
-
-  resources :statuses
-
+  root       'schedules#new'
   devise_for :professionals, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'senha', confirmation: 'confirmar', unlock: 'desbloquear', sign_up: 'cadastrar' }
-  root 'schedules#new'
-  resources :schedules
+  resources  :schedules
+  resources  :rewards
+  resources  :services
+  resources  :customers
+  resources  :statuses
+  
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

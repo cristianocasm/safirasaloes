@@ -50,7 +50,7 @@ assocPopOver = (event, element, view) ->
   });
 
 createTitle = (event) ->
-  "#{event.title} <a href='/schedules/#{event.id}' data-method='delete' data-remote='true'><i class='fa fa-trash-o'></i></a> <a href='schedules/#{event.id}/edit'><i class='fa fa-pencil'></i></a>"
+  "#{event.title} <a href='/schedules/#{event.id}' data-method='delete' data-remote='true'><i class='fa fa-trash-o'></i></a> <a href='schedules/#{event.id}/edit' data-remote='true'><i class='fa fa-pencil'></i></a>"
 
 setPlacement = (event, view) ->
   if view.name == 'month'
@@ -87,8 +87,8 @@ dealNewEvent = (start, end, jsEvent, view) ->
   else if view.name == 'agendaWeek' || view.name == 'agendaDay'
     hour = start.get("hour")
     min = start.get("minute")
-    hourFim = hour + 1
-    minFim = min
+    hourFim = end.get("hour")
+    minFim = end.get("minute")
   else
     $("#myModalError").modal(show: true)
     return

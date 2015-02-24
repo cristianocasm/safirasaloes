@@ -1,0 +1,13 @@
+<%- sc = @schedule -%>
+
+<% if sc.persisted? %>
+  $("#myModal").modal('hide');
+    var myEvent = {
+      id:    <%= sc.id %>,
+      title: '<%= sc.customer.nome %>',
+      start: '<%= sc.datahora_inicio.strftime("%Y-%m-%d %H:%M:%S") %>',
+      end:   '<%= sc.datahora_fim.strftime("%Y-%m-%d %H:%M:%S") %>'
+    };
+  $('#calendar').fullCalendar('removeEvents', <%= sc.id %>);
+  $("#calendar").fullCalendar('renderEvent', myEvent);
+<% end %>

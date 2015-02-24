@@ -1,0 +1,29 @@
+/*
+  edit_schedule.js.erb preenche o formulário de schedule com
+  os dados do objeto a ser editado e ativa o modal que contem
+  o formulário.
+*/
+
+<%- sc = @schedule -%>
+
+$("#schedule_customer_id").val(<%= sc.customer.id %>)
+$("#schedule_service_id").val(<%= sc.service_id %>)
+$("#schedule_id").val(<%= sc.id %>)
+// Tratando o dia e hora marcado para o início do atendimento
+$("#schedule_datahora_inicio_3i").val(<%= sc.datahora_inicio.day %>)
+$("#schedule_datahora_inicio_2i").val(<%= sc.datahora_inicio.month %>)
+$("#schedule_datahora_inicio_1i").val(<%= sc.datahora_inicio.year %>)
+$("#schedule_datahora_inicio_4i").val(pad2(<%= sc.datahora_inicio.hour %>))
+$("#schedule_datahora_inicio_5i").val(pad2(<%= sc.datahora_inicio.min %>))
+// Tratando o dia e hora marcado para o final do atendimento
+$("#schedule_datahora_fim_3i").val(<%= sc.datahora_fim.day  %>)
+$("#schedule_datahora_fim_2i").val(<%= sc.datahora_fim.month %>)
+$("#schedule_datahora_fim_1i").val(<%= sc.datahora_fim.year %>)
+$("#schedule_datahora_fim_4i").val(pad2(<%= sc.datahora_fim.hour %>))
+$("#schedule_datahora_fim_5i").val(pad2(<%= sc.datahora_fim.min %>))
+// Ativando o modal
+$("#myModal").modal('show');
+
+function pad2(number){
+  return (number < 10 ? '0' : '') + number
+}

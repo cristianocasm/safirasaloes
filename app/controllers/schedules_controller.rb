@@ -22,21 +22,21 @@ class SchedulesController < ApplicationController
 
   # GET /schedules/1/edit
   def edit
+    respond_to do |format|
+      format.js { render 'edit_schedule' }
+    end
   end
 
   # POST /schedules
   # POST /schedules.json
   def create
-    @schedule = Schedule.new(schedule_params)
+    prof_id = current_professional.id
+    @schedule = Schedule.find_or_initialize_by(id: schedule_params[:id])
+    @schedule.assign_attributes(schedule_params.merge(professional_id: prof_id))
+    @schedule.save
 
     respond_to do |format|
-      if @schedule.save
-        format.html { redirect_to @schedule, notice: 'Schedule was successfully created.' }
-        format.json { render :show, status: :created, location: @schedule }
-      else
-        format.html { render :new }
-        format.json { render json: @schedule.errors, status: :unprocessable_entity }
-      end
+      format.js { render 'new_schedule' }
     end
   end
 
@@ -67,7 +67,7 @@ class SchedulesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def schedule_params
-      params.require(:schedule).permit(:professional_id, :customer_id, :service_id, :datahora_inicio, :datahora_fim, :observacao)
+      params.require(:schedule).permit(:id, :customer_id, :service_id, :datahora_inicio, :datahora_fim, :observacao)
     end
 
 end

@@ -1,56 +1,59 @@
-# require 'test_helper'
+require 'test_helper'
 
-# class SchedulesControllerTest < ActionController::TestCase
-#   setup do
-#     @schedule = schedules(:one)
-#   end
+class SchedulesControllerTest < ActionController::TestCase
+  include Devise::TestHelpers
 
-#   test "should get index" do
-#     skip
-#     get :index
-#     assert_response :success
-#     assert_not_nil assigns(:schedules)
-#   end
+  setup do
+    profAline = professionals('Aline')
+    sign_in :professional, profAline
+    #@schedule = schedules(:one)
+  end
 
-#   test "should get new" do
-#     skip
-#     get :new
-#     assert_response :success
-#   end
+  test "should render layout application.html.erb" do
+    get :new
+    assert_template :new
+    assert_template layout: 'layouts/application'
+  end
 
-#   test "should create schedule" do
-#     skip
-#     assert_difference('Schedule.count') do
-#       post :create, schedule: { customer_id: @schedule.customer_id, hora: @schedule.hora, professional_id: @schedule.professional_id, service_id: @schedule.service_id }
-#     end
+  # test "should get index" do
+  #   get :index
+  #   assert_response :success
+  #   assert_not_nil assigns(:schedules)
+  # end
 
-#     assert_redirected_to schedule_path(assigns(:schedule))
-#   end
+  # test "should get new" do
+  #   get :new
+  #   assert_response :success
+  # end
 
-#   test "should show schedule" do
-#     skip
-#     get :show, id: @schedule
-#     assert_response :success
-#   end
+  # test "should create schedule" do
+  #   assert_difference('Schedule.count') do
+  #     post :create, schedule: { customer_id: @schedule.customer_id, hora: @schedule.hora, professional_id: @schedule.professional_id, service_id: @schedule.service_id }
+  #   end
 
-#   test "should get edit" do
-#     skip
-#     get :edit, id: @schedule
-#     assert_response :success
-#   end
+  #   assert_redirected_to schedule_path(assigns(:schedule))
+  # end
 
-#   test "should update schedule" do
-#     skip
-#     patch :update, id: @schedule, schedule: { customer_id: @schedule.customer_id, hora: @schedule.hora, professional_id: @schedule.professional_id, service_id: @schedule.service_id }
-#     assert_redirected_to schedule_path(assigns(:schedule))
-#   end
+  # test "should show schedule" do
+  #   get :show, id: @schedule
+  #   assert_response :success
+  # end
 
-#   test "should destroy schedule" do
-#     skip
-#     assert_difference('Schedule.count', -1) do
-#       delete :destroy, id: @schedule
-#     end
+  # test "should get edit" do
+  #   get :edit, id: @schedule
+  #   assert_response :success
+  # end
 
-#     assert_redirected_to schedules_path
-#   end
-# end
+  # test "should update schedule" do
+  #   patch :update, id: @schedule, schedule: { customer_id: @schedule.customer_id, hora: @schedule.hora, professional_id: @schedule.professional_id, service_id: @schedule.service_id }
+  #   assert_redirected_to schedule_path(assigns(:schedule))
+  # end
+
+  # test "should destroy schedule" do
+  #   assert_difference('Schedule.count', -1) do
+  #     delete :destroy, id: @schedule
+  #   end
+
+  #   assert_redirected_to schedules_path
+  # end
+end

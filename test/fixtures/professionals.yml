@@ -39,36 +39,35 @@
 #  pagina_facebook        :string(255)
 #
 
-# one:
-#   id: 1,
-#   email: test@gmail.com
-#   encrypted_password: 
-#   reset_password_token: 
-#   reset_password_sent_at: 
-#   remember_created_at: 
-#   sign_in_count: 
-#   current_sign_in_at: 
-#   last_sign_in_at: 
-#   current_sign_in_ip: 
-#   last_sign_in_ip: 
-#   confirmation_token: 
-#   confirmed_at: 
-#   confirmation_sent_at: 
-#   unconfirmed_email: 
-#   created_at: 
-#   updated_at: 
-#   nome: 
-#   telefone: 
-#   cep: 
-#   rua: 
-#   numero: 
-#   bairro: 
-#   cidade: 
-#   estado: 
-#   complemento: 
-#   profissao: 
-#   local_trabalho: 
-#   plan_id: 
-#   status_id: 
-#   data_expiracao_status: 
-#   contato_definido: 
+Aline:
+  email: test@gmail.com
+  encrypted_password: <%= Professional.new.send(:password_digest, 'sample_pwd') %>
+  #reset_password_token: 
+  #reset_password_sent_at: 
+  #remember_created_at: 
+  #sign_in_count: 
+  #current_sign_in_at: 
+  #last_sign_in_at: 
+  #current_sign_in_ip: 
+  #last_sign_in_ip: 
+  #confirmation_token: 
+  confirmed_at: 2015-01-01 00:00:00
+  #confirmation_sent_at: 
+  #unconfirmed_email: 
+  #created_at: 
+  #updated_at: 
+  nome: Aline
+  telefone: (31) 8888-8888
+  cep: 32.323-232
+  rua: Perpétuo Socorro
+  numero: 32
+  bairro: Ipiranga
+  cidade: Belo Horizonte
+  estado: Minas Gerais 
+  complemento: '-'
+  profissao: Cabeleireira
+  local_trabalho: Salão Próprio
+  #plan_id: 
+  #status_id: 
+  #data_expiracao_status: 
+  #contato_definido: 

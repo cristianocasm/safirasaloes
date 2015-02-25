@@ -4,12 +4,6 @@ feature "Calendario" do
   def setup
     super
     skip("Evitando JS") if ENV["js"] == "false"
-
-    @profAline = Professional.create!(nome: 'Aline',
-                                    password: '123456',
-                                    password_confirmation: '123456',
-                                    email: 'cristiano.souza.mendonca@gmail.com',
-                                    confirmed_at: '2015-01-01 00:00:00')
   end
 
   scenario "profissional pode acessar seu calendário", js: true do

@@ -1,16 +1,16 @@
 require "test_helper"
 
 feature "Calendario" do
-  def setup
-    super
+  before do
     skip("Evitando JS") if ENV["js"] == "false"
+
+    profAline = professionals('Aline')
+    login_as(profAline, :scope => :professional)
   end
 
   scenario "profissional pode acessar seu calendário", js: true do
     visit root_path
-    fill_in 'professional[email]', with: @profAline.email
-    fill_in 'professional[password]', with: '123456'
-    click_button "Entrar"
+    byebug
     page.must_have_content I18n.t('date.month_names')[Date.today.month]
   end
 end

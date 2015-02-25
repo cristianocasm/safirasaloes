@@ -6,6 +6,9 @@ require "minitest/rails/capybara"
 require "minitest/reporters"
 
 class ActiveSupport::TestCase
+  include Warden::Test::Helpers
+  Warden.test_mode!
+
   ActiveRecord::Migration.check_pending!
 
     # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.

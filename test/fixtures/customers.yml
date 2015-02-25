@@ -11,10 +11,14 @@
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  nome: MyString
-  email: MyString
+cristiano:
+  nome: Cristiano Alencar
+  email: cristiano.souza.mendonca@gmail.com
 
-two:
-  nome: MyString
-  email: MyString
+sonia:
+  nome: Sônia Silvânia
+  email: sss@gmail.com
+  
+# two:
+#   nome: MyString
+#   email: MyString

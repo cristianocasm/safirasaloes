@@ -14,16 +14,16 @@
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  professional_id: 1
-  customer_id: 1
-  service_id: 1
-  datahora_inicio: 2015-02-10 15:41:56
-  datahora_fim: 2015-02-10 15:41:56
+sch_cristiano:
+  professional: aline
+  customer: cristiano
+  service: corte_masculino
+  datahora_inicio: <%= DateTime.now.to_default_s %>
+  datahora_fim: <%= 1.hour.from_now.to_default_s %>
 
-two:
-  professional_id: 1
-  customer_id: 1
-  service_id: 1
-  datahora_inicio: 2015-02-10 15:41:56
-  datahora_fim: 2015-02-10 15:41:56
+sc_sonia:
+  professional: aline
+  customer: sonia
+  service: unha_mao_e_pe
+  datahora_inicio: <%= 1.hour.from_now.to_default_s %>
+  datahora_fim: <%= 2.hours.from_now.to_default_s %>

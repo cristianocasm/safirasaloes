@@ -9086,7 +9086,7 @@ var BasicView = fcViews.basic = View.extend({
 	// The day-grid component will render inside of a container defined by this HTML.
 	renderHtml: function() {
 		return '' +
-			'<table>' +
+			'<table id="calendar_table">' +
 				'<thead>' +
 					'<tr>' +
 						'<td class="' + this.widgetHeaderClass + '">' +

@@ -39,23 +39,9 @@
 #  pagina_facebook        :string(255)
 #
 
-Aline:
-  email: test1@gmail.com
-  #reset_password_token: 
-  #reset_password_sent_at: 
-  #remember_created_at: 
-  #sign_in_count: 
-  #current_sign_in_at: 
-  #last_sign_in_at: 
-  #current_sign_in_ip: 
-  #last_sign_in_ip: 
-  #confirmation_token: 
-  confirmed_at: 2015-01-01 00:00:00
-  #confirmation_sent_at: 
-  #unconfirmed_email: 
-  #created_at: 
-  #updated_at: 
+aline:
   nome: Aline
+  email: aline@gmail.com
   telefone: (31) 8888-8888
   cep: 32.323-232
   rua: Perpétuo Socorro
@@ -66,7 +52,10 @@ Aline:
   complemento: '-'
   profissao: Cabeleireira
   local_trabalho: Salão Próprio
-  #plan_id: 
-  #status_id: 
-  #data_expiracao_status: 
-  #contato_definido: 
+  confirmed_at: 2015-01-01 00:00:00
+
+joao:
+  nome: João
+  email: joao@gmail.com
+  telefone: (99) 9999-9999
+  confirmed_at: 2015-01-01 00:00:00

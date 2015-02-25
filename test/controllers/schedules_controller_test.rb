@@ -4,9 +4,8 @@ class SchedulesControllerTest < ActionController::TestCase
   include Devise::TestHelpers
 
   setup do
-    profAline = professionals('Aline')
+    profAline = professionals('aline')
     sign_in :professional, profAline
-    #@schedule = schedules(:one)
   end
 
   test "should render layout application.html.erb" do

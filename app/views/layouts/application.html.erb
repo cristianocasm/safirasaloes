@@ -22,7 +22,8 @@
     <%= render "layouts/secondary_header" %>
     <div class="content">
       <%= render "layouts/sidebar" %>
-      <%= yield %>
+      <%= yield :modals %>
+      <%= render "layouts/main_content" %>
     </div>
     <%= render "layouts/footer" %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>

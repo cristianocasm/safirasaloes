@@ -38,11 +38,11 @@ descricao<y:LabelModel>
     <node id="n1">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="299.6316109422491" width="143.7100303951368" x="207.49999999999997" y="276.1841945288755"/>
+          <y:Geometry height="314.0541033434649" width="143.7100303951368" x="207.49999999999997" y="276.1841945288754"/>
           <y:Fill color="#E8EEF7" color2="#FF0000" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="83.224609375" x="30.242710510068406" y="4.0">professionals</y:NodeLabel>
-          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="269.40625" modelName="custom" textColor="#000000" visible="true" width="138.91796875" x="2.0" y="29.968749999999943">nome
+          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="269.40625" modelName="custom" textColor="#000000" visible="true" width="138.91796875" x="2.0" y="29.96875">nome
 email
 telefone
 cep
@@ -97,14 +97,15 @@ email<y:LabelModel>
     <node id="n3">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="90.0" width="105.516717325228" x="548.5" y="381.0"/>
+          <y:Geometry height="107.125" width="105.516717325228" x="548.5" y="372.4375"/>
           <y:Fill color="#E8EEF7" color2="#FF6600" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="53.236328125" x="26.140194600114" y="4.0">services</y:NodeLabel>
-          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="59.875" modelName="custom" textColor="#000000" visible="true" width="101.083984375" x="2.0" y="29.96875">nome
+          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="73.84375" modelName="custom" textColor="#000000" visible="true" width="101.083984375" x="2.0" y="29.96875">nome
 preco
 hora_duracao
-minuto_duracao<y:LabelModel>
+minuto_duracao
+professional_id<y:LabelModel>
               <y:ErdAttributesNodeLabelModel/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -390,8 +391,8 @@ de relações</y:NodeLabel>
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="53.40030395136779" ty="100.05471124620067">
-            <y:Point x="601.258358662614" y="526.0547112462007"/>
+          <y:Path sx="0.0" sy="0.0" tx="53.40030395136779" ty="104.87075287851124">
+            <y:Point x="601.258358662614" y="538.0819990791191"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="crows_foot_many" target="none"/>

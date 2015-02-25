@@ -40,8 +40,7 @@
 #
 
 Aline:
-  email: test@gmail.com
-  encrypted_password: <%= Professional.new.send(:password_digest, 'sample_pwd') %>
+  email: test1@gmail.com
   #reset_password_token: 
   #reset_password_sent_at: 
   #remember_created_at: 

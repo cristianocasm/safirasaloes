@@ -50,6 +50,7 @@ end
 group :test do
   gem 'shoulda' # Adiciona métodos simples para testes
   gem 'minitest-reporters' # Cria output dos testes colorido
-  gem 'capybara'
+  gem "minitest-rails"
+  gem "minitest-rails-capybara"
   gem 'selenium-webdriver'
 end

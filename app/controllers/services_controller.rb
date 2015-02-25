@@ -4,7 +4,7 @@ class ServicesController < ApplicationController
   # GET /services
   # GET /services.json
   def index
-    @services = current_professional.services
+    @services = current_professional.services_ordered
   end
 
   # GET /services/1

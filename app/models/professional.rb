@@ -56,6 +56,10 @@ class Professional < ActiveRecord::Base
     transform(scs)
   end
 
+  def services_ordered
+    services.order(:nome)
+  end
+
   private
 
   def transform(scs)

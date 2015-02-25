@@ -1,13 +1,11 @@
-<h1>Listing services</h1>
+<h1>Listagem de Serviços</h1>
 
-<table>
+<table id="table" class="table table-striped table-bordered table-hover">
   <thead>
     <tr>
       <th>Nome</th>
       <th>Preco</th>
-      <th>Hora duracao</th>
-      <th>Minuto duracao</th>
-      <th colspan="3"></th>
+      <th>Ações</th>
     </tr>
   </thead>
 
@@ -16,11 +14,17 @@
       <tr>
         <td><%= service.nome %></td>
         <td><%= service.preco %></td>
-        <td><%= service.hora_duracao %></td>
-        <td><%= service.minuto_duracao %></td>
-        <td><%= link_to 'Show', service %></td>
-        <td><%= link_to 'Edit', edit_service_path(service) %></td>
-        <td><%= link_to 'Destroy', service, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <%= link_to service, class: 'btn btn-success btn-xs', title: 'Consultar' do %>
+            <i class='fa fa-eye fa-border'></i>
+          <% end %>
+          <%= link_to edit_service_path(service), class: 'btn btn-warning btn-xs', title: 'Editar' do %>
+            <i class='fa fa-pencil fa-border'></i>
+          <% end %>
+          <%= link_to service, method: :delete, data: { confirm: 'Deletar registro?' }, class: 'btn btn-danger btn-xs', title: 'Excluir' do %>
+            <i class='fa fa-times fa-border'></i>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +32,4 @@
 
 <br>
 
-<%= link_to 'New Service', new_service_path %>
+<%= link_to 'Cadastrar Serviço', new_service_path, class: 'btn btn-success btn-xs' %>

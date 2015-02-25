@@ -1,5 +1,9 @@
 <p id="notice"><%= notice %></p>
 
+<h1>
+  Consultar Serviço
+</h1>
+
 <p>
   <strong>Nome:</strong>
   <%= @service.nome %>
@@ -10,15 +14,5 @@
   <%= @service.preco %>
 </p>
 
-<p>
-  <strong>Hora duracao:</strong>
-  <%= @service.hora_duracao %>
-</p>
-
-<p>
-  <strong>Minuto duracao:</strong>
-  <%= @service.minuto_duracao %>
-</p>
-
-<%= link_to 'Edit', edit_service_path(@service) %> |
-<%= link_to 'Back', services_path %>
+<%= link_to 'Editar', edit_service_path(@service) %> |
+<%= link_to 'Voltar', services_path %>

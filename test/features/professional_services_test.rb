@@ -43,7 +43,7 @@ feature "Services" do
     click_link "Editar", href: "/services/#{srv.id}/edit"
     assert page.has_content?("Editar Serviço"), 'Não possui texto "Editar Serviço"'
     assert page.has_xpath?("//input[@id='service_nome' and @value='#{srv.nome}']"), "Não carregou o nome do serviço"
-    assert page.has_xpath?("//input[@id='service_preco' and @value='#{srv.preco}']"), "Não carregou o preço do serviço"
+    assert page.has_xpath?("//input[@id='service_preco' and @value='#{'%.2f' % srv.preco}']"), "Não carregou o preço do serviço"
   end
 
   scenario "pode editar serviço" do
@@ -60,9 +60,7 @@ feature "Services" do
   scenario "pode deletar serviço", js: true do
     srv = @aline.services.first
     page.accept_alert 'Deletar registro?' do
-      page.accept_alert 'Deletar registro?' do
-        click_link "Excluir", href: service_path(srv)
-      end
+      click_link "Excluir", href: service_path(srv)
     end
     assert page.has_no_content?(srv.nome), "Serviço ainda exibido"
   end
@@ -80,10 +78,16 @@ feature "Services" do
     click_link "Cadastrar Serviço"
     fill_in "service_nome", with: "Serviço Teste 2"
     fill_in "service_preco", with: 100.00
-    fill_in "service_recompensa", with: 20
+    fill_in "service_recompensa_divulgacao", with: 20
     click_button "Cadastrar"
     assert page.has_content?("Serviço Teste 2"), 'Nome do serviço não exibido'
     assert page.has_content?(number_to_currency(100.00)), 'Preço do serviço não exibido'
-    assert page.has_content?("R$ 2,00"), 'Preço do serviço não exibido'
+    assert page.has_content?(20), 'Recompensa do serviço não exibida'
+  end
+
+  scenario "deve ser capaz de saber o que são as Safiras", js: true do
+    click_link "Cadastrar Serviço"
+    find('.dica').hover
+    assert page.has_selector?('h3', title="Defina a Recompensa por Divulgação", :visible => true)
   end
 end

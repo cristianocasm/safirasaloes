@@ -51,3 +51,6 @@ $(document).on 'click', 'input:text.money', ->
     affixesStay: false,
     thousands: ''
     })
+
+# Habilita popovers
+$('[data-toggle="popover"]').popover()

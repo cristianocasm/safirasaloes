@@ -7,7 +7,7 @@
     <tr>
       <th>Nome</th>
       <th>Preco</th>
-      <th>Recompensa por Divulgação</th>
+      <th>Safiras (Divulgação)</th>
       <th>Ações</th>
     </tr>
   </thead>
@@ -17,7 +17,7 @@
       <tr>
         <td><%= service.nome %></td>
         <td><%= number_to_currency(service.preco) %></td>
-        <td><%= service.recompensa %></td>
+        <td><%= service.recompensa_divulgacao %></td>
         <td>
           <%= link_to service, class: 'btn btn-success btn-xs', title: 'Consultar' do %>
             <i class='fa fa-eye fa-border'></i>

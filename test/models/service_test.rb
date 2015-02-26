@@ -17,5 +17,6 @@ require 'test_helper'
 class ServiceTest < ActiveSupport::TestCase
   should have_many(:schedules)
   should belong_to(:professional)
-  should have_db_column(:recompensa)
+  should have_db_column(:recompensa_divulgacao)
+  should have_db_column(:recompensa_fidelidade)
 end

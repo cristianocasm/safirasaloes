@@ -20,8 +20,20 @@
     <%= f.text_field :preco, class: 'money' %>
   </div>
   <div class="field">
-    <%= f.label :recompensa %><br>
-    <%= f.text_field :recompensa %>
+    <%= f.label 'Safiras (Divulgação)' %><br>
+    <%= f.text_field :recompensa_divulgacao %> <a tabindex="0" class="dica" role="button" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true" title="Defina a Recompensa por Divulgação" data-content="Safiras é a forma através da qual você <b>fideliza</b> seus clientes e também os estimula a <b>divulgar o seu trabalho</b>.<br />
+
+    Defina neste campo quantas Safiras seu cliente receberá quando ele postar as fotos do seu trabalho nas redes sociais (divulgação). <br />
+    <b>Esclarecimentos</b>
+    <ol>
+      <li>
+        <i>Seu cliente receberá as Safiras apenas uma única vez (independentemente da quantida de fotos postadas nas redes sociais) para cada vez que ele for ao seu estabelecimento <b>e divulgar seu trabalho</b>. Ou seja, sem divulgar seu trabalho, ele não é recompensado.</i>
+      </li>
+      <li>
+        <i>
+        Cada Safira equivale a R$ 0,25 (25 centavos). O acumulo de Safiras dará ao seu cliente a vantagem de trocá-las por serviços fornecidos por você quando ele juntar Safiras suficientes.</i>
+      </li>
+    </ul>">O que é isso?</a>
   </div>
   <div class="actions">
     <%= f.submit 'Cadastrar', class: 'btn btn-success btn-xs' %>

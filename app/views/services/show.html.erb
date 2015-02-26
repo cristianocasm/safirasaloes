@@ -11,7 +11,12 @@
 
 <p>
   <strong>Preco:</strong>
-  <%= @service.preco %>
+  <%= number_to_currency(@service.preco) %>
+</p>
+
+<p>
+  <strong>Recompensa:</strong>
+  <%= @service.recompensa %>
 </p>
 
 <%= link_to 'Editar', edit_service_path(@service) %> |

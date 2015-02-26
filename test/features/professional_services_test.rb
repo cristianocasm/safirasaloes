@@ -1,6 +1,7 @@
 require "test_helper"
 
 feature "Services" do
+  include ActionView::Helpers::NumberHelper
 
   before do
     skip("Evitando JS") if metadata[:js] && ENV['js'] == 'false'
@@ -34,7 +35,7 @@ feature "Services" do
     click_link "Consultar", href: "/services/#{srv.id}"
     assert page.has_content?("Consultar Serviço")
     assert page.has_content?(srv.nome)
-    assert page.has_content?(srv.preco)
+    assert page.has_content?(number_to_currency(srv.preco))
   end
 
   scenario "edição carrega valores dos campos corretamente serviço" do
@@ -53,7 +54,7 @@ feature "Services" do
     click_button "Cadastrar"
     visit services_path
     assert page.has_content?("Serviço Teste")
-    assert page.has_content?("10000")
+    assert page.has_content?(number_to_currency(10000))
   end
 
   scenario "pode deletar serviço", js: true do
@@ -72,7 +73,7 @@ feature "Services" do
     fill_in "service_preco", with: 100001
     click_button "Cadastrar"
     assert page.has_content?("Serviço Teste"), 'Nome do serviço não exibido'
-    assert page.has_content?("100001"), 'Preço do serviço não exibido'
+    assert page.has_content?(number_to_currency(100001)), 'Preço do serviço não exibido'
   end
 
   scenario "deve ser capaz de definir recompensas" do
@@ -82,7 +83,7 @@ feature "Services" do
     fill_in "service_recompensa", with: 20
     click_button "Cadastrar"
     assert page.has_content?("Serviço Teste 2"), 'Nome do serviço não exibido'
-    assert page.has_content?("100.00"), 'Preço do serviço não exibido'
+    assert page.has_content?(number_to_currency(100.00)), 'Preço do serviço não exibido'
     assert page.has_content?("R$ 2,00"), 'Preço do serviço não exibido'
   end
 end

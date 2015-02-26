@@ -41,17 +41,17 @@ unha_mao_e_pe_aline:
   professional: aline
 
 #Serviços João
-corte_masculino_aline:
+barba_joao:
   nome: Barba
   preco: 12.00
   professional: joao
 
-corte_feminino_aline:
+cabelo_joao:
   nome: Cabelo
   preco: 20.00
   professional: joao
 
-unha_mao_aline:
+bigode_joao:
   nome: Bigode
   preco: 8.00
   professional: joao

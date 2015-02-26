@@ -1,9 +1,10 @@
 require "test_helper"
 
 feature "Services" do
-  fixtures :all
 
   before do
+    skip("Evitando JS") if metadata[:js] && ENV['js'] == 'false'
+
     @aline = professionals(:aline)
     @joao  = professionals(:joao)
 
@@ -65,23 +66,12 @@ feature "Services" do
     assert page.has_no_content?(srv.nome), "Serviço ainda exibido"
   end
 
-  scenario "pode criar serviço", js: true do
+  scenario "pode criar serviço" do
     click_link "Cadastrar Serviço"
     fill_in "service_nome", with: "Serviço Teste 1"
     fill_in "service_preco", with: 100001
     click_button "Cadastrar"
-    visit services_path
     assert page.has_content?("Serviço Teste"), 'Nome do serviço não exibido'
     assert page.has_content?("100001"), 'Preço do serviço não exibido'
   end
-
-  scenario "não pode consultar serviço de outros" do
-  end
-
-  scenario "não pode editar serviço de outros" do
-  end
-
-  scenario "não pode deletar serviço de outros" do
-  end
-
 end

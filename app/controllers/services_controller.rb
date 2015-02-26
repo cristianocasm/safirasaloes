@@ -24,7 +24,7 @@ class ServicesController < ApplicationController
   # POST /services
   # POST /services.json
   def create
-    @service = Service.new(service_params)
+    @service = current_professional.services.new(service_params)
 
     respond_to do |format|
       if @service.save
@@ -64,11 +64,16 @@ class ServicesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_service
-      @service = Service.find(params[:id])
+      @service = current_professional.services.find_by_id(params[:id])
+      if @service.blank?
+        redirect_to services_url, alert: 'Serviço não encontrado'
+      else
+        @service
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def service_params
-      params.require(:service).permit(:nome, :preco, :hora_duracao, :minuto_duracao)
+      params.require(:service).permit(:nome, :preco)
     end
 end

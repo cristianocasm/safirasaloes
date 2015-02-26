@@ -10,6 +10,13 @@ class ServicesControllerTest < ActionController::TestCase
     @serviceJoao = services(:bigode_joao)
   end
 
+  # Início testes padrão
+  test "deve renderizar layout application.html.erb" do
+    get :new
+    assert_template :new
+    assert_template layout: 'layouts/application'
+  end
+
   test "não pode deletar serviço de outros" do
     delete :destroy, id: @serviceJoao
     assert_redirected_to services_path
@@ -33,6 +40,8 @@ class ServicesControllerTest < ActionController::TestCase
     assert_redirected_to services_path
     assert_equal flash[:alert], 'Serviço não encontrado'
   end
+
+  # Fim testes padrão
 
   test "should get index" do
     get :index

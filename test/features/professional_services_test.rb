@@ -40,9 +40,9 @@ feature "Services" do
   scenario "edição carrega valores dos campos corretamente serviço" do
     srv = @aline.services_ordered.first
     click_link "Editar", href: "/services/#{srv.id}/edit"
-    assert page.has_content?("Editar Serviço")
-    assert page.has_xpath?("//input[@id='service_nome' and @value='#{srv.nome}']")
-    assert page.has_xpath?("//input[@id='service_preco' and @value='#{srv.preco}']")
+    assert page.has_content?("Editar Serviço"), 'Não possui texto "Editar Serviço"'
+    assert page.has_xpath?("//input[@id='service_nome' and @value='#{srv.nome}']"), "Não carregou o nome do serviço"
+    assert page.has_xpath?("//input[@id='service_preco' and @value='#{srv.preco}']"), "Não carregou o preço do serviço"
   end
 
   scenario "pode editar serviço" do
@@ -73,5 +73,16 @@ feature "Services" do
     click_button "Cadastrar"
     assert page.has_content?("Serviço Teste"), 'Nome do serviço não exibido'
     assert page.has_content?("100001"), 'Preço do serviço não exibido'
+  end
+
+  scenario "deve ser capaz de definir recompensas" do
+    click_link "Cadastrar Serviço"
+    fill_in "service_nome", with: "Serviço Teste 2"
+    fill_in "service_preco", with: 100.00
+    fill_in "service_recompensa", with: 20
+    click_button "Cadastrar"
+    assert page.has_content?("Serviço Teste 2"), 'Nome do serviço não exibido'
+    assert page.has_content?("100.00"), 'Preço do serviço não exibido'
+    assert page.has_content?("R$ 2,00"), 'Preço do serviço não exibido'
   end
 end

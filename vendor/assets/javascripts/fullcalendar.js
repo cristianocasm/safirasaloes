@@ -7159,6 +7159,7 @@ function Calendar(element, instanceOptions) {
 	
 	
 	function initialRender() {
+		element.html('');
 		tm = options.theme ? 'ui' : 'fc';
 		element.addClass('fc');
 

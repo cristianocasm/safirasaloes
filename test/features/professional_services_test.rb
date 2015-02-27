@@ -15,6 +15,34 @@ feature "Services" do
     click_link_or_button "servicos"
   end
 
+  scenario "não pode atualizar com nome em branco" do
+    srv = @aline.services_ordered.first
+    click_link "Editar", href: edit_service_path(srv)
+    fill_in "service_nome", with: ''
+    fill_in "service_preco", with: 10000
+    click_button "Cadastrar"
+    assert page.has_css?("div.alert-danger ul li", text: "Nome não pode ficar em branco")
+  end
+
+  scenario "deve ser capaz de criar serviço com nome igual a outro profissional" do
+    jSrv = @joao.services.first.nome
+    click_link "Cadastrar Serviço"
+    fill_in 'service_nome', with: jSrv
+    fill_in 'service_preco', with: 100
+    click_button "Cadastrar"
+    assert page.has_css?("div.alert-success", text: "Serviço criado com sucesso.")
+    assert page.has_content?(jSrv), 'Nome do serviço não exibido'
+    assert page.has_content?(number_to_currency(100)), 'Preço do serviço não exibido'
+  end
+
+  scenario "não deve ser capaz de criar serviços com nomes iguais", js: true do
+    click_link "Cadastrar Serviço"
+    fill_in 'service_nome', with: @aline.services.first.nome.downcase
+    fill_in 'service_preco', with: 100
+    click_button "Cadastrar"
+    assert page.has_css?("div.alert-danger ul li", text: "Nome já está em uso"), "Erro 'Nome já está em uso' não exibido"
+  end
+
   scenario "exibe lista de serviços de aline" do
     visit root_path
     click_link "Serviços"
@@ -52,6 +80,7 @@ feature "Services" do
     fill_in "service_nome", with: 'Serviço Teste'
     fill_in "service_preco", with: 10000
     click_button "Cadastrar"
+    assert page.has_css?("div.alert-success", text: 'Serviço atualizado com sucesso.')
     visit services_path
     assert page.has_content?("Serviço Teste")
     assert page.has_content?(number_to_currency(10000))
@@ -62,6 +91,7 @@ feature "Services" do
     page.accept_alert 'Deletar registro?' do
       click_link "Excluir", href: service_path(srv)
     end
+    assert page.has_css?("div.alert-success", text: "Serviço excluído com sucesso.")
     assert page.has_no_content?(srv.nome), "Serviço ainda exibido"
   end
 
@@ -70,6 +100,7 @@ feature "Services" do
     fill_in "service_nome", with: "Serviço Teste 1"
     fill_in "service_preco", with: 100001
     click_button "Cadastrar"
+    assert page.has_css?("div.alert-success", text: "Serviço criado com sucesso.")
     assert page.has_content?("Serviço Teste"), 'Nome do serviço não exibido'
     assert page.has_content?(number_to_currency(100001)), 'Preço do serviço não exibido'
   end
@@ -85,9 +116,20 @@ feature "Services" do
     assert page.has_content?(20), 'Recompensa do serviço não exibida'
   end
 
+
   scenario "deve ser capaz de saber o que são as Safiras", js: true do
     click_link "Cadastrar Serviço"
-    find('.dica').hover
+    all('.dica')[0].hover
     assert page.has_selector?('h3', title="Defina a Recompensa por Divulgação", :visible => true)
+    all('.dica')[1].hover
+    assert page.has_selector?('h3', title="Defina a Recompensa por Fidelidade", :visible => true)
   end
+
+  scenario "apresenta mensagens de erro corretas quando nome e preco não são informados" do
+    click_link "Cadastrar Serviço"
+    click_button "Cadastrar"
+    assert page.has_css?("div.alert-danger ul li", text: "Nome não pode ficar em branco")
+    assert page.has_css?("div.alert-danger ul li", text: "Preco não pode ficar em branco")
+  end
+
 end

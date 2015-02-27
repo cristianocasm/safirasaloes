@@ -11,4 +11,12 @@ class ApplicationController < ActionController::Base
   def layout_by_resource
     devise_controller? && resource_name == :professional ? "login" : "application"
   end
+
+  def flash_errors(obj)
+    errorList = "<h4>Os seguintes erros ocorreram:</h4>"
+    obj.errors.full_messages.each do |message|
+      errorList += "<li>#{message}</li>"
+    end
+    "<ul>#{errorList}</ul>".html_safe
+  end
 end

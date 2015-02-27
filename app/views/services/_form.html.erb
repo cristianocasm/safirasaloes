@@ -1,27 +1,15 @@
 <%= form_for(@service) do |f| %>
-  <% if @service.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@service.errors.count, "error") %> prohibited this service from being saved:</h2>
-
-      <ul>
-      <% @service.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
   <div class="field">
     <%= f.label :nome %><br>
     <%= f.text_field :nome %>
   </div>
   <div class="field">
     <%= f.label :preco %><br>
-    <%= f.text_field :preco, class: 'money' %>
+    <%= f.text_field :preco, class: 'money controle' %>
   </div>
   <div class="field">
     <%= f.label 'Safiras (Divulgação)' %><br>
-    <%= f.text_field :recompensa_divulgacao %> <a tabindex="0" class="dica" role="button" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true" title="Defina a Recompensa por Divulgação" data-content="Safiras é a forma através da qual você <b>fideliza</b> seus clientes e também os estimula a <b>divulgar o seu trabalho</b>.<br />
+    <%= f.text_field :recompensa_divulgacao, class: 'controle' %> <a tabindex="0" class="dica" role="button" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true" title="Defina a Recompensa por Divulgação" data-content="Safiras é a forma através da qual você <b>fideliza</b> seus clientes e também os estimula a <b>divulgar o seu trabalho</b>.<br />
 
     Defina neste campo quantas Safiras seu cliente receberá quando ele postar as fotos do seu trabalho nas redes sociais (divulgação). <br />
     <b>Esclarecimentos</b>
@@ -35,7 +23,38 @@
       </li>
     </ul>">O que é isso?</a>
   </div>
+  <div class="field">
+    <%= f.label 'Safiras (Fidelidade)' %><br>
+    <%= f.text_field :recompensa_fidelidade, class: 'controle' %> <a tabindex="0" class="dica" role="button" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true" title="Defina a Recompensa por Fidelidade" data-content="Safiras é a forma através da qual você <b>fideliza</b> seus clientes e também os estimula a <b>divulgar o seu trabalho</b>.<br />
+
+    Defina neste campo quantas Safiras seu cliente receberá a cada vez que ele utilizar este seu serviço. <br />
+    <b>Esclarecimentos</b>
+    <ol>
+      <li>
+        <i>Seu cliente receberá as Safiras sempre que ele utilizar este seu serviço. Este campo funciona como um <b>Cartão Fidelidade</b>. Ou seja, seu cliente é recompensado sempre que procura seus serviços e, com as recompensas, maiores serão as chances de ele procurar você novamente para trocar os benefícios ganhos.</i>
+      </li>
+      <li>
+        <i>
+        Cada Safira equivale a R$ 0,25 (25 centavos). O acumulo de Safiras dará ao seu cliente a vantagem de trocá-las por serviços fornecidos por você quando ele juntar Safiras suficientes.</i>
+      </li>
+    </ul>">O que é isso?</a>
+  </div>
   <div class="actions">
     <%= f.submit 'Cadastrar', class: 'btn btn-success btn-xs' %>
   </div>
+  <hr/>
+  <div class="fields">
+    <h3>Simulação</h3> <a tabindex="0" class="dica" role="button" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true" title="Simulação de Recompensas" data-content="Este é o Painél de Simulação. Ele é gerado automaticamente para que você tenha uma ideia a respeito de quanto seus clientes receberão de recompensas. Para isso são apresentados dois cenários para auxiliá-lo(a):
+    <ol>
+      <li>
+        <b>Cliente nunca fará divulgação</b>: <i>neste cenário a única recompensa que esse cliente receberá é a Recompensa por Fidelidade.</i>
+      </li>
+      <li>
+        <b>Cliente sempre fará divulgação</b>: <i>neste cenário, o cliente receberá Recompensa por Fidelidade e Recompensa por Divulgação.</i>
+      </li>
+    </ol>">O que é isso?</a>
+    <div id="sim">
+    </div>
+  </div>
+  <hr/>
 <% end %>

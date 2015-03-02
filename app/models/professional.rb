@@ -46,7 +46,6 @@ class Professional < ActiveRecord::Base
          :recoverable, :rememberable, :trackable,
          :validatable, :confirmable
 
-  belongs_to :plan
   belongs_to :status
   has_many :schedules
   has_many :services

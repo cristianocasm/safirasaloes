@@ -45,6 +45,5 @@ class ProfessionalTest < ActiveSupport::TestCase
   should validate_presence_of(:email)
   should have_many(:schedules)
   should belong_to(:status)
-  should belong_to(:plan)
   should have_many(:services)
 end

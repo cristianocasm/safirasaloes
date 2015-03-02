@@ -64,6 +64,7 @@ feature "Services" do
     assert page.has_content?("Consultar Serviço")
     assert page.has_content?(srv.nome)
     assert page.has_content?(number_to_currency(srv.preco))
+    assert page.has_content?(srv.recompensa_divulgacao)
   end
 
   scenario "edição carrega valores dos campos corretamente serviço" do
@@ -111,6 +112,7 @@ feature "Services" do
     fill_in "service_preco", with: 100.00
     fill_in "service_recompensa_divulgacao", with: 20
     click_button "Cadastrar"
+    assert page.has_content?("Consultar Serviço")
     assert page.has_content?("Serviço Teste 2"), 'Nome do serviço não exibido'
     assert page.has_content?(number_to_currency(100.00)), 'Preço do serviço não exibido'
     assert page.has_content?(20), 'Recompensa do serviço não exibida'

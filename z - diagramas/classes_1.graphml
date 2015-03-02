@@ -55,7 +55,7 @@ status_id<y:LabelModel>
     <node id="n1">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="90.0" width="80.0" x="409.5" y="186.5"/>
+          <y:Geometry height="90.0" width="80.0" x="443.9072948328268" y="186.5"/>
           <y:Fill color="#E8EEF7" color2="#FF6600" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="66.759765625" x="6.6201171875" y="4.0">customers</y:NodeLabel>
@@ -76,7 +76,7 @@ email<y:LabelModel>
     <node id="n2">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="124.25" width="105.516717325228" x="548.5" y="363.875"/>
+          <y:Geometry height="124.25" width="105.516717325228" x="616.6045592705168" y="363.875"/>
           <y:Fill color="#E8EEF7" color2="#FF6600" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="53.236328125" x="26.140194600114" y="4.0">services</y:NodeLabel>
@@ -145,15 +145,16 @@ são criadas por plugins</y:NodeLabel>
     <node id="n5">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="124.25" width="99.0" x="400.0" y="363.875"/>
+          <y:Geometry height="131.06045592705175" width="153.4836474164133" x="407.1654711246201" y="363.875"/>
           <y:Fill color="#E8EEF7" color2="#FF6600" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="64.029296875" x="17.4853515625" y="4.0">schedules</y:NodeLabel>
-          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="87.8125" modelName="custom" textColor="#000000" visible="true" width="95.810546875" x="2.0" y="29.96875">professional_id
+          <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="64.029296875" x="44.72717527070665" y="4.0">schedules</y:NodeLabel>
+          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="101.78125" modelName="custom" textColor="#000000" visible="true" width="149.412109375" x="2.0" y="29.96875">professional_id
 service_id
 customer_id
 datahora_inicio
 datahora_fim
+recompensa_divulgacao
 observacao<y:LabelModel>
               <y:ErdAttributesNodeLabelModel/>
             </y:LabelModel>
@@ -361,7 +362,7 @@ descricao<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="53.40030395136779" ty="104.87075287851124">
-            <y:Point x="601.258358662614" y="538.0819990791191"/>
+            <y:Point x="669.3629179331308" y="538.0819990791191"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="crows_foot_many" target="none"/>

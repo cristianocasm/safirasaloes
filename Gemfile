@@ -41,6 +41,8 @@ gem 'devise'
 
 gem 'annotate', '~> 2.6.5'
 
+gem 'date_validator', '~> 0.7.1'
+
 group :test, :development do
   gem 'byebug'
 end

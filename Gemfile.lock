@@ -56,6 +56,8 @@ GEM
       execjs
     coffee-script-source (1.9.0)
     columnize (0.8.9)
+    date_validator (0.7.1)
+      activemodel
     debugger-linecache (1.2.0)
     devise (3.2.3)
       bcrypt-ruby (~> 3.0)
@@ -190,6 +192,7 @@ DEPENDENCIES
   annotate (~> 2.6.5)
   byebug
   coffee-rails (~> 4.0.0)
+  date_validator (~> 0.7.1)
   devise
   jbuilder (~> 2.0)
   jquery-rails

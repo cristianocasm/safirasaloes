@@ -2,14 +2,16 @@
 #
 # Table name: services
 #
-#  id              :integer          not null, primary key
-#  nome            :string(255)
-#  preco           :string(255)
-#  hora_duracao    :integer
-#  minuto_duracao  :integer
-#  created_at      :datetime
-#  updated_at      :datetime
-#  professional_id :integer
+#  id                    :integer          not null, primary key
+#  nome                  :string(255)
+#  hora_duracao          :integer
+#  minuto_duracao        :integer
+#  created_at            :datetime
+#  updated_at            :datetime
+#  professional_id       :integer
+#  preco                 :decimal(8, 2)
+#  recompensa_divulgacao :integer
+#  recompensa_fidelidade :integer
 #
 
 require 'test_helper'
@@ -17,14 +19,12 @@ require 'test_helper'
 class ServiceTest < ActiveSupport::TestCase
   should have_many(:schedules)
   should belong_to(:professional)
-  should have_db_column(:recompensa_divulgacao)
-  should have_db_column(:recompensa_fidelidade)
   should validate_presence_of(:nome)
-  should validate_presence_of(:preco)
   should validate_uniqueness_of(:nome).scoped_to(:professional_id)
+  should validate_presence_of(:preco)
+  should validate_numericality_of(:preco).is_greater_than(0)
   should validate_numericality_of(:recompensa_fidelidade).only_integer.is_greater_than_or_equal_to(0).allow_nil
   should validate_numericality_of(:recompensa_divulgacao).only_integer.is_greater_than_or_equal_to(0).allow_nil
-  should validate_numericality_of(:preco).is_greater_than(0)
 end
 
 # == Plano de Teste para Serviços

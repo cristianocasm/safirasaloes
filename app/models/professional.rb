@@ -50,6 +50,8 @@ class Professional < ActiveRecord::Base
   has_many :schedules
   has_many :services
 
+  before_create :create_hashtag
+
   def schedules_to_calendar(start, hend)
     scs = self.schedules.where(updated_at: start..hend)
     transform(scs)
@@ -71,6 +73,15 @@ class Professional < ActiveRecord::Base
         end:   sc.datahora_fim
       }
     end
+  end
+
+  def create_hashtag
+    o = [('a'..'z'), ('A'..'Z'), (0..9)].map { |i| i.to_a }.flatten
+    string = ""
+    begin
+      string = (0..3).map { o[rand(o.length)] }.join
+    end while !Professional.find_by_hashtag(string).blank?
+    self.hashtag = string
   end
 
 end

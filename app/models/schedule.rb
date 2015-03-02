@@ -2,14 +2,15 @@
 #
 # Table name: schedules
 #
-#  id              :integer          not null, primary key
-#  professional_id :integer
-#  customer_id     :integer
-#  service_id      :integer
-#  datahora_inicio :datetime
-#  created_at      :datetime
-#  updated_at      :datetime
-#  datahora_fim    :datetime
+#  id                    :integer          not null, primary key
+#  professional_id       :integer
+#  customer_id           :integer
+#  service_id            :integer
+#  datahora_inicio       :datetime
+#  created_at            :datetime
+#  updated_at            :datetime
+#  datahora_fim          :datetime
+#  recompensa_divulgacao :integer
 #
 
 class Schedule < ActiveRecord::Base

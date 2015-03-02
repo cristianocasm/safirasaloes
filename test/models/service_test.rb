@@ -11,7 +11,6 @@
 #  professional_id       :integer
 #  preco                 :decimal(8, 2)
 #  recompensa_divulgacao :integer
-#  recompensa_fidelidade :integer
 #
 
 require 'test_helper'

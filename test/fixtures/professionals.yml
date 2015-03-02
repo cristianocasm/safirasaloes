@@ -30,7 +30,6 @@
 #  complemento            :string(255)
 #  profissao              :string(255)
 #  local_trabalho         :string(255)
-#  plan_id                :integer
 #  status_id              :integer
 #  data_expiracao_status  :datetime
 #  contato_definido       :boolean

@@ -18,6 +18,7 @@ class ScheduleTest < ActiveSupport::TestCase
   should belong_to(:professional)
   should belong_to(:customer)
   should belong_to(:service)
+  should have_db_column(:recompensa_divulgacao)
 
 #---
   should allow_value(Date.today).for(:datahora_inicio)

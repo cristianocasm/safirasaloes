@@ -21,39 +21,47 @@ corte_masculino_aline:
   nome: Corte Masculino
   preco: 25.00
   professional: aline
+  recompensa_divulgacao: 10
 
 corte_feminino_aline:
   nome: Corte Feminino
   preco: 45.00
   professional: aline
+  recompensa_divulgacao: 11
 
 unha_mao_aline:
   nome: Unha Mão
   preco: 10.00
   professional: aline
+  recompensa_divulgacao: 12
 
 unha_pe_aline:
   nome: Unha pé
   preco: 10.00
   professional: aline
+  recompensa_divulgacao: 13
 
 unha_mao_e_pe_aline:
   nome: Unha Mão e Pé
   preco: 15.00
   professional: aline
+  recompensa_divulgacao: 14
 
 #Serviços João
 barba_joao:
   nome: Barba
   preco: 12.00
   professional: joao
+  recompensa_divulgacao: 15
 
 cabelo_joao:
   nome: Cabelo
   preco: 20.00
   professional: joao
+  recompensa_divulgacao: 16
 
 bigode_joao:
   nome: Bigode
   preco: 8.00
   professional: joao
+  recompensa_divulgacao: 17

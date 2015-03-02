@@ -30,9 +30,8 @@ class SchedulesController < ApplicationController
   # POST /schedules
   # POST /schedules.json
   def create
-    prof_id = current_professional.id
     @schedule = Schedule.find_or_initialize_by(id: schedule_params[:id])
-    @schedule.assign_attributes(schedule_params.merge(professional_id: prof_id))
+    @schedule.assign_attributes(schedule_params)
     @schedule.save
 
     respond_to do |format|
@@ -67,7 +66,10 @@ class SchedulesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def schedule_params
-      params.require(:schedule).permit(:id, :customer_id, :service_id, :datahora_inicio, :datahora_fim, :observacao)
+      data = params.require(:schedule)
+      data = data.permit(:id, :customer_id, :service_id, :datahora_inicio, :datahora_fim, :observacao)
+      data.merge!(professional_id: current_professional.id)
+      data.merge!(recompensa_divulgacao: Service.find_by_id(params[:schedule][:service_id]).try(:recompensa_divulgacao))
     end
 
 end

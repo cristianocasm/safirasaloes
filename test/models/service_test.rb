@@ -23,7 +23,7 @@ class ServiceTest < ActiveSupport::TestCase
   should validate_uniqueness_of(:nome).scoped_to(:professional_id)
   should validate_presence_of(:preco)
   should validate_numericality_of(:preco).is_greater_than(0)
-  should validate_numericality_of(:recompensa_fidelidade).only_integer.is_greater_than_or_equal_to(0).allow_nil
+  #should validate_numericality_of(:recompensa_fidelidade).only_integer.is_greater_than_or_equal_to(0).allow_nil
   should validate_numericality_of(:recompensa_divulgacao).only_integer.is_greater_than_or_equal_to(0).allow_nil
 end
 

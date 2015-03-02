@@ -44,7 +44,7 @@
 #= require_self
 
 # Aplica máscara aos campos de dinheiro
-$(document).on 'click', 'input:text.money', ->
+$(document).on 'click, focus', 'input:text.money', ->
   $(this).maskMoney({
     prefix: 'R$ ',
     precision: 2,

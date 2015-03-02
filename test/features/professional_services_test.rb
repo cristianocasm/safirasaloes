@@ -121,8 +121,8 @@ feature "Services" do
     click_link "Cadastrar Serviço"
     all('.dica')[0].hover
     assert page.has_selector?('h3', title="Defina a Recompensa por Divulgação", :visible => true)
-    all('.dica')[1].hover
-    assert page.has_selector?('h3', title="Defina a Recompensa por Fidelidade", :visible => true)
+    # all('.dica')[1].hover
+    # assert page.has_selector?('h3', title="Defina a Recompensa por Fidelidade", :visible => true)
   end
 
   scenario "apresenta mensagens de erro corretas quando nome e preco não são informados" do

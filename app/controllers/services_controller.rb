@@ -48,8 +48,12 @@ class ServicesController < ApplicationController
   # DELETE /services/1
   # DELETE /services/1.json
   def destroy
-    @service.destroy
-    redirect_to services_url, flash: { success: 'Serviço excluído com sucesso.' }
+    msg = if @service.destroy
+      { flash: { success: 'Serviço excluído com sucesso.' } }
+    else
+      { flash: { error: 'Serviço não foi excluído devido à existência de horários marcados para ele.' } }
+    end
+      redirect_to services_url, msg
   end
 
   private

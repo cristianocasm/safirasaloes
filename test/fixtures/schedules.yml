@@ -18,13 +18,13 @@
 sch_cristiano:
   professional: aline
   customer: cristiano
-  service: corte_masculino
-  datahora_inicio: <%= DateTime.now.to_default_s %>
-  datahora_fim: <%= 1.hour.from_now.to_default_s %>
+  service: corte_masculino_aline
+  datahora_inicio: <%= DateTime.now %>
+  datahora_fim: <%= Time.zone.now + 1.hour %>
 
-sc_sonia:
+sch_sonia:
   professional: aline
   customer: sonia
-  service: unha_mao_e_pe
-  datahora_inicio: <%= 1.hour.from_now.to_default_s %>
-  datahora_fim: <%= 2.hours.from_now.to_default_s %>
+  service: unha_mao_e_pe_aline
+  datahora_inicio: <%= Time.zone.now + 1.hour %>
+  datahora_fim: <%= Time.zone.now + 2.hours %>

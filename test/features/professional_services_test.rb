@@ -15,6 +15,15 @@ feature "Services" do
     click_link_or_button "servicos"
   end
 
+  scenario "não pode deletar serviço que possua horário marcado no futuro", js: true do
+    srv = @aline.services.find_by_nome("Unha Mão e Pé")
+    page.accept_alert 'Deletar registro?' do
+      click_link "Excluir", href: service_path(srv)
+    end
+    assert page.has_css?("div.alert-danger", text: "Serviço não foi excluído devido à existência de horários marcados para ele."), "Serviço excluído"
+    assert page.has_no_css?("div.alert-success", text: "Serviço excluído com sucesso."), "Serviço excluído"
+  end
+
   scenario "não pode atualizar com nome em branco" do
     srv = @aline.services_ordered.first
     click_link "Editar", href: edit_service_path(srv)

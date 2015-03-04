@@ -22,4 +22,13 @@ class Service < ActiveRecord::Base
   
   has_many :schedules
   belongs_to :professional
+
+  before_destroy :ensure_future_schedule_inexistence
+
+  private
+
+  def ensure_future_schedule_inexistence
+    scs = self.schedules.where("schedules.datahora_inicio >= ?", DateTime.now)
+    scs.blank?
+  end
 end

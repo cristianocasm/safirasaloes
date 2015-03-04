@@ -71,3 +71,7 @@ end
 #     OK - Recompensa Divulgação zerado
 #     OK - Recompensa Divulgação com texto
 #     OK - Recompensa Divulgação com float
+
+# Deleção
+#   OK - Quando há horários marcados com o serviço em questão impede a deleção
+#   OK - Quando não há horários marcados com o serviço em questão permite a deleção

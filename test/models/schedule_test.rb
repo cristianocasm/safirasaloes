@@ -22,10 +22,10 @@ class ScheduleTest < ActiveSupport::TestCase
   should have_db_column(:recompensa_divulgacao)
 
 #---
-  #should allow_value(1.hour.from_now).for(:datahora_inicio)
-  #should_not allow_value(1.day.ago).for(:datahora_inicio)
-  #should allow_value(1.days.from_now).for(:datahora_fim)
-  #should_not allow_value(1.day.ago).for(:datahora_fim)
+  # should allow_value(1.hour.from_now).for(:datahora_inicio)
+  # should_not allow_value(1.day.ago).for(:datahora_inicio)
+  # should allow_value(1.days.from_now).for(:datahora_fim)
+  # should_not allow_value(1.day.ago).for(:datahora_fim)
 
   should validate_presence_of(:professional_id)
   should validate_presence_of(:service_id)
@@ -56,3 +56,20 @@ end
 #   - datahora_fim não informada retorna mensagem de erro correta
 #   - datahora_fim deve ser igual ou superior à datahora_inicio
 #   - datahora_inicio deve ser igual ou superior a hoje
+
+#---
+# Erros no schedule
+#   Horários
+#     Início anterior ao presente momento
+#     Início após Fim / Fim antes de Início
+#     Não é data
+#     Início não informado
+#     O que acontece com fim não informado?
+#     Cenários: Criação e Atualização
+
+#   Serviços
+#     Serviço não informado
+#     Serviço não existente
+
+#   Profissional
+#     Não informado

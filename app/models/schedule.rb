@@ -20,6 +20,6 @@ class Schedule < ActiveRecord::Base
 
   validates_presence_of :professional_id
   validates_presence_of :service_id
-  validates :datahora_inicio, date: true, presence: true, date: { after_or_equal_to: Proc.new { DateTime.now }, before: Proc.new { :datahora_fim } }, on: [:create, :update]
-  validates :datahora_fim, date: true, date: { after_or_equal_to: Proc.new { :datahora_inicio } }, on: [:create, :update]
+  validates :datahora_inicio, date: true, presence: true, date: { after_or_equal_to: Proc.new { DateTime.now } }, on: [:create, :update]
+  validates :datahora_fim, date: true, date: { after: Proc.new { :datahora_inicio } }, on: [:create, :update]
 end

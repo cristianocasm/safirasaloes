@@ -35,7 +35,7 @@ feature "Services" do
     assert page.has_content?(number_to_currency(100)), 'Preço do serviço não exibido'
   end
 
-  scenario "não deve ser capaz de criar serviços com nomes iguais", js: true do
+  scenario "não deve ser capaz de criar serviços com nomes iguais" do
     click_link "Cadastrar Serviço"
     fill_in 'service_nome', with: @aline.services.first.nome.downcase
     fill_in 'service_preco', with: 100
@@ -120,6 +120,7 @@ feature "Services" do
 
 
   scenario "deve ser capaz de saber o que são as Safiras", js: true do
+    page.driver.browser.manage.window.maximize
     click_link "Cadastrar Serviço"
     all('.dica')[0].hover
     assert page.has_selector?('h3', title="Defina a Recompensa por Divulgação", :visible => true)

@@ -10,4 +10,7 @@
     };
   $('#calendar').fullCalendar('removeEvents', <%= sc.id %>);
   $("#calendar").fullCalendar('renderEvent', myEvent);
+<% else %>
+  $('#errors').empty()
+  $('#errors').append('<%= flash_messages %>')
 <% end %>

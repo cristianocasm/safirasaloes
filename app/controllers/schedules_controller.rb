@@ -32,8 +32,9 @@ class SchedulesController < ApplicationController
   def create
     @schedule = Schedule.find_or_initialize_by(id: schedule_params[:id])
     @schedule.assign_attributes(schedule_params)
-    @schedule.save
-
+    unless @schedule.save
+      flash[:error] = flash_errors(@schedule) 
+    end
     respond_to do |format|
       format.js { render 'new_schedule' }
     end

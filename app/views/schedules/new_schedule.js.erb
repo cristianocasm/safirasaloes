@@ -4,13 +4,20 @@
   $("#myModal").modal('hide');
     var myEvent = {
       id:    <%= sc.id %>,
-      title: '<%= sc.customer.nome %>',
+      title: '<%= sc.customer.try(:nome) %>',
       start: '<%= sc.datahora_inicio.strftime("%Y-%m-%d %H:%M:%S") %>',
       end:   '<%= sc.datahora_fim.strftime("%Y-%m-%d %H:%M:%S") %>'
     };
   $('#calendar').fullCalendar('removeEvents', <%= sc.id %>);
   $("#calendar").fullCalendar('renderEvent', myEvent);
-<% else %>
+<% elsif sc.errors.added?(:professional_id, :blank) || 
+         sc.errors.added?(:service_id, :blank) ||
+         sc.errors.added?(:datahora_inicio, :blank) ||
+         sc.errors.added?(:datahora_inicio, :after_or_equal_to) ||
+         sc.errors.added?(:datahora_fim, :after) %>
   $('#errors').empty()
   $('#errors').append('<%= flash_messages %>')
+<% else %>
+  $("#myModal").modal('hide')
+  $("#myModalError").modal('show')
 <% end %>

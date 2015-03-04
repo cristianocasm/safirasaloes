@@ -66,7 +66,7 @@ class Professional < ActiveRecord::Base
     scs.map do |sc|
       {
         id:    sc.id,
-        title: sc.customer.nome,
+        title: sc.customer.try(:nome),
         start: sc.datahora_inicio,
         #service: sc.service.nome,
         end:   sc.datahora_fim

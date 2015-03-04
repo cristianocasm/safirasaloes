@@ -94,6 +94,7 @@ dealNewEvent = (start, end, jsEvent, view) ->
     return
 
   fillFields(ano, mes, dia, hour, min, hourFim, minFim)
+  $("div#errors").empty()
   $("#myModal").modal(show: true)
 
 fillFields = (ano, mes, dia, hour, min, hourFim, minFim) ->

@@ -110,7 +110,6 @@ feature "Calendario" do
         '#{ oneHourAhead.strftime('%Y-%m-%d %H') }'
       )
     ")
-    find('.fc-agendaWeek-button').click
     fill_in "schedule_customer_id", with: customers(:cristiano).id
     select @profAline.services.first.nome, from: :schedule_service_id
     click_button 'Marcar Horário'
@@ -122,32 +121,55 @@ feature "Calendario" do
     assert page.has_content?("Datahora fim deve ser após Datahora inicio"), "Modal de formulário não exibe msg de erro"
   end
 
-  scenario "", js: true do
+  scenario "profissional não pode criar horário sem serviço", js: true do
+    oneHourAhead = 5.hours.from_now
+    twoHoursAhead = 6.hours.from_now
+
+    visit root_path
+    find('.fc-agendaWeek-button').click
+    execute_script("
+      $('#calendar').fullCalendar(
+        'select',
+        '#{ oneHourAhead.strftime('%Y-%m-%d %H') }',
+        '#{ twoHoursAhead.strftime('%Y-%m-%d %H') }'
+      )
+    ")
+    execute_script("
+      $('#schedule_service_id').prop( 'disabled', true );
+      ")
+    fill_in "schedule_customer_id", with: customers(:cristiano).id
+    click_button 'Marcar Horário'
+
+    wait_for_ajax
+
+    assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
+    assert page.has_css?("#myModal", visible: true), "Modal com formulário não aparecendo"
+    assert page.has_content?("Service não pode ficar em branco"), "Modal de formulário não exibe msg de erro"
   end
 
-  scenario "", js: true do
-  end
+  scenario "profissional não pode criar horário sem serviço", js: true do
+    oneHourAhead = 5.hours.from_now
+    twoHoursAhead = 6.hours.from_now
 
-  scenario "", js: true do
-  end
+    visit root_path
+    find('.fc-agendaWeek-button').click
+    execute_script("
+      $('#calendar').fullCalendar(
+        'select',
+        '#{ oneHourAhead.strftime('%Y-%m-%d %H') }',
+        '#{ twoHoursAhead.strftime('%Y-%m-%d %H') }'
+      )
+    ")
+    execute_script("
+      $('#schedule_service_id').val(0);
+      ")
+    fill_in "schedule_customer_id", with: customers(:cristiano).id
+    click_button 'Marcar Horário'
 
-  scenario "", js: true do
+    wait_for_ajax
+
+    assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
+    assert page.has_css?("#myModal", visible: true), "Modal com formulário não aparecendo"
+    assert page.has_content?("Service não pode ficar em branco"), "Modal de formulário não exibe msg de erro"
   end
 end
-
-# Erros no schedule
-#   Horários
-#     Início anterior ao presente momento
-#     Início após Fim / Fim antes de Início
-#     Cenários: Criação e Atualização
-
-#     O que acontece com fim não informado?
-#     Não é data
-#     Início não informado
-
-#   Serviços
-#     Serviço não informado
-#     Serviço não existente
-
-#   Profissional
-#     Não informado

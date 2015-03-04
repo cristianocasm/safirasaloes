@@ -33,13 +33,6 @@ c = Customer.create!(
   email: 'cristiano.souza.mendonca+aline@gmail.com'
   )
 
-Schedule.create!([
-  { professional_id: p.first.id,
-    customer_id: c.id,
-    datahora_inicio: DateTime.now,
-    datahora_fim: 1.hour.from_now.to_datetime }
-  ])
-
 Service.create!([
   { nome: 'Corte Masculino',
     preco: 25.00,
@@ -56,4 +49,12 @@ Service.create!([
   { nome: 'Unha mão e pé',
     preco: 15.00,
     professional_id: p.first.id }
+  ])
+
+Schedule.create!([
+  { professional_id: p.first.id,
+    customer_id: c.id,
+    datahora_inicio: DateTime.now,
+    datahora_fim: 1.hour.from_now.to_datetime,
+    service_id: Service.first.id }
   ])

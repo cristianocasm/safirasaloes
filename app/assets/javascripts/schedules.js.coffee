@@ -72,6 +72,8 @@ dealChangeEvent = (event, delta, revertFunc) ->
     success: (data, textStatus, jqXHR) ->
       $('#calendar').fullCalendar('render')
     error: (jqXHR, textStatus, errorThrown) ->
+      console.log textStatus
+      $('#calendar').fullCalendar('refetchEvents')
       alert("Um erro inesperado ocorreu e não foi possível atualizar o horário.")
 
 dealNewEvent = (start, end, jsEvent, view) ->

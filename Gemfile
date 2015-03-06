@@ -43,6 +43,7 @@ gem 'annotate', '~> 2.6.5'
 
 gem 'date_validator', '~> 0.7.1'
 
+
 group :test, :development do
   gem 'byebug'
 end
@@ -52,6 +53,7 @@ group :test do
   gem 'minitest-reporters' # Cria output dos testes colorido
   gem "minitest-rails"
   gem "minitest-rails-capybara"
+  gem 'mocha'
   gem 'selenium-webdriver'
   gem 'simplecov', :require => false
 end

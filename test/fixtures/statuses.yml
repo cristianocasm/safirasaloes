@@ -12,10 +12,22 @@
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  nome: MyString
-  descricao: MyString
+testando:
+  nome: testando
+  descricao: testando
+  dias_vigencia: 7
 
-two:
-  nome: MyString
-  descricao: MyString
+bloqueado:
+  nome: bloqueado
+  descricao: bloqueado
+  dias_vigencia: 7
+
+suspenso:
+  nome: suspenso
+  descricao: suspenso
+  dias_vigencia: 60000
+  
+assinante:
+  nome: assinante
+  descricao: assinante
+  dias_vigencia: 60000

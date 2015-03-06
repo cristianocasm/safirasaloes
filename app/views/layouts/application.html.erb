@@ -21,9 +21,9 @@
     <%= render "layouts/main_header" %>
     <%= render "layouts/secondary_header" %>
     <div class="content">
-      <%= render "layouts/sidebar" %>
-      <%= yield :modals %>
-      <%= render "layouts/main_content" %>
+      <%= render "layouts/sidebar" unless current_professional.suspenso? %>
+      <%= yield :modals unless current_professional.suspenso? || current_professional.bloqueado? %>
+      <%= render "layouts/main_content" unless current_professional.suspenso? %>
     </div>
     <%= render "layouts/footer" %>
     <%= javascript_include_tag 'application' %>

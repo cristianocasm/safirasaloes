@@ -49,7 +49,7 @@ class Professional < ActiveRecord::Base
   has_many :schedules
   has_many :services
 
-  before_create :create_hashtag
+  before_create :create_hashtag, :define_status
 
   def schedules_to_calendar(start, hend)
     scs = self.schedules.where(updated_at: start..hend)
@@ -58,6 +58,19 @@ class Professional < ActiveRecord::Base
 
   def services_ordered
     services.order(:nome)
+  end
+  
+  def suspenso?
+    true if self.status.nome == 'suspenso'
+  end
+
+  def bloqueado?
+    true if self.status.nome == 'bloqueado'    
+  end
+
+  def status_equal_to?(status)
+    update_status
+    self.status.nome == status.to_s
   end
 
   private
@@ -74,6 +87,26 @@ class Professional < ActiveRecord::Base
     end
   end
 
+  def update_status
+    if status_expired?
+      nextStatus = next_status
+      self.update(status_id: nextStatus.id, data_expiracao_status: Time.zone.now + nextStatus.dias_vigencia.days)
+    end
+  end
+
+  def next_status
+    if self.status.nome == 'testando'
+      Status.find_by_nome 'bloqueado'
+    elsif self.status.nome == 'bloqueado'
+      Status.find_by_nome 'suspenso'
+    end
+  end
+
+  def status_expired?
+    (self.status.nome == 'testando' || self.status.nome == 'bloqueado') &&
+      self.data_expiracao_status < Time.zone.now
+  end
+
   def create_hashtag
     o = [('a'..'z'), ('A'..'Z'), (0..9)].map { |i| i.to_a }.flatten
     string = ""
@@ -82,5 +115,12 @@ class Professional < ActiveRecord::Base
     end while !Professional.find_by_hashtag(string).blank?
     self.hashtag = string
   end
+
+  def define_status
+    status = Status.find_by_nome('testando')
+    self.status_id = status.id
+    self.data_expiracao_status = Time.zone.now + status.dias_vigencia.days
+  end
+
 
 end

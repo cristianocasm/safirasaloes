@@ -11,7 +11,7 @@ end
 
 feature "Calendario" do
   before do
-    skip("Evitando JS") if metadata['js'] && ENV['js'] == 'false'
+    skip("Evitando JS") if metadata[:js] && ENV['js'] == 'false'
 
     @profAline = professionals('aline')
     login_as(@profAline, :scope => :professional)

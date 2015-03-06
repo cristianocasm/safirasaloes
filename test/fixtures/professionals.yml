@@ -52,9 +52,42 @@ aline:
   profissao: Cabeleireira
   local_trabalho: Salão Próprio
   confirmed_at: 2015-01-01 00:00:00
+  status: assinante
+  data_expiracao_status: <%= 7.days.from_now %>
 
 joao:
   nome: João
   email: joao@gmail.com
   telefone: (99) 9999-9999
   confirmed_at: 2015-01-01 00:00:00
+  status: assinante
+  data_expiracao_status: <%= 7.days.from_now %>
+
+prof_testando:
+  nome: Testando
+  email: testando@gmail.com
+  confirmed_at: 2015-01-01 00:00:00
+  status: testando
+  data_expiracao_status: <%= 7.days.from_now %>
+
+prof_bloqueado:
+  nome: Bloqueado
+  email: bloqueado@gmail.com
+  confirmed_at: 2015-01-01 00:00:00
+  status: bloqueado
+  data_expiracao_status: <%= 7.days.from_now %>
+
+prof_suspenso:
+  nome: Suspenso
+  email: suspenso@gmail.com
+  confirmed_at: 2015-01-01 00:00:00
+  status: suspenso
+  data_expiracao_status: <%= 60000.days.from_now %>
+  encrypted_password: <%= Professional.new.send(:password_digest, 'password') %>
+
+prof_assinante:
+  nome: Assinante
+  email: assinante@gmail.com
+  confirmed_at: 2015-01-01 00:00:00
+  status: assinante
+  data_expiracao_status: <%= 60000.days.from_now %>

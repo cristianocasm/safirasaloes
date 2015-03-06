@@ -56,9 +56,9 @@
 
             <!-- Comment button with number of latest comments count -->
             <li class="dropdown dropdown-big">
-              <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                <i class="fa fa-bell"></i> Alertas <span   class="label label-info">6</span> 
-              </a>
+              <%= link_to "https://www.facebook.com/hashtag/#{current_professional.hashtag}", target: :_blank do %>
+                <i class="fa fa-facebook-official"></i> Fotos Postadas <span   class="label label-info">6</span> 
+              <% end %>
                 <ul class="dropdown-menu">
                   <li>
                     <!-- Heading - h5 -->

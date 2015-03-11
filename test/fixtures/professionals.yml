@@ -54,6 +54,7 @@ aline:
   confirmed_at: 2015-01-01 00:00:00
   status: assinante
   data_expiracao_status: <%= 7.days.from_now %>
+  contato_definido: true
 
 joao:
   nome: João
@@ -63,12 +64,66 @@ joao:
   status: assinante
   data_expiracao_status: <%= 7.days.from_now %>
 
+testando_sem_informacoes_de_contato:
+  nome: Paulo
+  email: paulo@gmail.com
+  confirmed_at: 2015-01-01 00:00:00
+  status: testando
+  data_expiracao_status: <%= 7.days.from_now %>
+
 prof_testando:
   nome: Testando
   email: testando@gmail.com
   confirmed_at: 2015-01-01 00:00:00
   status: testando
   data_expiracao_status: <%= 7.days.from_now %>
+  telefone: (31) 8888-8888
+  cep: 32.323-232
+  rua: Perpétuo Socorro
+  numero: 32
+  bairro: Ipiranga
+  cidade: Belo Horizonte
+  estado: Minas Gerais 
+  complemento: '-'
+  profissao: Cabeleireira
+  local_trabalho: Salão Próprio
+  contato_definido: true
+
+prof_testando_com_contato_e_servicos:
+  nome: Testando
+  email: prof_testando@gmail.com
+  telefone: (31) 8888-8888
+  cep: 32.323-232
+  rua: Perpétuo Socorro
+  numero: 32
+  bairro: Ipiranga
+  cidade: Belo Horizonte
+  estado: Minas Gerais 
+  complemento: '-'
+  profissao: Cabeleireira
+  local_trabalho: Salão Próprio
+  confirmed_at: 2015-01-01 00:00:00
+  status: testando
+  data_expiracao_status: <%= 7.days.from_now %>
+  contato_definido: true
+
+prof_assinante_com_contato_e_servicos:
+  nome: Testando
+  email: prof_assinante@gmail.com
+  telefone: (31) 8888-8888
+  cep: 32.323-232
+  rua: Perpétuo Socorro
+  numero: 32
+  bairro: Ipiranga
+  cidade: Belo Horizonte
+  estado: Minas Gerais 
+  complemento: '-'
+  profissao: Cabeleireira
+  local_trabalho: Salão Próprio
+  confirmed_at: 2015-01-01 00:00:00
+  status: assinante
+  data_expiracao_status: <%= 7.days.from_now %>
+  contato_definido: true
 
 prof_bloqueado:
   nome: Bloqueado
@@ -91,3 +146,14 @@ prof_assinante:
   confirmed_at: 2015-01-01 00:00:00
   status: assinante
   data_expiracao_status: <%= 60000.days.from_now %>
+  telefone: (31) 8888-8888
+  cep: 32.323-232
+  rua: Perpétuo Socorro
+  numero: 32
+  bairro: Ipiranga
+  cidade: Belo Horizonte
+  estado: Minas Gerais 
+  complemento: '-'
+  profissao: Cabeleireira
+  local_trabalho: Salão Próprio
+  contato_definido: true

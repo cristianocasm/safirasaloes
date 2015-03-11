@@ -64,3 +64,16 @@ bigode_joao:
   preco: 8.00
   professional: joao
   recompensa_divulgacao: 17
+
+bigode_prof_testando:
+  nome: Bigode
+  preco: 8.00
+  professional: prof_testando_com_contato_e_servicos
+  recompensa_divulgacao: 17
+
+bigode_prof_assinante:
+  nome: Bigode
+  preco: 8.00
+  professional: prof_assinante_com_contato_e_servicos
+  recompensa_divulgacao: 17
+

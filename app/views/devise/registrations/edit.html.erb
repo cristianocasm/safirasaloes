@@ -1,29 +1,147 @@
-<h2>Editar <%= resource_name.to_s.humanize %></h2>
+  <div class="row">
+    <div class="col-xs-12 col-md-6">
+      <h2>Editar Informações de Contato</h2>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= devise_error_messages! %>
+      <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+        <% devise_error_messages! %>
+      <div class="row">
+        <div class="form-group">
+          <div class="col-xs-12 col-md-6">
+            <%= f.text_field :nome, class: "form-control input-sm", placeholder: "Nome", autofocus: true %>
+          </div>
+          <div class="col-xs-12 col-md-3">
+            <%= f.text_field :telefone, class: "form-control input-sm", placeholder: 'Telefone' %>
+          </div>
+          <div class="col-xs-12 col-md-3">
+            <%= f.text_field :whatsapp, class: "form-control input-sm", placeholder: 'WhatsApp' %>
+          </div>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Aguardando confirmação de: <%= resource.unconfirmed_email %></div>
-  <% end %>
+        </div>
+      </div>
 
-  <div><%= f.label :senha %> <i>(deixe em branco se você não deseja alterá-la)</i><br />
-  <%= f.password_field :password, :autocomplete => "off" %></div>
+      <div class="row">
+        <div class="form-group">
+          <div class="col-xs-12 col-md-12">
+            <%= f.text_field :pagina_facebook, class: "form-control input-sm", placeholder: 'Página do Facebook' %>
+          </div>
+        </div>
+      </div>
+      Endereço
+      <div class="row">
+        <div class="form-group">
+          <div class="col-xs-12 col-md-6">
+            <%= f.text_field :rua, class: "form-control input-sm", placeholder: 'Logradouro (Rua, Av, Travessa...)' %>
+          </div>
+          <div class="col-xs-4 col-md-2">
+            <%= f.text_field :numero, class: "form-control input-sm", placeholder: 'Nº' %>
+          </div>
+          <div class="col-xs-8 col-md-4">
+            <%= f.text_field :bairro, class: "form-control input-sm", placeholder: 'Bairro' %>
+          </div>
+        </div>
+      </div>
 
-  <div><%= f.label 'Confirmação de Senha' %><br />
-  <%= f.password_field :password_confirmation %></div>
+      <div class="row">
+        <div class="form-group">
+          <div class="col-xs-12 col-md-6">
+            <%= f.text_field :complemento, class: "form-control input-sm", placeholder: 'Complemento' %>
+          </div>
+          <div class="col-xs-7 col-md-4">
+            <%= f.text_field :cidade, class: "form-control input-sm", placeholder: 'Cidade' %>
+          </div>
+          <div class="col-xs-5 col-md-2">
+            <%= f.text_field :estado, class: "form-control input-sm", placeholder: 'Estado' %>
+          </div>
+        </div>
+      </div>
 
-  <div><%= f.label 'Senha atual' %> <i>(informe sua senha atual para confirmar as mudanças)</i><br />
-  <%= f.password_field :current_password %></div>
+      <div class="row">
+          <div class="form-group">
+            <div class="col-xs-12 col-md-12">
+              <%= f.text_field :site, class: "form-control input-sm", placeholder: 'Site' %>
+          </div>
+        </div>
+      </div>
+    <hr />
+    </div>
+    
+    <div class="col-xs-12 col-md-6" style="float: right;">
+      <div class="white_fb_background">
+        <div class="main_fb_content">
+          <div class="fb_header">
+            <%= image_tag("mulher.jpg", id: :mini_profile) %>
+            <div class="fb_header_content">
+                  Cliente de Souza
+                <div class="posted_at">
+                  11h · 
+                  <i class="fa fa-globe"></i>
+                </div>
+            </div>
+          </div>
+          <div class="fb_content">
+            <p class="fb_description">
+            Este é um exemplo de postagem do seu cliente para que você entenda como suas informações de contato serão adicionadas à postagem dele. Altere suas informações de contato e veja o resultado aqui!!!
+            </p>
+            <div id="info_contato">
+            </div>
+          </div>
+          <div>
+            <%= image_tag("mulher.jpg", :alt => "E-Editora", id: :image) %>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <div><%= f.submit "Atualizar" %></div>
-<% end %>
+    <div class="col-xs-12 col-md-6" style="float: right;">
+      <h2>Editar Informações da Conta</h2>
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <div>Aguardando confirmação de: <%= resource.unconfirmed_email %></div>
+      <% end %>
 
-<h3>Cancelar minha conta</h3>
+      <div class="row">
+        <div class="form-group">
+          <div class="col-xs-12 col-md-12">
+            <%= f.email_field :email, class: "form-control input-sm", placeholder: 'Email' %>
+          </div>
+        </div>
+      </div>
 
-<p>Insatisfeito? <%= button_to "Cancelar conta", registration_path(resource_name), :data => { :confirm => "Tem certeza?" }, :method => :delete %></p>
+      <div class="row">
+        <div class="form-group">
+          <div class="col-xs-12 col-md-12">
+            <%= f.password_field :password, class: "form-control input-sm", :autocomplete => "off", placeholder: 'Senha (deixe em branco se você não deseja alterá-la)'  %>
+          </div>
+        </div>
+      </div>
 
-<%= link_to "Voltar", :back %>
+      <div class="row">
+        <div class="form-group">
+          <div class="col-xs-12 col-md-12">
+            <%= f.password_field :password_confirmation, class: "form-control input-sm", placeholder: 'Confirmação de Senha' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <div class="col-xs-12 col-md-12">
+            <%= f.password_field :current_password, class: "form-control input-sm", placeholder: 'Senha atual (informe sua senha atual para confirmar as mudanças)' %>
+          </div>
+        </div>
+      </div>
+
+      <div><%= f.submit "Atualizar" %></div>
+    <% end %>
+
+    <!-- <h3>Cancelar minha conta</h3>
+
+    <p>Insatisfeito? <%= button_to "Cancelar conta", registration_path(resource_name), :data => { :confirm => "Tem certeza?" }, :method => :delete %></p> -->
+
+    <%= link_to "Voltar", :back %>
+    </div>
+
+
+
+
+  </div>

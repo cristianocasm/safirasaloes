@@ -97,7 +97,7 @@ feature "Services" do
   end
 
   scenario "pode deletar serviço", js: true do
-    srv = @aline.services.first
+    srv = services(:corte_feminino_aline)
     page.accept_alert 'Deletar registro?' do
       click_link "Excluir", href: service_path(srv)
     end

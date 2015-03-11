@@ -24,8 +24,8 @@ feature "Calendario" do
   end
 
   scenario "profissional pode criar horário", js: true do
-    oneHourAhead = 5.hours.from_now
-    twoHoursAhead = 6.hours.from_now
+    oneHourAhead = 4.hours.from_now
+    twoHoursAhead = 5.hours.from_now
     visit root_path
     find('.fc-agendaWeek-button').click
     execute_script("
@@ -48,8 +48,8 @@ feature "Calendario" do
   end
 
   scenario "profissional não pode criar horário com início no passado", js: true do
-    oneHourAhead = 5.hours.ago
-    twoHoursAhead = 6.hours.from_now
+    oneHourAhead = 4.hours.ago
+    twoHoursAhead = 5.hours.from_now
 
     visit root_path
     find('.fc-agendaWeek-button').click
@@ -73,8 +73,8 @@ feature "Calendario" do
   end
 
   scenario "profissional não pode criar horário com início após o fim", js: true do
-    oneHourAhead = 5.hours.from_now
-    twoHoursAhead = 6.hours.from_now
+    oneHourAhead = 4.hours.from_now
+    twoHoursAhead = 5.hours.from_now
 
     visit root_path
     find('.fc-agendaWeek-button').click

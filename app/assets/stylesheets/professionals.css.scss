@@ -1,0 +1,49 @@
+.white_fb_background {
+  background-color: white;
+  border: 1px solid;
+  border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+  -webkit-border-radius: 3px;
+  font-size: 14px;
+  font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
+}
+
+.white_fb_background .main_fb_content {
+  padding: 12px;
+}
+
+.white_fb_background .main_fb_content .fb_header_content {
+  display: inline-block;
+}
+
+p.fb_description, #info_contato{
+  font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
+  font-size: 14px;
+  color: #141823;
+}
+
+.white_fb_background .main_fb_content .fb_header {
+  font-weight: bold;
+  color: rgb(59, 89, 152);
+  margin-bottom: 11px;
+  display: inline-block;
+}
+
+.posted_at {
+  color: #9197a3;
+  font-size: 12px;
+  text-align: left;
+  direction: ltr;
+  font-weight: normal;
+}
+
+#mini_profile {
+  margin-right: 8px;
+  height: 4em;
+  float: left;
+}
+
+#image {
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+  position: relative;
+  height: 25em;
+}

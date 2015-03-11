@@ -50,6 +50,36 @@ class Professional < ActiveRecord::Base
   has_many :services
 
   before_create :create_hashtag, :define_status
+  validates_presence_of :nome, on: :update
+  validate :contato_fornecido?, on: :update
+  validate :formato_pagina_facebook, on: :update
+  validate :formato_site, on: :update
+
+  def set_contato_definido
+    self.contato_definido = true
+  end
+
+  def contato_fornecido?
+    if %w(telefone whatsapp).all?{|attr| self[attr].blank?}
+      errors.add :base, "Informe um Telefone ou WhatsApp para contato."
+    else
+      set_contato_definido
+    end
+  end
+
+  def formato_pagina_facebook
+    return if pagina_facebook.blank?
+    unless /https:\/\/www\.facebook\.com\/.+/ =~ self[:pagina_facebook]
+      errors.add :pagina_facebook, "deve começar com 'https://www.facebook.com/'"
+    end
+  end
+
+  def formato_site
+    return if site.blank?
+    unless /http:\/\/www\..+/ =~ self[:site]
+      errors.add :site, "deve começar com 'http://www.'"
+    end
+  end
 
   def schedules_to_calendar(start, hend)
     scs = self.schedules.where(updated_at: start..hend)
@@ -59,6 +89,14 @@ class Professional < ActiveRecord::Base
   def services_ordered
     services.order(:nome)
   end
+
+  def has_contato_definido?
+    self.contato_definido
+  end
+
+  def has_servico_definido?
+    !self.services.blank?
+  end
   
   def suspenso?
     true if self.status.nome == 'suspenso'
@@ -66,6 +104,14 @@ class Professional < ActiveRecord::Base
 
   def bloqueado?
     true if self.status.nome == 'bloqueado'    
+  end
+
+  def testando?
+    true if self.status.nome == 'testando'
+  end
+
+  def assinante?
+    true if self.status.nome == 'assinante'
   end
 
   def status_equal_to?(status)

@@ -37,10 +37,10 @@ class ApplicationController < ActionController::Base
 
   def authorize
     if current_permission.forçar_cadastro_dos_dados_de_contato?(params[:controller], params[:action])
-      redirect_to edit_professional_registration_path
+      redirect_to edit_professional_registration_path, flash: { success: 'Seja bem vindo ao Safira Salões!!! Para utilizar todos os recursos que fornecemos cadastre abaixo suas Informações de Contato e visualize o resultado de suas alterações no simulador. ATENÇÃO: SALVE SUAS INFORMAÇÕES DE CONTATO PARA PROSSEGUIR.' }
       return
     elsif current_permission.forcar_cadastro_de_servico?(params[:controller], params[:action])
-      redirect_to new_service_path, success: "Defina seus serviços"
+      redirect_to new_service_path, flash: { success: "Quase acabando... Como último passo para utilizar o sistema, cadastre abaixo um dos seus serviços. Isso lhe permitirá utilizar a agenda do Safira Salões - a qual será sua grande amiga daqui pra frente :D" }
       return
     end
     

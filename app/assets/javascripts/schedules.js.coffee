@@ -115,16 +115,14 @@ fillFields = (ano, mes, dia, hour, min, hourFim, minFim) ->
 pad2 = (number) ->
   (if number < 10 then '0' else '') + number
 
-
-
 ################# INICIALIZANDO UTILIZAÇÃO DE TYPEAHEAD.JS PLUGIN #################
-
 
 launch_typeahead = ->
   $('.twitter-typeahead.input-sm').siblings('input.tt-hint').addClass 'hint-small'
   $('.twitter-typeahead.input-lg').siblings('input.tt-hint').addClass 'hint-large'
   $('input.twitter-typeahead').on 'typeahead:selected', (jQueryObj, selectedObj, datasetName) ->
-    console.log selectedObj
+    input = Pillbox($("#email_cliente"))
+    input.add(selectedObj[email])
     $('#schedule_customer_id').val(selectedObj['id'])
     $('#nome_cliente').val(selectedObj['nome'])
     $('#email_cliente').typeahead('val', selectedObj['email'])
@@ -138,7 +136,7 @@ new_bloodhound_email = (data) ->
     local: data
     limit: 4
     remote: {
-      url: "customers/filter_by_email?e=%QUERY" #'http://example.com/animals?q=%QUERY'
+      url: "customers/filter_by_email?e=%QUERY"
       wildcard: '%QUERY'
       ajax: method: 'POST'
     }
@@ -154,7 +152,7 @@ new_bloodhound_telefone = (data) ->
     local: data
     limit: 4
     remote: {
-      url: "customers/filter_by_telefone?t=%QUERY" #'http://example.com/animals?q=%QUERY'
+      url: "customers/filter_by_telefone?t=%QUERY"
       wildcard: '%QUERY'
       ajax: method: 'POST'
     }
@@ -202,7 +200,7 @@ start_typeahead = (engine, elm, key, minLength) ->
     {
       name: 'customers'
       displayKey: key
-      source: engine.ttAdapter() #substringMatcher(states)
+      source: engine.ttAdapter()
     }
   )
 

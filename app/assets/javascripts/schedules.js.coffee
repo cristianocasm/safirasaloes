@@ -121,8 +121,6 @@ launch_typeahead = ->
   $('.twitter-typeahead.input-sm').siblings('input.tt-hint').addClass 'hint-small'
   $('.twitter-typeahead.input-lg').siblings('input.tt-hint').addClass 'hint-large'
   $('input.twitter-typeahead').on 'typeahead:selected', (jQueryObj, selectedObj, datasetName) ->
-    input = Pillbox($("#email_cliente"))
-    input.add(selectedObj[email])
     $('#schedule_customer_id').val(selectedObj['id'])
     $('#nome_cliente').val(selectedObj['nome'])
     $('#email_cliente').typeahead('val', selectedObj['email'])

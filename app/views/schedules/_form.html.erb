@@ -1,11 +1,11 @@
-<%= form_for @schedule, remote: true do |f| %>
+<%= form_for @schedule, remote: true, autocomplete: "off" do |f| %>
   <div class="field">
     <%= f.label :nome %><br>
-    <input type="text" class="twitter-typeahead form-control" id="nome_cliente" />
+    <input type="text" class="twitter-typeahead form-control" id="nome_cliente" autocomplete="off" />
   </div>
   <div class="field">
     <%= f.label :email %><br>
-    <input type="text" class="twitter-typeahead form-control" id="email_cliente" />
+    <input type="text" class="twitter-typeahead form-control" id="email_cliente" autocomplete="off" />
   </div>
   <div class="field">
     <%= f.label :telefone %><br>
@@ -14,7 +14,7 @@
 
   <div class="field">
     <%= f.label :serviço %><br>
-    <%= f.select :service_id, current_professional.services.collect {|p| [ p.nome, p.id ] } %>
+    <%= f.select :service_id, current_professional.services.collect {|p| [ p.nome, p.id ] }, {}, class: 'form-control' %>
   </div>
   <div class="field">
     <%= f.label :início %><br>

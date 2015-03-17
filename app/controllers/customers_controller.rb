@@ -61,6 +61,21 @@ class CustomersController < ApplicationController
     end
   end
 
+  # POST "/customers/filter"
+  def filter_by_email
+    ctms = Customer.filter_by_email(params[:e])
+    respond_to do |format|
+      format.json { render json: ctms.to_json, status: :ok }
+    end
+  end
+
+  def filter_by_telefone
+    ctms = Customer.filter_by_telefone(params[:t])
+    respond_to do |format|
+      format.json { render json: ctms.to_json, status: :ok }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_customer

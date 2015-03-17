@@ -18,7 +18,35 @@ cristiano:
 sonia:
   nome: Sônia Silvânia
   email: sss@gmail.com
-  
-# two:
-#   nome: MyString
-#   email: MyString
+
+abilio:
+  nome: Abílio
+  email: aaa@bol.com.br
+  telefone: (11) 1111-1111
+
+bruno:
+  nome: Bruno
+  email: bbb@hotmail.com
+  telefone: (22) 2222-2222
+
+cesar:
+  nome: Cesar
+  email: ccc@gmail.com
+  telefone: (33) 3333-3333
+
+daniel:
+  nome: Daniel
+  email: ddd@yahoo.com.br
+  telefone: (44) 4444-4444
+
+elano:
+  nome: Elano
+  email: eee@yahoo.com.br
+  telefone: (55) 5555-5555
+
+fernanda:
+  nome: Fernanda
+  email: fff@e-editora.net
+  telefone: (66) 6666-6666
+
+

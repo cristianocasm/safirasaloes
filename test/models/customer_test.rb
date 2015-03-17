@@ -13,4 +13,5 @@ require 'test_helper'
 
 class CustomerTest < ActiveSupport::TestCase
   should have_many(:schedules)
+  should have_db_column(:telefone)
 end

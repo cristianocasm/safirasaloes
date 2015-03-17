@@ -18,6 +18,7 @@ class SchedulesController < ApplicationController
   # GET /schedules/new
   def new
     @schedule = Schedule.new
+    @ctms = Schedule.get_last_two_months_scheduled_customers(current_professional.id)
   end
 
   # GET /schedules/1/edit
@@ -56,6 +57,14 @@ class SchedulesController < ApplicationController
     @schedule.destroy
     respond_to do |format|
       format.js { render 'flush_fullcalendar' }
+    end
+  end
+
+  # POST /schedules/get_last_two_months_scheduled_customers
+  def get_last_two_months_scheduled_customers
+    ctms = Schedule.get_last_two_months_scheduled_customers(current_professional.id)
+    respond_to do |format|
+      format.json { render json: ctms.to_json, status: :ok }
     end
   end
 

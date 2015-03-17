@@ -8,6 +8,11 @@ class SchedulesControllerTest < ActionController::TestCase
     sign_in :professional, @profAline
   end
 
+  test "should post get_last_two_months_scheduled_customers" do
+    xhr :post, :get_last_two_months_scheduled_customers
+    assert_response :success
+  end
+
   test "should render layout application.html.erb" do
     get :new
     assert_template :new

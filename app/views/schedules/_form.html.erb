@@ -1,8 +1,17 @@
 <%= form_for @schedule, remote: true do |f| %>
   <div class="field">
-    <%= f.label :nome_do_cliente %><br>
-    <%= f.number_field :customer_id %>
+    <%= f.label :nome %><br>
+    <input type="text" class="twitter-typeahead form-control" id="nome_cliente" />
   </div>
+  <div class="field">
+    <%= f.label :email %><br>
+    <input type="text" class="twitter-typeahead form-control" id="email_cliente" />
+  </div>
+  <div class="field">
+    <%= f.label :telefone %><br>
+    <input type="text" class="twitter-typeahead form-control" id="telefone_cliente" />
+  </div>
+
   <div class="field">
     <%= f.label :serviço %><br>
     <%= f.select :service_id, current_professional.services.collect {|p| [ p.nome, p.id ] } %>
@@ -15,6 +24,7 @@
     <%= f.label :fim %><br>
     <%= f.datetime_select :datahora_fim %>
   </div>
+  <%= f.hidden_field :customer_id %>
   <%= f.hidden_field :id %>
   <div class="actions">
     <%= f.submit 'Marcar Horário' %>

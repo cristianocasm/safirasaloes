@@ -22,6 +22,7 @@ class PermissionTest < ActiveSupport::TestCase
       assert_not deslogado.allow?("schedules", "edit")
       assert_not deslogado.allow?("schedules", "show")
       assert_not deslogado.allow?("schedules", "destroy")
+      assert_not deslogado.allow?("schedules", "get_last_two_months_served_customers")
 
       assert deslogado.allow?("devise/sessions", "new")
       assert deslogado.allow?("devise/sessions", "create")
@@ -76,6 +77,7 @@ class PermissionTest < ActiveSupport::TestCase
       assert _testando.allow?("schedules", "edit")
       assert _testando.allow?("schedules", "show")
       assert _testando.allow?("schedules", "destroy")
+      assert _testando.allow?("schedules", "get_last_two_months_served_customers")
 
       assert _testando.allow?("devise/sessions", "new")
       assert _testando.allow?("devise/sessions", "create")
@@ -130,6 +132,7 @@ class PermissionTest < ActiveSupport::TestCase
       assert_not bloqueado.allow?("schedules", "edit")
       assert_not bloqueado.allow?("schedules", "show")
       assert_not bloqueado.allow?("schedules", "destroy")
+      assert_not bloqueado.allow?("schedules", "get_last_two_months_served_customers")
 
       assert bloqueado.allow?("devise/sessions", "new")
       assert bloqueado.allow?("devise/sessions", "create")
@@ -184,6 +187,7 @@ class PermissionTest < ActiveSupport::TestCase
       assert_not suspenso.allow?("schedules", "create")
       assert_not suspenso.allow?("schedules", "edit")
       assert_not suspenso.allow?("schedules", "show")
+      assert_not suspenso.allow?("schedules", "get_last_two_months_served_customers")
 
       assert suspenso.allow?("devise/sessions", "new")
       assert suspenso.allow?("devise/sessions", "create")

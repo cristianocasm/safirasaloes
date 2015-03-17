@@ -11,4 +11,7 @@
 
 class Customer < ActiveRecord::Base
   has_many :schedules
+
+  scope :filter_by_email, -> (query) { select(:id, :nome, :email, :telefone).where("email LIKE '%#{query}%'") }
+  scope :filter_by_telefone, -> (query) { select(:id, :nome, :email, :telefone).where("telefone LIKE '%#{query}%'") }
 end

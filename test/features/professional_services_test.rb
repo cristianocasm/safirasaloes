@@ -4,6 +4,7 @@ feature "Services" do
   include ActionView::Helpers::NumberHelper
 
   before do
+    skip("Sem foco") if !metadata[:focus] && ENV['focus'] == 'true'
     skip("Evitando JS") if metadata[:js] && ENV['js'] == 'false'
 
     @aline = professionals(:aline)
@@ -97,7 +98,8 @@ feature "Services" do
   end
 
   scenario "pode deletar serviço", js: true do
-    srv = services(:corte_feminino_aline)
+    srv = nil
+    @aline.services.map { |sr| srv = sr if sr.schedules.where("schedules.datahora_inicio >= ?", DateTime.now).blank? }
     page.accept_alert 'Deletar registro?' do
       click_link "Excluir", href: service_path(srv)
     end

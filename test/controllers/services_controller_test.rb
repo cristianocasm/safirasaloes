@@ -6,7 +6,7 @@ class ServicesControllerTest < ActionController::TestCase
   setup do
     @aline = professionals(:aline)
     sign_in :professional, @aline
-    @service = services(:corte_feminino_aline)
+    @service = services(:unha_mao_aline)
     @serviceJoao = services(:bigode_joao)
   end
 

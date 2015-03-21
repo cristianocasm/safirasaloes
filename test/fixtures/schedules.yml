@@ -89,4 +89,18 @@ sch_elano1:
   email: eee@yahoo.com.br
   telefone: (55) 5555-5555
 
+invalido_sem_cli_info:
+  professional: aline
+  service: corte_feminino_aline
+  datahora_inicio: <%= 3.days.from_now %>
+  datahora_fim: <%= 3.days.from_now + 1.hour %>
 
+valido_com_cli_info:
+  professional: aline
+  customer: cesar
+  service: corte_masculino_aline
+  datahora_inicio: <%= 14.days.from_now %>
+  datahora_fim: <%= 14.days.from_now + 1.hour %>
+  nome: Cesar
+  email: ccc@gmail.com
+  telefone: (33) 3333-3333

@@ -56,8 +56,16 @@ feature "Alertas" do
     end
 
     scenario "não pode criar schedule", js: true do
-    find('div.fc-content-skeleton .fc-today').click
-    assert page.has_no_css?("#myModal", visible: true), "Modal de cadastro sendo exibido"
+      oneHourAhead = 4.hours.from_now
+      twoHoursAhead = 5.hours.from_now
+      execute_script("
+        $('#calendar').fullCalendar(
+          'select',
+          '#{ oneHourAhead.strftime('%Y-%m-%d %H') }',
+          '#{ twoHoursAhead.strftime('%Y-%m-%d %H') }'
+        )
+      ")
+      assert page.has_no_css?("#myModal", visible: true), "Modal de cadastro sendo exibido"
     end
 
     scenario "não pode acessar serviços" do
@@ -72,15 +80,15 @@ feature "Alertas" do
         visit root_path
       end
 
-    scenario "deve ser incapaz de visualizar qualquer funcionalidade do sistema" do
-      assert_equal root_path, page.current_path
-      assert page.has_no_css?("#sidebar"), "Não consegue visualizar sidebar"
-      assert page.has_no_css?("#main_content"), "Consegue visualizar conteúdo principal"
-    end
+      scenario "deve ser incapaz de visualizar qualquer funcionalidade do sistema" do
+        assert_equal root_path, page.current_path
+        assert page.has_no_css?("#sidebar"), "Não consegue visualizar sidebar"
+        assert page.has_no_css?("#main_content"), "Consegue visualizar conteúdo principal"
+      end
 
-    scenario "deve visualizar mensagem de alerta" do
-      assert page.has_css?("div.alert-warning", text: "Sua conta está suspensa e você não pode utilizar os recursos deste sistema. Clique aqui para tornar-se Premium e habilitar todas as funcionalidades.")
-    end
+      scenario "deve visualizar mensagem de alerta" do
+        assert page.has_css?("div.alert-warning", text: "Sua conta está suspensa e você não pode utilizar os recursos deste sistema. Clique aqui para tornar-se Premium e habilitar todas as funcionalidades.")
+      end
 
     end
   end

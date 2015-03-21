@@ -2,9 +2,10 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 jQuery ->
-  config_callendar()
-  load_events('schedules')
-  launch_typeahead()
+  if $('#calendar').length
+    config_callendar()
+    load_events('schedules')
+    launch_typeahead()
 
 
 config_callendar = ->
@@ -14,6 +15,7 @@ config_callendar = ->
       center: 'title',
       right: 'month,agendaWeek,agendaDay,next'
     },
+    defaultView: 'agendaWeek', 
     editable: true,
     firstDay: 1,
     fixedWeekCount: false,
@@ -39,7 +41,7 @@ assocPopOver = (event, element, view) ->
     title: createTitle(event),
     placement: setPlacement(event, view),
     html: true,
-    content: event.msg,
+    content: createContent(event),
     trigger: "hover",
     delay: { "show": 0, "hide": 1000 },
     template: '
@@ -52,6 +54,9 @@ assocPopOver = (event, element, view) ->
 
 createTitle = (event) ->
   "#{event.title} <a href='/schedules/#{event.id}' data-method='delete' data-remote='true'><i class='fa fa-trash-o'></i></a> <a href='schedules/#{event.id}/edit' data-remote='true'><i class='fa fa-pencil'></i></a>"
+
+createContent = (event) ->
+  "Nome: #{event.nome}<br/>Tel: #{event.telefone}<br/>Email: #{event.email}<br/>Serviço: #{event.service}"
 
 setPlacement = (event, view) ->
   if view.name == 'month'
@@ -118,13 +123,41 @@ pad2 = (number) ->
 ################# INICIALIZANDO UTILIZAÇÃO DE TYPEAHEAD.JS PLUGIN #################
 
 launch_typeahead = ->
+  $('#myModal').bind 'hide.bs.modal', ->
+    $(this).find('form')[0].reset()
+    $("#schedule_customer_id").val("") # Necessário já que hidden inputs não sofrem ação de form.reset()
   $('.twitter-typeahead.input-sm').siblings('input.tt-hint').addClass 'hint-small'
   $('.twitter-typeahead.input-lg').siblings('input.tt-hint').addClass 'hint-large'
   $('input.twitter-typeahead').on 'typeahead:selected', (jQueryObj, selectedObj, datasetName) ->
     $('#schedule_customer_id').val(selectedObj['id'])
-    $('#nome_cliente').val(selectedObj['nome'])
-    $('#email_cliente').typeahead('val', selectedObj['email'])
-    $('#telefone_cliente').typeahead('val', selectedObj['telefone'])
+    $('#schedule_nome').val(selectedObj['nome'])
+    $('#schedule_email').typeahead('val', selectedObj['email'])
+    $('#schedule_telefone').typeahead('val', selectedObj['telefone'])
+
+  $('.twitter-typeahead').each ->
+    elem = $(this);
+    nome = $("#schedule_nome")
+    email = $("#schedule_email")
+    telefone = $("#schedule_telefone")
+    ctId = $("#schedule_customer_id")
+    
+    #Save current value of element
+    val = ""
+
+    #Look for changes in the value
+    elem.bind "propertychange input paste", ->
+      console.log val
+      console.log elem.val()
+      #If value has changed...
+      if( val != elem.val() )
+        val = elem.val()
+        if( $("#schedule_customer_id").val() != "" )
+          if elem.attr('id') != 'schedule_nome'
+            ctId.val("")
+            nome.val("")
+            telefone.typeahead('val', '')
+            email.typeahead('val', '')
+            elem.typeahead('val', val)
 
   get_last_two_months_served_customers()
 
@@ -180,11 +213,11 @@ get_last_two_months_served_customers = (engine) ->
     success: (data, textStatus, jqXHR) ->
       engine_email = new_bloodhound_email(data)
       engine_email.initialize()
-      start_typeahead(engine_email, 'email_cliente', 'email', 6)
+      start_typeahead(engine_email, 'schedule_email', 'email', 6)
       
       engine_telefone = new_bloodhound_telefone(data)
       engine_telefone.initialize()
-      start_typeahead(engine_telefone, 'telefone_cliente', 'telefone', 8)
+      start_typeahead(engine_telefone, 'schedule_telefone', 'telefone', 8)
     error: (jqXHR, textStatus, errorThrown) ->
       console.log textStatus
 
@@ -201,8 +234,6 @@ start_typeahead = (engine, elm, key, minLength) ->
       source: engine.ttAdapter()
     }
   )
-
-
 
 
 

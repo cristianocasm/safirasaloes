@@ -77,7 +77,7 @@ class SchedulesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def schedule_params
       data = params.require(:schedule)
-      data = data.permit(:id, :customer_id, :service_id, :datahora_inicio, :datahora_fim, :observacao)
+      data = data.permit(:id, :customer_id, :service_id, :nome, :email, :telefone, :datahora_inicio, :datahora_fim, :observacao)
       data.merge!(professional_id: current_professional.id)
       data.merge!(recompensa_divulgacao: Service.find_by_id(params[:schedule][:service_id]).try(:recompensa_divulgacao))
     end

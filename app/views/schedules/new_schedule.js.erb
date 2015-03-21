@@ -4,7 +4,11 @@
   $("#myModal").modal('hide');
     var myEvent = {
       id:    <%= sc.id %>,
-      title: '<%= sc.customer.try(:nome) %>',
+      title: '<%= sc.nome %>',
+      email: '<%= sc.email %>',
+      nome: '<%= sc.nome %>',
+      telefone: '<%= sc.telefone %>',
+      service: '<%= sc.service.nome %>',
       start: '<%= sc.datahora_inicio.strftime("%Y-%m-%d %H:%M:%S") %>',
       end:   '<%= sc.datahora_fim.strftime("%Y-%m-%d %H:%M:%S") %>'
     };
@@ -14,7 +18,9 @@
          sc.errors.added?(:service_id, :blank) ||
          sc.errors.added?(:datahora_inicio, :blank) ||
          sc.errors.added?(:datahora_inicio, :after_or_equal_to) ||
-         sc.errors.added?(:datahora_fim, :after) %>
+         sc.errors.added?(:datahora_fim, :after) ||
+         sc.errors.added?(:email, "formato incorreto") || 
+         sc.errors.added?(:base, "Informe Nome e/ou Email e/ou Telefone do cliente")%>
   $('#errors').empty()
   $('#errors').append('<%= flash_messages %>')
 <% else %>

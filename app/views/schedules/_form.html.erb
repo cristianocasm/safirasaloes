@@ -1,20 +1,19 @@
-<%= form_for @schedule, remote: true, autocomplete: "off" do |f| %>
+<%= form_for @schedule, remote: true, autocomplete: "off", onsubmit: "" do |f| %>
   <div class="field">
     <%= f.label :nome %><br>
-    <input type="text" class="twitter-typeahead form-control" id="nome_cliente" autocomplete="off" />
+    <%= f.text_field :nome, class: "form-control", autocomplete: "off" %>
   </div>
   <div class="field">
     <%= f.label :email %><br>
-    <input type="text" class="twitter-typeahead form-control" id="email_cliente" autocomplete="off" />
+    <%= f.text_field :email, class: 'twitter-typeahead form-control', autocomplete: "off" %>
   </div>
   <div class="field">
     <%= f.label :telefone %><br>
-    <input type="text" class="twitter-typeahead form-control" id="telefone_cliente" />
+    <%= f.text_field :telefone, class: "twitter-typeahead form-control", autocomplete: "off" %>
   </div>
-
   <div class="field">
     <%= f.label :serviço %><br>
-    <%= f.select :service_id, current_professional.services.collect {|p| [ p.nome, p.id ] }, {}, class: 'form-control' %>
+    <%= f.select :service_id, current_professional.services.collect {|p| [ p.nome, p.id ] } %>
   </div>
   <div class="field">
     <%= f.label :início %><br>
@@ -27,6 +26,6 @@
   <%= f.hidden_field :customer_id %>
   <%= f.hidden_field :id %>
   <div class="actions">
-    <%= f.submit 'Marcar Horário' %>
+    <%= f.submit 'Marcar Horário', data: { disable_with: "Aguarde..." } %>
   </div>
 <% end %>

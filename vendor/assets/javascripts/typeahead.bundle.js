@@ -737,8 +737,8 @@
         "use strict";
         var css = {
             wrapper: {
-                position: "relative",
-                display: "inline-block"
+                position: "relative"//,
+                //display: "inline-block"
             },
             hint: {
                 position: "absolute",

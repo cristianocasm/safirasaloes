@@ -1,0 +1,9 @@
+Você sabia que o <%= @schedule.professional.nome %> faz parte do sistema Safira Salões? Isso significa que você tem a partir de agora a possibilidade de ganhar <b>descontos</b> e <b>recompensas</b> imperdíveis sempre que for atentido!!!
+<br />
+<br />
+Para aproveitar todos os benefícios acesse o <%= link_to 'SafiraSalões', new_customer_url %> e comece a ganhar agora mesmo!
+<br />
+<br />
+<i>
+---
+Seu horário para o serviço "<%= @schedule.service.nome %>" está confirmado no <%= @schedule.professional.nome %> para <%= @schedule.datahora_inicio.strftime('%d/%m/%Y') %> as <%= @schedule.datahora_inicio.strftime('%H:%M') %>.</i>

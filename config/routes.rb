@@ -4,8 +4,10 @@ Rails.application.routes.draw do
   resources  :services
   resources  :statuses
   resources  :customers do
-    post :filter_by_email, on: :collection
-    post :filter_by_telefone, on: :collection
+    collection do
+      post :filter_by_email
+      post :filter_by_telefone
+    end
   end
   resources  :schedules do
     post :get_last_two_months_scheduled_customers, on: :collection #/schedules/get_last_two_months_scheduled_customers

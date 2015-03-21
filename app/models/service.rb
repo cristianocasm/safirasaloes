@@ -28,7 +28,6 @@ class Service < ActiveRecord::Base
   private
 
   def ensure_future_schedule_inexistence
-    scs = self.schedules.where("schedules.datahora_inicio >= ?", DateTime.now)
-    scs.blank?
+    self.schedules.where("schedules.datahora_inicio >= ?", DateTime.now).blank?
   end
 end

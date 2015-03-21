@@ -125,9 +125,12 @@ class Professional < ActiveRecord::Base
     scs.map do |sc|
       {
         id:    sc.id,
-        title: sc.customer.try(:nome),
+        title: sc.nome,
+        email: sc.email,
+        nome: sc.nome,
+        telefone: sc.telefone,
+        service: sc.service.try(:nome) || 'Serviço Excluído',
         start: sc.datahora_inicio,
-        #service: sc.service.nome,
         end:   sc.datahora_fim
       }
     end

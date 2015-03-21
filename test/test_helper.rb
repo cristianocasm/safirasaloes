@@ -7,6 +7,7 @@ require "minitest/rails"
 require "minitest/rails/capybara"
 require "minitest/reporters"
 require "capybara"
+require 'sidekiq/testing'
 
 class ActiveSupport::TestCase
   include Warden::Test::Helpers
@@ -30,4 +31,14 @@ class ActiveSupport::TestCase
   end
 
    #Add more helper methods to be used by all tests here...
+end
+
+module MailerMacros
+  def last_email
+    Sidekiq::Extensions::DelayedMailer.jobs.last
+  end
+  
+  def reset_email
+    Sidekiq::Worker.clear_all
+  end
 end

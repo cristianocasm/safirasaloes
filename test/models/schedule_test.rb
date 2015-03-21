@@ -16,6 +16,8 @@
 require 'test_helper'
 
 class ScheduleTest < ActiveSupport::TestCase
+  include MailerMacros
+
   should belong_to(:professional)
   should belong_to(:customer)
   should belong_to(:service)
@@ -26,6 +28,236 @@ class ScheduleTest < ActiveSupport::TestCase
   should validate_presence_of(:professional_id)
   should validate_presence_of(:service_id)
   should validate_presence_of(:datahora_inicio)
+
+  before do
+    reset_email
+  end
+
+  describe "Cadastro" do
+    test "inválido sem nome, telefone ou e-mail do cliente" do
+      sc = schedules(:invalido_sem_cli_info).attributes
+      sc = Schedule.new(sc)
+      assert_not sc.valid?
+      assert_equal [:base], sc.errors.keys
+      assert_equal ["Informe Nome e/ou Email e/ou Telefone do cliente"], sc.errors.messages[:base]
+    end
+    
+    describe "com 'customer_id' presente" do
+      before do
+        @sc = schedules(:valido_com_cli_info).attributes.except('id')
+        @sc = Schedule.new(@sc)
+      end
+    
+      test "é válido com 'e-mail' selecionado e envia e-mail de notificação" do
+        CustomerInvitation.expects(:invite_customer).never
+        assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
+          @sc.save
+        end
+        assert @sc.valid?, "Objeto considerado inválido"
+        assert_equal 1, Sidekiq::Extensions::DelayedMailer.jobs.size, "Mais de um e-mail enviado."
+      end
+
+      test "não envia e-mails com 'e-mail' inválido" do
+        CustomerInvitation.expects(:invite_customer).never
+        CustomerInvitation.expects(:notify_customer).never
+        @sc.email = "asdf"
+        @sc.save
+        assert !@sc.valid?, "Objeto considerado válido"
+        assert_nil last_email, "E-mail enviado"
+      end
+
+      test "não envia e-mails com 'e-mail' vazio" do
+        CustomerInvitation.expects(:invite_customer).never
+        CustomerInvitation.expects(:notify_customer).never
+        @sc.email = ""
+        @sc.save
+        assert @sc.valid?, "Objeto considerado inválido"
+        assert_nil last_email, "E-mail enviado"
+      end
+    end
+
+    describe "com 'customer_id' não refletindo e-mail selecionado" do
+      before do
+        @sc = schedules(:valido_com_cli_info).attributes.except('id')
+        @sc['customer_id'] = customers(:cristiano).attributes['id']
+        @sc = Schedule.new(@sc)
+      end
+
+      test "com e-mail válido (pertencente a cliente cadastrado) envia e-mail de notificação" do
+        CustomerInvitation.expects(:invite_customer).never
+        assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
+          @sc.save
+        end
+        assert @sc.valid?, "Objeto considerado inválido"
+        assert_equal 1, Sidekiq::Extensions::DelayedMailer.jobs.size, "Mais de um e-mail enviado."
+      end
+
+      test "com e-mail válido (pertencente a cliente cadastrado) redefine 'customer_id'" do
+        CustomerInvitation.expects(:invite_customer).never
+        @sc.save
+        assert @sc.valid?, "Objeto considerado inválido"
+        assert_equal @sc.customer_id, schedules(:valido_com_cli_info).customer_id
+        assert_not_equal @sc.customer_id, customers(:cristiano).id
+      end
+
+      test "com e-mail válido, mas não pertencente a cliente algum envia e-mail convite" do
+        CustomerInvitation.expects(:notify_customer).never
+        assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
+          @sc.email = "asdf@test.com.br"
+          @sc.save
+        end
+        assert @sc.valid?, "Objeto considerado inválido"
+        assert_equal 1, Sidekiq::Extensions::DelayedMailer.jobs.size, "Mais de um e-mail enviado."
+      end
+
+      test "com e-mail válido, mas não pertencente a cliente algum limpa 'customer_id'" do
+        CustomerInvitation.expects(:notify_customer).never
+        @sc.email = "asdf@test.com.br"
+        @sc.save
+        assert @sc.valid?, "Objeto considerado inválido"
+        assert_nil @sc.customer_id
+      end
+
+      test "não envia e-mails com 'e-mail' inválido" do
+        CustomerInvitation.expects(:invite_customer).never
+        CustomerInvitation.expects(:notify_customer).never
+        @sc.email = "asdf"
+        @sc.save
+        assert !@sc.valid?, "Objeto considerado válido"
+        assert_nil last_email, "E-mail enviado"
+      end
+
+      test "não envia e-mails com 'e-mail' vazio" do
+        CustomerInvitation.expects(:invite_customer).never
+        CustomerInvitation.expects(:notify_customer).never
+        @sc.email = ""
+        @sc.save
+        assert @sc.valid?, "Objeto considerado inválido"
+        assert_nil last_email, "E-mail enviado"
+      end
+    end
+  end
+
+  describe "Atualização" do
+    describe "com 'customer_id' presente" do
+      before do
+        @sc = schedules(:valido_com_cli_info)
+      end
+
+      test "inválida sem nome, telefone ou e-mail do cliente" do
+        @sc.nome = ""
+        @sc.email = ""
+        @sc.telefone = ""
+        @sc.save
+        assert_not @sc.valid?, "Objeto considerado válido"
+        assert_equal [:base], @sc.errors.keys, "Erro base não adicionado"
+        assert_equal ["Informe Nome e/ou Email e/ou Telefone do cliente"], @sc.errors.messages[:base], "Mensagem de erro não adicionada"
+      end
+
+      test "notifica cliente por e-mail se 'e-mail' for alterado" do
+        CustomerInvitation.expects(:invite_customer).never
+        assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
+          ct = customers(:cristiano)
+          @sc.email = ct.email
+          @sc.customer_id = ct.id
+          @sc.save
+        end
+        assert @sc.valid?, "Objeto considerado inválido"
+        assert_equal 1, Sidekiq::Extensions::DelayedMailer.jobs.size, "Mais de um e-mail enviado."
+      end
+
+      test "envia e-mail de notificação se serviço mudar" do
+        CustomerInvitation.expects(:invite_customer).never
+        assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
+          @sc.service_id = services(:corte_feminino_aline).id
+          @sc.save
+        end
+        assert @sc.valid?, "Objeto considerado inválido"
+        assert_equal 1, Sidekiq::Extensions::DelayedMailer.jobs.size, "Mais de um e-mail enviado."
+      end
+
+      test "envia e-mail de notificação se início mudar" do
+        CustomerInvitation.expects(:invite_customer).never
+        assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
+          @sc.datahora_inicio = @sc.datahora_inicio - 1.day
+          @sc.save
+        end
+        assert @sc.valid?, "Objeto considerado inválido"
+        assert_equal 1, Sidekiq::Extensions::DelayedMailer.jobs.size, "Mais de um e-mail enviado."
+      end
+
+      test "envia e-mail de notificação se fim mudar" do
+        CustomerInvitation.expects(:invite_customer).never
+        assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
+          @sc.datahora_fim = @sc.datahora_fim + 30.days
+          @sc.save
+        end
+        assert @sc.valid?, "Objeto considerado inválido"
+        assert_equal 1, Sidekiq::Extensions::DelayedMailer.jobs.size, "Mais de um e-mail enviado."
+      end
+
+      test "não envia e-mails se apenas nome mudar" do
+        CustomerInvitation.expects(:invite_customer).never
+        CustomerInvitation.expects(:notify_customer).never
+        @sc.nome = "teste"
+        @sc.save
+        assert @sc.valid?, "Objeto considerado inválido"
+        assert_equal 0, Sidekiq::Extensions::DelayedMailer.jobs.size, "E-mail enviado."
+      end
+
+      test "não envia e-mail se apenas telefone mudar" do
+        CustomerInvitation.expects(:invite_customer).never
+        CustomerInvitation.expects(:notify_customer).never
+        @sc.telefone = '(31) 1234-5678'
+        @sc.save
+        assert @sc.valid?, "Objeto considerado inválido"
+        assert_equal 0, Sidekiq::Extensions::DelayedMailer.jobs.size, "E-mail enviado."
+      end
+
+      test "não envia e-mails com 'e-mail' inválido" do
+        CustomerInvitation.expects(:invite_customer).never
+        CustomerInvitation.expects(:notify_customer).never
+        @sc.email = "asdf"
+        @sc.save
+        assert !@sc.valid?, "Objeto considerado válido"
+        assert_nil last_email, "E-mail enviado"
+      end
+
+      test "não envia e-mails com 'e-mail' vazio" do
+        CustomerInvitation.expects(:invite_customer).never
+        CustomerInvitation.expects(:notify_customer).never
+        @sc.email = ""
+        @sc.save
+        assert @sc.valid?, "Objeto considerado inválido"
+        assert_equal 0, Sidekiq::Extensions::DelayedMailer.jobs.size, "E-mail enviado."
+      end
+
+      describe "com e-mail divergente do customer_id" do
+        test "para cliente não cadastrado envia e-mail convite" do
+          CustomerInvitation.expects(:notify_customer).never
+          assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
+            @sc.email = "abc_test@gmail.com"
+            @sc.save
+          end
+          assert @sc.valid?, "Objeto considerado inválido"
+          assert_equal 1, Sidekiq::Extensions::DelayedMailer.jobs.size, "Mais de um e-mail enviado."
+        end
+
+        test "para cliente cadastrado envia e-mail convite" do
+          CustomerInvitation.expects(:invite_customer).never
+          ct = customers(:cristiano)
+          assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
+            @sc.email = ct.email
+            @sc.save
+          end
+          assert @sc.valid?, "Objeto considerado inválido"
+          assert_equal 1, Sidekiq::Extensions::DelayedMailer.jobs.size, "Mais de um e-mail enviado."
+        end
+      end
+
+    end
+  end
+
 end
 
 # == Plano de Teste para Schedules

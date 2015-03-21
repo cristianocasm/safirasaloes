@@ -43,6 +43,10 @@ gem 'annotate', '~> 2.6.5'
 
 gem 'date_validator', '~> 0.7.1'
 
+gem 'fuelux-rails-sass'
+
+gem 'sidekiq'
+
 
 group :test, :development do
   gem 'byebug'

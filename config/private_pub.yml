@@ -7,4 +7,4 @@ test:
 production:
   server: "http://example.com/faye"
   secret_token: "60d46670741544fd7690678604c89bec6d49daabcf40e13d315e8fe155275b10"
-  signature_expiration: 3600 # one hour
+  #signature_expiration: 3600 # one hour

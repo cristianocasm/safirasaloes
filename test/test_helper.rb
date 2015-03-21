@@ -1,3 +1,5 @@
+include Warden::Test::Helpers
+  Warden.test_mode!
 require 'simplecov'
 SimpleCov.start
 ENV["RAILS_ENV"] = "test"
@@ -10,8 +12,7 @@ require "capybara"
 require 'sidekiq/testing'
 
 class ActiveSupport::TestCase
-  include Warden::Test::Helpers
-  Warden.test_mode!
+  
 
   ActiveRecord::Migration.check_pending!
 
@@ -28,6 +29,10 @@ class ActiveSupport::TestCase
     profile = Selenium::WebDriver::Firefox::Profile.new
     profile.native_events = true
     Capybara::Selenium::Driver.new(app, :browser => :firefox, profile: profile)
+  end
+
+  teardown do
+    Warden.test_reset!
   end
 
    #Add more helper methods to be used by all tests here...

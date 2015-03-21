@@ -14,7 +14,7 @@ class ServicesControllerTest < ActionController::TestCase
   test "deve renderizar layout application.html.erb" do
     get :new
     assert_template :new
-    assert_template layout: 'layouts/application'
+    assert_template layout: 'layouts/professional'
   end
 
   test "não pode deletar serviço de outros" do

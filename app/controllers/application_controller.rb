@@ -17,8 +17,11 @@ class ApplicationController < ActionController::Base
   end
 
   def layout_by_resource
-    #devise_controller? && resource_name == :professional ? "login" : "application"
-    devise_controller? && params[:controller] != 'devise/registrations' && params[:action] != "edit" && resource_name == :professional ? "login" : "application"
+    if resource_name == :professional
+      devise_controller? && params[:controller] != 'devise/registrations' && params[:action] != "edit" ? "login" : "professional"
+    elsif resource_name == :customer
+      devise_controller? ? "login" : "customer"
+    end
   end
 
   def flash_errors(obj)
@@ -50,7 +53,11 @@ class ApplicationController < ActionController::Base
   end
 
   def current_resource
-    @resource ||= warden.config[:default_scope]
+    @resource ||= resource_name
     self.send "current_#{@resource}"
+  end
+
+  def resource_name
+    warden.config[:default_scope]
   end
 end

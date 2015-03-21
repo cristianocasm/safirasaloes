@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_professional!, :authorize
   before_filter :configure_permitted_parameters, if: :devise_controller?
   delegate :allow?, :forçar_cadastro_dos_dados_de_contato?, :forcar_cadastro_de_servico?, to: :current_permission
-  helper_method :allow?, :flash_errors
+  helper_method :allow?, :flash_errors, :current_resource
   
   layout :layout_by_resource
 

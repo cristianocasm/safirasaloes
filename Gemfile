@@ -47,6 +47,9 @@ gem 'fuelux-rails-sass'
 
 gem 'sidekiq'
 
+gem 'thin'
+gem 'private_pub'
+
 
 group :test, :development do
   gem 'byebug'

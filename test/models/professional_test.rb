@@ -43,6 +43,8 @@ require 'test_helper'
 class ProfessionalTest < ActiveSupport::TestCase
   should validate_presence_of(:email)
   should have_many(:schedules)
-  should belong_to(:status)
+  should have_many(:rewards)
   should have_many(:services)
+  should have_many(:exchange_orders)
+  should belong_to(:status)
 end

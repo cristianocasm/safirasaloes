@@ -21,6 +21,15 @@ Status.create!([
     dias_vigencia: 60000 }
   ])
 
+OrderStatus.create!([
+  { nome: 'aceita',
+    descricao: 'ordem de troca aceita' },
+  { nome: 'recusada',
+  descricao: 'ordem de troca recusada' },
+  { nome: 'aguardando',
+  descricao: 'aguardando aceitação do profissional'}
+  ])
+
 ####
 
 p = Professional.create!(
@@ -101,17 +110,20 @@ Service.create!([
 Schedule.create!([
   { professional_id: p.id,
     customer_id: c.id,
-    datahora_inicio: DateTime.now,
-    datahora_fim: 1.hour.from_now.to_datetime,
-    service_id: p.services.first.id },
+    datahora_inicio: 1.hour.from_now.to_datetime,
+    datahora_fim: 2.hours.from_now.to_datetime,
+    service_id: p.services.first.id,
+    nome: c.nome },
   { professional_id: p1.id,
     customer_id: c.id,
-    datahora_inicio: DateTime.now,
-    datahora_fim: 1.hour.from_now.to_datetime,
-    service_id: p1.services.first.id },
+    datahora_inicio: 1.hour.from_now.to_datetime,
+    datahora_fim: 2.hours.from_now.to_datetime,
+    service_id: p1.services.first.id,
+    nome: c.nome },
   { professional_id: p2.id,
     customer_id: c.id,
-    datahora_inicio: DateTime.now,
-    datahora_fim: 1.hour.from_now.to_datetime,
-    service_id: p2.services.first.id }
+    datahora_inicio: 1.hour.from_now.to_datetime,
+    datahora_fim: 2.hours.from_now.to_datetime,
+    service_id: p2.services.first.id,
+    nome: c.nome }
   ])

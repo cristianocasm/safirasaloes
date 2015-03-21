@@ -11,6 +11,8 @@
     <%= stylesheet_link_tag   'application', media: 'all' %>
     <%= favicon_link_tag      'favicon.png', rel: "shortcut icon" %>
     <%= csrf_meta_tags %>
+    <%# render "layouts/faye/professional" if current_resource.instance_of? Professional %>
+    <%# render "layouts/faye/customer" if current_resource.instance_of? Customer %>
 
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
@@ -27,5 +29,6 @@
     </div>
     <%= render "layouts/footer" %>
     <%= javascript_include_tag 'application' %>
+    <%= subscribe_to "/messages/private/#{current_professional.id}" %>
   </body>
 </html>

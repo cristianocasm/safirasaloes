@@ -8,5 +8,7 @@
 /config/application.yml
 /coverage
 /doc/
+/config/initializers/faye_token.rb
+/public/assets
 .zeus.sock
 rails_best_practices_output.html

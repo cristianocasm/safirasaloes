@@ -1,0 +1,8 @@
+<script type="text/javascript">
+  // Private channel to receive orders
+  var private_subscription = client.subscribe('/messages/private/<%= current_professional.id %>', function(data) {
+    var numOrdens = parseInt($("#ordens_trocas").text());
+    numOrdens = numOrdens + 1;
+    $("#ordens_trocas").text(numOrdens)
+  });
+</script>

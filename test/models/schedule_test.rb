@@ -21,6 +21,7 @@ class ScheduleTest < ActiveSupport::TestCase
   should belong_to(:professional)
   should belong_to(:customer)
   should belong_to(:service)
+  should have_one(:exchange_order)
   should have_db_column(:recompensa_divulgacao)
   should have_db_column(:nome)
   should have_db_column(:email)

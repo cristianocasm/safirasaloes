@@ -41,6 +41,7 @@
 #= require charts
 #= require jquery-maskmoney.min
 #= require typeahead.bundle
+#= require private_pub
 #= require_tree .
 #= require_self
 

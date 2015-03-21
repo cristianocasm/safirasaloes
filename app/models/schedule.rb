@@ -17,6 +17,7 @@ class Schedule < ActiveRecord::Base
   belongs_to :professional
   belongs_to :customer
   belongs_to :service
+  has_one :exchange_order
 
   validates_presence_of :professional_id, :service_id
   validate :presence_of_customer_info, on: [:create, :update]

@@ -16,7 +16,6 @@ feature "Ordens de Troca" do
 
     @profAline = professionals('aline')
     login_as(@profAline, :scope => :professional)
-    ApplicationController.any_instance.stubs(:resource_name).returns(:professional)
   end
 
   scenario "indicando 0 ordens de troca" do

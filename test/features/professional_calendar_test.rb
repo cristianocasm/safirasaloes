@@ -16,7 +16,6 @@ feature "Calendario" do
 
     @profAline = professionals('aline')
     login_as(@profAline, :scope => :professional)
-    ApplicationController.any_instance.stubs(:resource_name).returns(:professional)
   end
 
   scenario "profissional pode acessar seu calendário", js: true do
@@ -223,7 +222,6 @@ feature "Calendar TypeAhead" do
 
     @profAline = professionals('aline')
     login_as(@profAline, :scope => :professional)
-    ApplicationController.any_instance.stubs(:resource_name).returns(:professional)
 
     @emailLimit = 5
     @telLimit = 7
@@ -298,7 +296,7 @@ feature "Calendar TypeAhead" do
     suggestion_appears?('schedule_telefone', ctDa, :telefone, @telLimit)
   end
 
-  scenario "sistema não carrega no buffer do profissional os dados de clientes atendidos entre [60, 7] dias em outros estabelecimentos", js: true do
+  scenario "sistema não carrega no buffer do profissional os dados de clientes atendidos entre [60, 7] dias em outros estabelecimentos", js: true, focus: true do
     ct = customers(:elano)
 
     Customer.expects(:filter_by_email).

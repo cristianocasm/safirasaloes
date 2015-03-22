@@ -56,4 +56,13 @@ class ApplicationController < ActionController::Base
     @resource ||= resource_name #|| warden.config[:default_scope]
     self.send "current_#{@resource}"
   end
+
+  def resource_name
+    @resource_name ||= 
+      if (request.path =~ /^\/profissional/)
+        :professional
+      elsif (request.path =~ /^\/cliente/)
+        :customer
+      end
+  end
 end

@@ -6,7 +6,6 @@ class SchedulesControllerTest < ActionController::TestCase
   setup do
     @profAline = professionals('aline')
     sign_in :professional, @profAline
-    ApplicationController.any_instance.stubs(:resource_name).returns(:professional)
   end
 
   test "should post get_last_two_months_scheduled_customers" do

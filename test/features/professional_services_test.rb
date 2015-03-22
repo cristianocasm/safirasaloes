@@ -12,7 +12,6 @@ feature "Services" do
 
     profAline = professionals('aline')
     login_as(profAline, :scope => :professional)
-    ApplicationController.any_instance.stubs(:resource_name).returns(:professional)
     visit root_path
     click_link_or_button "servicos"
   end
@@ -70,8 +69,8 @@ feature "Services" do
   end
 
   scenario "pode consultar serviço" do
-    srv = @aline.services_ordered.first
-    click_link "Consultar", href: "/services/#{srv.id}"
+    srv = @aline.services_ordered.second
+    click_link "Consultar", href: service_path(srv.id)
     assert page.has_content?("Consultar Serviço")
     assert page.has_content?(srv.nome)
     assert page.has_content?(number_to_currency(srv.preco))
@@ -80,7 +79,7 @@ feature "Services" do
 
   scenario "edição carrega valores dos campos corretamente serviço" do
     srv = @aline.services_ordered.first
-    click_link "Editar", href: "/services/#{srv.id}/edit"
+    click_link "Editar", href: edit_service_path(srv.id)
     assert page.has_content?("Editar Serviço"), 'Não possui texto "Editar Serviço"'
     assert page.has_xpath?("//input[@id='service_nome' and @value='#{srv.nome}']"), "Não carregou o nome do serviço"
     assert page.has_xpath?("//input[@id='service_preco' and @value='#{'%.2f' % srv.preco}']"), "Não carregou o preço do serviço"

@@ -6,7 +6,6 @@ class ServicesControllerTest < ActionController::TestCase
   setup do
     @aline = professionals(:aline)
     sign_in :professional, @aline
-    ApplicationController.any_instance.stubs(:resource_name).returns(:professional)
     @service = services(:unha_mao_aline)
     @serviceJoao = services(:bigode_joao)
   end

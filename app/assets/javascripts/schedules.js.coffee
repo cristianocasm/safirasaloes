@@ -4,7 +4,7 @@
 jQuery ->
   if $('#calendar').length
     config_callendar()
-    load_events('schedules')
+    load_events('profissional/schedules')
     launch_typeahead()
 
 
@@ -53,7 +53,7 @@ assocPopOver = (event, element, view) ->
   });
 
 createTitle = (event) ->
-  "#{event.title} <a href='/schedules/#{event.id}' data-method='delete' data-remote='true'><i class='fa fa-trash-o'></i></a> <a href='schedules/#{event.id}/edit' data-remote='true'><i class='fa fa-pencil'></i></a>"
+  "#{event.title} <a href='/profissional/schedules/#{event.id}' data-method='delete' data-remote='true'><i class='fa fa-trash-o'></i></a> <a href='/profissional/schedules/#{event.id}/edit' data-remote='true'><i class='fa fa-pencil'></i></a>"
 
 createContent = (event) ->
   "Nome: #{event.nome}<br/>Tel: #{event.telefone}<br/>Email: #{event.email}<br/>Serviço: #{event.service}"
@@ -68,7 +68,7 @@ setPlacement = (event, view) ->
 
 dealChangeEvent = (event, delta, revertFunc) ->
   $.ajax
-    url: "/schedules/#{event.id}",
+    url: "/profissional/schedules/#{event.id}",
     type: 'patch'
     dataType: "json"
     data:
@@ -78,7 +78,6 @@ dealChangeEvent = (event, delta, revertFunc) ->
     success: (data, textStatus, jqXHR) ->
       $('#calendar').fullCalendar('render')
     error: (jqXHR, textStatus, errorThrown) ->
-      console.log textStatus
       $('#calendar').fullCalendar('refetchEvents')
       alert("Um erro inesperado ocorreu e não foi possível atualizar o horário.")
 
@@ -126,6 +125,7 @@ launch_typeahead = ->
   $('#myModal').bind 'hide.bs.modal', ->
     $(this).find('form')[0].reset()
     $("#schedule_customer_id").val("") # Necessário já que hidden inputs não sofrem ação de form.reset()
+
   $('.twitter-typeahead.input-sm').siblings('input.tt-hint').addClass 'hint-small'
   $('.twitter-typeahead.input-lg').siblings('input.tt-hint').addClass 'hint-large'
   $('input.twitter-typeahead').on 'typeahead:selected', (jQueryObj, selectedObj, datasetName) ->
@@ -146,8 +146,6 @@ launch_typeahead = ->
 
     #Look for changes in the value
     elem.bind "propertychange input paste", ->
-      console.log val
-      console.log elem.val()
       #If value has changed...
       if( val != elem.val() )
         val = elem.val()
@@ -167,7 +165,7 @@ new_bloodhound_email = (data) ->
     local: data
     limit: 4
     remote: {
-      url: "customers/filter_by_email?e=%QUERY"
+      url: "profissional/filter_by_email?e=%QUERY"
       wildcard: '%QUERY'
       ajax: method: 'POST'
     }
@@ -183,7 +181,7 @@ new_bloodhound_telefone = (data) ->
     local: data
     limit: 4
     remote: {
-      url: "customers/filter_by_telefone?t=%QUERY"
+      url: "profissional/filter_by_telefone?t=%QUERY"
       wildcard: '%QUERY'
       ajax: method: 'POST'
     }
@@ -207,10 +205,11 @@ new_bloodhound_telefone = (data) ->
 # novamente dentro de 3 meses.
 get_last_two_months_served_customers = (engine) ->
   $.ajax
-    url: "schedules/get_last_two_months_scheduled_customers"
+    url: "/profissional/schedules/get_last_two_months_scheduled_customers"
     type: 'post'
     dataType: 'json'
     success: (data, textStatus, jqXHR) ->
+      console.log(data)
       engine_email = new_bloodhound_email(data)
       engine_email.initialize()
       start_typeahead(engine_email, 'schedule_email', 'email', 6)
@@ -219,7 +218,6 @@ get_last_two_months_served_customers = (engine) ->
       engine_telefone.initialize()
       start_typeahead(engine_telefone, 'schedule_telefone', 'telefone', 8)
     error: (jqXHR, textStatus, errorThrown) ->
-      console.log textStatus
 
 start_typeahead = (engine, elm, key, minLength) ->
   $("input##{elm}").typeahead(

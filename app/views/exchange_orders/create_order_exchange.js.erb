@@ -1,0 +1,8 @@
+<% publish_to "/professional/order_exchanges/#{@professional_id}" do %>
+  var numOrdens = parseInt($("#ordens_trocas").text());
+  numOrdens = numOrdens + 1;
+  $("#ordens_trocas").text(numOrdens)
+<% end %>
+
+<% publish_to "/customer/order_exchanges/#{current_customer.id}" do %>
+<% end %>

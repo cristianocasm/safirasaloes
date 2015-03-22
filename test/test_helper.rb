@@ -9,6 +9,16 @@ require "minitest/reporters"
 require "capybara"
 require 'sidekiq/testing'
 
+# Creates a new thread where thin runs for faye support
+Thread.new do
+  Rack::Handler.
+    get('thin').
+    run(
+      Rack::Builder.parse_file(File.dirname(__FILE__) + '/../private_pub.ru').first,
+      :Port => 9292
+    )
+end
+
 class ActiveSupport::TestCase
   include Warden::Test::Helpers
   Warden.test_mode!

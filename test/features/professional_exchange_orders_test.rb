@@ -23,4 +23,20 @@ feature "Ordens de Troca" do
     assert_equal "0", find("#ordens_trocas").text
   end
 
+  feature "Faye" do
+    scenario "Profissional recebe alerta de nova ordem de troca", js: true do
+      visit root_path
+      click_link "Criar ordem"
+      wait_for_ajax
+      assert_equal "1", find("#ordens_trocas").text
+
+      # Muito lenta
+      # visit root_path
+      # assert_difference('find("#ordens_trocas").text.to_i') do
+      #   click_link "Criar ordem"
+      #   wait_for_ajax
+      # end
+    end
+  end
+
 end

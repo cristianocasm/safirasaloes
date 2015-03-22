@@ -53,7 +53,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_resource
-    @resource ||= resource_name #|| warden.config[:default_scope]
+    @resource ||= resource_name
     self.send "current_#{@resource}"
   end
 

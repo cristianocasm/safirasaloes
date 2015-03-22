@@ -12,6 +12,7 @@ end
 feature "Informações de Contato" do
   before do
     skip("Evitando JS") if metadata[:js] && ENV['js'] == 'false'
+    ApplicationController.any_instance.stubs(:resource_name).returns(:professional)
   end
 
   scenario "Profissional Testando sem Informações de Contato deve ser redirecionado para edição de IC" do

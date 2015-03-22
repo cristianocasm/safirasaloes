@@ -55,7 +55,8 @@ p2.update_attribute(:confirmed_at, 1.day.ago)
 
 c = Customer.create!(
   nome: 'Aline',
-  email: 'cristiano.souza.mendonca+aline@gmail.com'
+  email: 'cristiano.souza.mendonca+aline@gmail.com',
+  password: '123456'
   )
 
 Service.create!([

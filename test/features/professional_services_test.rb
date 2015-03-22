@@ -12,6 +12,7 @@ feature "Services" do
 
     profAline = professionals('aline')
     login_as(profAline, :scope => :professional)
+    ApplicationController.any_instance.stubs(:resource_name).returns(:professional)
     visit root_path
     click_link_or_button "servicos"
   end

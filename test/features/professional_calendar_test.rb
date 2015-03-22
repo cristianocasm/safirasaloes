@@ -16,6 +16,7 @@ feature "Calendario" do
 
     @profAline = professionals('aline')
     login_as(@profAline, :scope => :professional)
+    ApplicationController.any_instance.stubs(:resource_name).returns(:professional)
   end
 
   scenario "profissional pode acessar seu calendário", js: true do
@@ -222,6 +223,7 @@ feature "Calendar TypeAhead" do
 
     @profAline = professionals('aline')
     login_as(@profAline, :scope => :professional)
+    ApplicationController.any_instance.stubs(:resource_name).returns(:professional)
 
     @emailLimit = 5
     @telLimit = 7

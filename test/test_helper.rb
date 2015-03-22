@@ -1,5 +1,3 @@
-include Warden::Test::Helpers
-  Warden.test_mode!
 require 'simplecov'
 SimpleCov.start
 ENV["RAILS_ENV"] = "test"
@@ -12,7 +10,8 @@ require "capybara"
 require 'sidekiq/testing'
 
 class ActiveSupport::TestCase
-  
+  include Warden::Test::Helpers
+  Warden.test_mode!
 
   ActiveRecord::Migration.check_pending!
 

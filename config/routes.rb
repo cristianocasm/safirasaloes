@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :customers
   root       'schedules#new'
   devise_for :professionals, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'senha', confirmation: 'confirmar', unlock: 'desbloquear', sign_up: 'cadastrar' }
   resources  :services

@@ -9,6 +9,7 @@ feature "Alertas" do
     before do
       @pTestando = professionals(:prof_testando_com_contato_e_servicos)
       login_as(@pTestando, :scope => :professional)
+      ApplicationController.any_instance.stubs(:resource_name).returns(:professional)
       visit root_path
     end
 
@@ -45,6 +46,7 @@ feature "Alertas" do
     before do
       @pBloqueado = professionals(:prof_bloqueado)
       login_as(@pBloqueado, :scope => :professional)
+      ApplicationController.any_instance.stubs(:resource_name).returns(:professional)
       visit root_path
     end
   
@@ -97,6 +99,7 @@ feature "Alertas" do
     before do
       @pSuspenso = professionals(:prof_suspenso)
       login_as(@pSuspenso, :scope => :professional)
+      ApplicationController.any_instance.stubs(:resource_name).returns(:professional)
       visit root_path
     end
 
@@ -115,6 +118,7 @@ feature "Alertas" do
     before do
       @pAssinante = professionals(:prof_assinante_com_contato_e_servicos)
       login_as(@pAssinante, :scope => :professional)
+      ApplicationController.any_instance.stubs(:resource_name).returns(:professional)
       visit root_path
     end
 

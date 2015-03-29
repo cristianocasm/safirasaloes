@@ -15,12 +15,68 @@
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-sch_cristiano:
+sch_cristiano_com_aline:
   professional: aline
   customer: cristiano
   service: corte_masculino_aline
-  datahora_inicio: <%= DateTime.now %>
-  datahora_fim: <%= Time.zone.now + 1.hour %>
+  datahora_inicio: <%= 1.hour.from_now %>
+  datahora_fim: <%= 2.hours.from_now %>
+  recompensa_divulgacao: 10
+  exchange_order_status: inexistente
+
+sch_cristiano_com_aline2:
+  professional: aline
+  customer: cristiano
+  service: corte_feminino_aline
+  datahora_inicio: <%= 1.day.ago %>
+  datahora_fim: <%= 1.day.ago + 3.hours %>
+  recompensa_divulgacao: 11
+  exchange_order_status: inexistente
+
+sch_cristiano_com_joao:
+  professional: joao
+  customer: cristiano
+  service: barba_joao
+  datahora_inicio: <%= 7.days.ago + 2.hours %>
+  datahora_fim: <%= 7.days.ago + 4.hours %>
+  recompensa_divulgacao: 15
+  exchange_order_status: inexistente
+
+sch_cristiano_com_joao2:
+  professional: joao
+  customer: cristiano
+  service: bigode_joao
+  datahora_inicio: <%= 8.days.from_now + 3.hours %>
+  datahora_fim: <%= 8.days.from_now + 5.hours %>
+  recompensa_divulgacao: 17
+  exchange_order_status: inexistente
+
+sch_ordem_criada_cristiano_com_joao:
+  professional: joao
+  customer: cristiano
+  service: unha_joao
+  datahora_inicio: <%= 8.days.from_now + 6.hours %>
+  datahora_fim: <%= 8.days.from_now + 7.hours %>
+  recompensa_divulgacao: 21
+  exchange_order_status: aguardando
+
+sch_cristiano_com_joao3:
+  professional: joao
+  customer: cristiano
+  service: cabelo_joao
+  datahora_inicio: <%= 3.days.ago + 4.hours %>
+  datahora_fim: <%= 3.days.ago + 5.hours %>
+  recompensa_divulgacao: 16
+  exchange_order_status: inexistente
+
+sch_cristiano_com_prof_testando:
+  professional: prof_assinante_com_contato_e_servicos
+  customer: cristiano
+  service: bigode_prof_assinante_com_contato_e_servicos
+  datahora_inicio: <%= 3.days.ago + 5.hours %>
+  datahora_fim: <%= 3.days.ago + 6.hours %>
+  recompensa_divulgacao: 18
+  exchange_order_status: inexistente
 
 sch_sonia:
   professional: aline
@@ -28,6 +84,7 @@ sch_sonia:
   service: unha_mao_e_pe_aline
   datahora_inicio: <%= Time.zone.now + 1.hour %>
   datahora_fim: <%= Time.zone.now + 2.hours %>
+  exchange_order_status: inexistente
 
 sch_abilio1:
   professional: aline
@@ -38,6 +95,7 @@ sch_abilio1:
   nome: Abilio
   email: aaa@bol.com.br
   telefone: (11) 1111-1111
+  exchange_order_status: inexistente
 
 sch_bruno1:
   professional: aline
@@ -48,6 +106,7 @@ sch_bruno1:
   nome: Bruno
   email: bbb@hotmail.com
   telefone: (22) 2222-2222
+  exchange_order_status: inexistente
 
 sch_cesar1:
   professional: aline
@@ -58,6 +117,7 @@ sch_cesar1:
   nome: Cesar
   email: ccc@gmail.com
   telefone: (33) 3333-3333
+  exchange_order_status: inexistente
 
 sch_cesar2:
   professional: aline
@@ -68,6 +128,7 @@ sch_cesar2:
   nome: Cesar
   email: ccc@gmail.com
   telefone: (33) 3333-3333
+  exchange_order_status: inexistente
 
 sch_daniel1:
   professional: aline
@@ -78,6 +139,7 @@ sch_daniel1:
   nome: Daniel
   email: ddd@yahoo.com.br
   telefone: (44) 4444-4444
+  exchange_order_status: inexistente
 
 sch_elano1:
   professional: joao
@@ -88,12 +150,14 @@ sch_elano1:
   nome: Elano
   email: eee@yahoo.com.br
   telefone: (55) 5555-5555
+  exchange_order_status: inexistente
 
 invalido_sem_cli_info:
   professional: aline
   service: corte_feminino_aline
   datahora_inicio: <%= 3.days.from_now %>
   datahora_fim: <%= 3.days.from_now + 1.hour %>
+  exchange_order_status: inexistente
 
 valido_com_cli_info:
   professional: aline
@@ -104,3 +168,4 @@ valido_com_cli_info:
   nome: Cesar
   email: ccc@gmail.com
   telefone: (33) 3333-3333
+  exchange_order_status: inexistente

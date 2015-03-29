@@ -1,11 +1,16 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  professional_id: 1
-  customer_id: 1
-  safiras: 1
+cristiano_aline:
+  professional: aline
+  customer: cristiano
+  total_safiras: 10
 
-two:
-  professional_id: 1
-  customer_id: 1
-  safiras: 1
+cristiano_joao:
+  professional: joao
+  customer: cristiano
+  total_safiras: 31
+
+abilio_joao:
+  professional: joao
+  customer: abilio
+  total_safiras: 5

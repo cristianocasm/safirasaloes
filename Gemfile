@@ -50,6 +50,8 @@ gem 'sidekiq'
 gem 'thin'
 gem 'private_pub'
 
+gem "bullet", :group => "development"
+
 
 group :test, :development do
   gem 'byebug'

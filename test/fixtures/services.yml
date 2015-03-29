@@ -18,7 +18,7 @@
 #Serviços Aline
 corte_masculino_aline:
   nome: Corte Masculino
-  preco: 25.00
+  preco: 30.00
   professional: aline
   recompensa_divulgacao: 10
 
@@ -29,20 +29,20 @@ corte_feminino_aline:
   recompensa_divulgacao: 11
 
 unha_mao_aline:
-  nome: Unha Mão
+  nome: Unha Mãos
   preco: 10.00
   professional: aline
   recompensa_divulgacao: 12
 
 unha_pe_aline:
   nome: Unha pé
-  preco: 10.00
+  preco: 15.00
   professional: aline
   recompensa_divulgacao: 13
 
 unha_mao_e_pe_aline:
   nome: Unha Mão e Pé
-  preco: 15.00
+  preco: 20.00
   professional: aline
   recompensa_divulgacao: 14
 
@@ -55,7 +55,7 @@ barba_joao:
 
 cabelo_joao:
   nome: Cabelo
-  preco: 20.00
+  preco: 25.00
   professional: joao
   recompensa_divulgacao: 16
 
@@ -65,15 +65,20 @@ bigode_joao:
   professional: joao
   recompensa_divulgacao: 17
 
+unha_joao:
+  nome: Unhas
+  preco: 13.00
+  professional: joao
+  recompensa_divulgacao: 21
+
 bigode_prof_testando:
   nome: Bigode
   preco: 8.00
   professional: prof_testando_com_contato_e_servicos
-  recompensa_divulgacao: 17
+  recompensa_divulgacao: 18
 
-bigode_prof_assinante:
-  nome: Bigode
-  preco: 8.00
+bigode_prof_assinante_com_contato_e_servicos:
+  nome: Bigodão
+  preco: 60.00
   professional: prof_assinante_com_contato_e_servicos
-  recompensa_divulgacao: 17
-
+  recompensa_divulgacao: 19

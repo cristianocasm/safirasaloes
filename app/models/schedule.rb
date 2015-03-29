@@ -17,7 +17,8 @@ class Schedule < ActiveRecord::Base
   belongs_to :professional
   belongs_to :customer
   belongs_to :service
-  has_one :exchange_order
+  belongs_to :exchange_order_status
+  has_one :photo_log
 
   validates_presence_of :professional_id, :service_id
   validate :presence_of_customer_info, on: [:create, :update]
@@ -25,6 +26,7 @@ class Schedule < ActiveRecord::Base
   validates :datahora_inicio, date: true, presence: true, date: { after_or_equal_to: Proc.new { DateTime.now } }, on: [:create, :update]
   validates :datahora_fim, date: true, date: { after: Proc.new { :datahora_inicio } }, on: [:create, :update]
 
+  before_create :set_defaults
   after_create :send_email_notification, if: Proc.new { |sc| sc.email.present? }
   after_update :send_email_notification, if: Proc.new { |sc| sc.email.present? && (sc.email_changed? || sc.service_id_changed? || sc.datahora_inicio_changed? || sc.datahora_fim_changed?) }
 
@@ -34,7 +36,16 @@ class Schedule < ActiveRecord::Base
                                                                   where(datahora_inicio: 60.days.ago .. 7.days.ago)
                                                                 }
 
+  scope :in_the_future, -> { where("datahora_fim > ?", DateTime.now) }
+  scope :exchangeOrderWaitingCount, -> { where(exchange_order_status: ExchangeOrderStatus.find_by_nome('aguardando')).size }
+  scope :safiras_resgatadas, -> { where(exchange_order_status: ExchangeOrderStatus.find_by_nome("aceita").id).sum(:recompensa_divulgacao) }
+
   private
+
+  def set_defaults
+    self.exchange_order_status_id = ExchangeOrderStatus.find_by_nome('inexistente').id
+    self.recompensa_divulgacao = self.service.recompensa_divulgacao
+  end
 
   def presence_of_customer_info
     if(nome.blank? && email.blank? && telefone.blank?)

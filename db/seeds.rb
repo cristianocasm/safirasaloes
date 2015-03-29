@@ -21,7 +21,9 @@ Status.create!([
     dias_vigencia: 60000 }
   ])
 
-OrderStatus.create!([
+ExchangeOrderStatus.create!([
+  { nome: 'inexistente',
+    descricao: 'ainda não criada' },
   { nome: 'aceita',
     descricao: 'ordem de troca aceita' },
   { nome: 'recusada',
@@ -58,6 +60,8 @@ c = Customer.create!(
   email: 'cristiano.souza.mendonca+aline@gmail.com',
   password: '123456'
   )
+
+c.update_attribute(:confirmed_at, 1.day.ago)
 
 Service.create!([
   { nome: 'Corte Masculino',
@@ -114,17 +118,5 @@ Schedule.create!([
     datahora_inicio: 1.hour.from_now.to_datetime,
     datahora_fim: 2.hours.from_now.to_datetime,
     service_id: p.services.first.id,
-    nome: c.nome },
-  { professional_id: p1.id,
-    customer_id: c.id,
-    datahora_inicio: 1.hour.from_now.to_datetime,
-    datahora_fim: 2.hours.from_now.to_datetime,
-    service_id: p1.services.first.id,
-    nome: c.nome },
-  { professional_id: p2.id,
-    customer_id: c.id,
-    datahora_inicio: 1.hour.from_now.to_datetime,
-    datahora_fim: 2.hours.from_now.to_datetime,
-    service_id: p2.services.first.id,
     nome: c.nome }
   ])

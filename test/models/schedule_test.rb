@@ -21,7 +21,8 @@ class ScheduleTest < ActiveSupport::TestCase
   should belong_to(:professional)
   should belong_to(:customer)
   should belong_to(:service)
-  should have_one(:exchange_order)
+  should belong_to(:exchange_order_status)
+  should have_one(:photo_log)
   should have_db_column(:recompensa_divulgacao)
   should have_db_column(:nome)
   should have_db_column(:email)
@@ -42,11 +43,22 @@ class ScheduleTest < ActiveSupport::TestCase
       assert_equal [:base], sc.errors.keys
       assert_equal ["Informe Nome e/ou Email e/ou Telefone do cliente"], sc.errors.messages[:base]
     end
+
     
     describe "com 'customer_id' presente" do
       before do
         @sc = schedules(:valido_com_cli_info).attributes.except('id')
         @sc = Schedule.new(@sc)
+      end
+
+      test "define 'exchange_order_status' como inexistente" do
+        @sc.save
+        assert_equal exchange_order_statuses(:inexistente).nome, @sc.exchange_order_status.nome, 'exchange_order_status não definido como inexistente na criação'
+      end
+
+      test "define 'recompensa_divulgacao' como service.recompensa" do
+        @sc.save
+        assert_equal @sc.service.recompensa_divulgacao, @sc.recompensa_divulgacao, 'Não definindo recompensa_divulgacao'
       end
     
       test "é válido com 'e-mail' selecionado e envia e-mail de notificação" do

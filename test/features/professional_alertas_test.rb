@@ -10,11 +10,11 @@ feature "Alertas" do
     before do
       @pTestando = professionals(:prof_testando_com_contato_e_servicos)
       login_as(@pTestando, :scope => :professional)
-      visit root_path
+      visit professional_root_path
     end
 
     scenario "Deve ver mensagem de alerta" do
-      assert_equal root_path, page.current_path
+      assert_equal professional_root_path, page.current_path
       assert page.has_css?("div.alert-warning", text: "Seu período de testes finaliza no dia #{@pTestando.data_expiracao_status.strftime('%d/%m/%Y')}. Clique aqui e torne-se Premium.")
       assert page.has_css?("#sidebar"), "Não consegue visualizar sidebar"
       assert page.has_css?("#main_content"), "Não consegue visualizar conteúdo principal"
@@ -30,11 +30,11 @@ feature "Alertas" do
     before do
       @pBloqueado = professionals(:prof_bloqueado)
       login_as(@pBloqueado, :scope => :professional)
-      visit root_path
+      visit professional_root_path
     end
   
     scenario "deve ver mensagem de alerta" do
-      assert_equal root_path, page.current_path
+      assert_equal professional_root_path, page.current_path
       assert page.has_css?("div.alert-warning", text: "Seu período de testes acabou. Clique aqui para tornar-se Premium e habilitar todas as funcionalidades. Atenção! Seu cadastro será suspenso no dia #{@pBloqueado.data_expiracao_status.strftime('%d/%m/%Y')} e você não terá mais acesso ao sistema. Clique aqui para tornar-se Premium e habilitar todas as funcionalidades")
       assert page.has_css?("#sidebar"), "Não consegue visualizar sidebar"
       assert page.has_css?("#main_content"), "Não consegue visualizar conteúdo principal"
@@ -55,7 +55,7 @@ feature "Alertas" do
 
     scenario "não pode acessar serviços" do
       click_link "Serviços"
-      assert_equal page. current_path, root_path
+      assert_equal page. current_path, professional_root_path
     end
 
   end
@@ -64,11 +64,11 @@ feature "Alertas" do
     before do
       @pSuspenso = professionals(:prof_suspenso)
       login_as(@pSuspenso, :scope => :professional)
-      visit root_path
+      visit professional_root_path
     end
 
     scenario "deve ser incapaz de visualizar qualquer funcionalidade do sistema" do
-      assert_equal root_path, page.current_path
+      assert_equal professional_root_path, page.current_path
       assert page.has_no_css?("#sidebar"), "Não consegue visualizar sidebar"
       assert page.has_no_css?("#main_content"), "Consegue visualizar conteúdo principal"
     end
@@ -82,11 +82,11 @@ feature "Alertas" do
     before do
       @pAssinante = professionals(:prof_assinante_com_contato_e_servicos)
       login_as(@pAssinante, :scope => :professional)
-      visit root_path
+      visit professional_root_path
     end
 
     scenario "não deve ver mensagens de alerta" do
-      assert_equal root_path, page.current_path
+      assert_equal professional_root_path, page.current_path
       assert page.has_no_css?("div.alert-warning")
       assert page.has_css?("#sidebar"), "Não consegue visualizar sidebar"
       assert page.has_css?("#main_content"), "Não consegue visualizar conteúdo principal"

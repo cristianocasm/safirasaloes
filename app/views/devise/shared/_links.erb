@@ -10,8 +10,6 @@
   <%= link_to "Esqueceu a senha?", new_password_path(resource_name) %><br />
 <% end -%>
 
-  <%= link_to "Não é um #{label_name}?", send("new_#{toggle_resource_name}_session_path") %> <br />
-
 <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
   <%= link_to "Não recebeu as instruções para confirmação?", new_confirmation_path(resource_name) %><br />
 <% end -%>

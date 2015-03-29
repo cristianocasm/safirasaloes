@@ -11,8 +11,6 @@
     <%= stylesheet_link_tag   'application', media: 'all' %>
     <%= favicon_link_tag      'favicon.png', rel: "shortcut icon" %>
     <%= csrf_meta_tags %>
-    <%# render "layouts/faye/professional" if current_resource.instance_of? Professional %>
-    <%# render "layouts/faye/customer" if current_resource.instance_of? Customer %>
 
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
@@ -20,15 +18,15 @@
   </head>
 
   <body>
-    <%= render "layouts/main_header" %>
-    <%= render "layouts/secondary_header" %>
+    <%= render "layouts/professional/main_header" %>
+    <%= render "layouts/professional/secondary_header" %>
     <div class="content">
-      <%= render "layouts/sidebar" unless current_professional.suspenso? %>
+      <%= render "layouts/professional/sidebar" unless current_professional.suspenso? %>
       <%= yield :modals unless current_professional.suspenso? || current_professional.bloqueado? %>
-      <%= render "layouts/main_content" unless current_professional.suspenso? %>
+      <%= render "layouts/professional/main_content" unless current_professional.suspenso? %>
     </div>
-    <%= render "layouts/footer" %>
+    <%= render "layouts/professional/footer" %>
     <%= javascript_include_tag 'application' %>
-    <%= subscribe_to "/order_exchanges/#{current_professional.id}" %>
+    <%= subscribe_to "/professional/order_exchanges/#{current_professional.id}" %>
   </body>
 </html>

@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_filter :authenticate_professional!, :authorize
+  before_filter :authenticate!, :authorize
   before_filter :configure_permitted_parameters, if: :devise_controller?
   delegate :allow?, :forçar_cadastro_dos_dados_de_contato?, :forcar_cadastro_de_servico?, to: :current_permission
   helper_method :allow?, :flash_errors, :current_resource
@@ -17,10 +17,12 @@ class ApplicationController < ActionController::Base
   end
 
   def layout_by_resource
-    if resource_name == :professional
-      devise_controller? && params[:controller] != 'devise/registrations' && params[:action] != "edit" ? "login" : "professional"
+    if devise_controller? && ( params[:controller] != 'devise/registrations' || params[:action] != "edit" )
+      "login"
+    elsif resource_name == :professional
+       "professional/professional"
     elsif resource_name == :customer
-      devise_controller? ? "login" : "customer"
+      "customer/customer"
     end
   end
 
@@ -33,6 +35,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def authenticate!
+    self.send "authenticate_#{resource_name}!"
+  end
 
   def current_permission
     @current_permission ||= Permission.new(current_resource)
@@ -48,7 +54,13 @@ class ApplicationController < ActionController::Base
     end
     
     if !allow?(params[:controller], params[:action])
-      redirect_to root_url, alert: "Não autorizado."
+      if current_resource.instance_of? Professional
+        redirect_to professional_root_url, alert: "Não autorizado."
+      elsif current_resource.instance_of? Customer
+        redirect_to customer_root_url, alert: "Não autorizado."
+      else
+        redirect_to root_url, alert: "Não autorizado."
+      end
     end
   end
 

@@ -15,10 +15,15 @@ class Customer < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
          :validatable, :confirmable
-  has_many :schedules
   has_many :rewards
-  has_many :exchange_orders
+  has_many :photo_logs
+  has_many :schedules
+  has_many :professionals, through: :schedules
 
   scope :filter_by_email, -> (query) { select(:id, :nome, :email, :telefone).where("email LIKE '%#{query}%'") }
   scope :filter_by_telefone, -> (query) { select(:id, :nome, :email, :telefone).where("telefone LIKE '%#{query}%'") }
+
+  def safiras
+    self.rewards.sum(:total_safiras)
+  end
 end

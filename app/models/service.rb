@@ -21,13 +21,19 @@ class Service < ActiveRecord::Base
   validates_numericality_of :preco, greater_than: 0
   
   has_many :schedules
+  has_many :photo_logs
   belongs_to :professional
 
+  before_save :set_defaults
   before_destroy :ensure_future_schedule_inexistence
 
   private
 
   def ensure_future_schedule_inexistence
     self.schedules.where("schedules.datahora_inicio >= ?", DateTime.now).blank?
+  end
+
+  def set_defaults
+    self.recompensa_divulgacao ||= 0
   end
 end

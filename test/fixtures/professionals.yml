@@ -55,6 +55,7 @@ aline:
   status: assinante
   data_expiracao_status: <%= 7.days.from_now %>
   contato_definido: true
+  encrypted_password: <%= Devise.bcrypt(Customer, 'password') %>
 
 joao:
   nome: João

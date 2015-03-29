@@ -5,4 +5,6 @@
 <% end %>
 
 <% publish_to "/customer/order_exchanges/#{current_customer.id}" do %>
+  $("div.service-scheduled > div:nth-child(2) > a.btn-warning:not([disabled])[href='<%= create_exchange_order_path(exchange_order: { schedule_id: @sc.id }) %>']").attr('disabled', 'disabled');
+  $("#myModal").modal('show');
 <% end %>

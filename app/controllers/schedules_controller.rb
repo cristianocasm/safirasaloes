@@ -18,7 +18,6 @@ class SchedulesController < ApplicationController
   # GET /schedules/new
   def new
     @schedule = Schedule.new
-    @ctms = Schedule.get_last_two_months_scheduled_customers(current_professional.id)
   end
 
   # GET /schedules/1/edit
@@ -68,6 +67,31 @@ class SchedulesController < ApplicationController
     end
   end
 
+  # Methods for ExchangeOrder
+  def new_exchange_order
+    @schedules = current_customer.schedules.includes(:service).in_the_future
+    @professionals = current_customer.professionals.includes(:services).distinct
+  end
+
+  def create_exchange_order
+    @sc = current_customer.schedules.includes(:service, :professional).find_by_id(exchange_order_params[:schedule_id]) # verificar se está no futuro tbm
+    respond_to do |format|
+      if @sc.present?
+        preco = @sc.service.preco
+        reward = current_customer.rewards.where(professional: @sc.professional)
+        if reward.present? && reward.first.total_safiras > preco
+          @sc.update_attribute(:exchange_order_status_id, ExchangeOrderStatus.find_by_nome('aguardando').id)
+          @professional_id = @sc.professional.id
+          format.js { render 'create_exchange_order' }
+        else
+          #retorna erro
+        end
+      else
+        #retorna erro
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_schedule
@@ -80,6 +104,10 @@ class SchedulesController < ApplicationController
       data = data.permit(:id, :customer_id, :service_id, :nome, :email, :telefone, :datahora_inicio, :datahora_fim, :observacao)
       data.merge!(professional_id: current_professional.id)
       data.merge!(recompensa_divulgacao: Service.find_by_id(params[:schedule][:service_id]).try(:recompensa_divulgacao))
+    end
+
+    def exchange_order_params
+      params.require(:exchange_order).permit(:schedule_id)
     end
 
 end

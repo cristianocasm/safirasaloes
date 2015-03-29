@@ -1,16 +1,25 @@
-<h2>Altere sua senha</h2>
+<%= content_for :titulo, 'Alterar senha' %>
 
-<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= devise_error_messages! %>
+<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put, class: 'form-horizontal' }) do |f| %>
+  
   <%= f.hidden_field :reset_password_token %>
 
-  <div><%= f.label :senha, "Nova senha" %><br />
-  <%= f.password_field :password, :autofocus => true %></div>
+  <div class="form-group">
+    <label class="control-label col-lg-3" for="inputEmail">Nova Senha</label>
+    <div class="col-lg-9">
+      <%= f.password_field :password, class: "form-control", autofocus: true, placeholder: "Nova senha" %></div>
+    </div>
+  </div>
 
-  <div><%= f.label 'Confirmação de Senha', "Confirme a nova senha" %><br />
-  <%= f.password_field :password_confirmation %></div>
+  <div class="form-group">
+    <label class="control-label col-lg-3" for="inputEmail">Confirme a nova senha</label>
+    <div class="col-lg-9">
+      <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirme a nova senha" %></div>
+    </div>
+  </div>
 
-  <div><%= f.submit "Altere minha senha" %></div>
+  <div class="col-lg-9 col-lg-offset-3">
+    <%= f.submit 'Alterar senha',  class: "btn btn-info btn-sm" %>
+  </div>
+  <br />
 <% end %>
-
-<%= render "devise/shared/links" %>

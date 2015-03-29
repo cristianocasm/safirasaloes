@@ -49,7 +49,7 @@ class Professional < ActiveRecord::Base
   has_many :schedules
   has_many :services
   has_many :rewards
-  has_many :exchange_orders
+  has_many :photo_logs
 
   before_create :create_hashtag, :define_status
   validates_presence_of :nome, on: :update
@@ -84,7 +84,7 @@ class Professional < ActiveRecord::Base
   end
 
   def schedules_to_calendar(start, hend)
-    scs = self.schedules.where(updated_at: start..hend)
+    scs = self.schedules.where(updated_at: start..hend).includes(:service)
     transform(scs)
   end
 

@@ -12,7 +12,7 @@ feature "Services" do
 
     profAline = professionals('aline')
     login_as(profAline, :scope => :professional)
-    visit root_path
+    visit professional_root_path
     click_link_or_button "servicos"
   end
 
@@ -54,7 +54,7 @@ feature "Services" do
   end
 
   scenario "exibe lista de serviços de aline" do
-    visit root_path
+    visit professional_root_path
     click_link "Serviços"
     
     @aline.services.each do |svc|

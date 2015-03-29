@@ -1,0 +1,24 @@
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-dropdown"><a href="#">Navegação</a></div>
+
+    <!--- Sidebar navigation -->
+    <!-- If the main navigation has sub navigation, then add the class "has_sub" to "li" of main navigation. -->
+    <ul id="nav">
+      <!-- Main menu with font awesome icon -->
+      <li>
+        <%= link_to(customer_root_path, id: 'envio_fotos') do %>
+          <i class="fa fa-camera"></i> Enviar Fotos
+        <% end %>
+      </li>
+      <li>
+        <%= link_to(new_exchange_order_path, id: 'solicitar_troca') do %>
+          <i class="fa fa-exchange"></i> Trocar Safiras
+        <% end %>
+      </li>
+      <li>
+        <%= link_to(edit_customer_registration_path) do %>
+          <i class="fa fa-cogs"></i> Configurações
+        <% end %>
+      </li>
+    </ul>
+</div>

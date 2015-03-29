@@ -14,6 +14,8 @@ require 'test_helper'
 class CustomerTest < ActiveSupport::TestCase
   should have_many(:schedules)
   should have_many(:rewards)
-  should have_many(:exchange_orders)
+  should have_many(:photo_logs)
+  should have_many(:professionals).through(:schedules)
+  should_not have_many(:exchange_orders)
   should have_db_column(:telefone)
 end

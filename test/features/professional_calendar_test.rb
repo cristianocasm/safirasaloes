@@ -19,14 +19,14 @@ feature "Calendario" do
   end
 
   scenario "profissional pode acessar seu calendário", js: true do
-    visit root_path
+    visit professional_root_path
     assert page.has_css?('#calendar'), 'Agenda não está sendo exibida'
   end
 
   scenario "profissional pode criar horário", js: true do
     oneHourAhead = 4.hours.from_now
     twoHoursAhead = 5.hours.from_now
-    visit root_path
+    visit professional_root_path
     find('.fc-agendaWeek-button').click
     execute_script("
       $('#calendar').fullCalendar(
@@ -49,7 +49,7 @@ feature "Calendario" do
   scenario "profissional pode encontrar customer por nome, e-mail e telefone", js: true do
     oneHourAhead = 4.hours.from_now
     twoHoursAhead = 5.hours.from_now
-    visit root_path
+    visit professional_root_path
     find('.fc-agendaWeek-button').click
     execute_script("
       $('#calendar').fullCalendar(
@@ -70,7 +70,7 @@ feature "Calendario" do
     oneHourAhead = 4.hours.ago
     twoHoursAhead = 5.hours.from_now
 
-    visit root_path
+    visit professional_root_path
     find('.fc-agendaWeek-button').click
     execute_script("
       $('#calendar').fullCalendar(
@@ -95,7 +95,7 @@ feature "Calendario" do
     oneHourAhead = 4.hours.from_now
     twoHoursAhead = 5.hours.from_now
 
-    visit root_path
+    visit professional_root_path
     find('.fc-agendaWeek-button').click
     execute_script("
       $('#calendar').fullCalendar(
@@ -120,7 +120,7 @@ feature "Calendario" do
     oneHourAhead = 5.hours.from_now
     twoHoursAhead = oneHourAhead
 
-    visit root_path
+    visit professional_root_path
     find('.fc-agendaWeek-button').click
     execute_script("
       $('#calendar').fullCalendar(
@@ -144,7 +144,7 @@ feature "Calendario" do
     oneHourAhead = 5.hours.from_now
     twoHoursAhead = 6.hours.from_now
 
-    visit root_path
+    visit professional_root_path
     find('.fc-agendaWeek-button').click
     execute_script("
       $('#calendar').fullCalendar(
@@ -170,7 +170,7 @@ feature "Calendario" do
     oneHourAhead = 5.hours.from_now
     twoHoursAhead = 6.hours.from_now
 
-    visit root_path
+    visit professional_root_path
     find('.fc-agendaWeek-button').click
     execute_script("
       $('#calendar').fullCalendar(
@@ -197,7 +197,7 @@ def open_schedule_form
   oneHourAhead = 1.hours.from_now
   twoHoursAhead = 2.hours.from_now
 
-  visit root_path
+  visit professional_root_path
   find('.fc-agendaWeek-button').click
   execute_script("
     $('#calendar').fullCalendar(
@@ -369,7 +369,7 @@ feature "Calendar TypeAhead" do
     oneHourAhead = 4.hours.ago
     twoHoursAhead = 5.hours.from_now
 
-    visit root_path
+    visit professional_root_path
     find('.fc-agendaWeek-button').click
     execute_script("
       $('#calendar').fullCalendar(

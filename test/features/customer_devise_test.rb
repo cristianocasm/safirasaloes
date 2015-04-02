@@ -6,9 +6,9 @@ feature "Customer com Devise" do
     visit new_customer_session_path
   end
 
-  scenario "pode logar-se no sistema" do
-    fill_in 'customer_email', with: @customer.email
-    fill_in 'customer_password', with: 'password'
+  scenario "pode logar-se no sistema", js: true do
+    fill_in 'professional_email', with: @customer.email
+    fill_in 'professional_password', with: 'password'
     click_button 'Entrar'
     assert_equal customer_root_path, page.current_path
   end

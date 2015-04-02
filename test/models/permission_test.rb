@@ -28,12 +28,19 @@ class PermissionTest < ActiveSupport::TestCase
       assert deslogado.allow?("devise/passwords", "create"), "Profissional(deslogado) - devise/passwords#create - problemas na validação de permissão"
       assert deslogado.allow?("devise/passwords", "edit"), "Profissional(deslogado) - devise/passwords#edit - problemas na validação de permissão"
       
-      assert deslogado.allow?("devise/registrations", "create"), "Profissional(deslogado) - devise/registrations#create - problemas na validação de permissão"
-      assert deslogado.allow?("devise/registrations", "new"), "Profissional(deslogado) - devise/registrations#new - problemas na validação de permissão"
-      assert deslogado.allow?("devise/registrations", "edit"), "Profissional(deslogado) - devise/registrations#edit - problemas na validação de permissão"
-      assert deslogado.allow?("devise/registrations", "update"), "Profissional(deslogado) - devise/registrations#update - problemas na validação de permissão"
+      assert_not deslogado.allow?("devise/registrations", "create"), "Profissional(deslogado) - devise/registrations#create - problemas na validação de permissão"
+      assert_not deslogado.allow?("devise/registrations", "new"), "Profissional(deslogado) - devise/registrations#new - problemas na validação de permissão"
+      assert_not deslogado.allow?("devise/registrations", "edit"), "Profissional(deslogado) - devise/registrations#edit - problemas na validação de permissão"
+      assert_not deslogado.allow?("devise/registrations", "update"), "Profissional(deslogado) - devise/registrations#update - problemas na validação de permissão"
       assert_not deslogado.allow?("devise/registrations", "cancel"), "Profissional(deslogado) - devise/registrations#cancel - problemas na validação de permissão"
       assert_not deslogado.allow?("devise/registrations", "destroy"), "Profissional(deslogado) - devise/registrations#destroy - problemas na validação de permissão"
+
+      assert deslogado.allow?("registrations", "create"), "Profissional(deslogado) - registrations#create - problemas na validação de permissão"
+      assert deslogado.allow?("registrations", "new"), "Profissional(deslogado) - registrations#new - problemas na validação de permissão"
+      assert_not deslogado.allow?("registrations", "edit"), "Profissional(deslogado) - registrations#edit - problemas na validação de permissão"
+      assert_not deslogado.allow?("registrations", "update"), "Profissional(deslogado) - registrations#update - problemas na validação de permissão"
+      assert_not deslogado.allow?("registrations", "cancel"), "Profissional(deslogado) - registrations#cancel - problemas na validação de permissão"
+      assert_not deslogado.allow?("registrations", "destroy"), "Profissional(deslogado) - registrations#destroy - problemas na validação de permissão"
 
       assert_not deslogado.allow?("schedules", "new"), "Profissional(deslogado) - schedules#new - problemas na validação de permissão"
       assert_not deslogado.allow?("schedules", "update"), "Profissional(deslogado) - schedules#update - problemas na validação de permissão"
@@ -140,12 +147,19 @@ class PermissionTest < ActiveSupport::TestCase
       assert _testando.allow?("devise/confirmations", "create"), "Profissional(testando) - devise/confirmations#create - problemas na validação de permissão"
       assert _testando.allow?("devise/confirmations", "show"), "Profissional(testando) - devise/confirmations#show - problemas na validação de permissão"
 
-      assert _testando.allow?("devise/registrations", "create"), "Profissional(testando) - devise/registrations#create - problemas na validação de permissão"
-      assert _testando.allow?("devise/registrations", "new"), "Profissional(testando) - devise/registrations#new - problemas na validação de permissão"
-      assert _testando.allow?("devise/registrations", "edit"), "Profissional(testando) - devise/registrations#edit - problemas na validação de permissão"
-      assert _testando.allow?("devise/registrations", "update"), "Profissional(testando) - devise/registrations#update - problemas na validação de permissão"
+      assert_not _testando.allow?("devise/registrations", "create"), "Profissional(testando) - devise/registrations#create - problemas na validação de permissão"
+      assert_not _testando.allow?("devise/registrations", "new"), "Profissional(testando) - devise/registrations#new - problemas na validação de permissão"
+      assert_not _testando.allow?("devise/registrations", "edit"), "Profissional(testando) - devise/registrations#edit - problemas na validação de permissão"
+      assert_not _testando.allow?("devise/registrations", "update"), "Profissional(testando) - devise/registrations#update - problemas na validação de permissão"
       assert_not _testando.allow?("devise/registrations", "cancel"), "Profissional(testando) - devise/registrations#cancel - problemas na validação de permissão"
       assert_not _testando.allow?("devise/registrations", "destroy"), "Profissional(testando) - devise/registrations#destroy - problemas na validação de permissão"
+
+      assert _testando.allow?("registrations", "create"), "Profissional(testando) - registrations#create - problemas na validação de permissão"
+      assert _testando.allow?("registrations", "new"), "Profissional(testando) - registrations#new - problemas na validação de permissão"
+      assert _testando.allow?("registrations", "edit"), "Profissional(testando) - registrations#edit - problemas na validação de permissão"
+      assert _testando.allow?("registrations", "update"), "Profissional(testando) - registrations#update - problemas na validação de permissão"
+      assert_not _testando.allow?("registrations", "cancel"), "Profissional(testando) - registrations#cancel - problemas na validação de permissão"
+      assert_not _testando.allow?("registrations", "destroy"), "Profissional(testando) - registrations#destroy - problemas na validação de permissão"
 
       assert _testando.allow?("services", "new"), "Profissional(testando) - services#new - problemas na validação de permissão"
       assert _testando.allow?("services", "update"), "Profissional(testando) - services#update - problemas na validação de permissão"
@@ -227,7 +241,6 @@ class PermissionTest < ActiveSupport::TestCase
       assert bloqueado.allow?("sessions", "create"), "Profissional(bloqueado) - sessions#create - problemas na validação de permissão"
       assert bloqueado.allow?("sessions", "destroy"), "Profissional(bloqueado) - sessions#destroy - problemas na validação de permissão"
 
-
       assert bloqueado.allow?("devise/passwords", "new"), "Profissional(bloqueado) - devise/passwords#new - problemas na validação de permissão"
       assert bloqueado.allow?("devise/passwords", "update"), "Profissional(bloqueado) - devise/passwords#update - problemas na validação de permissão"
       assert bloqueado.allow?("devise/passwords", "create"), "Profissional(bloqueado) - devise/passwords#create - problemas na validação de permissão"
@@ -243,6 +256,13 @@ class PermissionTest < ActiveSupport::TestCase
       assert_not bloqueado.allow?("devise/registrations", "update"), "Profissional(bloqueado) - devise/registrations#update - problemas na validação de permissão"
       assert_not bloqueado.allow?("devise/registrations", "cancel"), "Profissional(bloqueado) - devise/registrations#cancel - problemas na validação de permissão"
       assert_not bloqueado.allow?("devise/registrations", "destroy"), "Profissional(bloqueado) - devise/registrations#destroy - problemas na validação de permissão"
+
+      assert bloqueado.allow?("registrations", "create"), "Profissional(bloqueado) - registrations#create - problemas na validação de permissão"
+      assert bloqueado.allow?("registrations", "new"), "Profissional(bloqueado) - registrations#new - problemas na validação de permissão"
+      assert_not bloqueado.allow?("registrations", "edit"), "Profissional(bloqueado) - registrations#edit - problemas na validação de permissão"
+      assert_not bloqueado.allow?("registrations", "update"), "Profissional(bloqueado) - registrations#update - problemas na validação de permissão"
+      assert_not bloqueado.allow?("registrations", "cancel"), "Profissional(bloqueado) - registrations#cancel - problemas na validação de permissão"
+      assert_not bloqueado.allow?("registrations", "destroy"), "Profissional(bloqueado) - registrations#destroy - problemas na validação de permissão"
 
       assert_not bloqueado.allow?("services", "new"), "Profissional(bloqueado) - services#new - problemas na validação de permissão"
       assert_not bloqueado.allow?("services", "update"), "Profissional(bloqueado) - services#update - problemas na validação de permissão"
@@ -324,7 +344,6 @@ class PermissionTest < ActiveSupport::TestCase
       assert suspenso.allow?("sessions", "create"), "Profissional(suspenso) - sessions#create - problemas na validação de permissão"
       assert suspenso.allow?("sessions", "destroy"), "Profissional(suspenso) - sessions#destroy - problemas na validação de permissão"
 
-
       assert suspenso.allow?("devise/passwords", "new"), "Profissional(suspenso) - devise/passwords#new - problemas na validação de permissão"
       assert suspenso.allow?("devise/passwords", "update"), "Profissional(suspenso) - devise/passwords#update - problemas na validação de permissão"
       assert suspenso.allow?("devise/passwords", "create"), "Profissional(suspenso) - devise/passwords#create - problemas na validação de permissão"
@@ -340,6 +359,13 @@ class PermissionTest < ActiveSupport::TestCase
       assert_not suspenso.allow?("devise/registrations", "update"), "Profissional(suspenso) - devise/registrations#update - problemas na validação de permissão"
       assert_not suspenso.allow?("devise/registrations", "cancel"), "Profissional(suspenso) - devise/registrations#cancel - problemas na validação de permissão"
       assert_not suspenso.allow?("devise/registrations", "destroy"), "Profissional(suspenso) - devise/registrations#destroy - problemas na validação de permissão"
+
+      assert suspenso.allow?("registrations", "create"), "Profissional(suspenso) - registrations#create - problemas na validação de permissão"
+      assert suspenso.allow?("registrations", "new"), "Profissional(suspenso) - registrations#new - problemas na validação de permissão"
+      assert_not suspenso.allow?("registrations", "edit"), "Profissional(suspenso) - registrations#edit - problemas na validação de permissão"
+      assert_not suspenso.allow?("registrations", "update"), "Profissional(suspenso) - registrations#update - problemas na validação de permissão"
+      assert_not suspenso.allow?("registrations", "cancel"), "Profissional(suspenso) - registrations#cancel - problemas na validação de permissão"
+      assert_not suspenso.allow?("registrations", "destroy"), "Profissional(suspenso) - registrations#destroy - problemas na validação de permissão"
 
       assert_not suspenso.allow?("services", "new"), "Profissional(suspenso) - services#new - problemas na validação de permissão"
       assert_not suspenso.allow?("services", "update"), "Profissional(suspenso) - services#update - problemas na validação de permissão"
@@ -431,12 +457,19 @@ class PermissionTest < ActiveSupport::TestCase
       assert assinante.allow?("devise/confirmations", "create"), "Profissional(assinante) - devise/confirmations#create - problemas na validação de permissão"
       assert assinante.allow?("devise/confirmations", "show"), "Profissional(assinante) - devise/confirmations#show - problemas na validação de permissão"
 
-      assert assinante.allow?("devise/registrations", "create"), "Profissional(assinante) - devise/registrations#create - problemas na validação de permissão"
-      assert assinante.allow?("devise/registrations", "new"), "Profissional(assinante) - devise/registrations#new - problemas na validação de permissão"
-      assert assinante.allow?("devise/registrations", "edit"), "Profissional(assinante) - devise/registrations#edit - problemas na validação de permissão"
-      assert assinante.allow?("devise/registrations", "update"), "Profissional(assinante) - devise/registrations#update - problemas na validação de permissão"
+      assert_not assinante.allow?("devise/registrations", "create"), "Profissional(assinante) - devise/registrations#create - problemas na validação de permissão"
+      assert_not assinante.allow?("devise/registrations", "new"), "Profissional(assinante) - devise/registrations#new - problemas na validação de permissão"
+      assert_not assinante.allow?("devise/registrations", "edit"), "Profissional(assinante) - devise/registrations#edit - problemas na validação de permissão"
+      assert_not assinante.allow?("devise/registrations", "update"), "Profissional(assinante) - devise/registrations#update - problemas na validação de permissão"
       assert_not assinante.allow?("devise/registrations", "cancel"), "Profissional(assinante) - devise/registrations#cancel - problemas na validação de permissão"
       assert_not assinante.allow?("devise/registrations", "destroy"), "Profissional(assinante) - devise/registrations#destroy - problemas na validação de permissão"
+
+      assert assinante.allow?("registrations", "create"), "Profissional(assinante) - registrations#create - problemas na validação de permissão"
+      assert assinante.allow?("registrations", "new"), "Profissional(assinante) - registrations#new - problemas na validação de permissão"
+      assert assinante.allow?("registrations", "edit"), "Profissional(assinante) - registrations#edit - problemas na validação de permissão"
+      assert assinante.allow?("registrations", "update"), "Profissional(assinante) - registrations#update - problemas na validação de permissão"
+      assert_not assinante.allow?("registrations", "cancel"), "Profissional(assinante) - registrations#cancel - problemas na validação de permissão"
+      assert_not assinante.allow?("registrations", "destroy"), "Profissional(assinante) - registrations#destroy - problemas na validação de permissão"
 
       assert assinante.allow?("services", "new"), "Profissional(assinante) - services#new - problemas na validação de permissão"
       assert assinante.allow?("services", "update"), "Profissional(assinante) - services#update - problemas na validação de permissão"
@@ -518,7 +551,6 @@ class PermissionTest < ActiveSupport::TestCase
       assert customer.allow?("sessions", "create"), "Customer - sessions#create - problemas na validação de permissão"
       assert customer.allow?("sessions", "destroy"), "Customer - sessions#destroy - problemas na validação de permissão"
 
-
       assert customer.allow?("devise/passwords", "new"), "Customer - devise/passwords#new - problemas na validação de permissão"
       assert customer.allow?("devise/passwords", "update"), "Customer - devise/passwords#update - problemas na validação de permissão"
       assert customer.allow?("devise/passwords", "create"), "Customer - devise/passwords#create - problemas na validação de permissão"
@@ -528,12 +560,19 @@ class PermissionTest < ActiveSupport::TestCase
       assert customer.allow?("devise/confirmations", "create"), "Customer - devise/confirmations#create - problemas na validação de permissão"
       assert customer.allow?("devise/confirmations", "show"), "Customer - devise/confirmations#show - problemas na validação de permissão"
 
-      assert customer.allow?("devise/registrations", "create"), "Customer - devise/registrations#create - problemas na validação de permissão"
-      assert customer.allow?("devise/registrations", "new"), "Customer - devise/registrations#new - problemas na validação de permissão"
-      assert customer.allow?("devise/registrations", "edit"), "Customer - devise/registrations#edit - problemas na validação de permissão"
-      assert customer.allow?("devise/registrations", "update"), "Customer - devise/registrations#update - problemas na validação de permissão"
+      assert_not customer.allow?("devise/registrations", "create"), "Customer - devise/registrations#create - problemas na validação de permissão"
+      assert_not customer.allow?("devise/registrations", "new"), "Customer - devise/registrations#new - problemas na validação de permissão"
+      assert_not customer.allow?("devise/registrations", "edit"), "Customer - devise/registrations#edit - problemas na validação de permissão"
+      assert_not customer.allow?("devise/registrations", "update"), "Customer - devise/registrations#update - problemas na validação de permissão"
       assert_not customer.allow?("devise/registrations", "cancel"), "Customer - devise/registrations#cancel - problemas na validação de permissão"
       assert_not customer.allow?("devise/registrations", "destroy"), "Customer - devise/registrations#destroy - problemas na validação de permissão"
+
+      assert customer.allow?("registrations", "create"), "Customer - registrations#create - problemas na validação de permissão"
+      assert customer.allow?("registrations", "new"), "Customer - registrations#new - problemas na validação de permissão"
+      assert_not customer.allow?("registrations", "edit"), "Customer - registrations#edit - problemas na validação de permissão"
+      assert_not customer.allow?("registrations", "update"), "Customer - registrations#update - problemas na validação de permissão"
+      assert_not customer.allow?("registrations", "cancel"), "Customer - registrations#cancel - problemas na validação de permissão"
+      assert_not customer.allow?("registrations", "destroy"), "Customer - registrations#destroy - problemas na validação de permissão"
 
       assert_not customer.allow?("schedules", "new"), "Customer - schedules#new - problemas na validação de permissão"
       assert_not customer.allow?("schedules", "update"), "Customer - schedules#update - problemas na validação de permissão"

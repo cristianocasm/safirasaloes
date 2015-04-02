@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def layout_by_resource
-    if devise_controller? && ( params[:controller] != 'devise/registrations' || params[:action] != "edit" )
+    if devise_controller? && ( !params[:controller].in?(%w[devise/registrations registrations]) || !params[:action].in?(%w[edit update]) )
       "login"
     elsif resource_name == :professional
        "professional/professional"

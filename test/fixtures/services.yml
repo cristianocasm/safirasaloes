@@ -72,8 +72,8 @@ unha_joao:
   recompensa_divulgacao: 21
 
 bigode_prof_testando:
-  nome: Bigode
-  preco: 8.00
+  nome: Bigodasso
+  preco: 61.00
   professional: prof_testando_com_contato_e_servicos
   recompensa_divulgacao: 18
 
@@ -82,3 +82,15 @@ bigode_prof_assinante_com_contato_e_servicos:
   preco: 60.00
   professional: prof_assinante_com_contato_e_servicos
   recompensa_divulgacao: 19
+
+depilacao_prof_suspenso:
+  nome: Depilação
+  preco: 62.00
+  professional: prof_suspenso
+  recompensa_divulgacao: 22
+
+sobrancelha_prof_bloqueado:
+  nome: Sobrancelha
+  preco: 63.00
+  professional: prof_bloqueado
+  recompensa_divulgacao: 23

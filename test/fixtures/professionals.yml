@@ -109,7 +109,7 @@ prof_testando_com_contato_e_servicos:
   contato_definido: true
 
 prof_assinante_com_contato_e_servicos:
-  nome: Testando
+  nome: Assinante
   email: prof_assinante@gmail.com
   telefone: (31) 8888-8888
   cep: 32.323-232

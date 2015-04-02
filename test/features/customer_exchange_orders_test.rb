@@ -23,11 +23,11 @@ feature "Troca de Safiras" do
     click_link 'Trocar Safiras'
   end
 
-  scenario "serviços dos profissionais que já atenderam o cliente são exibidos uma única vez", focus: true do
-    @customer.schedules.each do |sc|
-      assert_not page.has_css?('h3 strong', text: sc.professional.nome, count: 0), "Não há nome do profissional"
-      assert page.has_css?('h3 strong', text: sc.professional.nome, count: 1), "Nome de profissional sendo exibido mais de uma vez"
-      sc.professional.services.each do |srv|
+  scenario "serviços dos profissionais que já atenderam o cliente são exibidos uma única vez" do
+    @customer.my_professionals.each do |pr|
+      assert_not page.has_css?('h3 strong', text: pr.nome, count: 0), "Não há nome do profissional"
+      assert page.has_css?('h3 strong', text: pr.nome, count: 1), "Nome de profissional sendo exibido mais de uma vez"
+      pr.services.each do |srv|
         assert_not page.has_css?('h5', text: "Serviço: #{srv.nome}", count: 0), "Não há nome do serviço"
         assert page.has_css?('h5', text: "Serviço: #{srv.nome}", count: 1), "Nome do serviço sendo exibido mais de uma vez"
 
@@ -42,33 +42,36 @@ feature "Troca de Safiras" do
 
   scenario "serviços para os quais há horário marcado são exibidos em destaque e mostram data e hora" do
     assert page.has_css?('div.service-scheduled', count: @customer.schedules.in_the_future.size), "Serviços em destaque difere do número de marcações existente"
+    @customer.my_professionals.each do |pr|
+      pr.services.each do |srv|
+        sc = @customer.schedules.find_by_service_id(srv.id)
 
-    @customer.schedules.each do |sc|
-      if sc.id.in?(@customer.schedules.in_the_future.map(&:id))
-        assert page.has_css?("div.service-scheduled > div:first-child > h5:first-child", text: "Serviço: #{sc.service.nome}"), "Serviço com horário marcado não destacado"
-        assert page.has_no_css?("div.service > div:first-child > h5:first-child", text: "Serviço: #{sc.service.nome}"), "Serviço com horário marcado não destacado"
+        if sc.try(:id).try(:in?, @customer.schedules.in_the_future.map(&:id))
+          assert page.has_css?("div.service-scheduled > div:first-child > h5:first-child", text: "Serviço: #{sc.service.nome}"), "Serviço com horário marcado não destacado"
+          assert page.has_no_css?("div.service > div:first-child > h5:first-child", text: "Serviço: #{sc.service.nome}"), "Serviço com horário marcado não destacado"
 
-        assert page.has_css?("div.service-scheduled > div:first-child > h5:nth-child(4)", text: "Data: #{sc.datahora_inicio.strftime('%d/%m/%Y')}"), "Data não sendo exibida"
-        assert page.has_no_css?("div.service > div:first-child > h5:nth-child(4)", text: "Data: #{sc.datahora_inicio.strftime('%d/%m/%Y')}"), "Data não sendo exibida"
+          assert page.has_css?("div.service-scheduled > div:first-child > h5:nth-child(4)", text: "Data: #{sc.datahora_inicio.strftime('%d/%m/%Y')}"), "Data não sendo exibida"
+          assert page.has_no_css?("div.service > div:first-child > h5:nth-child(4)", text: "Data: #{sc.datahora_inicio.strftime('%d/%m/%Y')}"), "Data não sendo exibida"
 
-        assert page.has_css?("div.service-scheduled > div:first-child > h5:nth-child(5)", text: "Hora: #{sc.datahora_inicio.strftime('%H:%M')}"), "Hora não sendo exibida"
-        assert page.has_no_css?("div.service > div:first-child > h5:nth-child(5)", text: "Hora: #{sc.datahora_inicio.strftime('%H:%M')}"), "Hora não sendo exibida"
-      else
-        assert page.has_css?("div.service > div:first-child > h5:first-child", text: "Serviço: #{sc.service.nome}"), "Serviço sem horário marcado em destaque"
-        assert page.has_no_css?("div.service-scheduled > div:first-child > h5:first-child", text: "Serviço: #{sc.service.nome}"), "Serviço sem horário marcado em destaque"
+          assert page.has_css?("div.service-scheduled > div:first-child > h5:nth-child(5)", text: "Hora: #{sc.datahora_inicio.strftime('%H:%M')}"), "Hora não sendo exibida"
+          assert page.has_no_css?("div.service > div:first-child > h5:nth-child(5)", text: "Hora: #{sc.datahora_inicio.strftime('%H:%M')}"), "Hora não sendo exibida"
+        else
+          assert page.has_css?("div.service > div:first-child > h5:first-child", text: "Serviço: #{srv.nome}"), "Serviço sem horário marcado em destaque"
+          assert page.has_no_css?("div.service-scheduled > div:first-child > h5:first-child", text: "Serviço: #{srv.nome}"), "Serviço sem horário marcado em destaque"
 
-        assert page.has_no_css?("div.service > div:first-child > h5:nth-child(4)", text: "Data: #{sc.datahora_inicio.strftime('%d/%m/%Y')}"), "Serviço sem horário marcado mostrando data"
-        assert page.has_no_css?("div.service-scheduled > div:first-child > h5:nth-child(4)", text: "Data: #{sc.datahora_inicio.strftime('%d/%m/%Y')}"), "Serviço sem horário marcado mostrando data"
+          # assert page.has_no_css?("div.service > div:first-child > h5:nth-child(4)", text: "Data: "), "Serviço sem horário marcado mostrando data"
+          # assert page.has_no_css?("div.service-scheduled > div:first-child > h5:nth-child(4)", text: "Data: "), "Serviço sem horário marcado mostrando data"
 
-        assert page.has_no_css?("div.service > div:first-child > h5:nth-child(5)", text: "Hora: #{sc.datahora_inicio.strftime('%H:%M')}"), "Serviço sem horário marcado mostrando hora"
-        assert page.has_no_css?("div.service-scheduled > div:first-child > h5:nth-child(5)", text: "Hora: #{sc.datahora_inicio.strftime('%H:%M')}"), "Serviço sem horário marcado mostrando hora"
+          # assert page.has_no_css?("div.service > div:first-child > h5:nth-child(5)", text: "Hora: "), "Serviço sem horário marcado mostrando hora"
+          # assert page.has_no_css?("div.service-scheduled > div:first-child > h5:nth-child(5)", text: "Hora: "), "Serviço sem horário marcado mostrando hora"
+        end
       end
     end
   end
 
   scenario "botões ativados para serviços com horário marcado, safiras suficientes no estabelecimento e solicitação não enviada" do
     @customer.schedules.each do |sc|
-      if sc.id.in?(@customer.schedules.in_the_future.map(&:id)) && @customer.rewards.where(professional: sc.professional).first.total_safiras > sc.recompensa_divulgacao
+      if sc.id.in?(@customer.schedules.in_the_future.map(&:id)) && @customer.rewards.where(professional: sc.professional).first.total_safiras >= (sc.service.preco * 2)
         if sc.exchange_order_status.id == ExchangeOrderStatus.find_by_nome('inexistente').id
           assert page.has_no_css?("div.service-scheduled > div:nth-child(2) > a.btn-warning[disabled='disabled'][href='#{create_exchange_order_path(exchange_order: { schedule_id: sc.id })}']"), "Botão não ativo"
           assert page.has_css?("div.service-scheduled > div:nth-child(2) > a.btn-warning:not([disabled])[href='#{create_exchange_order_path(exchange_order: { schedule_id: sc.id })}']"), "Botão inexistente"
@@ -83,7 +86,7 @@ feature "Troca de Safiras" do
   end
 
   scenario "Quantidade de Safiras por estabelecimento é exibida" do
-    @professionals = @customer.professionals.distinct
+    @professionals = @customer.my_professionals
 
     @professionals.each do |pr|
       assert page.has_css?('h3 strong', text: "#{pr.nome} (Suas Safiras: #{@customer.rewards.find_by_professional_id(pr.id).try(:total_safiras) || 0})"), "Não há informação de Safiras por Salão"
@@ -103,10 +106,15 @@ feature "Troca de Safiras" do
       page.find("div.service-scheduled > div:nth-child(2) > a.btn-warning:not([disabled])[href='#{create_exchange_order_path(exchange_order: { schedule_id: sc.id })}']").click
     end
     wait_for_ajax
-    assert page.has_css?("div.service-scheduled > div:nth-child(2) > a.btn-warning[disabled='disabled'][href='#{create_exchange_order_path(exchange_order: { schedule_id: sc.id })}']"), "Botão não desativado após submissão de ordem"
+    assert page.has_css?("div.service-scheduled > div:nth-child(2) > a.btn-info[disabled='disabled'][href='#{create_exchange_order_path(exchange_order: { schedule_id: sc.id })}']"), "Botão não desativado após submissão de ordem"
     assert page.has_css?("#myModal", visible: true), "Modal sucesso não sendo exibido"
 
     sc = Schedule.find_by_id(sc.id)
     assert_equal ExchangeOrderStatus.find_by_nome('aguardando').id, sc.exchange_order_status_id, 'Status de Solicitação de Troca, após solicitação, diferente de aguardando'
+  end
+
+  scenario "Solicitações enviadas devem ter botão com dizeres 'Solicitação Enviada'" do
+    #sc = @customer.schedules.in_the_future.where('exchange_order_status_id = ?', ExchangeOrderStatus.find_by_nome('aguardando').id).first
+    assert page.has_css?("div.service-scheduled > div:nth-child(2) > a.btn-info[disabled='disabled']", text: "Solicitação Enviada"), "Solicitação enviada não aparece associada a botão verde com dizer 'Solicitação Enviada'"
   end
 end

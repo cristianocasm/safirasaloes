@@ -10,6 +10,11 @@ cristiano_joao:
   customer: cristiano
   total_safiras: 31
 
+cristiano_prof_suspenso:
+  professional: prof_suspenso
+  customer: cristiano
+  total_safiras: 15
+
 abilio_joao:
   professional: joao
   customer: abilio

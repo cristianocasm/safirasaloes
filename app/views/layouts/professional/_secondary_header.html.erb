@@ -6,8 +6,7 @@
         <div class="col-md-3">
           <!-- Logo. -->
           <div class="logo">
-            <h1><a href="#">Mac<span class="bold">Admin</span></a></h1>
-            <p class="meta">something goes in meta area</p>
+            <h1><a href="#">Safira<span class="bold">Salões</span></a></h1>
           </div>
           <!-- Logo ends -->
         </div>
@@ -23,34 +22,14 @@
               <a class="dropdown-toggle" href="#" data-toggle="dropdown">
                 <i class="fa fa-diamond"></i> Ordens de Troca <span class="label label-info" id="ordens_trocas"><%= exchangeOrdersCount %></span> 
               </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" id="ordensDeTroca">
                   <li>
                     <!-- Heading - h5 -->
-                    <h5><i class="fa fa-comments"></i> Chats</h5>
+                    <h5><i class="fa fa-exchange"></i> Ordens de Troca Abertas</h5>
                     <!-- Use hr tag to add border -->
                     <hr />
                   </li>
-                  <li>
-                    <!-- List item heading h6 -->
-                    <h6><a href="#">Hi :)</a> <span class="label label-warning pull-right">10:42</span></h6>
-                    <div class="clearfix"></div>
-                    <hr />
-                  </li>
-                  <li>
-                    <h6><a href="#">How are you?</a> <span class="label label-warning pull-right">20:42</span></h6>
-                    <div class="clearfix"></div>
-                    <hr />
-                  </li>
-                  <li>
-                    <h6><a href="#">What are you doing?</a> <span class="label label-warning pull-right">14:42</span></h6>
-                    <div class="clearfix"></div>
-                    <hr />
-                  </li>                  
-                  <li>
-                    <div class="drop-foot">
-                      <a href="#">View All</a>
-                    </div>
-                  </li>                                    
+                  <% exchangeOrders %>
                 </ul>
             </li>
 
@@ -59,35 +38,6 @@
               <%= link_to "https://www.facebook.com/hashtag/#{current_professional.hashtag}", target: :_blank do %>
                 <i class="fa fa-facebook-official"></i> Fotos Postadas <span   class="label label-info">6</span> 
               <% end %>
-                <ul class="dropdown-menu">
-                  <li>
-                    <!-- Heading - h5 -->
-                    <h5><i class="fa fa-comments"></i> Chats</h5>
-                    <!-- Use hr tag to add border -->
-                    <hr />
-                  </li>
-                  <li>
-                    <!-- List item heading h6 -->
-                    <h6><a href="#">Hi :)</a> <span class="label label-warning pull-right">10:42</span></h6>
-                    <div class="clearfix"></div>
-                    <hr />
-                  </li>
-                  <li>
-                    <h6><a href="#">How are you?</a> <span class="label label-warning pull-right">20:42</span></h6>
-                    <div class="clearfix"></div>
-                    <hr />
-                  </li>
-                  <li>
-                    <h6><a href="#">What are you doing?</a> <span class="label label-warning pull-right">14:42</span></h6>
-                    <div class="clearfix"></div>
-                    <hr />
-                  </li>                  
-                  <li>
-                    <div class="drop-foot">
-                      <a href="#">Ver no Facebook</a>
-                    </div>
-                  </li>                                    
-                </ul>
             </li>
           </ul>
 

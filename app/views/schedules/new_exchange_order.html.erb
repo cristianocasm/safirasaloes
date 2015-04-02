@@ -9,7 +9,7 @@
         Sua Solicitação de Troca foi enviada com sucesso. Compareça ao estabelecimento no horário marcado e receba o serviço gratuitamente.
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Ok. Entendi.</button>
       </div>
     </div>
   </div>
@@ -17,43 +17,28 @@
 
 <h1>Enviar Solicitação de Troca</h1>
 
-<% @professionals.each do |pr| %>
+<% @my_professionals.each do |pr| %>
 
   <div class="col-xs-12 col-md-12 stablishment">
     <div class="col-xs-12 col-md-12">
-      <h3><strong><%= "#{pr.nome.titleize} (Suas Safiras: #{current_customer.rewards.find_by_professional_id(pr.id).try(:total_safiras) || 0})" %></strong></h3>
+      <h3><strong><%= "#{pr.nome.titleize} (Suas Safiras: #{total_safiras(pr.id)})" %></strong></h3>
     </div>
+    
     <% pr.services.each do |srv| %>
-      <div class="col-xs-12 col-md-12 service<%='-scheduled' if scheduled?(srv) %>">
+      <%- sc = get_schedules(srv.id) -%>
+      <div class="col-xs-12 col-md-12 service<%='-scheduled' if scheduled?(srv.id) %>">
         <div class="col-xs-12 col-md-8">
           <h5>Serviço: <%= srv.nome %></h5>
           <h5>Preço: <%= number_to_currency(srv.preco) %></h5>
-          <h5>Recompensa: <%= pluralize(srv.recompensa_divulgacao, 'safira') %></h5>
-          <% if srv.id.in?(@schedules.map(&:service).map(&:id)) %>
-            <h5>Data: <%= @schedules.find_by_service_id(srv.id).datahora_inicio.strftime('%d/%m/%Y') %></h5>
-            <h5>Hora: <%= @schedules.find_by_service_id(srv.id).datahora_inicio.strftime('%H:%M') %></h5>
-          <% end %>
+          <h5>Recompensa: <%= pluralize(srv.recompensa_divulgacao, 'safira') %> <span><i class="fa fa-question-circle" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" title="Recompensa por Divulgação"
+          data-content="Ganhe esta recompensa marcando um horário para este serviço e, logo após, enviando as fotos do seu novo visual para o SafiraSalões."></i></span> </h5>
+          <% insert_data_and_time(sc.datahora_inicio) if scheduled? %>
         </div>
-        <% if srv.id.in?(@schedules.map(&:service).map(&:id)) && (current_customer.rewards.find_by_professional_id(pr.id).try(:total_safiras).try(:send, :>, @schedules.find_by_service_id(srv.id).recompensa_divulgacao)) && @schedules.find_by_service_id(srv.id).exchange_order_status.id == ExchangeOrderStatus.find_by_nome('inexistente').id %>
-          <div class="col-xs-12 col-md-4 button-middle">
-            <%= link_to 'Enviar Solicitação', create_exchange_order_path(exchange_order: { schedule_id: @schedules.find_by_service_id(srv.id).id }), :data => { :confirm => "Enviar Solicitação?" }, :method=>:post, remote: true, class: "btn btn-warning"  %>
-          </div>
-        <% else %>
-        <div class="col-xs-12 col-md-4 button-middle dica" data-toggle="popover" data-trigger="hover" data-placement="left" data-html="true" title="Que pena..." data-content="Você ainda não pode enviar uma solicitação de troca para este serviço.<br/>
-        Para trocar suas Safiras por este serviço
-          <ol>
-            <li> Junte mais <b><%= ((srv.preco / 0.5) - (current_customer.rewards.find_by_professional_id(pr.id).try(:total_safiras)||0)).ceil %></b> Safiras; </li>
-            <li> Marque um horário com o profissional; </li>
-            <li> Acesse esta página novamente, clique neste botão (ele estará ativo) para criar sua solicitação de troca e receba o serviço gratuitamente. </li>
-          </ol>">
-            <%= link_to 'Enviar Solicitação', {}, disabled: true, class: "btn btn-warning"  %>
-          </div>
-        <% end %>
+        <% insert_button(srv.preco, sc) %>
       </div>
     <% end %>
   </div>
   
 <% end %>
-
 
 <%= link_to 'Voltar', customer_root_path %>

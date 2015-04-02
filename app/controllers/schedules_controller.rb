@@ -69,8 +69,8 @@ class SchedulesController < ApplicationController
 
   # Methods for ExchangeOrder
   def new_exchange_order
-    @schedules = current_customer.schedules.includes(:service).in_the_future
-    @professionals = current_customer.professionals.includes(:services).distinct
+    @future_schedules = current_customer.future_schedules
+    @my_professionals = current_customer.my_professionals
   end
 
   def create_exchange_order
@@ -80,15 +80,39 @@ class SchedulesController < ApplicationController
         preco = @sc.service.preco
         reward = current_customer.rewards.where(professional: @sc.professional)
         if reward.present? && reward.first.total_safiras > preco
-          @sc.update_attribute(:exchange_order_status_id, ExchangeOrderStatus.find_by_nome('aguardando').id)
-          @professional_id = @sc.professional.id
-          format.js { render 'create_exchange_order' }
+          if # solicitação não enviada
+            @sc.update_attribute(:exchange_order_status_id, ExchangeOrderStatus.find_by_nome('aguardando').id)
+            @professional_id = @sc.professional.id
+            format.js { render 'create_exchange_order' }
+          else
+            # retorna error -> Solicitação de troca já foi criada
+          end
         else
-          #retorna erro
+          #retorna erro -> Safiras insuficiente
         end
       else
-        #retorna erro
+        #retorna erro -> Horário inexistente
       end
+    end
+  end
+
+  def accept_exchange_order
+    _params = accept_exchange_order_params
+    @schedule_id = _params[:schedule_id]
+    @sc = Schedule.includes(:customer, :service).find_by_id(@schedule_id)
+    
+    if @sc.present?
+      if _params[:status] == 'accept'
+        @sc.update_attribute(:exchange_order_status_id, ExchangeOrderStatus.find_by_nome('aceita').id)
+      elsif _params[:status] == 'reject'
+        @sc.update_attribute(:exchange_order_status_id, ExchangeOrderStatus.find_by_nome('recusada').id)
+      end
+    end
+    
+    # Falta debitar Safiras Bloqueadas do cliente
+
+    respond_to do |format|
+      format.js { render 'destroy_exchange_order' }
     end
   end
 
@@ -108,6 +132,10 @@ class SchedulesController < ApplicationController
 
     def exchange_order_params
       params.require(:exchange_order).permit(:schedule_id)
+    end
+    
+    def accept_exchange_order_params
+      params.require(:exchange_order).permit(:schedule_id, :status)
     end
 
 end

@@ -37,6 +37,7 @@ class Schedule < ActiveRecord::Base
                                                                 }
 
   scope :in_the_future, -> { where("datahora_fim > ?", DateTime.now) }
+  scope :exchangeOrderWaiting, -> { where(exchange_order_status: ExchangeOrderStatus.find_by_nome('aguardando')) }
   scope :exchangeOrderWaitingCount, -> { where(exchange_order_status: ExchangeOrderStatus.find_by_nome('aguardando')).size }
   scope :safiras_resgatadas, -> { where(exchange_order_status: ExchangeOrderStatus.find_by_nome("aceita").id).sum(:recompensa_divulgacao) }
 

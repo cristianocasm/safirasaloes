@@ -43,7 +43,7 @@ class Permission < Struct.new(:resource)
   def professional_permission(controller, action)
     if resource.testando? || resource.assinante?
         return true if controller == "services" && action.in?(%w[new index update create edit show destroy])
-        return true if controller == "schedules" && action.in?(%w[new index update create edit show destroy get_last_two_months_scheduled_customers])
+        return true if controller == "schedules" && action.in?(%w[new index update create edit show destroy get_last_two_months_scheduled_customers accept_exchange_order])
         return true if controller == "customers" && action.in?(%w[filter_by_email filter_by_telefone])
         return true if controller == "devise/registrations" && action.in?(%w[create new edit update])
       end

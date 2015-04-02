@@ -52,6 +52,8 @@ gem 'private_pub'
 
 gem "bullet", :group => "development"
 
+gem 'rack-mini-profiler'
+
 
 group :test, :development do
   gem 'byebug'
@@ -65,4 +67,5 @@ group :test do
   gem 'mocha'
   gem 'selenium-webdriver'
   gem 'simplecov', :require => false
+  gem 'ruby-prof'
 end

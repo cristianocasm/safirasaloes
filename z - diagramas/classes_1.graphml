@@ -77,10 +77,10 @@ descricao<y:LabelModel>
     <node id="n2">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="110.47416413373861" width="105.516717325228" x="-145.15197568389056" y="493.0425531914894"/>
+          <y:Geometry height="110.47416413373861" width="105.516717325228" x="-131.07598784194528" y="479.12765957446805"/>
           <y:Fill color="#E8EEF7" color2="#FF6600" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="69.15625" x="18.180233662614" y="4.0">photo_logs</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="69.15625" x="18.180233662614" y="3.999999999999943">photo_logs</y:NodeLabel>
           <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="73.84375" modelName="custom" textColor="#000000" visible="true" width="93.923828125" x="2.0" y="29.968749999999943">customer_id
 professional_id
 schedule_id
@@ -222,7 +222,6 @@ observacao<y:LabelModel>
       </data>
     </node>
     <node id="n8">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
           <y:Geometry height="90.0" width="105.516717325228" x="-131.07598784194528" y="347.1641337386018"/>
@@ -317,7 +316,6 @@ safiras<y:LabelModel>
       </data>
     </edge>
     <edge id="e7" source="n7" target="n1">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-7.014589665653489" sy="60.0" tx="0.0" ty="0.0"/>

@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :statuses
     resources :schedules do
       post :get_last_two_months_scheduled_customers, on: :collection #/schedules/get_last_two_months_scheduled_customers
+      post :accept_exchange_order, on: :collection
     end
   end
 

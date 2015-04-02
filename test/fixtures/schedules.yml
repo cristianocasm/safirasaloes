@@ -70,11 +70,29 @@ sch_cristiano_com_joao3:
   exchange_order_status: inexistente
 
 sch_cristiano_com_prof_testando:
-  professional: prof_assinante_com_contato_e_servicos
+  professional: prof_testando_com_contato_e_servicos
   customer: cristiano
-  service: bigode_prof_assinante_com_contato_e_servicos
+  service: bigode_prof_testando
   datahora_inicio: <%= 3.days.ago + 5.hours %>
   datahora_fim: <%= 3.days.ago + 6.hours %>
+  recompensa_divulgacao: 18
+  exchange_order_status: inexistente
+
+sch_cristiano_com_prof_suspenso:
+  professional: prof_suspenso
+  customer: cristiano
+  service: depilacao_prof_suspenso
+  datahora_inicio: <%= 3.days.ago + 10.hours %>
+  datahora_fim: <%= 3.days.ago + 11.hours %>
+  recompensa_divulgacao: 18
+  exchange_order_status: inexistente
+
+sch_cristiano_com_prof_bloqueado:
+  professional: prof_bloqueado
+  customer: cristiano
+  service: sobrancelha_prof_bloqueado
+  datahora_inicio: <%= 3.days.ago + 11.hours %>
+  datahora_fim: <%= 3.days.ago + 12.hours %>
   recompensa_divulgacao: 18
   exchange_order_status: inexistente
 

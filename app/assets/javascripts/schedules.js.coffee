@@ -209,7 +209,6 @@ get_last_two_months_served_customers = (engine) ->
     type: 'post'
     dataType: 'json'
     success: (data, textStatus, jqXHR) ->
-      console.log(data)
       engine_email = new_bloodhound_email(data)
       engine_email.initialize()
       start_typeahead(engine_email, 'schedule_email', 'email', 6)

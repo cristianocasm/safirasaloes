@@ -1,6 +1,7 @@
 class Permission < Struct.new(:resource)
   def allow?(controller, action)
-    return true if controller == "devise/sessions" && action.in?(%w[new create destroy])
+    #return true if controller == "devise/sessions" && action.in?(%w[new create destroy])
+    return true if controller == "sessions" && action.in?(%w[new create destroy])
     return true if controller == "devise/confirmations" && action.in?(%w[new create show])
     return true if controller == "devise/passwords" && action.in?(%w[new create edit update])
     if resource.instance_of? Professional

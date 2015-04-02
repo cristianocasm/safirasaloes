@@ -252,3 +252,18 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 end
+
+# Monkey patch to remove memoization from Devise mapping lookup.
+# We need to be able to switch between different mappings at runtime
+# in order to authenticate different types of users.
+module Devise
+  module Strategies
+    class Base
+      def mapping
+          mapping = Devise.mappings[scope]
+          raise "Could not find mapping for #{scope}" unless mapping
+          mapping
+      end
+    end
+  end
+end

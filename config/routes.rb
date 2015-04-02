@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
   
-  root :to => redirect('http://globo.com/') # Alterar pelo link do SafiraSalões
+  root :to => redirect('/entrar') # Alterar pelo link do SafiraSalões
+    
+  devise_for :professionals, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'senha', confirmation: 'confirmar', unlock: 'desbloquear', sign_up: 'cadastrar' }, controllers: { sessions: 'sessions' }
+  devise_for :customers, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'senha', confirmation: 'confirmar', unlock: 'desbloquear', sign_up: 'cadastrar' }, controllers: { sessions: 'sessions' }
   
   scope 'profissional' do
     root 'schedules#new', as: :professional_root
     
-    devise_for :professionals, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'senha', confirmation: 'confirmar', unlock: 'desbloquear', sign_up: 'cadastrar' }
     post :filter_by_email, to: 'customers#filter_by_email'
     post :filter_by_telefone, to: 'customers#filter_by_telefone'
     resources :services
@@ -19,7 +21,6 @@ Rails.application.routes.draw do
   scope 'cliente' do
     root 'photo_logs#new', as: :customer_root
 
-    devise_for :customers, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'senha', confirmation: 'confirmar', unlock: 'desbloquear', sign_up: 'cadastrar' }
     resources :customers
     resources :photo_logs
 

@@ -194,14 +194,15 @@ telefone<y:LabelModel>
     <node id="n7">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="187.44372644376915" width="166.0" x="196.35501519756838" y="619.6018237082067"/>
+          <y:Geometry height="201.44372644376915" width="166.0" x="196.35501519756838" y="619.6018237082067"/>
           <y:Fill color="#E8EEF7" color2="#FF6600" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="64.029296875" x="50.9853515625" y="4.0">schedules</y:NodeLabel>
-          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="157.65625" modelName="custom" textColor="#000000" visible="true" width="160.6796875" x="2.0" y="29.96875">professional_id
+          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="171.625" modelName="custom" textColor="#000000" visible="true" width="160.6796875" x="2.0" y="29.96875">professional_id
 service_id
 customer_id
 exchange_order_status_id
+motivo_recusa
 nome
 email
 telefone
@@ -256,7 +257,7 @@ safiras<y:LabelModel>
     <edge id="e1" source="n7" target="n0">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="1.1035969100200422" sy="69.84006387599881" tx="1.1042583586627188" ty="65.07224316109432"/>
+          <y:Path sx="1.1035969100200422" sy="75.05635418783967" tx="1.1042583586627188" ty="65.07224316109432"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="crows_foot_many" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -266,7 +267,7 @@ safiras<y:LabelModel>
     <edge id="e2" source="n7" target="n5">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="1.1449848024316225" sy="-7.000000000000114" tx="0.0" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="crows_foot_many" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -276,7 +277,7 @@ safiras<y:LabelModel>
     <edge id="e3" source="n7" target="n6">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="4.502127659574512" sy="-48.72186322188463" tx="0.0" ty="0.0"/>
+          <y:Path sx="4.502127659574512" sy="-52.36085449701284" tx="0.0" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="crows_foot_many" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -318,7 +319,7 @@ safiras<y:LabelModel>
     <edge id="e7" source="n7" target="n1">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-7.014589665653489" sy="60.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="-6.8550151975683775" sy="53.0" tx="0.0" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="crows_foot_many" target="none"/>
           <y:BendStyle smoothed="false"/>

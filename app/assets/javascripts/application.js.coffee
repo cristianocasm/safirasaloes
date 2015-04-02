@@ -54,5 +54,15 @@ $(document).on 'click, focus', 'input:text.money', ->
     thousands: ''
     })
 
+$(document).on 'click', 'a.rejection_button', ->
+  dScheduleId = $(this).attr('data-schedule-id')
+  dStatus = $(this).attr('data-status')
+  $("#exchange_order_schedule_id").val(dScheduleId)
+  $("#exchange_order_status").val(dStatus)
+
+$(document).on 'click', 'button#submit_rejection', ->
+  $('#rejection_form').submit()
+  $('#myModalReject').modal('hide')
+
 # Habilita popovers
 $('[data-toggle="popover"]').popover()

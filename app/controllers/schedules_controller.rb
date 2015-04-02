@@ -105,7 +105,10 @@ class SchedulesController < ApplicationController
       if _params[:status] == 'accept'
         @sc.update_attribute(:exchange_order_status_id, ExchangeOrderStatus.find_by_nome('aceita').id)
       elsif _params[:status] == 'reject'
-        @sc.update_attribute(:exchange_order_status_id, ExchangeOrderStatus.find_by_nome('recusada').id)
+        @sc.update_attributes(
+          exchange_order_status_id: ExchangeOrderStatus.find_by_nome('recusada').id,
+          motivo_recusa: _params[:motivo_recusa]
+          )
       end
     end
     
@@ -135,7 +138,7 @@ class SchedulesController < ApplicationController
     end
     
     def accept_exchange_order_params
-      params.require(:exchange_order).permit(:schedule_id, :status)
+      params.require(:exchange_order).permit(:motivo_recusa, :schedule_id, :status)
     end
 
 end

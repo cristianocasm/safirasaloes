@@ -21,7 +21,7 @@ module CustomersHelper
       elsif request_accepted(sc)
         insert_disabled_button_for_request_accepted
       elsif request_rejected(sc)
-        insert_enabled_button_for_inexistent_request(sc.id)
+        insert_enabled_button_for_request_rejected(sc.id, sc.motivo_recusa)
       end
     
     else
@@ -121,6 +121,25 @@ module CustomersHelper
         }
       ) do
         concat link_to 'Solicitação Aceita', {}, disabled: true, class: "btn btn-success"
+      end
+    )
+  end
+
+  def insert_enabled_button_for_request_rejected(sc_id, sc_motivo_recusa)
+    concat(
+      content_tag(
+        :div,
+        {
+          'class' => "col-xs-12 col-md-4 button-middle dica",
+          'data-toggle' => "popover",
+          'data-trigger' => "hover",
+          'data-placement'=>"left",
+          'data-html' => "true",
+          'title' => "Solicitação Rejeitada pelo Profissional",
+          'data-content' => "O profissional rejeitou sua solicitação com a seguinte justificativa: \"<i>#{sc_motivo_recusa}</i>\".<br /><br /> Caso não concorde você poderá contactá-lo e resubmeter a solicitação."
+        }
+      ) do 
+        concat link_to 'Solicitação Rejeitada', create_exchange_order_path(exchange_order: { schedule_id: sc_id }), :data => { :confirm => "Reenviar Solicitação?" }, :method=>:post, remote: true, class: "btn btn-danger"
       end
     )
   end

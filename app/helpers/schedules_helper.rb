@@ -20,13 +20,16 @@ module SchedulesHelper
               concat "Hora: #{sc.datahora_inicio.strftime('%H:%M')}"
               concat tag(:br)
               concat(content_tag(:span, class: "label label-danger pull-right") do
-                concat link_to("Recusar",
-                              accept_exchange_order_schedules_path(
-                                  exchange_order: { schedule_id: sc.id, status: :reject }
-                              ),
-                              data: { confirm: "Tem certeza?" },
-                              method: :post,
-                              remote: true)
+                concat(link_to("Recusar",
+                                "#myModalReject",
+                                class: 'rejection_button',
+                                :data => {
+                                          toggle: "modal",
+                                          schedule_id: sc.id,
+                                          status: :reject
+                                          }
+                              )
+                )
               end)
               concat(content_tag(:span, class: "label label-success pull-right") do
                 concat link_to(
@@ -46,7 +49,7 @@ module SchedulesHelper
       end
     else
       concat(
-        content_tag(:li) do
+        content_tag(:li, id: 'bom_trabalho') do
           concat content_tag(:h6, 'Bom Trabalho! Você não possui Ordens de Troca em aberto. Yupii!')
           concat content_tag(:div, nil, class: 'clearfix') 
           concat tag(:hr)

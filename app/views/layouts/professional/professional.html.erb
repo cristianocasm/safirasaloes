@@ -22,6 +22,7 @@
     <%= render "layouts/professional/secondary_header" %>
     <div class="content">
       <%= render "layouts/professional/sidebar" unless current_professional.suspenso? %>
+      <%= render "layouts/professional/reject_exchange_order_modal" unless current_professional.suspenso? || current_professional.bloqueado? %>
       <%= yield :modals unless current_professional.suspenso? || current_professional.bloqueado? %>
       <%= render "layouts/professional/main_content" unless current_professional.suspenso? %>
     </div>

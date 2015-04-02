@@ -1,4 +1,8 @@
 <% publish_to "/professional/order_exchanges/#{@professional_id}" do %>
+  var numOrdens = parseInt($("#ordens_trocas").text());
+  if(numOrdens == 0){
+    $("#bom_trabalho").remove()
+  }
   $("#ordensDeTroca").append(
       '<% concat(
             content_tag(:li, id: @sc.id) do
@@ -12,13 +16,16 @@
                 concat "Hora: #{@sc.datahora_inicio.strftime("%H:%M")}"
                 concat tag(:br)
                 concat(content_tag(:span, class: "label label-danger pull-right") do
-                  concat link_to("Recusar",
-                                accept_exchange_order_schedules_path(
-                                    exchange_order: { schedule_id: @sc.id, status: :reject }
-                                ),
-                                data: { confirm: "Tem certeza?" },
-                                method: :post,
-                                remote: true)
+                  concat(link_to("Recusar",
+                                "#myModalReject",
+                                class: "rejection_button",
+                                :data => {
+                                          toggle: "modal",
+                                          schedule_id: "#{@sc.id}",
+                                          status: "reject"
+                                          }
+                              )
+                  )
                 end)
                 concat(content_tag(:span, class: "label label-success pull-right") do
                   concat link_to(
@@ -40,7 +47,6 @@
   var numOrdens = parseInt($("#ordens_trocas").text());
   numOrdens = numOrdens + 1;
   $("#ordens_trocas").text(numOrdens)
-
 
   noty(
     {

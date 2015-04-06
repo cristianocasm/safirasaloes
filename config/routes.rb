@@ -2,8 +2,8 @@ Rails.application.routes.draw do
   
   root :to => redirect('/entrar') # Alterar pelo link do SafiraSalões
     
-  devise_for :professionals, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'senha', confirmation: 'confirmar', unlock: 'desbloquear', sign_up: 'cadastrar' }, controllers: { sessions: 'sessions' }
-  devise_for :customers, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'senha', confirmation: 'confirmar', unlock: 'desbloquear', sign_up: 'cadastrar' }, controllers: { sessions: 'sessions' }
+  devise_for :professionals, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'profissional/senha', confirmation: 'profissional/confirmar', unlock: 'profissional/desbloquear', sign_up: 'profissional/cadastrar' }, controllers: { sessions: 'sessions' }
+  devise_for :customers, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'cliente/senha', confirmation: 'cliente/confirmar', unlock: 'cliente/desbloquear', sign_up: 'cliente/cadastrar' }, controllers: { sessions: 'sessions' }
   
   scope 'profissional' do
     root 'schedules#new', as: :professional_root

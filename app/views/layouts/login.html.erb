@@ -23,6 +23,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12">
+            <%= "*Área de <strong>#{label_name}</strong>. #{link_to 'Clique aqui', nil, href: toggle_scope_path()} caso você seja um <strong>#{toggle_resource_name('pt')}</strong>.".html_safe unless request.path == new_professional_session_path %>
             <!-- Widget starts -->
             <div class="widget worange">
               <!-- Widget head -->

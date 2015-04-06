@@ -57,6 +57,10 @@ class Professional < ActiveRecord::Base
   validate :formato_pagina_facebook, on: :update
   validate :formato_site, on: :update
 
+  def Professional.find_first(options = {})
+    puts "*********************ENTREI****************************************"
+  end
+
   def set_contato_definido
     self.contato_definido = true
   end
@@ -175,3 +179,4 @@ class Professional < ActiveRecord::Base
 
 
 end
+

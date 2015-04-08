@@ -39,15 +39,15 @@ class SchedulesController < ApplicationController
     end
   end
 
-  # # PATCH/PUT /schedules/1
-  # # PATCH/PUT /schedules/1.json
-  # def update
-  #   if @schedule.update(schedule_params)
-  #     render json: @schedule, status: :ok, location: @schedule
-  #   else
-  #     render json: @schedule.errors, status: :unprocessable_entity
-  #   end
-  # end
+  # PATCH/PUT /schedules/1
+  # PATCH/PUT /schedules/1.json
+  def update
+    if @schedule.update(schedule_params)
+      render json: @schedule, status: :ok, location: @schedule
+    else
+      render json: @schedule.errors, status: :unprocessable_entity
+    end
+  end
 
   # DELETE /schedules/1
   # DELETE /schedules/1.json

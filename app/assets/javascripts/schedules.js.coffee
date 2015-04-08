@@ -83,39 +83,43 @@ dealChangeEvent = (event, delta, revertFunc) ->
       alert("Um erro inesperado ocorreu e não foi possível atualizar o horário.")
 
 dealNewEvent = (start, end, jsEvent, view) ->
-  ano = start.get("year")
-  mes = start.get("month") + 1
-  dia = start.get("date")
+  anoI = start.get("year")
+  mesI = start.get("month") + 1
+  diaI = start.get("date")
+
+  anoF = end.get("year")
+  mesF = end.get("month") + 1
+  diaF = end.get("date")
 
   if view.name == 'month'
-    hour = 10
-    min = 0
-    hourFim = 11
-    minFim = 0
+    hourI = 10
+    minI = 0
+    hourF = 11
+    minF = 0
   else if view.name == 'agendaWeek' || view.name == 'agendaDay'
-    hour = start.get("hour")
-    min = start.get("minute")
-    hourFim = end.get("hour")
-    minFim = end.get("minute")
+    hourI = start.get("hour")
+    minI = start.get("minute")
+    hourF = end.get("hour")
+    minF = end.get("minute")
   else
     $("#myModalError").modal(show: true)
     return
 
-  fillFields(ano, mes, dia, hour, min, hourFim, minFim)
+  fillFields(anoI, mesI, diaI, hourI, minI, anoF, mesF, diaF, hourF, minF)
   $("div#errors").empty()
   $("#myModal").modal(show: true)
 
-fillFields = (ano, mes, dia, hour, min, hourFim, minFim) ->
-  $("#schedule_datahora_inicio_1i").val(ano)
-  $("#schedule_datahora_inicio_2i").val(mes)
-  $("#schedule_datahora_inicio_3i").val(dia)
-  $("#schedule_datahora_inicio_4i").val(pad2(hour))
-  $("#schedule_datahora_inicio_5i").val(pad2(min))
-  $("#schedule_datahora_fim_1i").val(ano)
-  $("#schedule_datahora_fim_2i").val(mes)
-  $("#schedule_datahora_fim_3i").val(dia)
-  $("#schedule_datahora_fim_4i").val(pad2(hourFim))
-  $("#schedule_datahora_fim_5i").val(pad2(minFim))
+fillFields = (anoI, mesI, diaI, hourI, minI, anoF, mesF, diaF, hourF, minF) ->
+  $("#schedule_datahora_inicio_1i").val(anoI)
+  $("#schedule_datahora_inicio_2i").val(mesI)
+  $("#schedule_datahora_inicio_3i").val(diaI)
+  $("#schedule_datahora_inicio_4i").val(pad2(hourI))
+  $("#schedule_datahora_inicio_5i").val(pad2(minI))
+  $("#schedule_datahora_fim_1i").val(anoF)
+  $("#schedule_datahora_fim_2i").val(mesF)
+  $("#schedule_datahora_fim_3i").val(diaF)
+  $("#schedule_datahora_fim_4i").val(pad2(hourF))
+  $("#schedule_datahora_fim_5i").val(pad2(minF))
 
 pad2 = (number) ->
   (if number < 10 then '0' else '') + number

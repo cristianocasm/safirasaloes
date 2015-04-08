@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     post 'get_customer_rewards/:customer_id', to: 'rewards#get_customer_rewards', as: :get_customer_rewards
     resources :services
     resources :statuses
-    resources :schedules, except: [:update] do
+    resources :schedules do
       post :get_last_two_months_scheduled_customers, on: :collection # profissional/schedules/get_last_two_months_scheduled_customers
     end
   end

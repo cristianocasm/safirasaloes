@@ -11,9 +11,13 @@
     <%= f.label :telefone %><br>
     <%= f.text_field :telefone, class: "twitter-typeahead form-control", autocomplete: "off" %>
   </div>
-  <div class="field">
+  <div class="field professional_service">
     <%= f.label :serviço %><br>
-    <%= f.select :service_id, current_professional.services.collect {|p| [ p.nome, p.id ] } %>
+    <%= f.select :service_id, current_professional.services.collect {|s| [ s.nome, s.id, { preco: s.preco } ] } %>
+    <span class="field" id="pagamento_com_safiras" style="display: none;">
+      <%= f.check_box :pago_com_safiras %> <%= label_tag 'Utilizar Safiras como Pagamento' %> <span><i class="fa fa-question-circle" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true" title="Utilizar Safiras para Pagamento"
+          data-content="Seu cliente acumulou Safiras suficientes para trocar por este serviço. Marque esta opção para utilizar as Safiras dele como forma de pagamento por este serviço."></i></span>
+    </span>
   </div>
   <div class="field">
     <%= f.label :início %><br>
@@ -25,6 +29,7 @@
   </div>
   <%= f.hidden_field :customer_id %>
   <%= f.hidden_field :id %>
+  <%= hidden_field_tag :total_safiras %>
   <div class="actions">
     <%= f.submit 'Marcar Horário', data: { disable_with: "Aguarde..." } %>
   </div>

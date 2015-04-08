@@ -5,6 +5,7 @@
 */
 
 <%- sc = @schedule -%>
+<%- rws = sc.get_rewards_by_customer_and_professional -%>
 
 $("#schedule_nome").val("<%= sc.nome %>")
 $("#schedule_email").typeahead('val', "<%= sc.email %>")
@@ -24,6 +25,17 @@ $("#schedule_datahora_fim_2i").val(<%= sc.datahora_fim.month %>)
 $("#schedule_datahora_fim_1i").val(<%= sc.datahora_fim.year %>)
 $("#schedule_datahora_fim_4i").val(pad2(<%= sc.datahora_fim.hour %>))
 $("#schedule_datahora_fim_5i").val(pad2(<%= sc.datahora_fim.min %>))
+// Tratando utilização de Safiras para pagamento
+<% if sc.pago_com_safiras %>
+  $('input#schedule_pago_com_safiras').prop('disabled', false)
+  $('input#schedule_pago_com_safiras').prop('checked', true)
+  $("input#total_safiras").val('<%= rws.total_safiras %>')
+  $('span#pagamento_com_safiras').show()
+<% elsif rws.present? && rws.total_safiras >= (sc.service.preco * 2) %>
+  $('input#schedule_pago_com_safiras').prop('disabled', false)
+  $("input#total_safiras").val('<%= rws.total_safiras %>')
+  $('span#pagamento_com_safiras').show()
+<% end %>
 // Ativando o modal
 $("#myModal").modal('show');
 

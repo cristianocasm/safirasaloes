@@ -32,10 +32,11 @@
 #  local_trabalho         :string(255)
 #  status_id              :integer
 #  data_expiracao_status  :datetime
-#  contato_definido       :boolean
+#  contato_definido       :boolean          default(FALSE)
 #  hashtag                :string(255)
 #  site                   :string(255)
 #  pagina_facebook        :string(255)
+#  whatsapp               :string(255)
 #
 
 aline:
@@ -61,6 +62,16 @@ joao:
   nome: João
   email: joao@gmail.com
   telefone: (99) 9999-9999
+  cep: 11.111-111
+  rua: Rio Dom
+  numero: 11
+  bairro: Inconfidentes
+  cidade: Contagem
+  estado: Minas Gerais 
+  complemento: '-'
+  profissao: Barbeiro
+  contato_definido: true
+  local_trabalho: Salão Próprio
   confirmed_at: 2015-01-01 00:00:00
   status: assinante
   data_expiracao_status: <%= 7.days.from_now %>

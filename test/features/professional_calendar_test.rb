@@ -66,31 +66,6 @@ feature "Calendario" do
     assert page.has_css?("#schedule_telefone"), "Campo 'Telefone' não está aparecendo"
   end
 
-  scenario "profissional não pode criar horário com início no passado", js: true do
-    oneHourAhead = 4.hours.ago
-    twoHoursAhead = 5.hours.from_now
-
-    visit professional_root_path
-    find('.fc-agendaWeek-button').click
-    execute_script("
-      $('#calendar').fullCalendar(
-        'select',
-        '#{ oneHourAhead.strftime('%Y-%m-%d %H') }',
-        '#{ twoHoursAhead.strftime('%Y-%m-%d %H') }'
-      )
-    ")
-    find('.fc-agendaWeek-button').click
-    fill_in "schedule_nome", with: customers(:cristiano).nome
-    select @profAline.services.first.nome, from: :schedule_service_id
-    click_button 'Marcar Horário'
-
-    wait_for_ajax
-
-    assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
-    assert page.has_css?("#myModal", visible: true), "Modal com formulário não aparecendo"
-    assert page.has_content?("Datahora inicio deve estar no futuro"), "Modal de formulário não exibe msg de erro"
-  end
-
   scenario "profissional não pode criar horário com início após o fim", js: true do
     oneHourAhead = 4.hours.from_now
     twoHoursAhead = 5.hours.from_now
@@ -113,7 +88,7 @@ feature "Calendario" do
 
     assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
     assert page.has_css?("#myModal", visible: true), "Modal com formulário não aparecendo"
-    assert page.has_content?("Datahora fim deve ser após Datahora inicio"), "Modal de formulário não exibe msg de erro"
+    assert page.has_content?("Datahora fim deve estar após Datahora inicio"), "Modal de formulário não exibe msg de erro"
   end
 
   scenario "profissional não pode criar horário com início igual ao fim", js: true do
@@ -137,7 +112,7 @@ feature "Calendario" do
 
     assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
     assert page.has_css?("#myModal", visible: true), "Modal com formulário não aparecendo"
-    assert page.has_content?("Datahora fim deve ser após Datahora inicio"), "Modal de formulário não exibe msg de erro"
+    assert page.has_content?("Datahora fim deve estar após Datahora inicio"), "Modal de formulário não exibe msg de erro"
   end
 
   scenario "profissional não pode criar horário sem serviço", js: true do
@@ -296,7 +271,7 @@ feature "Calendar TypeAhead" do
     suggestion_appears?('schedule_telefone', ctDa, :telefone, @telLimit)
   end
 
-  scenario "sistema não carrega no buffer do profissional os dados de clientes atendidos entre [60, 7] dias em outros estabelecimentos", js: true, focus: true do
+  scenario "sistema não carrega no buffer do profissional os dados de clientes atendidos entre [60, 7] dias em outros estabelecimentos", js: true do
     ct = customers(:elano)
 
     Customer.expects(:filter_by_email).
@@ -374,8 +349,8 @@ feature "Calendar TypeAhead" do
     execute_script("
       $('#calendar').fullCalendar(
         'select',
-        '#{ oneHourAhead.strftime('%Y-%m-%d %H') }',
-        '#{ twoHoursAhead.strftime('%Y-%m-%d %H') }'
+        '#{ twoHoursAhead.strftime('%Y-%m-%d %H') }',
+        '#{ oneHourAhead.strftime('%Y-%m-%d %H') }'
       )
     ")
 

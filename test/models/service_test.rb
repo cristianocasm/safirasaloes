@@ -10,7 +10,7 @@
 #  updated_at            :datetime
 #  professional_id       :integer
 #  preco                 :decimal(8, 2)
-#  recompensa_divulgacao :integer
+#  recompensa_divulgacao :integer          default(0)
 #
 
 require 'test_helper'

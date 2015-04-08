@@ -99,10 +99,10 @@ pt-BR:
     format: ! '%{attribute} %{message}'
     messages:
       not_a_date: "não é uma data válida"
-      after: "deve ser após Datahora inicio"
+      after: "deve estar após Datahora inicio"
       after_or_equal_to: "deve estar no futuro"
-      before: "deve ser antes de Datahora fim"
-      before_or_equal_to: "deve ser antes ou igual a %{date}"
+      before: "deve estar antes de Datahora fim"
+      before_or_equal_to: "deve estar antes ou igual a %{date}"
       accepted: deve ser aceito
       blank: não pode ficar em branco
       present: deve ficar em branco

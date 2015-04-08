@@ -19,20 +19,21 @@ class SchedulesControllerTest < ActionController::TestCase
     assert_template layout: 'layouts/professional/professional'
   end
 
-  test "deve gravar recompensa de divulgação" do
-    @schedule = { customer_id: customers(:sonia), datahora_inicio: DateTime.now.to_default_s, datahora_fim: 1.hour.from_now.to_default_s, service_id: @profAline.services.first.id }
+  # test "deve gravar recompensa de divulgação" do
+  #   @schedule = { customer_id: customers(:sonia), datahora_inicio: DateTime.now.to_default_s, datahora_fim: 1.hour.from_now.to_default_s, service_id: @profAline.services.first.id }
 
-    xhr :post, :create, schedule: @schedule
-    assert assigns(:schedule).recompensa_divulgacao, @profAline.services.first.recompensa_divulgacao
-  end
+  #   xhr :post, :create, schedule: @schedule
+  #   assert assigns(:schedule).recompensa_divulgacao, @profAline.services.first.recompensa_divulgacao
+  # end
 
-  test "deve atualizar recompensa de divulgação" do
-    schedule = @profAline.schedules.first
-    schedule.service_id = @profAline.services.second.id
-    xhr :patch, :update, id: schedule, schedule: schedule.attributes
-    assert assigns(:schedule).recompensa_divulgacao, schedule.service.recompensa_divulgacao
-    assert_not_equal assigns(:schedule).recompensa_divulgacao, @profAline.services.first.recompensa_divulgacao
-  end
+  # test "deve atualizar recompensa de divulgação" do
+  #   schedule = @profAline.schedules.first
+  #   schedule.service_id = @profAline.services.second.id
+  #   xhr :patch, :update, id: schedule, schedule: schedule.attributes
+  #   assert assigns(:schedule).recompensa_divulgacao, schedule.service.recompensa_divulgacao
+  #   assert_not_equal assigns(:schedule).recompensa_divulgacao, @profAline.services.first.recompensa_divulgacao
+  # end
+
 
   # test "should get index" do
   #   get :index

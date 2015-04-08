@@ -10,7 +10,7 @@
 #  updated_at            :datetime
 #  professional_id       :integer
 #  preco                 :decimal(8, 2)
-#  recompensa_divulgacao :integer
+#  recompensa_divulgacao :integer          default(0)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -55,13 +55,13 @@ barba_joao:
 
 cabelo_joao:
   nome: Cabelo
-  preco: 25.00
+  preco: 12.50
   professional: joao
   recompensa_divulgacao: 16
 
 bigode_joao:
   nome: Bigode
-  preco: 8.00
+  preco: 100.00
   professional: joao
   recompensa_divulgacao: 17
 

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   
-  root :to => redirect('/entrar') # Alterar pelo link do SafiraSalões
+  root :to => redirect('/entrar')
     
   devise_for :professionals, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'profissional/senha', confirmation: 'profissional/confirmar', unlock: 'profissional/desbloquear', sign_up: 'profissional/cadastrar' }, controllers: { sessions: 'sessions' }
   devise_for :customers, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'cliente/senha', confirmation: 'cliente/confirmar', unlock: 'cliente/desbloquear', sign_up: 'cliente/cadastrar' }, controllers: { sessions: 'sessions' }
@@ -10,11 +10,11 @@ Rails.application.routes.draw do
     
     post :filter_by_email, to: 'customers#filter_by_email'
     post :filter_by_telefone, to: 'customers#filter_by_telefone'
+    post 'get_customer_rewards/:customer_id', to: 'rewards#get_customer_rewards', as: :get_customer_rewards
     resources :services
     resources :statuses
-    resources :schedules do
-      post :get_last_two_months_scheduled_customers, on: :collection #/schedules/get_last_two_months_scheduled_customers
-      post :accept_exchange_order, on: :collection
+    resources :schedules, except: [:update] do
+      post :get_last_two_months_scheduled_customers, on: :collection # profissional/schedules/get_last_two_months_scheduled_customers
     end
   end
 
@@ -24,8 +24,7 @@ Rails.application.routes.draw do
     resources :customers
     resources :photo_logs
 
-    get 'ordem_de_troca/new/', to: 'schedules#new_exchange_order', as: :new_exchange_order
-    post 'ordem_de_troca/new/', to: 'schedules#create_exchange_order', as: :create_exchange_order
+    get :meus_servicos, to: 'schedules#meus_servicos_por_profissionais', as: :meus_servicos
   end
   
 end

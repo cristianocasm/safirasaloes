@@ -47,8 +47,8 @@ gem 'fuelux-rails-sass'
 
 gem 'sidekiq'
 
-gem 'thin'
-gem 'private_pub'
+# gem 'thin'
+# gem 'private_pub'
 
 gem "bullet", :group => "development"
 

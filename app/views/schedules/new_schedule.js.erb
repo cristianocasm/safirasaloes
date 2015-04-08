@@ -1,7 +1,6 @@
 <%- sc = @schedule -%>
 
 <% if sc.persisted? %>
-  $("#myModal").modal('hide');
     var myEvent = {
       id:    <%= sc.id %>,
       title: '<%= sc.nome %>',
@@ -14,6 +13,7 @@
     };
   $('#calendar').fullCalendar('removeEvents', <%= sc.id %>);
   $("#calendar").fullCalendar('renderEvent', myEvent);
+  $("#myModal").modal('hide');
 <% elsif sc.errors.added?(:professional_id, :blank) || 
          sc.errors.added?(:service_id, :blank) ||
          sc.errors.added?(:datahora_inicio, :blank) ||

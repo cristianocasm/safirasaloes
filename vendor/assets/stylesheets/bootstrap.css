@@ -3681,6 +3681,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .label-success {
   background-color: #5cb85c;
 }
+.label-facebook {
+  background-color: #3b5998;
+}
 .label-success[href]:hover,
 .label-success[href]:focus {
   background-color: #449d44;

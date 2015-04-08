@@ -43,19 +43,21 @@ class Permission < Struct.new(:resource)
 
   def professional_permission(controller, action)
     if resource.testando? || resource.assinante?
-        return true if controller == "services" && action.in?(%w[new index update create edit show destroy])
-        return true if controller == "schedules" && action.in?(%w[new index update create edit show destroy get_last_two_months_scheduled_customers accept_exchange_order])
-        return true if controller == "customers" && action.in?(%w[filter_by_email filter_by_telefone])
-        return true if controller == "devise/registrations" && action.in?(%w[edit update])
-      end
-      return true if resource.bloqueado? && controller == "schedules" && action.in?(%w[new index])
-      return true if resource.suspenso? && controller == "schedules" && action.in?(%w[new])
-      return false
+      return true if controller == "services" && action.in?(%w[new index update create edit show destroy])
+      return true if controller == "schedules" && action.in?(%w[new index update create edit show destroy get_last_two_months_scheduled_customers])
+      return true if controller == "customers" && action.in?(%w[filter_by_email filter_by_telefone])
+      return true if controller == "devise/registrations" && action.in?(%w[edit update])
+      return true if controller == "rewards" && action.in?(%w[get_customer_rewards])
+    end
+
+    return true if resource.bloqueado? && controller == "schedules" && action.in?(%w[new index])
+    return true if resource.suspenso? && controller == "schedules" && action.in?(%w[new])
+    return false
   end
 
   def customer_permission(controller, action)
     return true if controller.in?(%w[photo_logs]) && action.in?(%w[create new])
-    return true if controller.in?(%w[schedules]) && action.in?(%w[new_exchange_order create_exchange_order])
+    return true if controller.in?(%w[schedules]) && action.in?(%w[meus_servicos_por_profissionais])
     return false
   end
 

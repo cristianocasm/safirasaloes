@@ -2,15 +2,18 @@
 #
 # Table name: schedules
 #
-#  id                    :integer          not null, primary key
-#  professional_id       :integer
-#  customer_id           :integer
-#  service_id            :integer
-#  datahora_inicio       :datetime
-#  created_at            :datetime
-#  updated_at            :datetime
-#  datahora_fim          :datetime
-#  recompensa_divulgacao :integer
+#  id               :integer          not null, primary key
+#  professional_id  :integer
+#  customer_id      :integer
+#  service_id       :integer
+#  datahora_inicio  :datetime
+#  created_at       :datetime
+#  updated_at       :datetime
+#  datahora_fim     :datetime
+#  nome             :string(255)
+#  email            :string(255)
+#  telefone         :string(255)
+#  pago_com_safiras :boolean          default(FALSE)
 #
 
 require 'test_helper'
@@ -21,9 +24,8 @@ class ScheduleTest < ActiveSupport::TestCase
   should belong_to(:professional)
   should belong_to(:customer)
   should belong_to(:service)
-  should belong_to(:exchange_order_status)
   should have_one(:photo_log)
-  should have_db_column(:recompensa_divulgacao)
+  should_not have_db_column(:recompensa_divulgacao)
   should have_db_column(:nome)
   should have_db_column(:email)
   should have_db_column(:telefone)
@@ -51,15 +53,10 @@ class ScheduleTest < ActiveSupport::TestCase
         @sc = Schedule.new(@sc)
       end
 
-      test "define 'exchange_order_status' como inexistente" do
-        @sc.save
-        assert_equal exchange_order_statuses(:inexistente).nome, @sc.exchange_order_status.nome, 'exchange_order_status não definido como inexistente na criação'
-      end
-
-      test "define 'recompensa_divulgacao' como service.recompensa" do
-        @sc.save
-        assert_equal @sc.service.recompensa_divulgacao, @sc.recompensa_divulgacao, 'Não definindo recompensa_divulgacao'
-      end
+      # test "define 'recompensa_divulgacao' como service.recompensa" do
+      #   @sc.save
+      #   assert_equal @sc.service.recompensa_divulgacao, @sc.recompensa_divulgacao, 'Não definindo recompensa_divulgacao'
+      # end
     
       test "é válido com 'e-mail' selecionado e envia e-mail de notificação" do
         CustomerInvitation.expects(:invite_customer).never

@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: rewards
+#
+#  id              :integer          not null, primary key
+#  professional_id :integer
+#  customer_id     :integer
+#  total_safiras   :integer
+#  created_at      :datetime
+#  updated_at      :datetime
+#
+
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 cristiano_aline:
@@ -8,7 +20,7 @@ cristiano_aline:
 cristiano_joao:
   professional: joao
   customer: cristiano
-  total_safiras: 31
+  total_safiras: 25
 
 cristiano_prof_suspenso:
   professional: prof_suspenso

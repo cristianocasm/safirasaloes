@@ -3,6 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 jQuery ->
   if $('#calendar').length
+    set_bindings()
     config_callendar()
     load_events('profissional/schedules')
     launch_typeahead()
@@ -122,18 +123,17 @@ pad2 = (number) ->
 ################# INICIALIZANDO UTILIZAÇÃO DE TYPEAHEAD.JS PLUGIN #################
 
 launch_typeahead = ->
-  $('#myModal').bind 'hide.bs.modal', ->
-    $(this).find('form')[0].reset()
-    $("#schedule_customer_id").val("") # Necessário já que hidden inputs não sofrem ação de form.reset()
-
   $('.twitter-typeahead.input-sm').siblings('input.tt-hint').addClass 'hint-small'
   $('.twitter-typeahead.input-lg').siblings('input.tt-hint').addClass 'hint-large'
-  $('input.twitter-typeahead').on 'typeahead:selected', (jQueryObj, selectedObj, datasetName) ->
-    $('#schedule_customer_id').val(selectedObj['id'])
-    $('#schedule_nome').val(selectedObj['nome'])
-    $('#schedule_email').typeahead('val', selectedObj['email'])
-    $('#schedule_telefone').typeahead('val', selectedObj['telefone'])
+  get_last_two_months_served_customers()
 
+set_bindings = ->
+  $('select#schedule_service_id').change check_whether_show_checkbox_for_safira_acceptance
+  $('#myModal').bind 'hide.bs.modal', reset_form
+  $('input.twitter-typeahead').on 'typeahead:selected', (jQueryObj, selectedObj, datasetName) -> fill_form_with_customers_information(jQueryObj, selectedObj, datasetName)
+  watch_over_customer_fields()
+
+watch_over_customer_fields = ->
   $('.twitter-typeahead').each ->
     elem = $(this);
     nome = $("#schedule_nome")
@@ -156,8 +156,57 @@ launch_typeahead = ->
             telefone.typeahead('val', '')
             email.typeahead('val', '')
             elem.typeahead('val', val)
+            hide_checkbox()
 
-  get_last_two_months_served_customers()
+check_whether_show_checkbox_for_safira_acceptance = () ->
+  preco = $('option:selected').attr('preco')
+  preco = parseFloat(preco)
+  total_safiras = $("#total_safiras").val()
+
+  console.log preco
+  console.log total_safiras
+  console.log (preco * 2) <= total_safiras
+
+  if((preco * 2) <= total_safiras)
+    show_checkbox()
+  else
+    hide_checkbox()
+
+fill_form_with_customers_information = (jQueryObj, selectedObj, datasetName) ->
+  $('#schedule_customer_id').val(selectedObj['id'])
+  $('#schedule_nome').val(selectedObj['nome'])
+  $('#schedule_email').typeahead('val', selectedObj['email'])
+  $('#schedule_telefone').typeahead('val', selectedObj['telefone'])
+  get_customer_rewards(selectedObj['id'])
+
+get_customer_rewards = (customer_id) ->
+  $.ajax
+    url: "/profissional/get_customer_rewards/#{customer_id}"
+    type: 'post'
+    dataType: 'json'
+    success: (data, textStatus, jqXHR) ->
+      preco = $('option:selected').attr('preco')
+      preco = parseFloat(preco)
+      total_safiras = data['total_safiras']
+      
+      $("#total_safiras").val(total_safiras)
+      check_whether_show_checkbox_for_safira_acceptance()
+    error: (jqXHR, textStatus, errorThrown) ->
+
+reset_form = ->
+  $(this).find('form')[0].reset()
+  $("#schedule_customer_id").val("") # Necessário já que hidden inputs não sofrem ação de form.reset()
+  $("#total_safiras").val("") # Necessário já que hidden inputs não sofrem ação de form.reset()
+  hide_checkbox()
+
+hide_checkbox = ->
+  $("span#pagamento_com_safiras").hide()
+  $("input#schedule_pago_com_safiras").prop('disabled', true)
+
+show_checkbox = ->
+  $("span#pagamento_com_safiras").show()
+  $("input#schedule_pago_com_safiras").prop('disabled', false)
+
 
 new_bloodhound_email = (data) ->
   new Bloodhound
@@ -231,57 +280,3 @@ start_typeahead = (engine, elm, key, minLength) ->
       source: engine.ttAdapter()
     }
   )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# /* jQuery Notification */
-
-# $(document).ready(function(){
-
-#   setTimeout(function() {noty({text: '<strong>Howdy! Hope you are doing good...</strong>',layout:'topRight',type:'information',timeout:15000});}, 7000);
-
-#   setTimeout(function() {noty({text: 'This is an all in one theme which includes Front End, Admin & E-Commerce. Dont miss it. Grab it now',layout:'topRight',type:'alert',timeout:13000});}, 9000);
-
-# });
-
-
-# $(document).ready(function() {
-
-#   $('.noty-alert').click(function (e) {
-#       e.preventDefault();
-#       noty({text: 'Some notifications goes here...',layout:'topRight',type:'alert',timeout:2000});
-#   });
-
-#   $('.noty-success').click(function (e) {
-#       e.preventDefault();
-#       noty({text: 'Some notifications goes here...',layout:'top',type:'success',timeout:2000});
-#   });
-
-#   $('.noty-error').click(function (e) {
-#       e.preventDefault();
-#       noty({text: 'Some notifications goes here...',layout:'topRight',type:'error',timeout:2000});
-#   });
-
-#   $('.noty-warning').click(function (e) {
-#       e.preventDefault();
-#       noty({text: 'Some notifications goes here...',layout:'bottom',type:'warning',timeout:2000});
-#   });
-
-#   $('.noty-information').click(function (e) {
-#       e.preventDefault();
-#       noty({text: 'Some notifications goes here...',layout:'topRight',type:'information',timeout:2000});
-#   });
-
-# });

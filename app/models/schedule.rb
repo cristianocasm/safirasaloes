@@ -2,31 +2,33 @@
 #
 # Table name: schedules
 #
-#  id                    :integer          not null, primary key
-#  professional_id       :integer
-#  customer_id           :integer
-#  service_id            :integer
-#  datahora_inicio       :datetime
-#  created_at            :datetime
-#  updated_at            :datetime
-#  datahora_fim          :datetime
-#  recompensa_divulgacao :integer
+#  id               :integer          not null, primary key
+#  professional_id  :integer
+#  customer_id      :integer
+#  service_id       :integer
+#  datahora_inicio  :datetime
+#  created_at       :datetime
+#  updated_at       :datetime
+#  datahora_fim     :datetime
+#  nome             :string(255)
+#  email            :string(255)
+#  telefone         :string(255)
+#  pago_com_safiras :boolean          default(FALSE)
 #
 
 class Schedule < ActiveRecord::Base
   belongs_to :professional
   belongs_to :customer
   belongs_to :service
-  belongs_to :exchange_order_status
   has_one :photo_log
 
   validates_presence_of :professional_id, :service_id
   validate :presence_of_customer_info, on: [:create, :update]
   validate :email_format
-  validates :datahora_inicio, date: true, presence: true, date: { after_or_equal_to: Proc.new { DateTime.now } }, on: [:create, :update]
+  validates :datahora_inicio, date: true, presence: true, on: [:create, :update]
   validates :datahora_fim, date: true, date: { after: Proc.new { :datahora_inicio } }, on: [:create, :update]
 
-  before_create :set_defaults
+  before_save :deal_with_safiras_acceptance, if: Proc.new { |sc| sc.pago_com_safiras_changed? }
   after_create :send_email_notification, if: Proc.new { |sc| sc.email.present? }
   after_update :send_email_notification, if: Proc.new { |sc| sc.email.present? && (sc.email_changed? || sc.service_id_changed? || sc.datahora_inicio_changed? || sc.datahora_fim_changed?) }
 
@@ -37,15 +39,40 @@ class Schedule < ActiveRecord::Base
                                                                 }
 
   scope :in_the_future, -> { where("datahora_fim > ?", DateTime.now) }
-  scope :exchangeOrderWaiting, -> { where(exchange_order_status: ExchangeOrderStatus.find_by_nome('aguardando')) }
-  scope :exchangeOrderWaitingCount, -> { where(exchange_order_status: ExchangeOrderStatus.find_by_nome('aguardando')).size }
-  scope :safiras_resgatadas, -> { where(exchange_order_status: ExchangeOrderStatus.find_by_nome("aceita").id).sum(:recompensa_divulgacao) }
+  scope :safiras_resgatadas, -> { where("pago_com_safiras = true").sum(:safiras_resgatadas) }
+
+  def get_rewards_by_customer_and_professional
+    Reward.
+      where(
+        "professional_id = ? AND customer_id = ?",
+        self.professional_id,
+        self.customer_id
+      ).try(:first)
+  end
 
   private
 
-  def set_defaults
-    self.exchange_order_status_id = ExchangeOrderStatus.find_by_nome('inexistente').id
-    self.recompensa_divulgacao = self.service.recompensa_divulgacao
+  def deal_with_safiras_acceptance
+    if self.pago_com_safiras
+      update_customers_rewards do |rws, safiras|
+        rws.total_safiras -= safiras
+        self.safiras_resgatadas = safiras
+      end
+    else
+      update_customers_rewards do |rws, safiras|
+        rws.total_safiras += self.safiras_resgatadas
+        self.safiras_resgatadas = 0
+      end
+    end
+  end
+
+  def update_customers_rewards(&block)
+    rws = get_rewards_by_customer_and_professional
+    if rws.present?
+      safiras = self.service.preco * 2
+      yield rws, safiras
+      rws.save
+    end
   end
 
   def presence_of_customer_info

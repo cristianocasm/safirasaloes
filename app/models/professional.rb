@@ -44,7 +44,7 @@ class Professional < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
-         :validatable, :confirmable
+         :validatable, :confirmable, :async
 
   belongs_to :status
   has_many :schedules
@@ -57,10 +57,6 @@ class Professional < ActiveRecord::Base
   validate :contato_fornecido?, on: :update
   validate :formato_pagina_facebook, on: :update
   validate :formato_site, on: :update
-
-  def Professional.find_first(options = {})
-    puts "*********************ENTREI****************************************"
-  end
 
   def set_contato_definido
     self.contato_definido = true

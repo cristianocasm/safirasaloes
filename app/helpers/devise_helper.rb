@@ -4,6 +4,16 @@ module DeviseHelper
     flash[:error] = flash_errors(resource)
   end
 
+  def prohibited_path
+    request.path.in?(
+      [
+        new_professional_session_path,
+        edit_professional_password_path,
+        edit_customer_password_path,
+        new_customer_registration_path
+        ])
+  end
+
   def label_name
     if resource_name == :professional
       "profissional"

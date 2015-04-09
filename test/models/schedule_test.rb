@@ -59,7 +59,7 @@ class ScheduleTest < ActiveSupport::TestCase
       # end
     
       test "é válido com 'e-mail' selecionado e envia e-mail de notificação" do
-        CustomerInvitation.expects(:invite_customer).never
+        CustomerMailer.expects(:invite_customer).never
         assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
           @sc.save
         end
@@ -68,8 +68,8 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "não envia e-mails com 'e-mail' inválido" do
-        CustomerInvitation.expects(:invite_customer).never
-        CustomerInvitation.expects(:notify_customer).never
+        CustomerMailer.expects(:invite_customer).never
+        CustomerMailer.expects(:notify_customer).never
         @sc.email = "asdf"
         @sc.save
         assert !@sc.valid?, "Objeto considerado válido"
@@ -77,8 +77,8 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "não envia e-mails com 'e-mail' vazio" do
-        CustomerInvitation.expects(:invite_customer).never
-        CustomerInvitation.expects(:notify_customer).never
+        CustomerMailer.expects(:invite_customer).never
+        CustomerMailer.expects(:notify_customer).never
         @sc.email = ""
         @sc.save
         assert @sc.valid?, "Objeto considerado inválido"
@@ -94,7 +94,7 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "com e-mail válido (pertencente a cliente cadastrado) envia e-mail de notificação" do
-        CustomerInvitation.expects(:invite_customer).never
+        CustomerMailer.expects(:invite_customer).never
         assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
           @sc.save
         end
@@ -103,7 +103,7 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "com e-mail válido (pertencente a cliente cadastrado) redefine 'customer_id'" do
-        CustomerInvitation.expects(:invite_customer).never
+        CustomerMailer.expects(:invite_customer).never
         @sc.save
         assert @sc.valid?, "Objeto considerado inválido"
         assert_equal @sc.customer_id, schedules(:valido_com_cli_info).customer_id
@@ -111,10 +111,12 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "com e-mail válido, mas não pertencente a cliente algum envia e-mail convite" do
-        CustomerInvitation.expects(:notify_customer).never
-        assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
-          @sc.email = "asdf@test.com.br"
-          @sc.save
+        CustomerMailer.expects(:notify_customer).never
+        assert_difference('CustomerInvitation.all.size') do
+          assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
+            @sc.email = "asdf@test.com.br"
+            @sc.save
+          end
         end
         assert @sc.valid?, "Objeto considerado inválido"
         assert_equal 1, Sidekiq::Extensions::DelayedMailer.jobs.size, "Mais de um e-mail enviado."
@@ -122,7 +124,7 @@ class ScheduleTest < ActiveSupport::TestCase
 
       test "com e-mail válido, mas não pertencente a cliente algum limpa 'customer_id'" do
         skip("Adiando solução deste problema")
-        CustomerInvitation.expects(:notify_customer).never
+        CustomerMailer.expects(:notify_customer).never
         @sc.email = "asdf@test.com.br"
         @sc.save
         assert @sc.valid?, "Objeto considerado inválido"
@@ -130,8 +132,8 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "não envia e-mails com 'e-mail' inválido" do
-        CustomerInvitation.expects(:invite_customer).never
-        CustomerInvitation.expects(:notify_customer).never
+        CustomerMailer.expects(:invite_customer).never
+        CustomerMailer.expects(:notify_customer).never
         @sc.email = "asdf"
         @sc.save
         assert !@sc.valid?, "Objeto considerado válido"
@@ -139,8 +141,8 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "não envia e-mails com 'e-mail' vazio" do
-        CustomerInvitation.expects(:invite_customer).never
-        CustomerInvitation.expects(:notify_customer).never
+        CustomerMailer.expects(:invite_customer).never
+        CustomerMailer.expects(:notify_customer).never
         @sc.email = ""
         @sc.save
         assert @sc.valid?, "Objeto considerado inválido"
@@ -166,7 +168,7 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "notifica cliente por e-mail se 'e-mail' for alterado" do
-        CustomerInvitation.expects(:invite_customer).never
+        CustomerMailer.expects(:invite_customer).never
         assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
           ct = customers(:cristiano)
           @sc.email = ct.email
@@ -178,7 +180,7 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "envia e-mail de notificação se serviço mudar" do
-        CustomerInvitation.expects(:invite_customer).never
+        CustomerMailer.expects(:invite_customer).never
         assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
           @sc.service_id = services(:corte_feminino_aline).id
           @sc.save
@@ -188,7 +190,7 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "envia e-mail de notificação se início mudar" do
-        CustomerInvitation.expects(:invite_customer).never
+        CustomerMailer.expects(:invite_customer).never
         assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
           @sc.datahora_inicio = @sc.datahora_inicio - 1.day
           @sc.save
@@ -198,7 +200,7 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "envia e-mail de notificação se fim mudar" do
-        CustomerInvitation.expects(:invite_customer).never
+        CustomerMailer.expects(:invite_customer).never
         assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
           @sc.datahora_fim = @sc.datahora_fim + 30.days
           @sc.save
@@ -208,8 +210,8 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "não envia e-mails se apenas nome mudar" do
-        CustomerInvitation.expects(:invite_customer).never
-        CustomerInvitation.expects(:notify_customer).never
+        CustomerMailer.expects(:invite_customer).never
+        CustomerMailer.expects(:notify_customer).never
         @sc.nome = "teste"
         @sc.save
         assert @sc.valid?, "Objeto considerado inválido"
@@ -217,8 +219,8 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "não envia e-mail se apenas telefone mudar" do
-        CustomerInvitation.expects(:invite_customer).never
-        CustomerInvitation.expects(:notify_customer).never
+        CustomerMailer.expects(:invite_customer).never
+        CustomerMailer.expects(:notify_customer).never
         @sc.telefone = '(31) 1234-5678'
         @sc.save
         assert @sc.valid?, "Objeto considerado inválido"
@@ -226,8 +228,8 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "não envia e-mails com 'e-mail' inválido" do
-        CustomerInvitation.expects(:invite_customer).never
-        CustomerInvitation.expects(:notify_customer).never
+        CustomerMailer.expects(:invite_customer).never
+        CustomerMailer.expects(:notify_customer).never
         @sc.email = "asdf"
         @sc.save
         assert !@sc.valid?, "Objeto considerado válido"
@@ -235,8 +237,8 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "não envia e-mails com 'e-mail' vazio" do
-        CustomerInvitation.expects(:invite_customer).never
-        CustomerInvitation.expects(:notify_customer).never
+        CustomerMailer.expects(:invite_customer).never
+        CustomerMailer.expects(:notify_customer).never
         @sc.email = ""
         @sc.save
         assert @sc.valid?, "Objeto considerado inválido"
@@ -245,7 +247,7 @@ class ScheduleTest < ActiveSupport::TestCase
 
       describe "com e-mail divergente do customer_id" do
         test "para cliente não cadastrado envia e-mail convite" do
-          CustomerInvitation.expects(:notify_customer).never
+          CustomerMailer.expects(:notify_customer).never
           assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
             @sc.email = "abc_test@gmail.com"
             @sc.save
@@ -255,7 +257,7 @@ class ScheduleTest < ActiveSupport::TestCase
         end
 
         test "para cliente cadastrado envia e-mail convite" do
-          CustomerInvitation.expects(:invite_customer).never
+          CustomerMailer.expects(:invite_customer).never
           ct = customers(:cristiano)
           assert_difference('Sidekiq::Extensions::DelayedMailer.jobs.size') do
             @sc.email = ct.email

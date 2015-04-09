@@ -1,11 +1,3 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-
 Status.create!([
   { nome: 'testando',
     descricao: 'Profissional realizou o cadastro, verificou o e-mail e tem acesso ao sistema durante período de teste',
@@ -19,17 +11,6 @@ Status.create!([
   { nome: 'assinante',
     descricao: 'Profissional que paga mensalmente para utilizar a plataforma',
     dias_vigencia: 60000 }
-  ])
-
-ExchangeOrderStatus.create!([
-  { nome: 'inexistente',
-    descricao: 'ainda não criada' },
-  { nome: 'aceita',
-    descricao: 'ordem de troca aceita' },
-  { nome: 'recusada',
-  descricao: 'ordem de troca recusada' },
-  { nome: 'aguardando',
-  descricao: 'aguardando aceitação do profissional'}
   ])
 
 ####
@@ -61,62 +42,60 @@ c = Customer.create!(
   password: '123456'
   )
 
-c.update_attribute(:confirmed_at, 1.day.ago)
+# Service.create!([
+#   { nome: 'Corte Masculino',
+#     preco: 25.00,
+#     professional_id: p.id },
+#   { nome: 'Corte Feminino',
+#     preco: 45.00,
+#     professional_id: p.id },
+#   { nome: 'Unha mão',
+#     preco: 10.00,
+#     professional_id: p.id },
+#   { nome: 'Unha pé',
+#     preco: 10.00,
+#     professional_id: p.id },
+#   { nome: 'Unha mão e pé',
+#     preco: 15.00,
+#     professional_id: p.id },
+#   { nome: 'Corte Masculino',
+#     preco: 25.00,
+#     professional_id: p1.id },
+#   { nome: 'Corte Feminino',
+#     preco: 45.00,
+#     professional_id: p1.id },
+#   { nome: 'Unha mão',
+#     preco: 10.00,
+#     professional_id: p1.id },
+#   { nome: 'Unha pé',
+#     preco: 10.00,
+#     professional_id: p1.id },
+#   { nome: 'Unha mão e pé',
+#     preco: 15.00,
+#     professional_id: p1.id },
+#   { nome: 'Corte Masculino',
+#     preco: 25.00,
+#     professional_id: p2.id },
+#   { nome: 'Corte Feminino',
+#     preco: 45.00,
+#     professional_id: p2.id },
+#   { nome: 'Unha mão',
+#     preco: 10.00,
+#     professional_id: p2.id },
+#   { nome: 'Unha pé',
+#     preco: 10.00,
+#     professional_id: p2.id },
+#   { nome: 'Unha mão e pé',
+#     preco: 15.00,
+#     professional_id: p2.id }
 
-Service.create!([
-  { nome: 'Corte Masculino',
-    preco: 25.00,
-    professional_id: p.id },
-  { nome: 'Corte Feminino',
-    preco: 45.00,
-    professional_id: p.id },
-  { nome: 'Unha mão',
-    preco: 10.00,
-    professional_id: p.id },
-  { nome: 'Unha pé',
-    preco: 10.00,
-    professional_id: p.id },
-  { nome: 'Unha mão e pé',
-    preco: 15.00,
-    professional_id: p.id },
-  { nome: 'Corte Masculino',
-    preco: 25.00,
-    professional_id: p1.id },
-  { nome: 'Corte Feminino',
-    preco: 45.00,
-    professional_id: p1.id },
-  { nome: 'Unha mão',
-    preco: 10.00,
-    professional_id: p1.id },
-  { nome: 'Unha pé',
-    preco: 10.00,
-    professional_id: p1.id },
-  { nome: 'Unha mão e pé',
-    preco: 15.00,
-    professional_id: p1.id },
-  { nome: 'Corte Masculino',
-    preco: 25.00,
-    professional_id: p2.id },
-  { nome: 'Corte Feminino',
-    preco: 45.00,
-    professional_id: p2.id },
-  { nome: 'Unha mão',
-    preco: 10.00,
-    professional_id: p2.id },
-  { nome: 'Unha pé',
-    preco: 10.00,
-    professional_id: p2.id },
-  { nome: 'Unha mão e pé',
-    preco: 15.00,
-    professional_id: p2.id }
+#   ])
 
-  ])
-
-Schedule.create!([
-  { professional_id: p.id,
-    customer_id: c.id,
-    datahora_inicio: 1.hour.from_now.to_datetime,
-    datahora_fim: 2.hours.from_now.to_datetime,
-    service_id: p.services.first.id,
-    nome: c.nome }
-  ])
+# Schedule.create!([
+#   { professional_id: p.id,
+#     customer_id: c.id,
+#     datahora_inicio: 1.hour.from_now.to_datetime,
+#     datahora_fim: 2.hours.from_now.to_datetime,
+#     service_id: p.services.first.id,
+#     nome: c.nome }
+#   ])

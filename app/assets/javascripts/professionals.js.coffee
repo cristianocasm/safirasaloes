@@ -31,12 +31,15 @@ jQuery ->
 
 update_preview = (nome, telefone, whatsapp, fb, rua, num, bairro, comp, cidade, estado, site) ->
   $("#info_contato").empty()
-  $("#info_contato").append("#{if nome.val() != '' then '>>>>>> ' + nome.val() + ' <<<<<<<<<< <br/>' else ''}")
+  $("#info_contato").append("---<br/>")
+  $("#info_contato").append("#{if nome.val() != '' then 'Responsável: ' + nome.val() + '<br/>' else ''}")
   $("#info_contato").append("#{if telefone.val() != '' then 'Telefone: ' + telefone.val() + '<br/>' else ''}")
   $("#info_contato").append("#{if whatsapp.val() != '' then 'WhatsApp: ' + whatsapp.val() + '<br/>' else '' }")
   $("#info_contato").append(gerar_endereco(rua.val(), num.val(), bairro.val(), comp.val(), cidade.val(), estado.val()))
   $("#info_contato").append("#{if fb.val() != '' then 'Facebook: <a target=\'_blank\' href=\''+fb.val()+ '\'>'+fb.val()+'</a>' + '<br/>' else ''}")
   $("#info_contato").append("#{if site.val() != '' then 'Site: <a target=\'_blank\' href=\''+site.val()+ '\'>'+site.val()+'</a>' + '<br/>' else ''}")
+  $("#info_contato").append("<br/>")
+
 
 gerar_endereco = (rua, num, bairro, comp, cidade, estado) ->
   endereco = ""

@@ -107,14 +107,27 @@ class Schedule < ActiveRecord::Base
   # e o e-mail informado.
   def send_email_notification
     ct = Customer.find_by_email(self.email)
-    if ct.present?
-      if ct.id != self.customer_id
-        self.update_attribute(:customer_id, ct.id)
-        return
-      end
-      CustomerInvitation.delay.notify_customer(self.id)
+    ct.present? ? notify_customer(ct) : invite_customer
+  end
+
+  def notify_customer(ct)
+    if ct.id != self.customer_id
+      self.update_attribute(:customer_id, ct.id)
     else
-      CustomerInvitation.delay.invite_customer(self.id) if self.email.present?
+      CustomerMailer.delay.notify_customer(self.id)
+    end
+  end
+
+  def invite_customer
+    if self.email.present?
+      ci = CustomerInvitation.create(email: self.email)
+      CustomerMailer.delay.invite_customer(
+                                self.professional.nome,
+                                self.datahora_inicio,
+                                self.email,
+                                ci.token,
+                                self.service.nome
+                              )
     end
   end
 

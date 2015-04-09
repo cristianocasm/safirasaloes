@@ -1,4 +1,4 @@
-class CustomersController < ApplicationController
+class CustomersController < Devise::RegistrationsController
   before_action :set_customer, only: [:show, :edit, :update, :destroy]
 
   # GET /customers
@@ -14,7 +14,11 @@ class CustomersController < ApplicationController
 
   # GET /customers/new
   def new
-    @customer = Customer.new
+    if invited?
+      super
+    else
+      redirect_to root_path, flash: { error: 'Para cadastrar-se como cliente, você deve ser convidado. Caso tenha recebido o convite, certifique-se de clicar no link enviado para seu e-mail.' }
+    end
   end
 
   # GET /customers/1/edit
@@ -24,16 +28,10 @@ class CustomersController < ApplicationController
   # POST /customers
   # POST /customers.json
   def create
-    @customer = Customer.new(customer_params)
-
-    respond_to do |format|
-      if @customer.save
-        format.html { redirect_to @customer, notice: 'Customer was successfully created.' }
-        format.json { render :show, status: :created, location: @customer }
-      else
-        format.html { render :new }
-        format.json { render json: @customer.errors, status: :unprocessable_entity }
-      end
+    if invited?
+      super
+    else
+      redirect_to :back, flash: { error: 'Não encontramos convite para o e-mail fornecido. Por acaso você alterou seu e-mail?' }
     end
   end
 
@@ -84,6 +82,20 @@ class CustomersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def customer_params
-      params.require(:customer).permit(:nome, :email)
+      params.require(:customer).permit(:email, :password, :password_confirmation, :token)
+    end
+
+    def invited?
+      if params[:customer].present?
+        @email = customer_params[:email]
+        @token = customer_params[:token]
+
+        if @email.present? && @token.present?
+          ivt = CustomerInvitation.find_by_email_and_token(@email, @token)
+          return ivt.present?
+        end
+      else
+        false
+      end
     end
 end

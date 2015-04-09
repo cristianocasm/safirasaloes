@@ -22,12 +22,6 @@
             <!-- Dropdown menu -->
             <ul class="dropdown-menu">
               <li>
-                <%= link_to(edit_customer_registration_path) do %>
-                  <i class="fa fa-cogs"></i> Configurações
-                <% end %>
-              </li>
-
-              <li>
                 <%= link_to destroy_session_path(current_resource), :method => :delete do %>
                   <i class="fa fa-sign-out"></i> Sair
                 <% end %>

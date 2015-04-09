@@ -28,14 +28,21 @@ class Customer < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
-         :validatable, :confirmable
+         :validatable, :async
   has_many :rewards
   has_many :photo_logs
   has_many :schedules
   has_many :professionals, through: :schedules
 
+  after_commit :find_last_schedule
+
   scope :filter_by_email, -> (query) { select(:id, :nome, :email, :telefone).where("email LIKE '%#{query}%'") }
   scope :filter_by_telefone, -> (query) { select(:id, :nome, :email, :telefone).where("telefone LIKE '%#{query}%'") }
+
+  def find_last_schedule
+    GetLastScheduleWorker.
+      perform_async(self.email, self.id) unless self.schedule_recovered
+  end
 
   def safiras_somadas
     self.rewards.

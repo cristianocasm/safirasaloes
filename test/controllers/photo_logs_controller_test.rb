@@ -1,9 +1,24 @@
-# require 'test_helper'
+require 'test_helper'
 
-# class PhotoLogsControllerTest < ActionController::TestCase
-#   setup do
-#     @photo_log = photo_logs(:one)
-#   end
+class PhotoLogsControllerTest < ActionController::TestCase
+  include Devise::TestHelpers
+
+  test "deve ser redirecionado para 'Meus Serviços' caso não possa enviar fotos" do
+    @customer = customers(:fernanda)
+    sign_in :customer, @customer
+
+    get :new
+    assert_redirected_to customer_root_path
+    assert_equal "Você não foi atendido por um profissional nas últimas 12 horas e, por isso, ainda não pode enviar fotos.", flash["error"]
+  end
+
+  test "deve ser capaz de acessar 'Enviar Fotos' caso tenha sido atendido" do
+    @customer = customers(:cristiano)
+    sign_in :customer, @customer
+
+    get :new
+    assert_response :success
+  end
 
 #   test "should get index" do
 #     get :index
@@ -46,4 +61,4 @@
 
 #     assert_redirected_to photo_logs_path
 #   end
-# end
+end

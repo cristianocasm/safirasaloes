@@ -12,6 +12,7 @@
 #
 #= require jquery
 #= require jquery_ujs
+#= require jquery-fileupload
 #= require respond.min
 #= require bootstrap.min
 #= require jquery-ui.min

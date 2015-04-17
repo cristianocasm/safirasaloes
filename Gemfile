@@ -66,6 +66,9 @@ gem 'rack-mini-profiler'
 gem 'omniauth-facebook'
 gem "koala", "~> 2.0"
 
+gem 'jquery-fileupload-rails', "0.4.1"
+gem "paperclip", "~> 4.2"
+
 
 group :test, :development do
   gem 'byebug'

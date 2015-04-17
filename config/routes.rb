@@ -5,16 +5,15 @@ Rails.application.routes.draw do
   root :to => redirect('/entrar')
     
   devise_for :professionals, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'profissional/senha', confirmation: 'profissional/confirmar', unlock: 'profissional/desbloquear', sign_up: 'profissional/cadastrar' }, controllers: { sessions: 'sessions', registrations: 'devise/professional_registrations' }
-  devise_for :customers, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'cliente/senha', confirmation: 'cliente/confirmar', unlock: 'cliente/desbloquear' }, controllers: { sessions: 'sessions' }, skip: ['registrations']
+  devise_for :customers, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'cliente/senha', confirmation: 'cliente/confirmar', unlock: 'cliente/desbloquear' }, controllers: { sessions: 'sessions', omniauth_callbacks: "customer_omniauth_callbacks" }, skip: ['registrations']
   
   as :customer do
     scope 'cliente' do
-      root 'photo_logs#new', as: :customer_root
+      root 'schedules#meus_servicos_por_profissionais', as: :customer_root
       get 'cadastrar', to: 'customers#new', as: :new_customer_registration
       post 'cadastrar', to: 'customers#create', as: :customer_registration
-      get 'meus_servicos', to: 'schedules#meus_servicos_por_profissionais', as: :meus_servicos
 
-      resources :photo_logs
+      resources :photo_logs, only: [:new, :create, :index, :destroy]
     end
   end
 

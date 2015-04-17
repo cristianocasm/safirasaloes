@@ -47,5 +47,5 @@ class ProfessionalTest < ActiveSupport::TestCase
   should have_many(:schedules)
   should have_many(:rewards)
   should have_many(:services)
-  should have_many(:photo_logs)
+  should_not have_many(:photo_logs)
 end

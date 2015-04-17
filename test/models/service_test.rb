@@ -17,7 +17,7 @@ require 'test_helper'
 
 class ServiceTest < ActiveSupport::TestCase
   should have_many(:schedules)
-  should have_many(:photo_logs)
+  should_not have_many(:photo_logs)
   should belong_to(:professional)
   should validate_presence_of(:nome)
   should validate_uniqueness_of(:nome).scoped_to(:professional_id)

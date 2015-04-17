@@ -28,20 +28,53 @@ class Customer < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
-         :validatable, :async
+         :validatable, :async, :omniauthable,
+         :omniauth_providers => [:facebook]
   has_many :rewards
-  has_many :photo_logs
   has_many :schedules
   has_many :professionals, through: :schedules
+  has_many :photo_logs
 
-  after_commit :find_last_schedule
+  after_commit :find_last_schedule, unless: Proc.new { |ct| ct.schedule_recovered }
 
   scope :filter_by_email, -> (query) { select(:id, :nome, :email, :telefone).where("email LIKE '%#{query}%'") }
   scope :filter_by_telefone, -> (query) { select(:id, :nome, :email, :telefone).where("telefone LIKE '%#{query}%'") }
 
+
+  def schedules_not_more_than_12_hours_ago
+    @sc ||= self.schedules.not_more_than_12_hours_ago
+  end
+  
+  def can_send_photo?
+    self.schedules_not_more_than_12_hours_ago.any?
+  end
+
+  def save_provider_uid(auth)
+    authData = {
+                  provider: auth.provider,
+                  uid: auth.uid,
+                  oauth_token: auth.credentials.token,
+                  oauth_expires_at: Time.at(auth.credentials.expires_at)
+                } 
+    update_attributes(authData)
+  end
+
+  def facebook
+    @facebook ||= Koala::Facebook::API.new(oauth_token)
+    block_given? ? yield(@facebook) : @facebook
+  rescue Koala::Facebook::APIError => e
+    logger.info e.to_s
+    nil # or consider a custom null object
+  end
+
+  def gave_fb_permissions?
+    self.uid.present? &&
+      self.oauth_expires_at.present? &&
+      self.oauth_expires_at > Time.zone.now
+  end
+
   def find_last_schedule
-    GetLastScheduleWorker.
-      perform_async(self.email, self.id) unless self.schedule_recovered
+    GetLastScheduleWorker.perform_async(self.email, self.id)
   end
 
   def safiras_somadas

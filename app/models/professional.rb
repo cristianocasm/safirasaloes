@@ -50,13 +50,35 @@ class Professional < ActiveRecord::Base
   has_many :schedules
   has_many :services
   has_many :rewards
-  has_many :photo_logs
 
   before_create :create_hashtag, :define_status
   validates_presence_of :nome, on: :update
   validate :contato_fornecido?, on: :update
   validate :formato_pagina_facebook, on: :update
   validate :formato_site, on: :update
+
+  def append_professional_info
+    contactInfo = "\n---\n"
+    contactInfo << "Responsável: #{nome} \n"
+    contactInfo << (telefone.present? ? "Telefone: #{telefone}\n" : "")
+    contactInfo << (whatsapp.present? ? "WhatsApp: #{whatsapp}\n" : "")
+    contactInfo << gerar_endereco
+    contactInfo << (pagina_facebook.present? ? "Facebook: #{pagina_facebook}\n" : "")
+    contactInfo << (site.present? ? "Site: #{site}\n" : "")
+    contactInfo << "##{hashtag}"
+    contactInfo << "\n"
+  end
+
+  def gerar_endereco
+    endereco = ""
+    endereco << (rua.present? ? "#{rua}, " : "")
+    endereco << (numero.present? ? "#{numero}, " : "")
+    endereco << (bairro.present? ? "#{bairro}, " : "")
+    endereco << (complemento.present? ? "#{complemento}. " : "")
+    endereco << (cidade.present? ? "#{cidade} - " : "")
+    endereco << (estado.present? ? "#{estado}" : "")
+    endereco = (endereco.present? ? "Endereço: #{endereco}\n" : "")
+  end
 
   def set_contato_definido
     self.contato_definido = true

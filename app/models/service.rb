@@ -21,7 +21,6 @@ class Service < ActiveRecord::Base
   validates_numericality_of :preco, greater_than: 0
   
   has_many :schedules
-  has_many :photo_logs
   belongs_to :professional
 
   before_save :set_defaults

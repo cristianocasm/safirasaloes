@@ -3,6 +3,10 @@ module CustomersHelper
     @safiras ||= current_customer.safiras_somadas
   end
 
+  def safiras_percentage_by(service_price)
+    ( prof_safiras / ( service_price * 2 ) ) * 100
+  end
+
   def economia
     @economizados ||= format("%.2f", current_customer.schedules.safiras_resgatadas * 0.50)
   end
@@ -11,12 +15,12 @@ module CustomersHelper
     current_customer.nome
   end
 
-  def total_safiras(pr_id=nil)
-    @total_safiras = (pr_id.present? ? current_customer.safiras_per(pr_id) : @total_safiras)
+  def prof_safiras(pr_id=nil)
+    @safirasDoProf = (pr_id.present? ? current_customer.safiras_per(pr_id) : @safirasDoProf)
   end
 
   def enough_safiras?(service_preco)
-    @total_safiras >= service_preco * 2
+    prof_safiras >= service_preco * 2
   end
 
   def insert_badge

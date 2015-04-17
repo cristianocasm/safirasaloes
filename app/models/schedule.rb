@@ -38,6 +38,8 @@ class Schedule < ActiveRecord::Base
                                                                   where(datahora_inicio: 60.days.ago .. 7.days.ago)
                                                                 }
 
+  scope :not_more_than_12_hours_ago, -> { where(datahora_inicio: 12.hours.ago..Time.zone.now) }
+
   scope :in_the_future, -> { where("datahora_fim > ?", DateTime.now) }
   scope :safiras_resgatadas, -> { where("pago_com_safiras = true").sum(:safiras_resgatadas) }
 

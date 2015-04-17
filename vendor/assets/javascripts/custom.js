@@ -119,20 +119,28 @@ setTimeout(function(){
 		var current_perc = 0;
 
 		var progress = setInterval(function() {
-			if (current_perc>=perc) {
-				clearInterval(progress);
-			} else {
-				current_perc +=1;
-				me.css('width', (current_perc)+'%');
-			}
+      if (current_perc>=perc) {
+        clearInterval(progress);
+      } else {
+        current_perc +=1;
+        me.css('width', (current_perc)+'%');
+      }
 
-			me.text((current_perc)+'%');
+      if (current_perc > 90){
+        me.siblings("span").remove()
+      }
+      if (current_perc != 100){
+       me.text((current_perc)+'%');
+      } else {
+			 me.text('Parabéns!!!');
+      }
 
-		}, 200);
+
+		}, 10);
 
 	});
 
-},1200);
+},100);
 
 /* Slider */
 

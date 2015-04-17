@@ -57,8 +57,9 @@ class Permission < Struct.new(:resource)
   end
 
   def customer_permission(controller, action)
-    return true if controller.in?(%w[photo_logs]) && action.in?(%w[create new])
+    return true if controller.in?(%w[photo_logs]) && action.in?(%w[create new index destroy])
     return true if controller.in?(%w[schedules]) && action.in?(%w[meus_servicos_por_profissionais])
+    return true if controller.in?(%w[customer_omniauth_callbacks]) && action.in?(%w[facebook])
     return false
   end
 

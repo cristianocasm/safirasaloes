@@ -4,7 +4,12 @@ class PhotoLogsController < ApplicationController
   # GET /photo_logs
   # GET /photo_logs.json
   def index
-    @photo_logs = PhotoLog.all
+    @photo_logs = current_customer.photo_logs
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @photo_logs.map{|photo| photo.to_jq_upload } }
+    end
   end
 
   # GET /photo_logs/1
@@ -14,7 +19,11 @@ class PhotoLogsController < ApplicationController
 
   # GET /photo_logs/new
   def new
-    @photo_log = PhotoLog.new
+    if current_customer.can_send_photo?
+      @photoLog = current_customer.photo_logs.new
+    else
+      redirect_to customer_root_path, flash: { error: "Você não foi atendido por um profissional nas últimas 12 horas e, por isso, ainda não pode enviar fotos." }
+    end
   end
 
   # GET /photo_logs/1/edit
@@ -24,17 +33,21 @@ class PhotoLogsController < ApplicationController
   # POST /photo_logs
   # POST /photo_logs.json
   def create
-    @photo_log = PhotoLog.new(photo_log_params)
-
-    respond_to do |format|
-      if @photo_log.save
-        format.html { redirect_to @photo_log, notice: 'Photo log was successfully created.' }
-        format.json { render :show, status: :created, location: @photo_log }
-      else
-        format.html { render :new }
-        format.json { render json: @photo_log.errors, status: :unprocessable_entity }
-      end
-    end
+    @photoLog = current_customer.photo_logs.create(photo_log_params)
+    @submited = if @photoLog.persisted?
+                  if current_customer.gave_fb_permissions?
+                    current_customer.
+                      facebook.
+                      put_picture(
+                        @photoLog.image.path,
+                        { :message => @photoLog.description + @photoLog.schedule.professional.append_professional_info }
+                      )
+                  else
+                    false
+                  end
+                else
+                  false
+                end
   end
 
   # PATCH/PUT /photo_logs/1
@@ -69,6 +82,6 @@ class PhotoLogsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def photo_log_params
-      params.require(:photo_log).permit(:customer_id, :professional_id, :schedule_id, :service_id, :safiras)
+      params.require(:photo_log).permit(:image, :description, :schedule_id)
     end
 end

@@ -1,0 +1,5 @@
+<% if @photoLog.new_record? %>
+  alert("Os seguintes errors ocorreram: <%= j @photoLog.errors.full_messages.join(', ').html_safe %>");
+<% elsif @submited %>
+  window.location.href = "<%= customer_root_path %>";
+<% end %>

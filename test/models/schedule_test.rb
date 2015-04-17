@@ -2,18 +2,19 @@
 #
 # Table name: schedules
 #
-#  id               :integer          not null, primary key
-#  professional_id  :integer
-#  customer_id      :integer
-#  service_id       :integer
-#  datahora_inicio  :datetime
-#  created_at       :datetime
-#  updated_at       :datetime
-#  datahora_fim     :datetime
-#  nome             :string(255)
-#  email            :string(255)
-#  telefone         :string(255)
-#  pago_com_safiras :boolean          default(FALSE)
+#  id                 :integer          not null, primary key
+#  professional_id    :integer
+#  customer_id        :integer
+#  service_id         :integer
+#  datahora_inicio    :datetime
+#  created_at         :datetime
+#  updated_at         :datetime
+#  datahora_fim       :datetime
+#  safiras_resgatadas :integer          default(0)
+#  nome               :string(255)
+#  email              :string(255)
+#  telefone           :string(255)
+#  pago_com_safiras   :boolean          default(FALSE)
 #
 
 require 'test_helper'

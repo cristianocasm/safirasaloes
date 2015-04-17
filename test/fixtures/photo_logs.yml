@@ -2,14 +2,18 @@
 #
 # Table name: photo_logs
 #
-#  id              :integer          not null, primary key
-#  customer_id     :integer
-#  professional_id :integer
-#  schedule_id     :integer
-#  service_id      :integer
-#  safiras         :integer
-#  created_at      :datetime
-#  updated_at      :datetime
+#  id                 :integer          not null, primary key
+#  customer_id        :integer
+#  schedule_id        :integer
+#  safiras            :integer
+#  created_at         :datetime
+#  updated_at         :datetime
+#  description        :text
+#  image_file_name    :string(255)
+#  image_content_type :string(255)
+#  image_file_size    :integer
+#  image_updated_at   :datetime
+#  posted             :boolean          default(FALSE)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

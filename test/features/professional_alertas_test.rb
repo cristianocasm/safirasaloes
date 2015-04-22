@@ -15,7 +15,7 @@ feature "Alertas" do
 
     scenario "Deve ver mensagem de alerta" do
       assert_equal professional_root_path, page.current_path
-      assert page.has_css?("div.alert-warning", text: "Seu período de testes finaliza no dia #{@pTestando.data_expiracao_status.strftime('%d/%m/%Y')}. Clique aqui e torne-se Premium.")
+      assert page.has_css?("div.alert-warning", text: "Seu período de testes finaliza no dia #{@pTestando.data_expiracao_status.strftime('%d/%m/%Y')}.Clique no botão abaixo para tornar-se PREMIUM:")
       assert page.has_css?("#sidebar"), "Não consegue visualizar sidebar"
       assert page.has_css?("#main_content"), "Não consegue visualizar conteúdo principal"
     end
@@ -35,7 +35,7 @@ feature "Alertas" do
   
     scenario "deve ver mensagem de alerta" do
       assert_equal professional_root_path, page.current_path
-      assert page.has_css?("div.alert-warning", text: "Seu período de testes acabou. Clique aqui para tornar-se Premium e habilitar todas as funcionalidades. Atenção! Seu cadastro será suspenso no dia #{@pBloqueado.data_expiracao_status.strftime('%d/%m/%Y')} e você não terá mais acesso ao sistema. Clique aqui para tornar-se Premium e habilitar todas as funcionalidades")
+      assert page.has_css?("div.alert-warning", text: "SEU PERÍODO DE TESTES ACABOU!Isso significa que você só poderá visualizar os horários marcados em sua agenda - nada mais.Clique no botão abaixo para tornar-se PREMIUM e reabilitar todas as funcionalidades.Atenção! Seu cadastro será suspenso no dia #{@pBloqueado.data_expiracao_status.strftime('%d/%m/%Y')} e você não terá mais acesso ao sistema.")
       assert page.has_css?("#sidebar"), "Não consegue visualizar sidebar"
       assert page.has_css?("#main_content"), "Não consegue visualizar conteúdo principal"
     end
@@ -74,7 +74,7 @@ feature "Alertas" do
     end
 
     scenario "deve visualizar mensagem de alerta" do
-      assert page.has_css?("div.alert-warning", text: "Sua conta está suspensa e você não pode utilizar os recursos deste sistema. Clique aqui para tornar-se Premium e habilitar todas as funcionalidades.")
+      assert page.has_css?("div.alert-warning", text: "Sua conta está SUSPENSA e você não pode mais utilizar os recursos deste sistema.Clique no botão abaixo para tornar-se Premium e REABILITAR TODAS AS FUNCIONALIDADES INSTANTANEAMENTE.")
     end
   end
 

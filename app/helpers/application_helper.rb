@@ -15,18 +15,25 @@ module ApplicationHelper
 
   def alertas_assinatura
     msg = generate_messages
-    concat(content_tag(:div, msg, class: "alert alert-warning")) if msg
-    nil
+    if msg.present?
+      concat(content_tag(:div, class: "alert alert-warning", style: "text-align: center;") do
+              concat msg.html_safe
+              concat(content_tag(:form, action: 'https://pagseguro.uol.com.br/v2/pre-approvals/request.html', method: 'post') do
+                      concat content_tag(:input, nil, type: 'hidden', name: 'code', value: 'BB93F2ED11118A80047FBFA7FC08A76F')
+                      concat content_tag(:input, nil, type: 'image', src: 'https://p.simg.uol.com.br/out/pagseguro/i/botoes/assinaturas/205x30-assinar.gif', name: 'submit', alt: 'Pague com PagSeguro - é rápido, grátis e seguro!')
+                    end)
+            end) 
+    end
   end
 
   def generate_messages
     prof = current_professional
     if prof.status.nome == 'testando'
-      "Seu período de testes finaliza no dia #{prof.data_expiracao_status.strftime('%d/%m/%Y')}. Clique aqui e torne-se Premium."
+      "Seu período de testes finaliza no dia #{prof.data_expiracao_status.strftime('%d/%m/%Y')}.<br/>Clique no botão abaixo para tornar-se <b>PREMIUM</B>:"
     elsif prof.status.nome == 'bloqueado'
-      "Seu período de testes acabou. Clique aqui para tornar-se Premium e habilitar todas as funcionalidades. Atenção! Seu cadastro será suspenso no dia #{prof.data_expiracao_status.strftime('%d/%m/%Y')} e você não terá mais acesso ao sistema. Clique aqui para tornar-se Premium e habilitar todas as funcionalidades"
+      "<b>SEU PERÍODO DE TESTES ACABOU</b>!<br/>Isso significa que você só poderá visualizar os horários marcados em sua agenda - nada mais.<br/>Clique no botão abaixo para tornar-se <b>PREMIUM</b> e reabilitar todas as funcionalidades.<br/><i>Atenção! Seu cadastro será suspenso no dia #{prof.data_expiracao_status.strftime('%d/%m/%Y')} e você não terá mais acesso ao sistema.</i>"
     elsif prof.status.nome == 'suspenso'
-      "Sua conta está suspensa e você não pode utilizar os recursos deste sistema. Clique aqui para tornar-se Premium e habilitar todas as funcionalidades."
+      "Sua conta está <b>SUSPENSA</b> e você não pode mais utilizar os recursos deste sistema.<br />Clique no botão abaixo para tornar-se Premium e <b>REABILITAR TODAS AS FUNCIONALIDADES <u>INSTANTANEAMENTE</u></b>."
     end
   end
 end

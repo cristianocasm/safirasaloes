@@ -29,13 +29,13 @@
 cristiano:
   nome: Cristiano Alencar
   email: cristiano.souza.mendonca@gmail.com
-  telefone: (31) 8782-7703
+  telefone: '3187827703'
   encrypted_password: <%= Devise.bcrypt(Customer, 'password') %>
 
 cristiano_com_integracao:
   nome: Cristiano Alencar
   email: cristiano.souza.mendonca+integracao@gmail.com
-  telefone: (31) 8782-7703
+  telefone: '3187827703'
   uid: 1234
   oauth_expires_at: <%= 1.day.from_now %>
   provider: :facebook
@@ -44,34 +44,34 @@ cristiano_com_integracao:
 sonia:
   nome: Sônia Silvânia
   email: sss@gmail.com
-  telefone: (31) 8898-1001
+  telefone: '3188981001'
 
 abilio:
   nome: Abílio
   email: aaa@bol.com.br
-  telefone: (11) 1111-1111
+  telefone: '1111111111'
 
 bruno:
   nome: Bruno
   email: bbb@hotmail.com
-  telefone: (22) 2222-2222
+  telefone: '2222222222'
 
 cesar:
   nome: Cesar
   email: ccc@gmail.com
-  telefone: (33) 3333-3333
+  telefone: '3333333333'
 
 daniel:
   nome: Daniel
   email: ddd@yahoo.com.br
-  telefone: (44) 4444-4444
+  telefone: '4444444444'
 
 elano:
   nome: Elano
   email: eee@yahoo.com.br
-  telefone: (55) 5555-5555
+  telefone: '5555555555'
 
 fernanda:
   nome: Fernanda
   email: fff@e-editora.net
-  telefone: (66) 6666-6666
+  telefone: '6666666666'

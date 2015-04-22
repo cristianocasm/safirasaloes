@@ -268,7 +268,7 @@ get_last_two_months_served_customers = (engine) ->
       
       engine_telefone = new_bloodhound_telefone(data)
       engine_telefone.initialize()
-      start_typeahead(engine_telefone, 'schedule_telefone', 'telefone', 8)
+      start_typeahead(engine_telefone, 'schedule_telefone', 'telefone', 6)
     error: (jqXHR, textStatus, errorThrown) ->
 
 start_typeahead = (engine, elm, key, minLength) ->

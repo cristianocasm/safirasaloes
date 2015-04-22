@@ -162,7 +162,7 @@ sch_cesar1:
   datahora_fim: <%= 21.days.ago + 1.hour %>
   nome: Cesar
   email: ccc@gmail.com
-  telefone: (33) 3333-3333
+  telefone: '3333333333'
 
 sch_cesar2:
   professional: aline
@@ -172,7 +172,7 @@ sch_cesar2:
   datahora_fim: <%= 14.days.ago + 1.hour %>
   nome: Cesar
   email: ccc@gmail.com
-  telefone: (33) 3333-3333
+  telefone: '3333333333'
 
 sch_daniel1:
   professional: aline
@@ -182,7 +182,7 @@ sch_daniel1:
   datahora_fim: <%= 8.days.ago + 1.hour %>
   nome: Daniel
   email: ddd@yahoo.com.br
-  telefone: (44) 4444-4444
+  telefone: '4444444444'
 
 sch_elano1:
   professional: joao
@@ -192,7 +192,7 @@ sch_elano1:
   datahora_fim: <%= 15.days.ago + 1.hour %>
   nome: Elano
   email: eee@yahoo.com.br
-  telefone: (55) 5555-5555
+  telefone: '5555555555'
 
 invalido_sem_cli_info:
   professional: aline
@@ -208,4 +208,4 @@ valido_com_cli_info:
   datahora_fim: <%= 14.days.from_now + 1.hour %>
   nome: Cesar
   email: ccc@gmail.com
-  telefone: (33) 3333-3333
+  telefone: '3333333333'

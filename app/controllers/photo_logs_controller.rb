@@ -4,7 +4,7 @@ class PhotoLogsController < ApplicationController
   # GET /photo_logs
   # GET /photo_logs.json
   def index
-    @photo_logs = current_customer.photo_logs
+    @photo_logs = current_customer.photo_logs.not_posted
 
     respond_to do |format|
       format.html # index.html.erb
@@ -34,20 +34,20 @@ class PhotoLogsController < ApplicationController
   # POST /photo_logs.json
   def create
     @photoLog = current_customer.photo_logs.create(photo_log_params)
-    @submited = if @photoLog.persisted?
-                  if current_customer.gave_fb_permissions?
-                    current_customer.
-                      facebook.
-                      put_picture(
-                        @photoLog.image.path,
-                        { :message => @photoLog.description + @photoLog.schedule.professional.append_professional_info }
-                      )
-                  else
-                    false
-                  end
-                else
-                  false
-                end
+
+    respond_to do |format|
+      if @photoLog.persisted?
+        format.html {
+          render :json => [@photoLog.to_jq_upload].to_json,
+          :content_type => 'text/html',
+          :layout => false
+        }
+        format.json { render json: {files: [@photoLog.to_jq_upload]}, status: :created, location: @photoLog }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @photoLog.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # PATCH/PUT /photo_logs/1
@@ -74,6 +74,26 @@ class PhotoLogsController < ApplicationController
     end
   end
 
+  # POST /cliente/photo_logs/send_to_fb
+  def send_to_fb
+    permissionGiven = current_customer.gave_fb_permissions?
+    rewardsGiven = false
+    postedPhotos = []
+
+    if permissionGiven
+      pendingPostings = current_customer.photo_logs.not_posted
+      postedPhotos = post(pendingPostings)
+      postedPhotos = postedPhotos.compact
+      rewardsGiven = current_customer.get_rewards_by(postedPhotos) unless postedPhotos.blank?
+    end
+
+    render json: {
+                    permissaoDada: permissionGiven,
+                    fotosPostadas: postedPhotos.present?,
+                    recompensaDada: rewardsGiven
+                 }
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_photo_log
@@ -83,5 +103,16 @@ class PhotoLogsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def photo_log_params
       params.require(:photo_log).permit(:image, :description, :schedule_id)
+    end
+
+    def post(pendingPostings)
+      pendingPostings.map do |photo|
+        begin
+          photo.submit_to_fb
+        rescue Koala::Facebook::APIError => e
+          logger.info e.to_s
+          nil
+        end
+      end
     end
 end

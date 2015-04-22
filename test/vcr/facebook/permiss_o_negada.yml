@@ -1,0 +1,334 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://127.0.0.1:7055/hub/session/0bff261f-a176-424e-9bce-4488196502ce/elements
+    body:
+      encoding: UTF-8
+      string: '{"using":"xpath","value":".//a[./@href][(((./@id = ''Entrar com o Facebook''
+        or normalize-space(string(.)) = ''Entrar com o Facebook'') or ./@title = ''Entrar
+        com o Facebook'') or .//img[./@alt = ''Entrar com o Facebook''])]"}'
+    headers:
+      accept:
+      - application/json
+      content-type:
+      - application/json; charset=utf-8
+      content-length:
+      - '218'
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json; charset=UTF-8
+      connection:
+      - close
+      content-length:
+      - '148'
+      server:
+      - httpd.js
+      date:
+      - Fri, 17 Apr 2015 20:59:10 GMT
+    body:
+      encoding: UTF-8
+      string: '{"name":"findElements","sessionId":"0bff261f-a176-424e-9bce-4488196502ce","status":0,"value":[{"ELEMENT":"{93b4b080-b427-4111-85fa-e60e86c1faf0}"}]}'
+    http_version: '1.1'
+  recorded_at: Fri, 17 Apr 2015 20:59:10 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:7055/hub/session/0bff261f-a176-424e-9bce-4488196502ce/element/%7B93b4b080-b427-4111-85fa-e60e86c1faf0%7D/displayed
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      accept:
+      - application/json
+      cache-control:
+      - no-cache
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json; charset=UTF-8
+      connection:
+      - close
+      content-length:
+      - '105'
+      server:
+      - httpd.js
+      date:
+      - Fri, 17 Apr 2015 20:59:10 GMT
+    body:
+      encoding: UTF-8
+      string: '{"name":"isElementDisplayed","sessionId":"0bff261f-a176-424e-9bce-4488196502ce","status":0,"value":false}'
+    http_version: '1.1'
+  recorded_at: Fri, 17 Apr 2015 20:59:10 GMT
+- request:
+    method: post
+    uri: http://127.0.0.1:7055/hub/session/0bff261f-a176-424e-9bce-4488196502ce/elements
+    body:
+      encoding: UTF-8
+      string: '{"using":"xpath","value":".//a[./@href][(((./@id = ''Entrar com o Facebook''
+        or contains(normalize-space(string(.)), ''Entrar com o Facebook'')) or contains(./@title,
+        ''Entrar com o Facebook'')) or .//img[contains(./@alt, ''Entrar com o Facebook'')])]"}'
+    headers:
+      accept:
+      - application/json
+      content-type:
+      - application/json; charset=utf-8
+      content-length:
+      - '245'
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json; charset=UTF-8
+      connection:
+      - close
+      content-length:
+      - '148'
+      server:
+      - httpd.js
+      date:
+      - Fri, 17 Apr 2015 20:59:10 GMT
+    body:
+      encoding: UTF-8
+      string: '{"name":"findElements","sessionId":"0bff261f-a176-424e-9bce-4488196502ce","status":0,"value":[{"ELEMENT":"{93b4b080-b427-4111-85fa-e60e86c1faf0}"}]}'
+    http_version: '1.1'
+  recorded_at: Fri, 17 Apr 2015 20:59:10 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:7055/hub/session/0bff261f-a176-424e-9bce-4488196502ce/element/%7B93b4b080-b427-4111-85fa-e60e86c1faf0%7D/displayed
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      accept:
+      - application/json
+      cache-control:
+      - no-cache
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json; charset=UTF-8
+      connection:
+      - close
+      content-length:
+      - '105'
+      server:
+      - httpd.js
+      date:
+      - Fri, 17 Apr 2015 20:59:10 GMT
+    body:
+      encoding: UTF-8
+      string: '{"name":"isElementDisplayed","sessionId":"0bff261f-a176-424e-9bce-4488196502ce","status":0,"value":false}'
+    http_version: '1.1'
+  recorded_at: Fri, 17 Apr 2015 20:59:10 GMT
+- request:
+    method: post
+    uri: http://127.0.0.1:7055/hub/session/0bff261f-a176-424e-9bce-4488196502ce/elements
+    body:
+      encoding: UTF-8
+      string: '{"using":"xpath","value":".//a[./@href][(((./@id = ''Entrar com o Facebook''
+        or normalize-space(string(.)) = ''Entrar com o Facebook'') or ./@title = ''Entrar
+        com o Facebook'') or .//img[./@alt = ''Entrar com o Facebook''])]"}'
+    headers:
+      accept:
+      - application/json
+      content-type:
+      - application/json; charset=utf-8
+      content-length:
+      - '218'
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json; charset=UTF-8
+      connection:
+      - close
+      content-length:
+      - '148'
+      server:
+      - httpd.js
+      date:
+      - Fri, 17 Apr 2015 20:59:10 GMT
+    body:
+      encoding: UTF-8
+      string: '{"name":"findElements","sessionId":"0bff261f-a176-424e-9bce-4488196502ce","status":0,"value":[{"ELEMENT":"{93b4b080-b427-4111-85fa-e60e86c1faf0}"}]}'
+    http_version: '1.1'
+  recorded_at: Fri, 17 Apr 2015 20:59:10 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:7055/hub/session/0bff261f-a176-424e-9bce-4488196502ce/element/%7B93b4b080-b427-4111-85fa-e60e86c1faf0%7D/displayed
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      accept:
+      - application/json
+      cache-control:
+      - no-cache
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json; charset=UTF-8
+      connection:
+      - close
+      content-length:
+      - '105'
+      server:
+      - httpd.js
+      date:
+      - Fri, 17 Apr 2015 20:59:10 GMT
+    body:
+      encoding: UTF-8
+      string: '{"name":"isElementDisplayed","sessionId":"0bff261f-a176-424e-9bce-4488196502ce","status":0,"value":false}'
+    http_version: '1.1'
+  recorded_at: Fri, 17 Apr 2015 20:59:10 GMT
+- request:
+    method: post
+    uri: http://127.0.0.1:7055/hub/session/0bff261f-a176-424e-9bce-4488196502ce/elements
+    body:
+      encoding: UTF-8
+      string: '{"using":"xpath","value":".//a[./@href][(((./@id = ''Entrar com o Facebook''
+        or contains(normalize-space(string(.)), ''Entrar com o Facebook'')) or contains(./@title,
+        ''Entrar com o Facebook'')) or .//img[contains(./@alt, ''Entrar com o Facebook'')])]"}'
+    headers:
+      accept:
+      - application/json
+      content-type:
+      - application/json; charset=utf-8
+      content-length:
+      - '245'
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json; charset=UTF-8
+      connection:
+      - close
+      content-length:
+      - '148'
+      server:
+      - httpd.js
+      date:
+      - Fri, 17 Apr 2015 20:59:10 GMT
+    body:
+      encoding: UTF-8
+      string: '{"name":"findElements","sessionId":"0bff261f-a176-424e-9bce-4488196502ce","status":0,"value":[{"ELEMENT":"{93b4b080-b427-4111-85fa-e60e86c1faf0}"}]}'
+    http_version: '1.1'
+  recorded_at: Fri, 17 Apr 2015 20:59:10 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:7055/hub/session/0bff261f-a176-424e-9bce-4488196502ce/element/%7B93b4b080-b427-4111-85fa-e60e86c1faf0%7D/displayed
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      accept:
+      - application/json
+      cache-control:
+      - no-cache
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json; charset=UTF-8
+      connection:
+      - close
+      content-length:
+      - '104'
+      server:
+      - httpd.js
+      date:
+      - Fri, 17 Apr 2015 20:59:10 GMT
+    body:
+      encoding: UTF-8
+      string: '{"name":"isElementDisplayed","sessionId":"0bff261f-a176-424e-9bce-4488196502ce","status":0,"value":true}'
+    http_version: '1.1'
+  recorded_at: Fri, 17 Apr 2015 20:59:10 GMT
+- request:
+    method: post
+    uri: http://127.0.0.1:7055/hub/session/0bff261f-a176-424e-9bce-4488196502ce/element/%7B93b4b080-b427-4111-85fa-e60e86c1faf0%7D/click
+    body:
+      encoding: UTF-8
+      string: "{}"
+    headers:
+      accept:
+      - application/json
+      content-length:
+      - '2'
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json; charset=UTF-8
+      connection:
+      - close
+      content-length:
+      - '98'
+      server:
+      - httpd.js
+      date:
+      - Fri, 17 Apr 2015 20:59:12 GMT
+    body:
+      encoding: UTF-8
+      string: '{"name":"clickElement","sessionId":"0bff261f-a176-424e-9bce-4488196502ce","status":0,"value":"ok"}'
+    http_version: '1.1'
+  recorded_at: Fri, 17 Apr 2015 20:59:12 GMT
+recorded_with: VCR 2.9.3

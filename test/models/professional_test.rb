@@ -33,7 +33,6 @@
 #  status_id              :integer
 #  data_expiracao_status  :datetime
 #  contato_definido       :boolean          default(FALSE)
-#  hashtag                :string(255)
 #  site                   :string(255)
 #  pagina_facebook        :string(255)
 #  whatsapp               :string(255)

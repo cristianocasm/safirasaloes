@@ -33,7 +33,6 @@
 #  status_id              :integer
 #  data_expiracao_status  :datetime
 #  contato_definido       :boolean          default(FALSE)
-#  hashtag                :string(255)
 #  site                   :string(255)
 #  pagina_facebook        :string(255)
 #  whatsapp               :string(255)
@@ -51,22 +50,22 @@ class Professional < ActiveRecord::Base
   has_many :services
   has_many :rewards
 
-  before_create :create_hashtag, :define_status
+  # before_create :create_hashtag, :define_status
+  before_create :define_status
   validates_presence_of :nome, on: :update
   validate :contato_fornecido?, on: :update
   validate :formato_pagina_facebook, on: :update
   validate :formato_site, on: :update
 
   def append_professional_info
-    contactInfo = "\n---\n"
+    contactInfo = ""
     contactInfo << "Responsável: #{nome} \n"
     contactInfo << (telefone.present? ? "Telefone: #{telefone}\n" : "")
     contactInfo << (whatsapp.present? ? "WhatsApp: #{whatsapp}\n" : "")
     contactInfo << gerar_endereco
     contactInfo << (pagina_facebook.present? ? "Facebook: #{pagina_facebook}\n" : "")
     contactInfo << (site.present? ? "Site: #{site}\n" : "")
-    contactInfo << "##{hashtag}"
-    contactInfo << "\n"
+    contactInfo << "---\n"
   end
 
   def gerar_endereco
@@ -181,14 +180,14 @@ class Professional < ActiveRecord::Base
       self.data_expiracao_status < Time.zone.now
   end
 
-  def create_hashtag
-    o = [('a'..'z'), ('A'..'Z'), (0..9)].map { |i| i.to_a }.flatten
-    string = ""
-    begin
-      string = (0..3).map { o[rand(o.length)] }.join
-    end while !Professional.find_by_hashtag(string).blank?
-    self.hashtag = string
-  end
+  # def create_hashtag
+  #   o = [('a'..'z'), ('A'..'Z'), (0..9)].map { |i| i.to_a }.flatten
+  #   string = ""
+  #   begin
+  #     string = (0..3).map { o[rand(o.length)] }.join
+  #   end while !Professional.find_by_hashtag(string).blank?
+  #   self.hashtag = string
+  # end
 
   def define_status
     status = Status.find_by_nome('testando')

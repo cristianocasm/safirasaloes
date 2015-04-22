@@ -4,7 +4,8 @@ module CustomersHelper
   end
 
   def safiras_percentage_by(service_price)
-    ( prof_safiras / ( service_price * 2 ) ) * 100
+    percentage = ( prof_safiras / ( service_price * 2 ) ) * 100
+    percentage > 100 ? 100 : percentage
   end
 
   def economia

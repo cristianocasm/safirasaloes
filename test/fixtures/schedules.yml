@@ -2,19 +2,20 @@
 #
 # Table name: schedules
 #
-#  id                 :integer          not null, primary key
-#  professional_id    :integer
-#  customer_id        :integer
-#  service_id         :integer
-#  datahora_inicio    :datetime
-#  created_at         :datetime
-#  updated_at         :datetime
-#  datahora_fim       :datetime
-#  safiras_resgatadas :integer          default(0)
-#  nome               :string(255)
-#  email              :string(255)
-#  telefone           :string(255)
-#  pago_com_safiras   :boolean          default(FALSE)
+#  id                   :integer          not null, primary key
+#  professional_id      :integer
+#  customer_id          :integer
+#  service_id           :integer
+#  datahora_inicio      :datetime
+#  created_at           :datetime
+#  updated_at           :datetime
+#  datahora_fim         :datetime
+#  safiras_resgatadas   :integer          default(0)
+#  nome                 :string(255)
+#  email                :string(255)
+#  telefone             :string(255)
+#  pago_com_safiras     :boolean          default(FALSE)
+#  recompensa_fornecida :boolean          default(FALSE)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -36,6 +37,18 @@ sch_cristiano_com_aline2:
 sch_cristiano_com_joao_service_barba:
   professional: joao
   customer: cristiano
+  service: barba_joao
+  datahora_inicio: <%= 2.hours.ago %>
+  datahora_fim: <%= 1.hour.ago %>
+  nome: Cristiano
+  email: cristiano.souza.mendonca+no.buffer@gmail.com
+  telefone: (31) 3131-3131
+  pago_com_safiras: false
+  safiras_resgatadas: 0
+
+sch_cristiano_com_integracao_com_joao_service_barba:
+  professional: joao
+  customer: cristiano_com_integracao
   service: barba_joao
   datahora_inicio: <%= 2.hours.ago %>
   datahora_fim: <%= 1.hour.ago %>

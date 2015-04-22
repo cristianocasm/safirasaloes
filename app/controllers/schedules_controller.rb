@@ -68,6 +68,7 @@ class SchedulesController < ApplicationController
 
   def meus_servicos_por_profissionais
     @myProfs = current_customer.my_professionals
+    flash.now[:success] = "Suas fotos foram enviadas com sucesso. Obrigado!" if params[:photo_sent].present?
   end
 
   private

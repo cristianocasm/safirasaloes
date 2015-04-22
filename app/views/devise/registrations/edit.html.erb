@@ -7,14 +7,14 @@
         <% devise_error_messages! %>
         <div class="row">
           <div class="form-group">
-            <div class="col-xs-12 col-md-6">
+            <div class="col-xs-12 col-md-12">
               <%= f.text_field :nome, class: "form-control input-sm", placeholder: "Nome", autofocus: true %>
             </div>
-            <div class="col-xs-12 col-md-3">
-              <%= f.text_field :telefone, class: "form-control input-sm", placeholder: 'Telefone' %>
+            <div class="col-xs-12 col-md-6">
+              <%= f.text_field :telefone, class: "form-control input-sm telefone", placeholder: 'Telefone' %>
             </div>
-            <div class="col-xs-12 col-md-3">
-              <%= f.text_field :whatsapp, class: "form-control input-sm", placeholder: 'WhatsApp' %>
+            <div class="col-xs-12 col-md-6">
+              <%= f.text_field :whatsapp, class: "form-control input-sm telefone", placeholder: 'WhatsApp' %>
             </div>
           </div>
         </div>
@@ -85,11 +85,11 @@
             </div>
           </div>
           <div class="fb_content">
+            <div id="info_contato">
+            </div>
             <p class="fb_description">
             Este é um exemplo de postagem do seu cliente para que você entenda como suas informações de contato serão adicionadas à postagem dele. Altere suas informações de contato e veja o resultado aqui!!!
             </p>
-            <div id="info_contato">
-            </div>
           </div>
           <div>
             <%= image_tag("mulher.jpg", :alt => "E-Editora", id: :image) %>

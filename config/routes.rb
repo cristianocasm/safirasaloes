@@ -13,7 +13,9 @@ Rails.application.routes.draw do
       get 'cadastrar', to: 'customers#new', as: :new_customer_registration
       post 'cadastrar', to: 'customers#create', as: :customer_registration
 
-      resources :photo_logs, only: [:new, :create, :index, :destroy]
+      resources :photo_logs, only: [:new, :create, :index, :destroy] do
+        post 'send_to_fb', on: :collection
+      end
     end
   end
 

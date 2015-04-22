@@ -23,13 +23,22 @@ class PhotoLog < ActiveRecord::Base
   validates_presence_of :customer_id
   validates_presence_of :schedule_id
 
-  has_attached_file :image, :styles => { :small => "150x150>" },
+  has_attached_file :image, :styles => { :small => "80x80>" },
                   :url  => "/assets/products/:id/:style/:basename.:extension",
                   :path => ":rails_root/public/assets/products/:id/:style/:basename.:extension"
 
   validates_attachment_presence :image
-  validates_attachment_size :image, :less_than => 4.megabytes
   validates_attachment_content_type :image, :content_type => /(\.|\/)(gif|jpe?g|png|tiff)$/i
+
+  scope :not_posted, -> { 
+                          includes(schedule: [:professional]).
+                          joins(:schedule).
+                          where(posted: false).
+                          where("schedules.datahora_inicio >= ? AND schedules.datahora_inicio <= ?",
+                            12.hours.ago,
+                            Time.zone.now
+                          )
+                        }
 
   include Rails.application.routes.url_helpers
 
@@ -38,8 +47,23 @@ class PhotoLog < ActiveRecord::Base
       "name" => read_attribute(:image_file_name),
       "size" => read_attribute(:image_file_size),
       "url" => image.url(:original),
+      "description" => read_attribute(:description),
+      "thumbnail_url" => image.url(:small),
+      "posted" => read_attribute(:posted),
       "delete_url" => photo_log_path(self),
       "delete_type" => "DELETE" 
     }
+  end
+
+  def submit_to_fb
+    self.
+      customer.
+      facebook.
+      put_picture(
+        self.image.path,
+        { :message => self.schedule.professional.append_professional_info + self.description }
+      )
+    self.update_attribute(:posted, true)
+    self
   end
 end

@@ -8,6 +8,7 @@ require "minitest/rails/capybara"
 require "minitest/reporters"
 require "capybara"
 require 'sidekiq/testing'
+require 'capybara/mechanize'
 
 # # Creates a new thread where thin runs for faye support
 # Thread.new do
@@ -18,6 +19,13 @@ require 'sidekiq/testing'
 #       :Port => 9292
 #     )
 # end
+
+VCR.configure do |c|
+  c.cassette_library_dir = Rails.root.join("test", "vcr")
+  c.hook_into :fakeweb
+  c.allow_http_connections_when_no_cassette = true
+  # c.filter_sensitive_data('<WSDL>') { "http://www.webservicex.net:80/uszip.asmx?WSDL" }
+end
 
 class ActiveSupport::TestCase
   include Warden::Test::Helpers
@@ -56,3 +64,4 @@ module MailerMacros
     Sidekiq::Worker.clear_all
   end
 end
+

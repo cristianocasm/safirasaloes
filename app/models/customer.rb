@@ -69,9 +69,25 @@ class Customer < ActiveRecord::Base
   end
 
   def gave_fb_permissions?
+    # self.facebook.get_object("me/permissions")
+    # => [{"permission"=>"public_profile", "status"=>"granted"}, {"permission"=>"publish_actions", "status"=>"granted"}]
+
     self.uid.present? &&
-      self.oauth_expires_at.present? &&
-      self.oauth_expires_at > Time.zone.now
+    self.oauth_expires_at.present? &&
+    self.oauth_expires_at > Time.zone.now
+  end
+
+  def get_rewards_by(postedPhotos)
+    scs = postedPhotos.map { |photo| photo.schedule }.uniq
+    scs.each do |sc|
+      if sc.recompensa_fornecida
+        true
+      else
+        rw = Reward.find_or_initialize_by(professional_id: sc.professional_id, customer_id: self.id)
+        rw.total_safiras = rw.total_safiras + sc.service.recompensa_divulgacao
+        rw.save ? sc.update_attribute(:recompensa_fornecida, true) : false
+      end
+    end
   end
 
   def find_last_schedule

@@ -83,4 +83,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'simplecov', :require => false
   gem 'ruby-prof'
+  gem 'vcr'
+  gem 'fakeweb'
+  gem 'capybara-mechanize'
 end

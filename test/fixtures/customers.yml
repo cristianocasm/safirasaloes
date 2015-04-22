@@ -32,6 +32,15 @@ cristiano:
   telefone: (31) 8782-7703
   encrypted_password: <%= Devise.bcrypt(Customer, 'password') %>
 
+cristiano_com_integracao:
+  nome: Cristiano Alencar
+  email: cristiano.souza.mendonca+integracao@gmail.com
+  telefone: (31) 8782-7703
+  uid: 1234
+  oauth_expires_at: <%= 1.day.from_now %>
+  provider: :facebook
+  oauth_token: 123
+
 sonia:
   nome: Sônia Silvânia
   email: sss@gmail.com

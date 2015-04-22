@@ -41,6 +41,7 @@
 #= require custom
 #= require charts
 #= require jquery-maskmoney.min
+#= require jquery.maskedinput.js
 #= require typeahead.bundle
 #= require_tree .
 #= require_self
@@ -53,6 +54,27 @@ $(document).on 'click, focus', 'input:text.money', ->
     affixesStay: false,
     thousands: ''
     })
+
+$(document).on 'click, focus', 'input:text.telefone', ->
+  elm = $(this)
+  placeholder = { placeholder: " " }
+  mask = if elm.val().length > 14 then "(99) 99999-9999" else "(99) 9999-9999?9"
+  elm.mask(mask, placeholder)
+
+$(document).on('focusout', 'input:text.telefone', ->
+  phone = undefined
+  element = undefined
+  element = $(this)
+  element.unmask()
+  phone = element.val().replace(/\D/g, '')
+  if phone.length > 10
+    element.mask '(99) 99999-999?9'
+  else
+    element.mask '(99) 9999-9999?9'
+  return
+).trigger 'focusout'
+
+
 
 # Habilita popovers
 $('[data-toggle="popover"]').popover()

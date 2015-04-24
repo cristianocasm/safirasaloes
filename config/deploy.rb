@@ -6,8 +6,8 @@ require 'mina/rvm'    # for rvm support. (http://rvm.io)
 set :domain, '45.55.237.28'
 set :deploy_to, '/home/safira/'
 set :repository, 'https://cristianocasm@bitbucket.org/cristianocasm/safirasaloes.git'
-# set :branch, 'master'
-set :branch, 'fb_validation'
+set :branch, 'master'
+# set :branch, 'fb_validation'
 set :rails_env, 'production'
 # Permite inserção da senha no terminal quando solicitado
 set :term_mode, nil

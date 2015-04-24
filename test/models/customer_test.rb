@@ -60,5 +60,14 @@ class CustomerTest < ActiveSupport::TestCase
                       sum(:total_safiras)
       assert_equal expected, safiras, "Possivelmente somando Safiras para profissionais bloqueados/suspenso"
     end
+
+    test "cliente sem permissão" do
+      assert_not @ct.gave_fb_permissions?
+    end
+
+    test "cliente com permissão" do
+      @ct = customers(:cristiano_com_integracao)
+      assert @ct.gave_fb_permissions?
+    end
   end
 end

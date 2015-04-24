@@ -32,11 +32,11 @@ jQuery ->
     #       me.text(progress + '%')
     submit: (e, data) ->
       inputs = data.context.find(':input')
-      if inputs.filter((->
-          !@value and $(this).prop('required')
-        )).first().focus().length
-        data.context.find('button').prop 'disabled', false
-        return false
+      # if inputs.filter((->
+      #     !@value and $(this).prop('required')
+      #   )).first().focus().length
+      #   data.context.find('button').prop 'disabled', false
+      #   return false
       data.formData = inputs.serializeArray()
       return
     progress: (e, data) ->

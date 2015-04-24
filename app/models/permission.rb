@@ -1,5 +1,6 @@
 class Permission < Struct.new(:resource)
   def allow?(controller, action)
+    return true if controller == "notifications" && action.in?(%w[new retorno_pagamento])
     return true if controller == "customers" && action.in?(%w[new create])
     return true if controller == "devise/professional_registrations" && action.in?(%w[new create])
     return true if controller == "sessions" && action.in?(%w[new create destroy])

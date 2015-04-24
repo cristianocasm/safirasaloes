@@ -65,7 +65,6 @@ class Professional < ActiveRecord::Base
     contactInfo << gerar_endereco
     contactInfo << (pagina_facebook.present? ? "Facebook: #{pagina_facebook}\n" : "")
     contactInfo << (site.present? ? "Site: #{site}\n" : "")
-    contactInfo << "---\n"
   end
 
   def gerar_endereco

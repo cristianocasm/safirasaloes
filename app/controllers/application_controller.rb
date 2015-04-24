@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
   private
 
   def authenticate!
-    self.send "authenticate_#{resource_name}!"
+    self.send "authenticate_#{resource_name}!" unless params[:controller] == "notifications" && params[:action] == "new"
   end
 
   def current_permission

@@ -303,13 +303,13 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e8" source="n6" target="n4">
+    <edge id="e8" source="n6" target="n5">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
             <y:Point x="592.5424154025673" y="489.14450875145826"/>
             <y:Point x="260.7649941656943" y="489.14450875145826"/>
-            <y:Point x="260.7649941656943" y="255.7908401400233"/>
+            <y:Point x="260.7649941656943" y="349.5314140898482"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>

@@ -31,6 +31,8 @@ class ActiveSupport::TestCase
   include Warden::Test::Helpers
   Warden.test_mode!
 
+  Sidekiq::Testing.inline!
+
   ActiveRecord::Migration.check_pending!
 
   # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.

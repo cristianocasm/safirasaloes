@@ -83,7 +83,7 @@ class PhotoLogsController < ApplicationController
     if permissionGiven
       pendingPostings = current_customer.photo_logs.not_posted
       postedPhotos = post(pendingPostings)
-      postedPhotos = postedPhotos.compact
+      postedPhotos = postedPhotos.try(:compact)
       rewardsGiven = current_customer.get_rewards_by(postedPhotos) unless postedPhotos.blank?
     end
 

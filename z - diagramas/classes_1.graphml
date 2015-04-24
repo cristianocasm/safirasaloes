@@ -17,11 +17,11 @@
     <node id="n0">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="314.0541033434649" width="143.7100303951368" x="207.49999999999997" y="268.9729483282676"/>
+          <y:Geometry height="329.0541033434649" width="143.7100303951368" x="207.49999999999997" y="261.47294832826753"/>
           <y:Fill color="#E8EEF7" color2="#FF0000" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="83.224609375" x="30.242710510068406" y="4.0">professionals</y:NodeLabel>
-          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="283.375" modelName="custom" textColor="#000000" visible="true" width="138.91796875" x="2.0" y="29.968750000000057">nome
+          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="297.34375" modelName="custom" textColor="#000000" visible="true" width="138.91796875" x="2.0" y="29.96875">nome
 email
 telefone
 whatsapp
@@ -40,7 +40,8 @@ pagina_facebook
 data_expiracao_status
 contato_definido
 plan_id
-status_id<y:LabelModel>
+status_id
+transacao_pagseguro<y:LabelModel>
               <y:ErdAttributesNodeLabelModel/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -103,7 +104,7 @@ total_safiras<y:LabelModel>
     <node id="n3">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="90.0" width="95.0" x="406.81003039513666" y="292.00638297872354"/>
+          <y:Geometry height="90.0" width="95.0" x="406.81003039513666" y="287.75582792751555"/>
           <y:Fill color="#E8EEF7" color2="#FF6600" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="54.5078125" x="20.24609375" y="4.0">statuses</y:NodeLabel>
@@ -247,7 +248,7 @@ token<y:LabelModel>
     <edge id="e0" source="n0" target="n3">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="24.976291793313067" sy="-88.99361702127646" tx="0.0" ty="0.0"/>
+          <y:Path sx="24.976291793313067" sy="-93.24417207248443" tx="0.0" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="crows_foot_many_mandatory" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -257,7 +258,7 @@ token<y:LabelModel>
     <edge id="e1" source="n6" target="n0">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="1.1035969100200422" sy="75.05635418783967" tx="1.1042583586627188" ty="65.07224316109432"/>
+          <y:Path sx="1.1035969100200422" sy="75.05635418783967" tx="1.1042583586627188" ty="68.18025428728214"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="crows_foot_many" target="none"/>
           <y:BendStyle smoothed="false"/>
@@ -287,8 +288,8 @@ token<y:LabelModel>
     <edge id="e4" source="n4" target="n0">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="43.15527659574457" ty="-4.380310951276044">
-            <y:Point x="495.20714285714274" y="421.61968904872396"/>
+          <y:Path sx="0.0" sy="0.0" tx="43.15527659574457" ty="-4.589525426010302">
+            <y:Point x="495.20714285714274" y="421.4104745739897"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="crows_foot_many" target="none"/>

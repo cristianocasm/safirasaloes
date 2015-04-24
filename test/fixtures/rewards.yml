@@ -22,6 +22,11 @@ cristiano_joao:
   customer: cristiano
   total_safiras: 25
 
+cristiano_com_integracao_joao:
+  professional: joao
+  customer: cristiano_com_integracao
+  total_safiras: 0
+
 cristiano_prof_suspenso:
   professional: prof_suspenso
   customer: cristiano

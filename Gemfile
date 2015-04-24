@@ -69,6 +69,8 @@ gem "koala", "~> 2.0"
 gem 'jquery-fileupload-rails', "0.4.1"
 gem "paperclip", "~> 4.2"
 
+gem "pagseguro-oficial", '=2.0.5'
+
 
 group :test, :development do
   gem 'byebug'

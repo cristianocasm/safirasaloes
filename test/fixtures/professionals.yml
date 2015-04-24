@@ -56,6 +56,7 @@ aline:
   data_expiracao_status: <%= 7.days.from_now %>
   contato_definido: true
   encrypted_password: <%= Devise.bcrypt(Customer, 'password') %>
+  transacao_pagseguro: ABC-123
 
 joao:
   nome: João

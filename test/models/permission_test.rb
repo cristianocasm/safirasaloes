@@ -15,6 +15,9 @@ class PermissionTest < ActiveSupport::TestCase
     let(:assinante) { Permission.new(professionals(:prof_assinante)) }
 
     test "deslogado" do
+      assert deslogado.allow?("notifications", "new"), "Profissional(deslogado) - notifications#new - problemas na validação de permissão"
+      assert deslogado.allow?("notifications", "retorno_pagamento"), "Profissional(deslogado) - notifications#retorno_pagamento - problemas na validação de permissão"
+
       assert_not deslogado.allow?("rewards", "get_customer_rewards"), "Profissional(deslogado) - rewards#get_customer_rewards - problemas na validação de permissão"
 
       assert_not deslogado.allow?("devise/sessions", "new"), "Profissional(deslogado) - devise/sessions#new - problemas na validação de permissão"
@@ -123,6 +126,9 @@ class PermissionTest < ActiveSupport::TestCase
     end
 
     test "testando" do
+      assert _testando.allow?("notifications", "new"), "Profissional(testando) - notifications#new - problemas na validação de permissão"
+      assert _testando.allow?("notifications", "retorno_pagamento"), "Profissional(testando) - notifications#retorno_pagamento - problemas na validação de permissão"
+
       assert _testando.allow?("rewards", "get_customer_rewards"), "Profissional(testando) - rewards#get_customer_rewards - problemas na validação de permissão"
 
       assert _testando.allow?("schedules", "new"), "Profissional(testando) - schedules#new - problemas na validação de permissão"
@@ -231,6 +237,9 @@ class PermissionTest < ActiveSupport::TestCase
     end
 
     test "bloqueado" do
+      assert bloqueado.allow?("notifications", "new"), "Profissional(bloqueado) - notifications#new - problemas na validação de permissão"
+      assert bloqueado.allow?("notifications", "retorno_pagamento"), "Profissional(bloqueado) - notifications#retorno_pagamento - problemas na validação de permissão"
+
       assert_not bloqueado.allow?("rewards", "get_customer_rewards"), "Profissional(bloqueado) - rewards#get_customer_rewards - problemas na validação de permissão"
 
       assert     bloqueado.allow?("schedules", "new"), "Profissional(bloqueado) - schedules#new - problemas na validação de permissão"
@@ -339,6 +348,9 @@ class PermissionTest < ActiveSupport::TestCase
     end
 
     test "suspenso" do
+      assert suspenso.allow?("notifications", "new"), "Profissional(suspenso) - notifications#new - problemas na validação de permissão"
+      assert suspenso.allow?("notifications", "retorno_pagamento"), "Profissional(suspenso) - notifications#retorno_pagamento - problemas na validação de permissão"
+
       assert_not suspenso.allow?("rewards", "get_customer_rewards"), "Profissional(suspenso) - rewards#get_customer_rewards - problemas na validação de permissão"
 
       assert suspenso.allow?("schedules", "new"), "Profissional(suspenso) - schedules#new - problemas na validação de permissão"
@@ -447,6 +459,9 @@ class PermissionTest < ActiveSupport::TestCase
     end
 
     test "assinante" do
+      assert assinante.allow?("notifications", "new"), "Profissional(assinante) - notifications#new - problemas na validação de permissão"
+      assert assinante.allow?("notifications", "retorno_pagamento"), "Profissional(assinante) - notifications#retorno_pagamento - problemas na validação de permissão"
+
       assert assinante.allow?("rewards", "get_customer_rewards"), "Profissional(assinante) - rewards#get_customer_rewards - problemas na validação de permissão"
 
       assert assinante.allow?("schedules", "new"), "Profissional(assinante) - schedules#new - problemas na validação de permissão"
@@ -559,6 +574,9 @@ class PermissionTest < ActiveSupport::TestCase
     let(:customer) {Permission.new(customers(:cristiano))}
 
     test "Customer" do
+      assert customer.allow?("notifications", "new"), "Customer - notifications#new - problemas na validação de permissão"
+      assert customer.allow?("notifications", "retorno_pagamento"), "Customer - notifications#retorno_pagamento - problemas na validação de permissão"
+
       assert_not customer.allow?("rewards", "get_customer_rewards"), "Customer - rewards#get_customer_rewards - problemas na validação de permissão"
 
       assert customer.allow?("photo_logs", "create"), "Customer - photo_logs#create - problemas na validação de permissão"

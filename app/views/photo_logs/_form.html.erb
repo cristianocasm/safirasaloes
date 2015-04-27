@@ -42,7 +42,7 @@
         <p>
           <%= link_to customer_omniauth_authorize_path(:facebook), class: 'btn btn-primary' do %>
             <i class="fa fa-facebook-official"></i>
-            <span>"OK! Publique Minhas Fotos!"</span>
+            <span>OK! Publique Minhas Fotos!</span>
           <% end %>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Não Quero Recompensas</button>
         </p>
@@ -54,10 +54,7 @@
 <div class="container" style="display: none">
   <%= form_for PhotoLog.new, :html => { :multipart => true, :id => "fileupload"  } do |f| %>
     <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-    <div style="margin-top: 20px;">
-      Enviando fotos para: 
-      <%= f.select :schedule_id, current_customer.schedules_not_more_than_12_hours_ago.collect { |sc| ["#{sc.professional.nome} pelo serviço #{sc.service.nome}", sc.id] }, {}, onchange: '$(.schedule_id).val(this.val())' %>
-    </div>
+
 
     <div class="fileupload-buttonbar">
       <div class="span7" style="margin-top: 20px; margin-bottom: 20px;">

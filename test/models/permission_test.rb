@@ -15,6 +15,8 @@ class PermissionTest < ActiveSupport::TestCase
     let(:assinante) { Permission.new(professionals(:prof_assinante)) }
 
     test "deslogado" do
+      assert deslogado.allow?("static_pages", "privacy"), "Profissional(deslogado) - static_pages#privacy - problemas na validação de permissão"
+
       assert deslogado.allow?("notifications", "new"), "Profissional(deslogado) - notifications#new - problemas na validação de permissão"
       assert deslogado.allow?("notifications", "retorno_pagamento"), "Profissional(deslogado) - notifications#retorno_pagamento - problemas na validação de permissão"
 
@@ -126,6 +128,8 @@ class PermissionTest < ActiveSupport::TestCase
     end
 
     test "testando" do
+      assert _testando.allow?("static_pages", "privacy"), "Profissional(testando) - static_pages#privacy - problemas na validação de permissão"
+
       assert _testando.allow?("notifications", "new"), "Profissional(testando) - notifications#new - problemas na validação de permissão"
       assert _testando.allow?("notifications", "retorno_pagamento"), "Profissional(testando) - notifications#retorno_pagamento - problemas na validação de permissão"
 
@@ -237,6 +241,8 @@ class PermissionTest < ActiveSupport::TestCase
     end
 
     test "bloqueado" do
+      assert bloqueado.allow?("static_pages", "privacy"), "Profissional(bloqueado) - static_pages#privacy - problemas na validação de permissão"
+
       assert bloqueado.allow?("notifications", "new"), "Profissional(bloqueado) - notifications#new - problemas na validação de permissão"
       assert bloqueado.allow?("notifications", "retorno_pagamento"), "Profissional(bloqueado) - notifications#retorno_pagamento - problemas na validação de permissão"
 
@@ -348,6 +354,8 @@ class PermissionTest < ActiveSupport::TestCase
     end
 
     test "suspenso" do
+      assert suspenso.allow?("static_pages", "privacy"), "Profissional(suspenso) - static_pages#privacy - problemas na validação de permissão"
+
       assert suspenso.allow?("notifications", "new"), "Profissional(suspenso) - notifications#new - problemas na validação de permissão"
       assert suspenso.allow?("notifications", "retorno_pagamento"), "Profissional(suspenso) - notifications#retorno_pagamento - problemas na validação de permissão"
 
@@ -459,6 +467,8 @@ class PermissionTest < ActiveSupport::TestCase
     end
 
     test "assinante" do
+      assert assinante.allow?("static_pages", "privacy"), "Profissional(assinante) - static_pages#privacy - problemas na validação de permissão"
+
       assert assinante.allow?("notifications", "new"), "Profissional(assinante) - notifications#new - problemas na validação de permissão"
       assert assinante.allow?("notifications", "retorno_pagamento"), "Profissional(assinante) - notifications#retorno_pagamento - problemas na validação de permissão"
 
@@ -574,6 +584,8 @@ class PermissionTest < ActiveSupport::TestCase
     let(:customer) {Permission.new(customers(:cristiano))}
 
     test "Customer" do
+      assert customer.allow?("static_pages", "privacy"), "Customer - static_pages#privacy - problemas na validação de permissão"
+
       assert customer.allow?("notifications", "new"), "Customer - notifications#new - problemas na validação de permissão"
       assert customer.allow?("notifications", "retorno_pagamento"), "Customer - notifications#retorno_pagamento - problemas na validação de permissão"
 

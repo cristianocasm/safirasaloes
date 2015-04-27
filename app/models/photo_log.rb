@@ -61,7 +61,8 @@ class PhotoLog < ActiveRecord::Base
       facebook.
       put_picture(
         self.image.path,
-        { :message => self.schedule.professional.append_professional_info + self.get_description }
+        # { :message => self.schedule.professional.append_professional_info + self.get_description }
+        { :message => Professional.first.append_professional_info + self.get_description }
       )
     self.update_attribute(:posted, true)
     self

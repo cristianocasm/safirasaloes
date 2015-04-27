@@ -42,22 +42,22 @@ c = Customer.create!(
   password: '123456'
   )
 
-# Service.create!([
-#   { nome: 'Corte Masculino',
-#     preco: 25.00,
-#     professional_id: p.id },
-#   { nome: 'Corte Feminino',
-#     preco: 45.00,
-#     professional_id: p.id },
-#   { nome: 'Unha mão',
-#     preco: 10.00,
-#     professional_id: p.id },
-#   { nome: 'Unha pé',
-#     preco: 10.00,
-#     professional_id: p.id },
-#   { nome: 'Unha mão e pé',
-#     preco: 15.00,
-#     professional_id: p.id },
+Service.create!([
+  { nome: 'Corte Masculino',
+    preco: 25.00,
+    professional_id: p.id },
+  { nome: 'Corte Feminino',
+    preco: 45.00,
+    professional_id: p.id },
+  { nome: 'Unha mão',
+    preco: 10.00,
+    professional_id: p.id },
+  { nome: 'Unha pé',
+    preco: 10.00,
+    professional_id: p.id },
+  { nome: 'Unha mão e pé',
+    preco: 15.00,
+    professional_id: p.id }
 #   { nome: 'Corte Masculino',
 #     preco: 25.00,
 #     professional_id: p1.id },
@@ -89,13 +89,13 @@ c = Customer.create!(
 #     preco: 15.00,
 #     professional_id: p2.id }
 
-#   ])
+  ])
 
-# Schedule.create!([
-#   { professional_id: p.id,
-#     customer_id: c.id,
-#     datahora_inicio: 1.hour.from_now.to_datetime,
-#     datahora_fim: 2.hours.from_now.to_datetime,
-#     service_id: p.services.first.id,
-#     nome: c.nome }
-#   ])
+Schedule.create!([
+  { professional_id: p.id,
+    customer_id: c.id,
+    datahora_inicio: 1.hour.from_now.to_datetime,
+    datahora_fim: 2.hours.from_now.to_datetime,
+    service_id: p.services.first.id,
+    nome: c.nome }
+  ])

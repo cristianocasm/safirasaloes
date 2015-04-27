@@ -13,7 +13,7 @@ module CustomersHelper
   end
 
   def nome_cliente
-    current_customer.nome
+    current_customer.try(:nome)
   end
 
   def prof_safiras(pr_id=nil)

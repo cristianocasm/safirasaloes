@@ -117,7 +117,6 @@ feature "Foto carregada para Cliente com permissão no FB" do
     click_button "Enviar Todas as Fotos"
     assert page.has_css?("#loadingModal"), "Modal loading não sendo exibido"
     wait_for_ajax
-    byebug
     assert_equal customer_root_path, page.current_path
   end
 end

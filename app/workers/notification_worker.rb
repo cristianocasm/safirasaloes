@@ -31,7 +31,7 @@ class NotificationWorker
     {
       from_email: "notificacao@safirasaloes.com.br",
       from_name: "SafiraSalões",
-      subject: "Seu horário no #{prNome} foi marcado",
+      subject: "Seu horário com o(a) #{prNome} foi marcado",
       to: [ { email: scEmail } ],
       track_opens: true,
       track_clicks: true,

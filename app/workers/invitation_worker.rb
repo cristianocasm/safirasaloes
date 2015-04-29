@@ -40,7 +40,7 @@ class InvitationWorker
     {
       from_email: "convite@safirasaloes.com.br",
       from_name: "SafiraSalões",
-      subject: "Uma surpresa aguarda você no #{prNome}",
+      subject: "Uma surpresa aguarda você com o(a) #{prNome}",
       to: [ { email: scEmail } ],
       track_opens: true,
       track_clicks: true,

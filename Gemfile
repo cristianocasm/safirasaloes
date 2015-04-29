@@ -27,6 +27,8 @@ gem 'spring',        group: :development
 
 gem 'has_secure_token'
 
+gem 'mandrill-api', require: 'mandrill'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

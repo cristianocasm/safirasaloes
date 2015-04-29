@@ -19,6 +19,8 @@
 #
 
 class Schedule < ActiveRecord::Base
+  include Rails.application.routes.url_helpers
+
   belongs_to :professional
   belongs_to :customer
   belongs_to :service
@@ -98,6 +100,8 @@ class Schedule < ActiveRecord::Base
     true
   end
 
+  # include ActionView::Helpers::TextHelper
+
   # Se e-mail estiver presente, então é necessário notificar cliente com o envio
   # de um e-mail. O e-mail será um convite para cadastro no sistema, caso não haja
   # cliente cadastrado com o dado e-mail. Por outro lado, ele será uma notificação
@@ -118,21 +122,38 @@ class Schedule < ActiveRecord::Base
     if ct.id != self.customer_id
       self.update_attribute(:customer_id, ct.id)
     else
-      CustomerMailer.delay.notify_customer(self.id)
+      recompensa = self.service.recompensa_divulgacao
+      safiras = ActionController::Base.helpers.pluralize(recompensa, 'Safira')
+      
+      NotificationWorker.
+        perform_async(
+                      self.email,
+                      self.professional.nome,
+                      self.service.nome,
+                      self.datahora_inicio.strftime('%d/%m/%Y'),
+                      self.datahora_inicio.strftime('%H:%M'),
+                      safiras
+                    )
     end
   end
 
   def invite_customer
     if self.email.present?
       ci = CustomerInvitation.create(email: self.email)
-      CustomerMailer.delay.invite_customer(
-                                self.professional.nome,
-                                self.datahora_inicio,
-                                self.email,
-                                ci.token,
-                                self.service.nome
-                              )
+      regUrl = generate_registration_url(ci.token)
+      InvitationWorker.perform_async(
+                                      self.professional.nome,
+                                      self.datahora_inicio.strftime('%d/%m/%Y'),
+                                      self.datahora_inicio.strftime('%H:%M'),
+                                      self.email,
+                                      self.service.nome,
+                                      regUrl
+                                    )
     end
+  end
+
+  def generate_registration_url(token)
+    new_customer_registration_url(host: ENV["HOST_URL"], customer: { email: self.email, token: token })
   end
 
 end

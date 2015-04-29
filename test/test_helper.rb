@@ -57,11 +57,7 @@ class ActiveSupport::TestCase
    #Add more helper methods to be used by all tests here...
 end
 
-module MailerMacros
-  def last_email
-    Sidekiq::Extensions::DelayedMailer.jobs.last
-  end
-  
+module MailerMacros 
   def reset_email
     Sidekiq::Worker.clear_all
   end

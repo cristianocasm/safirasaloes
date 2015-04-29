@@ -1,9 +1,0 @@
-Você sabia que o <%= @profNome %> faz parte do sistema Safira Salões? Isso significa que você tem a partir de agora a possibilidade de ganhar <b>descontos</b> e <b>recompensas</b> imperdíveis sempre que for atentido!!!
-<br />
-<br />
-Para aproveitar todos os benefícios acesse o <%= link_to 'SafiraSalões', new_customer_registration_url(customer: { email: @ctEmail, token: @token }) %> e comece a ganhar agora mesmo!
-<br />
-<br />
-<i>
----
-Seu horário para o serviço "<%= @serviceNome %>" está confirmado no <%= @profNome %> para <%= @datahora_inicio.strftime('%d/%m/%Y') %> as <%= @datahora_inicio.strftime('%H:%M') %>.</i>

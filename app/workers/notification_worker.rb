@@ -22,7 +22,6 @@ class NotificationWorker
                                              message,
                                              async
                                             )
-    puts result
   end
 
   private

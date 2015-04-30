@@ -57,7 +57,7 @@ class Professional < ActiveRecord::Base
   validate :formato_pagina_facebook, on: :update
   validate :formato_site, on: :update
 
-  def append_professional_info
+  def contact_info
     contactInfo = ""
     contactInfo << "Responsável: #{nome} \n"
     contactInfo << (telefone.present? ? "Telefone: #{telefone}\n" : "")

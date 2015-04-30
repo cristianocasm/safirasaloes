@@ -83,9 +83,13 @@ class Customer < ActiveRecord::Base
       if sc.recompensa_fornecida
         true
       else
-        rw = Reward.find_or_initialize_by(professional_id: sc.professional_id, customer_id: self.id)
-        rw.total_safiras = rw.total_safiras + sc.service.recompensa_divulgacao
-        rw.save ? sc.update_attribute(:recompensa_fornecida, true) : false
+        profInfoInserted = false
+        sc.photo_logs.each { |pl| ( profInfoInserted = true and break ) if pl.description.include? sc.professional.contact_info }
+        if profInfoInserted
+          rw = Reward.find_or_initialize_by(professional_id: sc.professional_id, customer_id: self.id)
+          rw.total_safiras = rw.total_safiras + sc.service.recompensa_divulgacao
+          rw.save ? sc.update_attribute(:recompensa_fornecida, true) : false
+        end
       end
     end
   end

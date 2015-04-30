@@ -2,6 +2,16 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 jQuery ->
+  if $("form#fileupload").length
+    load_existing_files()
+    deal_with_wizard_completed_event()
+    deal_with_rewards_rejection()
+    prepend_prof_contact_info_to_posting()
+    replicate_upload_form_in_wizard_step_2()
+    initialize_fileupload_plugin()
+    set_possible_errors()
+
+set_possible_errors = ->
   window.locale = 'fileupload':
     'errors':
       'maxFileSize': 'Arquivo é muito grande'
@@ -15,7 +25,7 @@ jQuery ->
     'cancel': 'Cancelar'
     'destroy': 'Deletar'
 
-  # Initialize the jQuery File Upload widget:
+initialize_fileupload_plugin = ->
   $('#fileupload').fileupload(
     downloadTemplateId: null
     uploadTemplateId: null
@@ -50,6 +60,7 @@ jQuery ->
       types = /(\.|\/)(gif|jpe?g|png|tiff)$/i
       file = data.files[0]
       if types.test(file.type) || types.test(file.name)
+        $("button.btn-next").prop 'disabled', false
         $.blueimp.fileupload.prototype.options.add.call(this, e, data);
         #if file.size <= 4000000
         #$("#fileupload").fileupload("send", {files: data.files});
@@ -62,8 +73,48 @@ jQuery ->
         alert("#{file.name} não é um arquivo gif, jpeg, png ou tiff")
     )
 
-  # Load existing files:
-  load_existing_files()
+replicate_upload_form_in_wizard_step_2 = ->
+  $('#myWizard').on 'actionclicked.fu.wizard', (evt, data) ->
+    if data.step == 1 && data['direction'] == 'next'
+      hide_elements()
+      insert_prof_contact_info()
+
+hide_elements = ->
+  $("div#myUpoadForm").empty()
+  $("div#myUpoadForm").append($("form#fileupload"))
+  $(".hide_on_step_2").hide()
+  $("td.comment").each ->
+    val = $(this).children().children().val()
+    $(this).children().append(val)
+
+insert_prof_contact_info = ->
+  profInfo = $("#profContactInfo" + $('#photo_log_schedule_id').val()).val()
+  $('div.panel-body').html(profInfo)
+
+prepend_prof_contact_info_to_posting = ->
+  $('#prependProfInfoButton').click ->
+    window.profInfoAdded = true
+    $('td.comment').each -> 
+      profInfo = $("div.panel-body").html()
+      comment = $(this).children().children().val()
+      if comment != ""
+        profInfo += "---<br/>"
+      content = profInfo + comment
+      $(this).children().children().val(content.replace(/<br\s*[\/]?>/gi, '\n').replace(/<\/?p>/gi, '\n'))
+      $(this).prepend(profInfo)
+
+deal_with_rewards_rejection = ->
+  $("#naoQueroRecompensaButton").click ->
+    $('profInfoNotAddedAlert').modal('hide')
+    $('button[type=submit]').click()
+
+deal_with_wizard_completed_event = ->
+  $('#myWizard').on 'finished.fu.wizard', (evt, data) ->
+    if window.profInfoAdded == true
+      $('button[type=submit]').click()
+    else
+      event.preventDefault()
+      $('profInfoNotAddedAlert').modal('show')
 
 load_existing_files = ->
   $("#loadingPageModal").modal('show')
@@ -90,7 +141,8 @@ generateDownloadTemplate = (o) ->
         generateResultButton(file) +
         "</tr>"
       )
-    row.find('.name').text file.description
+    if file.description != undefined
+      row.find('.name').html file.description.replace(/\n/gi,'<br/>')
     rows = rows.add(row)
   rows
 
@@ -102,10 +154,8 @@ post_on_facebook = ->
     type: 'post'
     success: (data, textStatus, jqXHR) ->
       if data.permissaoDada && data.fotosPostadas
-        console.log "Entrei"
         window.location.href = "/cliente?photo_sent=true"
       else
-        console.log "Entrei2"
         $("#loadingPageModal").modal('hide')
         $("#loadingModal").modal('hide')
         $("#fbModal").modal('show')
@@ -126,8 +176,8 @@ generateUploadTemplate = (o) ->
       '<td class="preview" style="vertical-align: middle;"><span class="fade"></span></td>' +
       '<td class="name" style="display:none"></td>' +
       '<td class="size" style="display:none"></td>' +
-      '<td class="comment" style="vertical-align: middle;"><span><textarea class="form-control input-sm" name="photo_log[description]" required cols="500" placeholder="Esta foto será postada em seu Facebook. Escreva aqui o que você deseja que seus amigos vejam."></textarea></span></td>' +
-      '<td class="comment" style="display:none;"><input type="text" name="photo_log[schedule_id]" class="schedule_id" required value="' + $("#photo_log_schedule_id").val() + '"></input></td>' +
+      '<td class="comment" style="vertical-align: middle;"><span><textarea class="form-control input-sm hide_on_step_2" name="photo_log[description]" required cols="500" placeholder="Esta foto será postada em seu Facebook. Escreva aqui o que você deseja que seus amigos vejam."></textarea></span></td>' +
+      '<td style="display:none;"><input type="text" name="photo_log[schedule_id]" class="schedule_id" required value="' + $("#photo_log_schedule_id").val() + '"></input></td>' +
       content(file, o, index) +
       cancel_button(index) +
       '</tr>' +
@@ -140,10 +190,11 @@ generateUploadTemplate = (o) ->
       '</tr>')
     row.find('.name').text file.name
     row.find('.size').text o.formatFileSize(file.size)
+    row.find('.cancel_button').on 'click', -> 
+      $("button.btn-next").prop('disabled', true) unless $('.cancel_button').length > 1
     if file.error
       row.find('.error').text file.error
     rows = rows.add(row)
-  $("button.start").show() if o.files.length > 0
   rows
 
 content = (file, o, index) ->
@@ -156,4 +207,4 @@ content = (file, o, index) ->
 
 cancel_button = (index) ->
   if !index
-    "<td class='cancel' style='vertical-align: middle;'><button class='btn btn-warning'><i class='fa fa-ban'></i><span> #{locale.fileupload.cancel}</span></button></td>"
+    "<td class='cancel' style='vertical-align: middle;'><button class='btn btn-warning hide_on_step_2 cancel_button'><i class='fa fa-ban'></i><span> #{locale.fileupload.cancel}</span></button></td>"

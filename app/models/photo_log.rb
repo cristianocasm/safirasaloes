@@ -40,8 +40,6 @@ class PhotoLog < ActiveRecord::Base
                           )
                         }
 
-  include Rails.application.routes.url_helpers
-
   def to_jq_upload
     {
       "name" => read_attribute(:image_file_name),
@@ -50,25 +48,14 @@ class PhotoLog < ActiveRecord::Base
       "description" => read_attribute(:description),
       "thumbnail_url" => image.url(:small),
       "posted" => read_attribute(:posted),
-      "delete_url" => photo_log_path(self),
+      "delete_url" =>  Rails.application.routes.url_helpers.photo_log_path(self),
       "delete_type" => "DELETE" 
     }
   end
 
   def submit_to_fb
-    self.
-      customer.
-      facebook.
-      put_picture(
-        self.image.path,
-        # { :message => self.schedule.professional.append_professional_info + self.get_description }
-        { :message => Professional.first.append_professional_info + self.get_description }
-      )
+    self.customer.facebook.put_picture(image.path, :message => description)
     self.update_attribute(:posted, true)
     self
-  end
-
-  def get_description
-    self.description.present? ? "---\n#{self.description}" : ""
   end
 end

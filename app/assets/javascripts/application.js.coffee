@@ -43,6 +43,7 @@
 #= require jquery-maskmoney.min
 #= require jquery.maskedinput.js
 #= require typeahead.bundle
+#= require fuelux
 #= require_tree .
 #= require_self
 

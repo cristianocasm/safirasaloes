@@ -79,19 +79,31 @@ class PhotoLogsControllerTest < ActionController::TestCase
           @customer = customers :cristiano_com_integracao
           sign_in :customer, @customer
           Koala::Facebook::API.any_instance.stubs(:put_picture).returns({})
-          @images = get_photo_logs(@customer)
-          PhotoLog.stubs(:not_posted).returns(@images)
         end
 
         should "fotos postadas devem ter 'posted' setado como 'true'" do
+          @images = get_photo_logs(@customer)
+          PhotoLog.stubs(:not_posted).returns(@images)
           xhr :post, :send_to_fb
           @images.each { |img| assert img.posted, "posted != true" }
         end
 
-        should "ao postar fotos, cliente deve ser recompensado" do
+        should "ao postar fotos, cliente deve ser recompensado caso informações do profissional tenha sido inseridas" do
+          @images = get_photo_logs(@customer)
+          PhotoLog.stubs(:not_posted).returns(@images)
           sc = @customer.schedules_not_more_than_12_hours_ago.first
 
           assert_difference(-> { @customer.rewards.where(professional_id: sc.professional_id).first.total_safiras }, sc.service.recompensa_divulgacao) do
+            xhr :post, :send_to_fb
+          end
+        end
+        
+        should "ao postar fotos, cliente não deve ser recompensado caso informações do profissional não tenham sido inseridas ou tenham sido modificadas" do
+          @images = get_photo_logs(@customer)
+          PhotoLog.stubs(:not_posted).returns([@images[0]])
+          sc = @customer.schedules_not_more_than_12_hours_ago.first
+
+          assert_no_difference(-> { @customer.rewards.where(professional_id: sc.professional_id).first.total_safiras }) do
             xhr :post, :send_to_fb
           end
         end
@@ -119,7 +131,7 @@ def get_photo_logs(ct)
                            description: 'Testing2',
                            schedule_id: ct.schedules_not_more_than_12_hours_ago.first.id)
   pl3 = ct.photo_logs.new(image: fixture_file_upload('image3.jpg', 'image/jpg'),
-                           description: 'Testing3',
+                           description: ct.schedules_not_more_than_12_hours_ago.first.professional.contact_info + 'Testing3',
                            schedule_id: ct.schedules_not_more_than_12_hours_ago.first.id)
   images = [pl1, pl2, pl3]
 end

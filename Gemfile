@@ -46,8 +46,6 @@ gem 'annotate', '~> 2.6.5'
 
 gem 'date_validator', '~> 0.7.1'
 
-gem 'fuelux-rails-sass'
-
 # Utilizado para criação de threads
 gem 'sidekiq'
 gem 'sinatra', require: false

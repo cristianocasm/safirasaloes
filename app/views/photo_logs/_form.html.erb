@@ -12,6 +12,24 @@
   </div>
 </div>
 
+<div class="modal fade" id="profInfoNotAddedAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myprofInfoNotAddedAlertLabel"><span><i class="fa fa-spinner fa-pulse"></i></span>Você não quer as RECOMPENSAS?</h4>
+      </div>
+      <div class="modal-body">
+        <p>Para ganhar as recompensas, sua postagem deverá conter os dados de contato do profissional.</p>
+        <p>
+          <button type="button" class="btn btn-success" data-dismiss="modal">Espere! Eu Quero Recompensas</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" id="naoQueroRecompensaButton">Não Quero Recompensas</button>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -51,39 +69,62 @@
   </div>
 </div>
 
-<div class="container" style="display: none">
-  <%= form_for PhotoLog.new, :html => { :multipart => true, :id => "fileupload"  } do |f| %>
-    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+<div class="wizard" data-initialize="wizard" data-disable-previous-step='true' id="myWizard">
+  <ul class="steps">
+    <li data-step="1" data-name="campaign" class="active"><span class="badge">1</span>Escolher Fotos<span class="chevron"></span></li>
+    <li data-step="2"><span class="badge">2</span>Adicionar Contato do Profissional<span class="chevron"></span></li>
+  </ul>
+  <div class="actions">
+    <button type="button" class="btn btn-default btn-next" data-last="Enviar Fotos">Próximo<span class="glyphicon glyphicon-arrow-right"></span></button>
+  </div>
+  <div class="step-content">
+    <div class="step-pane active sample-pane alert" data-step="1">
+      <div class="container" style="display: none">
+        <%= form_for PhotoLog.new, :html => { :multipart => true, :id => "fileupload"  } do |f| %>
+          <div class="hide_on_step_2">
+            <div style="margin-bottom: 20px;">
+              Enviando fotos para: 
+              <%= f.select :schedule_id, @scs.collect { |sc| ["#{sc.professional.nome} pelo serviço #{sc.service.nome}", sc.id] }, {} %>
+            </div>
+            <div class="fileupload-buttonbar">
+              <div class="span7">
+                <!-- The fileinput-button span is used to style the file input field as button -->
+                <span class="btn btn-success fileinput-button">
+                  <i class="fa fa-plus"></i>
+                  <span>Escolher Fotos...</span>
+                  <%= f.file_field :image, multiple: true, name: 'photo_log[image]' %>
+                <button type="submit" class="btn btn-primary start" style="display: none"></button>
+                </span>
+              </div>
+            </div>
+          </div>
 
-
-    <div class="fileupload-buttonbar">
-      <div class="span7" style="margin-top: 20px; margin-bottom: 20px;">
-        <!-- The fileinput-button span is used to style the file input field as button -->
-        <span class="btn btn-success fileinput-button">
-          <i class="fa fa-plus"></i>
-          <span>Escolher Fotos...</span>
-          <%= f.file_field :image, multiple: true, name: 'photo_log[image]' %>
-        </span>
-        <button type="submit" class="btn btn-primary start" style="display: none">
-          <i class="fa fa-arrow-circle-o-up"></i>
-          <span>Enviar Todas as Fotos</span>
-        </button>
+          <!-- The loading indicator is shown during image processing -->
+          <div class="fileupload-loading"></div>
+          <br>
+          <!-- The table listing the files available for upload/download -->
+          <table class="table table-striped" style="margin-top: 40px;"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+          </table>
+        <% end %>
+        <% @scs.each do |sc| %>
+          <input type="text" id="profContactInfo<%= sc.id %>" value="<%= simple_format(sc.professional.contact_info) %>" style="display: none">
+        <% end %>
       </div>
-<!--       <div class="span5">
-        <!-- The global progress bar
-        <div class="progress progress-success progress-striped active fade">
-          <div class="bar" style="width:0%;"></div>
-        </div>
-      </div> -->
     </div>
+    <div class="step-pane sample-pane alert" data-step="2">
+      <div class="panel panel-danger">
+        <div class="panel-heading">
+          <b>ATENÇÃO!</b> Para receber as recompensas, você deverá inserir as informações abaixo nos seus comentários.
+        </div>
+        <div class="panel-body">
+        </div>
+        
+        <button type="button" class="btn btn-warning" id="prependProfInfoButton">Insira por Mim</button>
 
-    <!-- The loading indicator is shown during image processing -->
-    <div class="fileupload-loading"></div>
-    <br>
-    <!-- The table listing the files available for upload/download -->
-    <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
-    </table>
-  <% end %>
+      </div>
+      <div id="myUpoadForm"></div>
+    </div>
+  </div>
 
 </div>
 

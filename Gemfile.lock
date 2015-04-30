@@ -94,9 +94,6 @@ GEM
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.3)
-    fuelux-rails-sass (3.4.0)
-      railties (>= 3.1)
-      sass-rails
     has_secure_token (0.0.2)
       activemodel
     hashie (3.4.1)
@@ -316,7 +313,6 @@ DEPENDENCIES
   devise
   devise-async
   fakeweb
-  fuelux-rails-sass
   has_secure_token
   jbuilder (~> 2.0)
   jquery-fileupload-rails (= 0.4.1)

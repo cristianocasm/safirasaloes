@@ -31,7 +31,6 @@ class InvitationWorker
                                              message,
                                              async
                                             )
-    puts result
   end
 
   private

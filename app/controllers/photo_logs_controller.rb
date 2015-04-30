@@ -21,6 +21,7 @@ class PhotoLogsController < ApplicationController
   def new
     if current_customer.can_send_photo?
       @photoLog = current_customer.photo_logs.new
+      @scs = current_customer.schedules_not_more_than_12_hours_ago
     else
       redirect_to customer_root_path, flash: { error: "Você não foi atendido por um profissional nas últimas 12 horas e, por isso, ainda não pode enviar fotos." }
     end

@@ -114,7 +114,7 @@ deal_with_wizard_completed_event = ->
       $('button[type=submit]').click()
     else
       event.preventDefault()
-      $('profInfoNotAddedAlert').modal('show')
+      $('#profInfoNotAddedAlert').modal('show')
 
 load_existing_files = ->
   $("#loadingPageModal").modal('show')

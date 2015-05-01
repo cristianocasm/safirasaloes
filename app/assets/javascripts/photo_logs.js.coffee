@@ -10,6 +10,7 @@ jQuery ->
     replicate_upload_form_in_wizard_step_2()
     initialize_fileupload_plugin()
     set_possible_errors()
+    window.profInfoAdded = false
 
 set_possible_errors = ->
   window.locale = 'fileupload':
@@ -41,6 +42,7 @@ initialize_fileupload_plugin = ->
     #       me.css('width', progress + '%')
     #       me.text(progress + '%')
     submit: (e, data) ->
+      fill_comment_text_area()
       inputs = data.context.find(':input')
       # if inputs.filter((->
       #     !@value and $(this).prop('required')
@@ -84,8 +86,8 @@ hide_elements = ->
   $("div#myUpoadForm").append($("form#fileupload"))
   $(".hide_on_step_2").hide()
   $("td.comment").each ->
-    val = $(this).children().children().val()
-    $(this).children().append(val)
+    val = get_comment($(this))
+    $(this).append(val)
 
 insert_prof_contact_info = ->
   profInfo = $("#profContactInfo" + $('#photo_log_schedule_id').val()).val()
@@ -93,16 +95,40 @@ insert_prof_contact_info = ->
 
 prepend_prof_contact_info_to_posting = ->
   $('#prependProfInfoButton').click ->
-    window.profInfoAdded = true
-    $('td.comment').each -> 
-      profInfo = $("div.panel-body").html()
-      console.log profInfo
-      comment = $(this).children().children().val()
-      if comment != ""
-        profInfo += "---<br/>"
-      content = profInfo + comment
-      $(this).children().children().val(content.replace(/<br\s*[\/]?>/gi, '\n').replace(/<[\/]?p>/gi, ''))
-      $(this).prepend(profInfo)
+    $('td.comment').each ->
+      if window.profInfoAdded == false
+        content = prof_info_plus_comment($(this))
+        comment = $(this).find('span.comment')
+        $(this).html(content)
+        $(this).append(comment)
+        toggle_contact_info_button("Remova Contato do Profissional", "btn-danger", "btn-warning")
+      else
+        toggle_contact_info_button("Insira por Mim", "btn-warning", "btn-danger")
+        $(this).find('p.profInfo').remove()
+    window.profInfoAdded = !window.profInfoAdded
+
+toggle_contact_info_button = (text, addClass, removeClass) ->
+  $("#prependProfInfoButton").text(text)
+  $("#prependProfInfoButton").addClass(addClass)
+  $("#prependProfInfoButton").removeClass(removeClass)
+
+fill_comment_text_area = ->
+  if window.profInfoAdded == true
+    $('td.comment').each ->
+      content = prof_info_plus_comment($(this))
+      content = content.replace(/<br\s*[\/]?>/gi, '\n')
+      content = content.replace(/<[\/]?p[\s]*(class='profInfo')?>/gi, '')
+      $(this).find('textarea').val(content)
+
+prof_info_plus_comment = (elm) ->
+  profInfo = $("div.panel-body").children().html()
+  comment = get_comment(elm)
+  if comment != ""
+    profInfo += "<br/>---<br/>"
+  return "<p> <p class='profInfo'>#{profInfo}</p>  <p>#{comment}</p> </p>"
+
+get_comment = (elm) ->
+  elm.find('textarea').val().replace(/\n/gi,'<br />')
 
 deal_with_rewards_rejection = ->
   $("#naoQueroRecompensaButton").click ->
@@ -178,7 +204,7 @@ generateUploadTemplate = (o) ->
       '<td class="preview" style="vertical-align: middle;"><span class="fade"></span></td>' +
       '<td class="name" style="display:none"></td>' +
       '<td class="size" style="display:none"></td>' +
-      '<td class="comment" style="vertical-align: middle;"><span><textarea class="form-control input-sm hide_on_step_2" name="photo_log[description]" required cols="500" placeholder="Esta foto será postada em seu Facebook. Escreva aqui o que você deseja que seus amigos vejam."></textarea></span></td>' +
+      '<td class="comment" style="vertical-align: middle;"><span class="comment"><textarea class="form-control input-sm hide_on_step_2" name="photo_log[description]" required cols="500" placeholder="Esta foto será postada em seu Facebook. Escreva aqui o que você deseja que seus amigos vejam."></textarea></span></td>' +
       '<td style="display:none;"><input type="text" name="photo_log[schedule_id]" class="schedule_id" required value="' + $("#photo_log_schedule_id").val() + '"></input></td>' +
       content(file, o, index) +
       cancel_button(index) +

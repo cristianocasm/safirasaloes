@@ -3672,6 +3672,7 @@
             text = this.lastText;
             // add status class to wizard
             this.$element.addClass( 'complete' );
+            this.$nextBtn.addClass( 'btn-success' );
           } else {
             this.$element.removeClass( 'complete' );
           }

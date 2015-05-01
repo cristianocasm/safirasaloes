@@ -101,7 +101,7 @@ prepend_prof_contact_info_to_posting = ->
         comment = $(this).find('span.comment')
         $(this).html(content)
         $(this).append(comment)
-        toggle_contact_info_button("Remova Contato do Profissional", "btn-danger", "btn-warning")
+        toggle_contact_info_button("Remova por Mim", "btn-danger", "btn-warning")
       else
         toggle_contact_info_button("Insira por Mim", "btn-warning", "btn-danger")
         $(this).find('p.profInfo').remove()

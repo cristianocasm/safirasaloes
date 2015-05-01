@@ -84,7 +84,7 @@ class Customer < ActiveRecord::Base
         true
       else
         profInfoInserted = false
-        sc.photo_logs.each { |pl| ( profInfoInserted = true and break ) if pl.description.include? sc.professional.contact_info }
+        sc.photo_logs.each { |pl| ( profInfoInserted = true and break ) if pl.description.gsub(/\r\n?/,"\n").include? sc.professional.contact_info.strip }
         if profInfoInserted
           rw = Reward.find_or_initialize_by(professional_id: sc.professional_id, customer_id: self.id)
           rw.total_safiras = rw.total_safiras + sc.service.recompensa_divulgacao

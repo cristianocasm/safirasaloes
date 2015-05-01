@@ -96,11 +96,12 @@ prepend_prof_contact_info_to_posting = ->
     window.profInfoAdded = true
     $('td.comment').each -> 
       profInfo = $("div.panel-body").html()
+      console.log profInfo
       comment = $(this).children().children().val()
       if comment != ""
         profInfo += "---<br/>"
       content = profInfo + comment
-      $(this).children().children().val(content.replace(/<br\s*[\/]?>/gi, '\n').replace(/<\/?p>/gi, '\n'))
+      $(this).children().children().val(content.replace(/<br\s*[\/]?>/gi, '\n').replace(/<[\/]?p>/gi, ''))
       $(this).prepend(profInfo)
 
 deal_with_rewards_rejection = ->

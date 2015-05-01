@@ -200,6 +200,7 @@ get_customer_rewards = (customer_id) ->
 reset_form = ->
   $(this).find('form')[0].reset()
   $("#schedule_customer_id").val("") # Necessário já que hidden inputs não sofrem ação de form.reset()
+  $("#schedule_id").val("") # Necessário já que hidden inputs não sofrem ação de form.reset()
   $("#total_safiras").val("") # Necessário já que hidden inputs não sofrem ação de form.reset()
   hide_checkbox()
 

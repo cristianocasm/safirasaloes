@@ -159,6 +159,7 @@ post_on_facebook = ->
       else
         $("#loadingPageModal").modal('hide')
         $("#loadingModal").modal('hide')
+        $("#msgForInfoAdded").show() if window.profInfoAdded == true
         $("#fbModal").modal('show')
     error: (jqXHR, textStatus, errorThrown) ->
       alert("Um erro inesperado impediu suas fotos de serem enviadas para o Facebook. Atualize a página para tentar novamente.")

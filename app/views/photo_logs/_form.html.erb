@@ -52,10 +52,10 @@
       </div>
       <div class="modal-body">
         <p>
-        <b>Ótimas notícias!</b> Suas fotos foram salvas em nosso sistema e agora basta enviá-las para seu Facebook para que você receba suas recompensas.
+        <b>Ótimas notícias!</b> Suas fotos foram salvas em nosso sistema e agora basta enviá-las para seu Facebook<span id="msgForInfoAdded" style='display:none'> para que você receba suas recompensas</span>.
         </p>
         <p>
-          Mas não se preocupe! Nós faremos isso por você. Basta que você nos dê sua permissão clicando no link abaixo.
+          Mas não se preocupe! Nós faremos isso por você. Basta que você nos dê sua permissão clicando no botão abaixo.
         </p>
         <p>
           <%= link_to customer_omniauth_authorize_path(:facebook), class: 'btn btn-primary' do %>

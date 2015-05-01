@@ -71,6 +71,11 @@ gem "paperclip", "~> 4.2"
 
 gem "pagseguro-oficial", '=2.0.5'
 
+# Tracking de exceções lançadas na plataforma
+gem 'rollbar', '~> 1.5.1'
+# Para notificar Rollbar quando deploy for feito
+gem 'mina-rollbar', require: false
+
 
 group :test, :development do
   gem 'byebug'

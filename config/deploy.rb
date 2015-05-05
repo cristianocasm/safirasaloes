@@ -11,6 +11,7 @@ set :repository, 'https://cristianocasm@bitbucket.org/cristianocasm/safirasaloes
 set :branch, 'master'
 set :rollbar_access_token, "ec9ca75181824170925fa07796df7e56"
 set :rails_env, 'production'
+set :sidekiq_pid, "#{deploy_to}#{shared_path}/pids/sidekiq_pid"
 # Permite inserção da senha no terminal quando solicitado
 set :term_mode, nil
 

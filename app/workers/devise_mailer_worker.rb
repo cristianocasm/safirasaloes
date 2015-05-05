@@ -1,27 +1,25 @@
-class ResetPasswordInstructionsWorker
+class DeviseMailerWorker
   include Sidekiq::Worker
 
-  sidekiq_options retry: true
+  sidekiq_options retry: false
 
-  def perform()
-    mandrill = Mandrill::API.new(ENV["MANDRILL_PASSWORD"])
-    templateName = "reset_password_instructions"
+  # Necessário para que Customer seja capaz de
+  # acessar 'meus_serviços' logo após o cadastro
+  # e visualizar os serviços fornecidos pelo
+  # profissional que o convidou.
+  def perform(email, url, templateName, subject)
+    mandrill = Mandrill::API.new(ENV["MANDRILL_PASSWORD"]).messages
     async = false
-    message = generate_message(email, url)
-
-    result = mandrill.messages.send_template(
-                                             templateName,
-                                             nil,
-                                             message,
-                                             async
-                                            )
+    message = generate_message(email, url, subject)
+    
+    mandrill.send_template(templateName, nil, message, async)
   end
 
-  def generate_message(email, url)
+  def generate_message(email, url, subject)
     {
       from_email: "contato@safirasaloes.com.br",
       from_name: "SafiraSalões",
-      subject: "Instruções para Alteração de Senha",
+      subject: subject,
       to: [ { email: email } ],
       track_opens: false,
       track_clicks: false,

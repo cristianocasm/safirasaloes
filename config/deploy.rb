@@ -9,7 +9,6 @@ set :deploy_to, '/home/safira/'
 set :repository, 'https://cristianocasm@bitbucket.org/cristianocasm/safirasaloes.git'
 set :branch, 'master'
 set :rollbar_access_token, "ec9ca75181824170925fa07796df7e56"
-# set :branch, 'fb_validation'
 set :rails_env, 'production'
 # Permite inserção da senha no terminal quando solicitado
 set :term_mode, nil
@@ -34,7 +33,7 @@ task :environment do
 end
 
 # Arquivos e pastas a serem compartilhadas entre as releases
-set :shared_paths, ['config/database.yml', 'config/application.yml', 'log']
+set :shared_paths, ['config/database.yml', 'config/application.yml', 'log', 'public/assets/products']
 # Put any custom mkdir's in here for when `mina setup` is ran.
 # For Rails apps, we'll make some of the shared paths that are shared between
 # all releases.
@@ -46,6 +45,11 @@ task :setup => :environment do
   # Cria pasta "config" dentro de /home/rails/shared
   queue! %[mkdir -p "#{deploy_to}#{shared_path}/config"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}#{shared_path}/config"]
+
+  # Cria pasta "products" dentro de /home/rails/shared/public/assets/products
+  queue! %[mkdir -p "#{deploy_to}#{shared_path}/public/assets/products"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}#{shared_path}/public/assets/products"]
+
 
   # Cria arquivo "database.yml" dentro de /home/rails/shared/config
   queue! %[touch "#{deploy_to}#{shared_path}/config/database.yml"]

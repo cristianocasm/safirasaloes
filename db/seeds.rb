@@ -17,7 +17,17 @@ Status.create!([
 
 p = Professional.create!(
   { email: 'cristiano.souza.mendonca@gmail.com',
-    password: '123456' }
+    password: '123456',
+    nome: 'Beauty Saloon',
+    telefone: '(33) 3333-3333',
+    whatsapp: '(99) 9999-9999',
+    pagina_facebook: 'https://www.facebook.com/BeautySaloonPage',
+    rua: 'Bela',
+    numero: '33',
+    bairro: 'Beauty',
+    cidade: 'Beauty Horizon',
+    estado: 'MG',
+    site: 'http://www.mybeautysite.com.br' }
   )
 p1= Professional.create!(
   { email: 'cristiano.souza.mendonca+suspenso@gmail.com',
@@ -45,7 +55,8 @@ c = Customer.create!(
 Service.create!([
   { nome: 'Corte Masculino',
     preco: 25.00,
-    professional_id: p.id },
+    professional_id: p.id,
+    recompensa_divulgacao: 20 },
   { nome: 'Corte Feminino',
     preco: 45.00,
     professional_id: p.id },

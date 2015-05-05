@@ -29,7 +29,7 @@ class Customer < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
-         :validatable, :async, :omniauthable,
+         :validatable, :omniauthable,
          :omniauth_providers => [:facebook]
   has_many :rewards
   has_many :schedules

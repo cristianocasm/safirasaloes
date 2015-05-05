@@ -53,8 +53,6 @@ gem 'slim'
 
 # Utilizado para autenticação de usuários
 gem 'devise'
-# Utilizado para envio assincrono dos e-mails do Devise
-gem 'devise-async'
 
 # gem 'thin'
 # gem 'private_pub'
@@ -75,6 +73,7 @@ gem "pagseguro-oficial", '=2.0.5'
 gem 'rollbar', '~> 1.5.1'
 # Para notificar Rollbar quando deploy for feito
 gem 'mina-rollbar', require: false
+gem 'mina-sidekiq', require: false
 
 
 group :test, :development do

@@ -43,7 +43,7 @@ class Professional < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
-         :validatable, :confirmable, :async
+         :validatable, :confirmable
 
   belongs_to :status
   has_many :schedules

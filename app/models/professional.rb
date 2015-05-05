@@ -50,7 +50,6 @@ class Professional < ActiveRecord::Base
   has_many :services
   has_many :rewards
 
-  # before_create :create_hashtag, :define_status
   before_create :define_status
   validates_presence_of :nome, on: :update
   validate :contato_fornecido?, on: :update

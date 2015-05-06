@@ -66,7 +66,7 @@ class ApplicationController < ActionController::Base
 
   def current_resource
     @resource ||= resource_name
-    self.send "current_#{@resource}"
+    self.send "current_#{@resource}" if @resource
   end
 
   def resource_name

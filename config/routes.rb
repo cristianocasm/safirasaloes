@@ -40,4 +40,9 @@ Rails.application.routes.draw do
   end
 
   mount Sidekiq::Web, at: '/sidekiq'
+
+  # Esta rota TEM que ser a última da listagem, pois
+  # seu objetivo é redirecionar o usuário para uma
+  # página 404 no caso onde a rota não existe.
+  match '*path', via: :all, to: 'static_pages#error_404'
 end

@@ -11,7 +11,7 @@ set :repository, 'https://cristianocasm@bitbucket.org/cristianocasm/safirasaloes
 set :branch, 'master'
 set :rollbar_access_token, "ec9ca75181824170925fa07796df7e56"
 set :rails_env, 'production'
-set :sidekiq_log, "#{deploy_to}#{shared_path}/log"
+set :sidekiq_log, "#{deploy_to}#{shared_path}/log/"
 # Permite inserção da senha no terminal quando solicitado
 set :term_mode, nil
 
@@ -72,8 +72,8 @@ task :deploy => :environment do
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
-    invoke :'rollbar:notify'
     invoke :'deploy:cleanup'
+    invoke :'rollbar:notify'
 
     to :launch do
       queue "mkdir -p #{deploy_to}#{current_path}/tmp/"

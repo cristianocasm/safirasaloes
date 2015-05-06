@@ -58,7 +58,7 @@ class Professional < ActiveRecord::Base
 
   def contact_info
     contactInfo = ""
-    contactInfo << "Responsável: #{nome} \n"
+    contactInfo << "Responsável: #{nome.titleize} \n"
     contactInfo << (telefone.present? ? "Telefone: #{telefone}\n" : "")
     contactInfo << (whatsapp.present? ? "WhatsApp: #{whatsapp}\n" : "")
     contactInfo << gerar_endereco

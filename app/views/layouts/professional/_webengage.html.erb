@@ -13,12 +13,23 @@
   })(document);
 
   _weq['webengage.feedback.formData'] = [ 
-  {
-    value: "<%= current_professional.nome %>",
-  },
+    {
+      name: "Nome",
+      value: "<%= current_professional.nome %>",
+    },
 
-  {
-    value: "<%= current_professional.email %>"
-  }
-];
+    {
+      name: "Email",
+      value: "<%= current_professional.email %>"
+    },
+
+    {
+      name: "Categoria",
+      options: [
+        "Billing Inquiries", 
+        "Sales/pricing related query",
+        "General feedback"
+      ]
+    }
+  ];
 </script>

@@ -20,7 +20,7 @@ set :rvm_path, '/usr/local/rvm/bin/rvm'
 
 # Optional settings:
 set :user, 'safira' # Username in the server to SSH to.
-set :port, '5000' # SSH port number.
+set :port, '46422' # SSH port number.
 #   set :forward_agent, true     # SSH forward_agent.
 
 # This task is the environment that is loaded for most commands, such as

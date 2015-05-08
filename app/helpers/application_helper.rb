@@ -18,14 +18,14 @@ module ApplicationHelper
     if msg.present?
       concat(content_tag(:div, class: "alert alert-warning", style: "text-align: center;") do
               concat msg.html_safe
-              # concat(content_tag(:form, action: 'https://pagseguro.uol.com.br/v2/pre-approvals/request.html', method: 'post') do
-              #         concat content_tag(:input, nil, type: 'hidden', name: 'code', value: 'BB93F2ED11118A80047FBFA7FC08A76F')
-              #         concat content_tag(:input, nil, type: 'image', src: 'https://p.simg.uol.com.br/out/pagseguro/i/botoes/assinaturas/205x30-assinar.gif', name: 'submit', alt: 'Pague com PagSeguro - é rápido, grátis e seguro!')
-              #       end)
               concat(content_tag(:form, action: 'https://pagseguro.uol.com.br/v2/pre-approvals/request.html', method: 'post') do
-                      concat content_tag(:input, nil, type: 'hidden', name: 'code', value: '5A01330DEFEF9D6004544FA0E1DA43A6')
+                      concat content_tag(:input, nil, type: 'hidden', name: 'code', value: 'BB93F2ED11118A80047FBFA7FC08A76F')
                       concat content_tag(:input, nil, type: 'image', src: 'https://p.simg.uol.com.br/out/pagseguro/i/botoes/assinaturas/205x30-assinar.gif', name: 'submit', alt: 'Pague com PagSeguro - é rápido, grátis e seguro!')
                     end)
+              # concat(content_tag(:form, action: 'https://pagseguro.uol.com.br/v2/pre-approvals/request.html', method: 'post') do
+              #         concat content_tag(:input, nil, type: 'hidden', name: 'code', value: '5A01330DEFEF9D6004544FA0E1DA43A6')
+              #         concat content_tag(:input, nil, type: 'image', src: 'https://p.simg.uol.com.br/out/pagseguro/i/botoes/assinaturas/205x30-assinar.gif', name: 'submit', alt: 'Pague com PagSeguro - é rápido, grátis e seguro!')
+              #       end)
             end) 
     end
   end

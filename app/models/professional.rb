@@ -178,19 +178,11 @@ class Professional < ActiveRecord::Base
       self.data_expiracao_status < Time.zone.now
   end
 
-  # def create_hashtag
-  #   o = [('a'..'z'), ('A'..'Z'), (0..9)].map { |i| i.to_a }.flatten
-  #   string = ""
-  #   begin
-  #     string = (0..3).map { o[rand(o.length)] }.join
-  #   end while !Professional.find_by_hashtag(string).blank?
-  #   self.hashtag = string
-  # end
-
   def define_status
     status = Status.find_by_nome('testando')
     self.status_id = status.id
-    self.data_expiracao_status = Time.zone.now + status.dias_vigencia.days
+    # self.data_expiracao_status = Time.zone.now + status.dias_vigencia.days
+    self.data_expiracao_status = Time.zone.now + 60.days
   end
 
 

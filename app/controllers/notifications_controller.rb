@@ -17,7 +17,7 @@ class NotificationsController < ApplicationController
   def retorno_pagamento
     if params[:transacao].present?
       current_professional.update_attribute(:transacao_pagseguro, params[:transacao])
-      redirect_to professional_root_url, flash: { success: "Obrigado. Recebemos seu pedido e seu acesso será liberado assim que o pagamento for confirmado." }
+      redirect_to professional_root_url, flash: { success: "Obrigado. Recebemos seu pedido e seu acesso será liberado assim que o pagamento for confirmado. Uma mensagem com os detalhes desta transação foi enviada para o seu e-mail. Você também poderá acessar sua conta PagSeguro no endereço https://pagseguro.uol.com.br/ para mais informações." }
     else
       redirect_to professional_root_url, flash: { error: "Não autorizado." }
     end

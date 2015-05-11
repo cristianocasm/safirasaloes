@@ -6,7 +6,11 @@
         <div class="col-md-3">
           <!-- Logo. -->
           <div class="logo">
-            <h1><a href="#">Safira<span class="bold">Salões</span></a></h1>
+            <h1>
+              <%= link_to customer_root_path do %>
+                Safira<span class="bold">Salões</span>
+              <% end %>
+            </h1>
           </div>
           <!-- Logo ends -->
         </div>

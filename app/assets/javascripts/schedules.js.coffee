@@ -16,22 +16,23 @@ config_callendar = ->
       center: 'title',
       right: 'month,agendaWeek,agendaDay,next'
     },
-    defaultView: 'agendaWeek', 
-    editable: true,
-    firstDay: 1,
-    fixedWeekCount: false,
-    allDaySlot: false,
-    displayEventEnd: true,
-    selectable: true,
-    axisFormat: "HH:mm",
-    minTime: "06:00:00",
-    maxTime: "23:00:00",
-    allDayDefault: false,
-    height: 'auto',
-    timeFormat: 'HH:mm',
-    eventDrop:   (event, delta, revertFunc) -> dealChangeEvent(event, delta, revertFunc),
-    eventResize: (event, delta, revertFunc) -> dealChangeEvent(event, delta, revertFunc),
-    eventRender:     (event, element, view) -> assocPopOver(event, element, view),
+    defaultView: 'agendaWeek'
+    editable: true
+    firstDay: 1
+    fixedWeekCount: false
+    allDaySlot: false
+    displayEventEnd: true
+    selectable: true
+    selectHelper: true
+    axisFormat: "HH:mm"
+    minTime: "06:00:00"
+    maxTime: "23:00:00"
+    allDayDefault: false
+    height: 'auto'
+    timeFormat: 'HH:mm'
+    eventDrop:   (event, delta, revertFunc) -> dealChangeEvent(event, delta, revertFunc)
+    eventResize: (event, delta, revertFunc) -> dealChangeEvent(event, delta, revertFunc)
+    eventRender:     (event, element, view) -> assocPopOver(event, element, view)
     select:     (start, end, jsEvent, view) -> dealNewEvent(start, end, jsEvent, view)
   })
 

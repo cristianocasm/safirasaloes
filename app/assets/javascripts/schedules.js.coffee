@@ -27,6 +27,7 @@ config_callendar = ->
     minTime: "06:00:00",
     maxTime: "23:00:00",
     allDayDefault: false,
+    height: 'auto',
     timeFormat: 'HH:mm',
     eventDrop:   (event, delta, revertFunc) -> dealChangeEvent(event, delta, revertFunc),
     eventResize: (event, delta, revertFunc) -> dealChangeEvent(event, delta, revertFunc),

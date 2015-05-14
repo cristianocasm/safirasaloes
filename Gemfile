@@ -59,7 +59,7 @@ gem 'devise'
 
 gem "bullet", :group => "development"
 
-gem 'rack-mini-profiler'
+gem 'rack-mini-profiler', require: false
 
 gem 'omniauth-facebook'
 gem "koala", "~> 2.0"

@@ -6,17 +6,17 @@
     <ul id="nav">
       <!-- Main menu with font awesome icon -->
       <li>
-        <%= link_to(professional_root_path, id: 'agenda') do %>
+        <%= link_to(professional_root_path, id: 'agenda', class: active('schedules')) do %>
           <i class="fa fa-calendar"></i> Minha Agenda
         <% end %>
       </li>
       <li>
-        <%= link_to(services_path, id: 'servicos') do %>
+        <%= link_to(services_path, id: 'servicos', class: active('services')) do %>
           <i class="fa fa-scissors"></i> Meus Serviços
         <% end %>
       </li>
       <li>
-        <%= link_to(edit_professional_registration_path) do %>
+        <%= link_to(edit_professional_registration_path, class: active('professional_registrations')) do %>
           <i class="fa fa-tty"></i> Dados de Contato
         <% end %>
       </li>

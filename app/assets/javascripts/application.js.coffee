@@ -62,6 +62,9 @@ $(document).on 'click, focus', 'input:text.telefone', ->
   mask = if elm.val().length > 14 then "(99) 99999-9999" else "(99) 9999-9999?9"
   elm.mask(mask, placeholder)
 
+$(document).on 'hidden.bs.modal', '#myModalTutorial', ->
+  $('#myModalTutorial iframe').attr("src", $("#myModalTutorial  iframe").attr("src"));
+
 $(document).on('focusout', 'input:text.telefone', ->
   phone = undefined
   element = undefined

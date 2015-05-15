@@ -24,10 +24,11 @@
       <%= render "layouts/professional/sidebar" unless current_professional.suspenso? %>
       <%= yield :modals unless current_professional.suspenso? || current_professional.bloqueado? %>
       <%= render "layouts/professional/main_content" unless current_professional.suspenso? %>
+      <%= render "layouts/professional/video_tutorial" unless Rails.env.test? %>
     </div>
     <%= render "layouts/professional/footer" %>
     <%= javascript_include_tag 'application' %>
-    <%= render "layouts/professional/webengage" %>
+    <%= render "layouts/professional/webengage" if Rails.env.production? %>
     <%# subscribe_to "/professional/order_exchanges/#{current_professional.id}" %>
   </body>
 </html>

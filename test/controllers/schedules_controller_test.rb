@@ -19,6 +19,11 @@ class SchedulesControllerTest < ActionController::TestCase
     assert_template layout: 'layouts/professional/professional'
   end
 
+  test "should not render show" do
+    get :show, id: @profAline.schedules.first.id
+    assert_response :redirect
+  end
+
   # test "deve gravar recompensa de divulgação" do
   #   @schedule = { customer_id: customers(:sonia), datahora_inicio: DateTime.now.to_default_s, datahora_fim: 1.hour.from_now.to_default_s, service_id: @profAline.services.first.id }
 

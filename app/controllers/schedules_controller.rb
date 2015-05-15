@@ -1,5 +1,5 @@
 class SchedulesController < ApplicationController
-  before_action :set_schedule, only: [:show, :edit, :update, :destroy]
+  before_action :set_schedule, only: [:edit, :update, :destroy]
 
   # GET /schedules
   # GET /schedules.json
@@ -11,8 +11,14 @@ class SchedulesController < ApplicationController
   end
 
   # GET /schedules/1
-  # GET /schedules/1.json
+  # Profissional não tem a opção de consultar
+  # um horário através do método show (tudo
+  # é feito com o index e edit). Assim, caso
+  # ele tente fazer a consulta (inserindo
+  # a url no browser), será redirecionado para
+  # a agenda.
   def show
+    redirect_to professional_root_url
   end
 
   # GET /schedules/new
@@ -74,7 +80,7 @@ class SchedulesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_schedule
-      @schedule = Schedule.find(params[:id])
+      @schedule = current_professional.schedules.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

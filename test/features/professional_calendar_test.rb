@@ -301,6 +301,18 @@ feature "Calendar TypeAhead" do
     assert_equal ct.telefone, page.find('#schedule_telefone').value, 'schedule_telefone não foi preenchido'
     assert_equal ct.nome, page.find('#schedule_nome').value, 'schedule_nome não foi preenchido'
   end
+
+  scenario "TypeAhead desconsidera maiúsculas e minúsculas", focus: true, js: true do
+    ct = customers(:cesar)
+    fill_in('schedule_email', with: ct.email[0..5].titleize)
+    page.execute_script %Q{ $('#schedule_email').trigger("focus") }
+    wait_for_ajax
+    page.find('div.tt-suggestion').click
+    assert_equal ct.id.to_s, page.find('#schedule_customer_id', visible: false).value, 'schedule_customer_id não foi preenchido'
+    assert_equal ct.telefone, page.find('#schedule_telefone').value, 'schedule_telefone não foi preenchido'
+    assert_equal ct.nome, page.find('#schedule_nome').value, 'schedule_nome não foi preenchido'
+  end
+
   
   scenario "escolha de telefone preenche 'schedule_customer_id', 'schedule_telefone' e 'schedule_nome'", js: true do
     ct = customers(:cesar)

@@ -48,6 +48,21 @@ class ScheduleTest < ActiveSupport::TestCase
       assert_equal ["Informe Nome e/ou Email e/ou Telefone do cliente"], sc.errors.messages[:base]
     end
 
+    test "salva email em caixa baixa" do
+      sc = schedules(:valido_com_cli_info).attributes.except('id')
+      sc['email'] = sc['email'].titleize
+      sc = Schedule.new(sc)
+      assert sc.save
+      assert_not_equal sc.email, schedules(:valido_com_cli_info).email.titleize
+      assert_equal sc.email, schedules(:valido_com_cli_info).email.downcase
+    end
+
+    test "invoca 'deal_with_safiras_acceptance' se pago_com_safiras=true" do
+      sc = schedules(:valido_com_cli_info).attributes.except('id')
+      sc['pago_com_safiras'] = true
+      Schedule.any_instance.expects(:deal_with_safiras_acceptance)
+      Schedule.new(sc).save
+    end
     
     describe "com 'customer_id' presente" do
       before do

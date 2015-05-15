@@ -31,6 +31,7 @@ class Schedule < ActiveRecord::Base
   validates :datahora_fim, date: true, date: { after: Proc.new { :datahora_inicio } }, on: [:create, :update]
 
   before_save :deal_with_safiras_acceptance, if: Proc.new { |sc| sc.pago_com_safiras_changed? }
+  before_save -> { email.downcase! }, if: Proc.new { |sc| sc.email.present? }
   after_create :send_email_notification, if: Proc.new { |sc| sc.email.present? }
   after_update :send_email_notification, if: Proc.new { |sc| sc.email.present? && (sc.email_changed? || sc.service_id_changed? || sc.datahora_inicio_changed? || sc.datahora_fim_changed?) }
 

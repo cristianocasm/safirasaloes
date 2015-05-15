@@ -229,8 +229,7 @@ new_bloodhound_email = (data) ->
       remoteMatch.email == localMatch.email
     datumTokenizer: (d) ->
       Bloodhound.tokenizers.whitespace d.email
-    queryTokenizer: (q) ->
-      Bloodhound.tokenizers.whitespace q.toLowerCase()
+    queryTokenizer: Bloodhound.tokenizers.whitespace
 
 new_bloodhound_telefone = (data) ->
   new Bloodhound

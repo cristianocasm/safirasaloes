@@ -36,6 +36,7 @@
 #  site                   :string(255)
 #  pagina_facebook        :string(255)
 #  whatsapp               :string(255)
+#  transacao_pagseguro    :string(255)
 #
 
 aline:

@@ -17,12 +17,30 @@ feature "Services" do
   end
 
   scenario "não pode deletar serviço que possua horário marcado no futuro", js: true do
-    srv = @aline.services.find_by_nome("Unha Mão e Pé")
+    srv = schedules(:sch_sonia).service
     page.accept_alert 'Deletar registro?' do
       click_link "Excluir", href: service_path(srv)
     end
     assert page.has_css?("div.alert-danger", text: "Serviço não foi excluído devido à existência de horários marcados para ele."), "Serviço excluído"
     assert page.has_no_css?("div.alert-success", text: "Serviço excluído com sucesso."), "Serviço excluído"
+  end
+
+  scenario "não pode deletar serviço que possua horário marcado no passado", js: true do
+    srv = schedules(:sch_cristiano_com_aline2).service
+    page.accept_alert 'Deletar registro?' do
+      click_link "Excluir", href: service_path(srv)
+    end
+    assert page.has_css?("div.alert-danger", text: "Serviço não foi excluído devido à existência de horários marcados para ele."), "Serviço excluído"
+    assert page.has_no_css?("div.alert-success", text: "Serviço excluído com sucesso."), "Serviço excluído"
+  end
+
+  scenario "pode deletar serviço que não possua horário marcado", js: true do
+    srv = services(:servico_sem_horario_aline)
+    page.accept_alert 'Deletar registro?' do
+      click_link "Excluir", href: service_path(srv)
+    end
+    assert page.has_css?("div.alert-success", text: "Serviço excluído com sucesso.")
+    assert page.has_no_content?(srv.nome), "Serviço ainda exibido"
   end
 
   scenario "não pode atualizar com nome em branco" do
@@ -95,16 +113,6 @@ feature "Services" do
     visit services_path
     assert page.has_content?("Serviço Teste")
     assert page.has_content?(number_to_currency(10000))
-  end
-
-  scenario "pode deletar serviço", js: true do
-    srv = nil
-    @aline.services.map { |sr| srv = sr if sr.schedules.where("schedules.datahora_inicio >= ?", DateTime.now).blank? }
-    page.accept_alert 'Deletar registro?' do
-      click_link "Excluir", href: service_path(srv)
-    end
-    assert page.has_css?("div.alert-success", text: "Serviço excluído com sucesso.")
-    assert page.has_no_content?(srv.nome), "Serviço ainda exibido"
   end
 
   scenario "pode criar serviço" do

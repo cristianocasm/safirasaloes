@@ -46,6 +46,12 @@ unha_mao_e_pe_aline:
   professional: aline
   recompensa_divulgacao: 14
 
+servico_sem_horario_aline:
+  nome: Servio sem horário
+  preco: 20.00
+  professional: aline
+  recompensa_divulgacao: 24
+
 #Serviços João
 barba_joao:
   nome: Barba

@@ -18,15 +18,10 @@
   </head>
 
   <body class="no_padding">
-    <%# render "layouts/customer/main_header" %>
-    <%# render "layouts/customer/secondary_header" %>
     <div class="content">
-      <%# render "layouts/customer/sidebar" %>
-      <%# yield :modals %>
       <%= render "layouts/static_pages/main_content" %>
     </div>
     <%= render "layouts/customer/footer" %>
-    <%# javascript_include_tag 'application' %>
     <%# subscribe_to "/customer/order_exchanges/#{current_customer.id}" %>
   </body>
 </html>

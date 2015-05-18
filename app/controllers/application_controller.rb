@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
   private
 
   def authenticate!
-    self.send "authenticate_#{resource_name}!" unless ( params[:controller] == 'static_pages' || ( params[:controller] == "notifications" && params[:action] == "new" ) )
+    self.send "authenticate_#{resource_name}!" unless ( controller_name.in?(%w[static_pages notifications]) )
   end
 
   def current_permission

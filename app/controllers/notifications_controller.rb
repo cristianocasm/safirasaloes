@@ -1,6 +1,19 @@
 class NotificationsController < ApplicationController
+  require 'open-uri'
+
   skip_before_filter :verify_authenticity_token, only: [:new]
 
+  STATUS_NAME = {
+                  '1' => 'Aguardando pagamento',
+                  '2' => 'Em análise',
+                  '3' => 'Paga',
+                  '4' => 'Disponível',
+                  '5' => 'Em disputa',
+                  '6' => 'Devolvida',
+                  '7' => 'Cancelada',
+                  '8' => 'Chargeback debitado',
+                  '9' => 'Em contestação'
+                }.freeze
 
   # POST /profissional/notificacao
   def new
@@ -15,11 +28,35 @@ class NotificationsController < ApplicationController
 
   # GET /profissional/retorno-pagamento?transacao="CHARACTERS_SEQUENCE"
   def retorno_pagamento
-    if params[:transacao].present?
-      current_professional.update_attribute(:transacao_pagseguro, params[:transacao])
-      redirect_to professional_root_url, flash: { success: "Obrigado. Recebemos seu pedido e seu acesso será liberado assim que o pagamento for confirmado. Uma mensagem com os detalhes desta transação foi enviada para o seu e-mail. Você também poderá acessar sua conta PagSeguro no endereço https://pagseguro.uol.com.br/ para mais informações." }
-    else
-      redirect_to professional_root_url, flash: { error: "Não autorizado." }
+    transacao = params[:transacao]
+
+    if transacao.present?
+      response = request_full_transaction_from_pagseguro(transacao)
+
+      if transaction_found?(response) && current_professional.present?
+        current_professional.update_attribute(:transacao_pagseguro, transacao)
+        @status = STATUS_NAME[Nokogiri::XML(response.body).xpath('//transaction/status').text]
+        @valor = Nokogiri::XML(response.body).xpath('//grossAmount').text
+        @code = Nokogiri::XML(response.body).xpath('//code').text
+        render layout: false and return
+      end
     end
+    
+    redirect_to professional_root_url, flash: { error: "Não autorizado." }
   end
+
+  private
+
+  def request_full_transaction_from_pagseguro(transacao)
+    domain = "https://ws.pagseguro.uol.com.br"
+    email = ENV['PAGSEGURO_EMAIL']
+    token = ENV['PAGSEGURO_TOKEN']
+    path = "/v3/transactions/#{transacao}?email=#{email}&token=#{token}"
+    Net::HTTP.get_response(URI("#{domain}#{path}"))
+  end
+
+  def transaction_found?(response)
+    response.header.code == "200"
+  end
+
 end

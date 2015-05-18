@@ -170,3 +170,12 @@ prof_assinante:
   profissao: Cabeleireira
   local_trabalho: Salão Próprio
   contato_definido: true
+
+nao_confirmado:
+  email: nao.confirmado@gmail.com
+  encrypted_password: <%= Professional.new.send(:password_digest, 'password') %>
+  reset_password_token: <%= OpenSSL::HMAC.hexdigest("SHA256", 'reset_password_token', 'test_token123') %>
+  reset_password_sent_at: <%= Time.now.utc %>
+  confirmed_at: <%= 1.day.ago %>
+  status: testando
+  data_expiracao_status: <%= 7.days.from_now %>

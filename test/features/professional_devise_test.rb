@@ -41,3 +41,20 @@ feature "Professional com Devise" do
   end
 
 end
+
+feature "Alteração de Senha" do
+
+  before do
+    @professional = professionals(:nao_confirmado)
+    visit edit_professional_password_path(reset_password_token: 'test_token123')
+  end
+
+  scenario "profissional sem conta confirmada, sem nome e sem whatsapp/telefone pode alterar senha", js: true do
+    Devise::TokenGenerator.any_instance.stubs(:key_for).returns('reset_password_token')
+    fill_in 'Nova senha', with: '123456'
+    fill_in 'Confirme a nova senha', with: '123456'
+    click_button 'Alterar senha'
+    assert_equal edit_professional_registration_path, page.current_path
+  end
+
+end

@@ -52,10 +52,19 @@ class Professional < ActiveRecord::Base
   has_many :rewards
 
   before_create :define_status
-  validates_presence_of :nome, on: :update
-  validate :contato_fornecido?, on: :update
-  validate :formato_pagina_facebook, on: :update
-  validate :formato_site, on: :update
+  # Os dois 'unless' abaixo foram introduzidos para que
+  # profissionl possa alterar sua senha, mesmo se
+  # ainda não tiver definido seu nome e/ou dados de contato.
+  # Essa não é a melhor forma de fazer isso, tendo em vista
+  # que se um dia o profissional puder alterar a senha no 
+  # mesmo local onde ele define suas informações de contato,
+  # então, o nome bem como suas informações de contato poderão
+  # ficar em branco caso ele altere a senha - o que levaria a erros!!!
+  validates_presence_of :nome, on: :update, unless: lambda { |pr| pr.encrypted_password_changed? }
+  validate :contato_fornecido?,
+           :formato_pagina_facebook,
+           :formato_site,
+            on: :update, unless: lambda { |pr| pr.encrypted_password_changed? }
 
   def contact_info
     contactInfo = ""

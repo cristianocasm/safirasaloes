@@ -70,7 +70,7 @@ pt-BR:
     messages:
       already_confirmed: "já foi confirmado"
       confirmation_period_expired: "precisa ser confirmada em até %{period}, por favor, solicite uma nova"
-      expired: "expirou, por favor, solicite uma nova"
+      expired: "expirou, por favor, solicite novamente a alteração de senha."
       not_found: "não encontrado"
       not_locked: "não foi bloqueado"
       not_saved:

@@ -33,16 +33,16 @@ class NotificationsController < ApplicationController
     if transacao.present?
       response = request_full_transaction_from_pagseguro(transacao)
 
-      if transaction_found?(response) && current_professional.present?
-        current_professional.update_attribute(:transacao_pagseguro, transacao)
+      if transaction_found?(response)
         @status = STATUS_NAME[Nokogiri::XML(response.body).xpath('//transaction/status').text]
         @valor = Nokogiri::XML(response.body).xpath('//grossAmount').text
         @code = Nokogiri::XML(response.body).xpath('//code').text
+        current_professional.update_attribute(:transacao_pagseguro, transacao) if current_professional.present?
         render layout: false and return
       end
     end
     
-    redirect_to professional_root_url, flash: { error: "Não autorizado." }
+    redirect_to root_url, flash: { error: "Não autorizado." }
   end
 
   private

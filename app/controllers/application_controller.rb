@@ -27,11 +27,12 @@ class ApplicationController < ActionController::Base
   end
 
   def flash_errors(obj)
-    errorList = "<h4>Os seguintes erros ocorreram:</h4>"
+    errorTitle = "<h4>Os seguintes erros ocorreram:</h4>"
+    errorList = ""
     obj.errors.full_messages.each do |message|
       errorList += "<li>#{message}</li>"
     end
-    "<ul>#{errorList}</ul>".html_safe
+    "#{errorTitle}<ul>#{errorList}</ul>"
   end
 
   private

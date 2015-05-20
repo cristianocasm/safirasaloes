@@ -29,7 +29,7 @@ class ServicesController < ApplicationController
 
     if @service.save
       current_professional.update_taken_step(servico_cadastrado: true)
-      redirect_to @service, flash: { success: 'Serviço criado com sucesso.' }
+      redirect_to @service, flash: { success: generate_msg }
     else
       flash[:error] = flash_errors(@service)
       render :new
@@ -72,5 +72,26 @@ class ServicesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def service_params
       params.require(:service).permit(:nome, :preco, :recompensa_divulgacao)
+    end
+
+    def generate_msg
+      msgDefault = '<p>Serviço criado com sucesso.</p>'
+      
+      unless current_professional.taken_step.horario_cadastrado
+        msgCustom = "<p><b>PARABÉNS!</b> A partir de agora você pode utilizar a agenda
+        do SafiraSalões (clicando em <b>'MINHA AGENDA'</b>) para que:</p>
+        <ol>
+          <li>Seu cliente seja <b>convidado a divulgar</b> o serviço prestado por você sempre que ele for agendado;</li>
+          <li>Seu cliente seja <b>recompensado</b> sempre que ele realizar a divulgação do serviço prestado por você;</li>
+          <li>Seu cliente seja <b>alertado sobre o hórário agendado</b>;</li>
+          <li>Seu cliente seja alertado (3 horas antes do horário marcado) sobre a <b>aproximação do horário agendado</b>;</li>
+        </ol>
+        <p>Ou seja, utilize a agenda do SafiraSalões para (1) <b>aumentar a divulgação boca-a-boca dos seus serviços</b>, (2) <b>fidelizar</b> e (3) <b>melhorar o
+        relacionamento com o seu cliente</b> e (4) <b>diminuir prejuízos com ausências</b>.</p>
+        <p>Para agendar seus clientes clique em <b>'MINHA AGENDA'</b>. Você poderá cadastrar outros de seus serviços a qualquer momento clicando em <b>'MEUS SERVIÇOS'</b>.</p>"
+        msgDefault = msgDefault + msgCustom
+      end
+
+      msgDefault
     end
 end

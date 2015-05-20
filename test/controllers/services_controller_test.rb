@@ -99,4 +99,11 @@ class ServicesControllerTest < ActionController::TestCase
     post :create, service: { nome: "" }
     assert_not Professional.find(@aline.id).taken_step.servico_cadastrado, "Passo 'servico_cadastrado' sendo salvo"
   end
+
+  test "exibe mensagem personalizada para primeiro serviço cadastrado" do
+    prof = professionals :prof_testando
+    sign_in :professional, prof
+    post :create, service: { nome: "Serviço Teste", preco: 100 }
+    assert_equal flash[:success], "Successfully created..."
+  end
 end

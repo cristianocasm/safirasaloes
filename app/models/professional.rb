@@ -50,8 +50,9 @@ class Professional < ActiveRecord::Base
   has_many :schedules
   has_many :services
   has_many :rewards
+  has_one :taken_step
 
-  before_create :define_status
+  before_create :define_status, :build_taken_step
   # Os dois 'unless' abaixo foram introduzidos para que
   # profissionl possa alterar sua senha, mesmo se
   # ainda não tiver definido seu nome e/ou dados de contato.
@@ -65,6 +66,10 @@ class Professional < ActiveRecord::Base
            :formato_pagina_facebook,
            :formato_site,
             on: :update, unless: lambda { |pr| pr.encrypted_password_changed? }
+
+  def update_taken_step(step)
+    step.each { |key, val| self.taken_step.update_attribute(key.to_sym, val) }
+  end
 
   def contact_info
     contactInfo = ""

@@ -24,6 +24,21 @@ class SchedulesControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
+  test "salva passo 'tela_cadastro_horario_acessada' como realizado" do
+    get :new
+    assert Professional.find(@profAline.id).taken_step.tela_cadastro_horario_acessada, "Passo 'tela_cadastro_horario_acessada' não sendo salvo"
+  end
+
+  test "salva passo 'horario_cadastrado' como realizado" do
+    xhr :post, :create, schedule: { nome: "Horário Teste", service_id: @profAline.services.first.id, "datahora_inicio(3i)"=>"20", "datahora_inicio(2i)"=>"5", "datahora_inicio(1i)"=>"2015", "datahora_inicio(4i)"=>"07", "datahora_inicio(5i)"=>"30", "datahora_fim(3i)"=>"20", "datahora_fim(2i)"=>"5", "datahora_fim(1i)"=>"2015", "datahora_fim(4i)"=>"08", "datahora_fim(5i)"=>"00"}
+    assert Professional.find(@profAline.id).taken_step.horario_cadastrado, "Passo 'horario_cadastrado' não sendo salvo"
+  end
+
+  test "não salva passo 'horario_cadastrado' como realizado se houver erro" do
+    xhr :post, :create, schedule: { nome: "Horário Teste" }
+    assert_not Professional.find(@profAline.id).taken_step.horario_cadastrado, "Passo 'horario_cadastrado' sendo salvo"
+  end
+
   # test "deve gravar recompensa de divulgação" do
   #   @schedule = { customer_id: customers(:sonia), datahora_inicio: DateTime.now.to_default_s, datahora_fim: 1.hour.from_now.to_default_s, service_id: @profAline.services.first.id }
 

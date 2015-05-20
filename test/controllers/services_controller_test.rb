@@ -84,4 +84,19 @@ class ServicesControllerTest < ActionController::TestCase
 
     assert_redirected_to services_path
   end
+
+  test "salva passo 'tela_cadastro_servico_acessada' como realizado" do
+    get :new
+    assert Professional.find(@aline.id).taken_step.tela_cadastro_servico_acessada, "Passo 'tela_cadastro_servico_acessada' não sendo salvo"
+  end
+
+  test "salva passo 'servico_cadastrado' como realizado" do
+    post :create, service: { nome: "Serviço Teste", preco: 100 }
+    assert Professional.find(@aline.id).taken_step.servico_cadastrado, "Passo 'servico_cadastrado' não sendo salvo"
+  end
+
+  test "não salva passo 'servico_cadastrado' como realizado se houver erro" do
+    post :create, service: { nome: "" }
+    assert_not Professional.find(@aline.id).taken_step.servico_cadastrado, "Passo 'servico_cadastrado' sendo salvo"
+  end
 end

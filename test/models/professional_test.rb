@@ -47,5 +47,11 @@ class ProfessionalTest < ActiveSupport::TestCase
   should have_many(:schedules)
   should have_many(:rewards)
   should have_many(:services)
+  should have_one(:taken_step)
   should_not have_many(:photo_logs)
+
+  test "na criação cria um registro em 'taken_steps' e associa ao profissional" do
+    pr = Professional.create(email: 'email_test@test.com', password: '123456')
+    assert_not_nil pr.taken_step
+  end
 end

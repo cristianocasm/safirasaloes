@@ -1,0 +1,92 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  professional: aline
+  tela_cadastro_contato_acessada: false
+  contato_cadastrado: false
+  tela_cadastro_servico_acessada: false
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+two:
+  professional: joao
+  tela_cadastro_contato_acessada: false
+  contato_cadastrado: false
+  tela_cadastro_servico_acessada: false
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+three:
+  professional: testando_sem_informacoes_de_contato
+  tela_cadastro_contato_acessada: false
+  contato_cadastrado: false
+  tela_cadastro_servico_acessada: false
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+four:
+  professional: prof_testando
+  tela_cadastro_contato_acessada: false
+  contato_cadastrado: false
+  tela_cadastro_servico_acessada: false
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+five:
+  professional: prof_testando_com_contato_e_servicos
+  tela_cadastro_contato_acessada: false
+  contato_cadastrado: false
+  tela_cadastro_servico_acessada: false
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+six:
+  professional: prof_assinante_com_contato_e_servicos
+  tela_cadastro_contato_acessada: false
+  contato_cadastrado: false
+  tela_cadastro_servico_acessada: false
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+seven:
+  professional: prof_bloqueado
+  tela_cadastro_contato_acessada: false
+  contato_cadastrado: false
+  tela_cadastro_servico_acessada: false
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+eight:
+  professional: prof_suspenso
+  tela_cadastro_contato_acessada: false
+  contato_cadastrado: false
+  tela_cadastro_servico_acessada: false
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+nove:
+  professional: prof_assinante
+  tela_cadastro_contato_acessada: false
+  contato_cadastrado: false
+  tela_cadastro_servico_acessada: false
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+ten:
+  professional: nao_confirmado
+  tela_cadastro_contato_acessada: false
+  contato_cadastrado: false
+  tela_cadastro_servico_acessada: false
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+

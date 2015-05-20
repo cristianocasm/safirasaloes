@@ -14,6 +14,7 @@ class ServicesController < ApplicationController
 
   # GET /services/new
   def new
+    current_professional.update_taken_step(tela_cadastro_servico_acessada: true)
     @service = Service.new
   end
 
@@ -27,6 +28,7 @@ class ServicesController < ApplicationController
     @service = current_professional.services.new(service_params)
 
     if @service.save
+      current_professional.update_taken_step(servico_cadastrado: true)
       redirect_to @service, flash: { success: 'Serviço criado com sucesso.' }
     else
       flash[:error] = flash_errors(@service)

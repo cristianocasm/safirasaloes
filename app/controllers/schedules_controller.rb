@@ -23,6 +23,7 @@ class SchedulesController < ApplicationController
 
   # GET /schedules/new
   def new
+    current_professional.update_taken_step(tela_cadastro_horario_acessada: true)
     @schedule = Schedule.new
   end
 
@@ -38,7 +39,11 @@ class SchedulesController < ApplicationController
   def create
     @schedule = current_professional.schedules.find_or_initialize_by(id: schedule_params[:id])
     @schedule.assign_attributes(schedule_params)    
-    flash.now[:error] = flash_errors(@schedule) unless @schedule.save
+    if @schedule.save
+      current_professional.update_taken_step(horario_cadastrado: true)
+    else
+      flash.now[:error] = flash_errors(@schedule)
+    end
 
     respond_to do |format|
       format.js { render 'new_schedule' }

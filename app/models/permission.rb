@@ -11,7 +11,11 @@ class Permission < Struct.new(:resource)
       return professional_permission(controller, action)
     elsif resource.instance_of? Customer
       return customer_permission(controller, action)
+    elsif resource.instance_of? Admin
+        return true if controller == "dashboard" && action.in?(%w[index taken_steps])
+        return true if controller == "devise/sessions" && action.in?(%w[create destroy])
     elsif resource.nil?
+      return true if controller == "devise/sessions" && action == "new"
       return false
     end
   end

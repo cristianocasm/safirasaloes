@@ -15,6 +15,9 @@ class PermissionTest < ActiveSupport::TestCase
     let(:assinante) { Permission.new(professionals(:prof_assinante)) }
 
     test "deslogado" do
+      assert_not deslogado.allow?("dashboard", "index"), "Profissional(deslogado) - dashboard#index - problemas na validação de permissão"
+      assert_not deslogado.allow?("dashboard", "taken_steps"), "Profissional(deslogado) - dashboard#taken_steps - problemas na validação de permissão"
+
       assert deslogado.allow?("static_pages", "privacy"), "Profissional(deslogado) - static_pages#privacy - problemas na validação de permissão"
 
       assert deslogado.allow?("notifications", "new"), "Profissional(deslogado) - notifications#new - problemas na validação de permissão"
@@ -22,7 +25,7 @@ class PermissionTest < ActiveSupport::TestCase
 
       assert_not deslogado.allow?("rewards", "get_customer_rewards"), "Profissional(deslogado) - rewards#get_customer_rewards - problemas na validação de permissão"
 
-      assert_not deslogado.allow?("devise/sessions", "new"), "Profissional(deslogado) - devise/sessions#new - problemas na validação de permissão"
+      assert deslogado.allow?("devise/sessions", "new"), "Profissional(deslogado) - devise/sessions#new - problemas na validação de permissão"
       assert_not deslogado.allow?("devise/sessions", "create"), "Profissional(deslogado) - devise/sessions#create - problemas na validação de permissão"
       assert_not deslogado.allow?("devise/sessions", "destroy"), "Profissional(deslogado) - devise/sessions#destroy - problemas na validação de permissão"
 
@@ -128,6 +131,9 @@ class PermissionTest < ActiveSupport::TestCase
     end
 
     test "testando" do
+      assert_not _testando.allow?("dashboard", "index"), "Profissional(testando) - dashboard#index - problemas na validação de permissão"
+      assert_not _testando.allow?("dashboard", "taken_steps"), "Profissional(testando) - dashboard#taken_steps - problemas na validação de permissão"
+
       assert _testando.allow?("static_pages", "privacy"), "Profissional(testando) - static_pages#privacy - problemas na validação de permissão"
 
       assert _testando.allow?("notifications", "new"), "Profissional(testando) - notifications#new - problemas na validação de permissão"
@@ -241,6 +247,9 @@ class PermissionTest < ActiveSupport::TestCase
     end
 
     test "bloqueado" do
+      assert_not bloqueado.allow?("dashboard", "index"), "Profissional(bloqueado) - dashboard#index - problemas na validação de permissão"
+      assert_not bloqueado.allow?("dashboard", "taken_steps"), "Profissional(bloqueado) - dashboard#taken_steps - problemas na validação de permissão"
+
       assert bloqueado.allow?("static_pages", "privacy"), "Profissional(bloqueado) - static_pages#privacy - problemas na validação de permissão"
 
       assert bloqueado.allow?("notifications", "new"), "Profissional(bloqueado) - notifications#new - problemas na validação de permissão"
@@ -354,6 +363,9 @@ class PermissionTest < ActiveSupport::TestCase
     end
 
     test "suspenso" do
+      assert_not suspenso.allow?("dashboard", "index"), "Profissional(suspenso) - dashboard#index - problemas na validação de permissão"
+      assert_not suspenso.allow?("dashboard", "taken_steps"), "Profissional(suspenso) - dashboard#taken_steps - problemas na validação de permissão"
+
       assert suspenso.allow?("static_pages", "privacy"), "Profissional(suspenso) - static_pages#privacy - problemas na validação de permissão"
 
       assert suspenso.allow?("notifications", "new"), "Profissional(suspenso) - notifications#new - problemas na validação de permissão"
@@ -467,6 +479,9 @@ class PermissionTest < ActiveSupport::TestCase
     end
 
     test "assinante" do
+      assert_not assinante.allow?("dashboard", "index"), "Profissional(assinante) - dashboard#index - problemas na validação de permissão"
+      assert_not assinante.allow?("dashboard", "taken_steps"), "Profissional(assinante) - dashboard#taken_steps - problemas na validação de permissão"
+
       assert assinante.allow?("static_pages", "privacy"), "Profissional(assinante) - static_pages#privacy - problemas na validação de permissão"
 
       assert assinante.allow?("notifications", "new"), "Profissional(assinante) - notifications#new - problemas na validação de permissão"
@@ -584,6 +599,9 @@ class PermissionTest < ActiveSupport::TestCase
     let(:customer) {Permission.new(customers(:cristiano))}
 
     test "Customer" do
+      assert_not customer.allow?("dashboard", "index"), "Customer - dashboard#index - problemas na validação de permissão"
+      assert_not customer.allow?("dashboard", "taken_steps"), "Customer - dashboard#taken_steps - problemas na validação de permissão"
+
       assert customer.allow?("static_pages", "privacy"), "Customer - static_pages#privacy - problemas na validação de permissão"
 
       assert customer.allow?("notifications", "new"), "Customer - notifications#new - problemas na validação de permissão"
@@ -696,5 +714,17 @@ class PermissionTest < ActiveSupport::TestCase
       assert_not customer.allow?("professionals", "destroy"), "Customer - professionals#destroy - problemas na validação de permissão"
     end
 
+  end
+
+  describe "Admin" do
+    let(:admin)     { Permission.new(admins(:one)) }
+
+    test "admin" do
+      assert admin.allow?("dashboard", "taken_steps"), "Admin - dashboard#taken_steps - problemas na validação de permissão"
+      assert admin.allow?("dashboard", "index"), "Admin - dashboard#index - problemas na validação de permissão"
+      assert_not admin.allow?("devise/sessions", "new"), "Admin - devise/sessions#new - problemas na validação de permissão"
+      assert admin.allow?("devise/sessions", "create"), "Admin - devise/sessions#create - problemas na validação de permissão"
+      assert admin.allow?("devise/sessions", "destroy"), "Admin - devise/sessions#destroy - problemas na validação de permissão"
+    end
   end
 end

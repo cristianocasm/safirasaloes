@@ -54,4 +54,20 @@ class ProfessionalTest < ActiveSupport::TestCase
     pr = Professional.create(email: 'email_test@test.com', password: '123456')
     assert_not_nil pr.taken_step
   end
+
+  test "gera relatório corretamente de passos realizados" do
+    rpt = Professional.taken_steps_report(3.days.ago.to_date, Date.today.to_date)
+    expected = [
+                [ ["23/05", 8], ["24/05", 7], ["25/05", 10] ],
+                [ ["23/05", 8], ["24/05", 6], ["25/05", 9]  ],
+                [ ["23/05", 8], ["24/05", 6], ["25/05", 8]  ],
+                [ ["23/05", 8], ["24/05", 5], ["25/05", 8]  ],
+                [ ["23/05", 8], ["24/05", 5], ["25/05", 8]  ],
+                [ ["23/05", 6], ["24/05", 4], ["25/05", 6]  ],
+                [ ["23/05", 5], ["24/05", 3], ["25/05", 6]  ],
+                [ ["23/05", 4], ["24/05", 2], ["25/05", 5]  ]
+               ]
+    
+    assert_equal expected, rpt
+  end
 end

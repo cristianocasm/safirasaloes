@@ -106,3 +106,229 @@ ten:
   tela_cadastro_horario_acessada: false
   horario_cadastrado: false
 
+# Passos para Teste de Passos Dados por Profissionais
+taken_step_prof_1:
+  professional: prof_1
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: true
+  tela_cadastro_horario_acessada: true
+  horario_cadastrado: true
+
+taken_step_prof_2:
+  professional: prof_2
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: true
+  tela_cadastro_horario_acessada: true
+  horario_cadastrado: true
+
+taken_step_prof_3:
+  professional: prof_3
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: true
+  tela_cadastro_horario_acessada: true
+  horario_cadastrado: true
+
+taken_step_prof_4:
+  professional: prof_4
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: true
+  tela_cadastro_horario_acessada: true
+  horario_cadastrado: true
+
+taken_step_prof_5:
+  professional: prof_5
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: true
+  tela_cadastro_horario_acessada: true
+  horario_cadastrado: false
+
+taken_step_prof_6:
+  professional: prof_6
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: true
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+taken_step_prof_7:
+  professional: prof_7
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+taken_step_prof_8:
+  professional: prof_8
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+taken_step_prof_9:
+  professional: prof_9
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: true
+  tela_cadastro_horario_acessada: true
+  horario_cadastrado: true
+
+taken_step_prof_10:
+  professional: prof_10
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: true
+  tela_cadastro_horario_acessada: true
+  horario_cadastrado: true
+
+taken_step_prof_11:
+  professional: prof_11
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: true
+  tela_cadastro_horario_acessada: true
+  horario_cadastrado: false
+
+taken_step_prof_12:
+  professional: prof_12
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: true
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+taken_step_prof_13:
+  professional: prof_13
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+taken_step_prof_14:
+  professional: prof_14
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: false
+  tela_cadastro_servico_acessada: false
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+taken_step_prof_15:
+  professional: prof_15
+  tela_cadastro_contato_acessada: false
+  contato_cadastrado: false
+  tela_cadastro_servico_acessada: false
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+taken_step_prof_16:
+  professional: prof_16
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: true
+  tela_cadastro_horario_acessada: true
+  horario_cadastrado: true
+
+taken_step_prof_17:
+  professional: prof_17
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: true
+  tela_cadastro_horario_acessada: true
+  horario_cadastrado: true
+
+taken_step_prof_18:
+  professional: prof_18
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: true
+  tela_cadastro_horario_acessada: true
+  horario_cadastrado: true
+
+taken_step_prof_19:
+  professional: prof_19
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: true
+  tela_cadastro_horario_acessada: true
+  horario_cadastrado: true
+
+taken_step_prof_20:
+  professional: prof_20
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: true
+  tela_cadastro_horario_acessada: true
+  horario_cadastrado: true
+
+taken_step_prof_21:
+  professional: prof_21
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: true
+  tela_cadastro_horario_acessada: true
+  horario_cadastrado: false
+
+taken_step_prof_22:
+  professional: prof_22
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+taken_step_prof_23:
+  professional: prof_23
+  tela_cadastro_contato_acessada: true
+  contato_cadastrado: true
+  tela_cadastro_servico_acessada: true
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+taken_step_prof_24:
+  professional: prof_24
+  tela_cadastro_contato_acessada: false
+  contato_cadastrado: false
+  tela_cadastro_servico_acessada: false
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+
+taken_step_prof_25:
+  professional: prof_25
+  tela_cadastro_contato_acessada: false
+  contato_cadastrado: false
+  tela_cadastro_servico_acessada: false
+  servico_cadastrado: false
+  tela_cadastro_horario_acessada: false
+  horario_cadastrado: false
+

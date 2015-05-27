@@ -17,12 +17,16 @@ class ApplicationController < ActionController::Base
   end
 
   def layout_by_resource
-    if devise_controller? && ( !params[:controller].in?(%w[devise/professional_registrations]) || !params[:action].in?(%w[edit update]) )
+    if devise_controller? && params[:controller].in?(%w[devise/sessions]) && params[:action].in?(%w[new create])
+      "admin/login_admin"
+    elsif devise_controller? && ( !params[:controller].in?(%w[devise/professional_registrations]) || !params[:action].in?(%w[edit update]) )
       "login"
-    elsif resource_name == :professional
-       "professional/professional"
-    elsif resource_name == :customer
-      "customer/customer"
+    else
+      case resource_name
+      when :professional; "professional/professional"
+      when :customer; "customer/customer"
+      when :admin; "admin/admin"
+      end
     end
   end
 
@@ -54,7 +58,7 @@ class ApplicationController < ActionController::Base
       return
     end
     
-    if !allow?(params[:controller], params[:action])
+    unless allow?(params[:controller], params[:action])
       if current_resource.instance_of? Professional
         redirect_to professional_root_url, alert: "Não autorizado."
       elsif current_resource.instance_of? Customer
@@ -76,6 +80,8 @@ class ApplicationController < ActionController::Base
         :professional
       elsif (request.path =~ /^\/cliente/)
         :customer
+      elsif (request.path =~ /^\/admin/)
+        :admin
       end
   end
 end

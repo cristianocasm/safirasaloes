@@ -28,6 +28,8 @@
 #= require jquery.flot.resize
 #= require jquery.flot.pie
 #= require jquery.flot.stack
+#= require jquery.flot.time
+#= require jquery.flot.axislabels
 #= require jquery.noty
 #= require themes/default
 #= require layouts/bottom

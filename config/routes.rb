@@ -1,12 +1,12 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  
-  root :to => redirect('/entrar')
 
+  root :to => redirect('/entrar')
     
   devise_for :professionals, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'profissional/senha', confirmation: 'profissional/confirmar', unlock: 'profissional/desbloquear', sign_up: 'profissional/cadastrar' }, controllers: { sessions: 'sessions', registrations: 'devise/professional_registrations' }
   devise_for :customers, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'cliente/senha', confirmation: 'cliente/confirmar', unlock: 'cliente/desbloquear' }, controllers: { sessions: 'sessions', omniauth_callbacks: "customer_omniauth_callbacks" }, skip: ['registrations']
+  devise_for :admins, path: "acesso_restrito", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'senha' }
   
   as :customer do
     scope 'cliente' do
@@ -35,6 +35,13 @@ Rails.application.routes.draw do
       resources :schedules do
         post :get_last_two_months_scheduled_customers, on: :collection
       end
+    end
+  end
+
+  as :admin do
+    scope 'admin' do
+      root 'dashboard#index', as: :admin_root
+      put 'taken_steps', to: 'dashboard#taken_steps', as: :taken_steps
     end
   end
 

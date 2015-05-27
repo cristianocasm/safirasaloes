@@ -179,3 +179,128 @@ nao_confirmado:
   confirmed_at: <%= 1.day.ago %>
   status: testando
   data_expiracao_status: <%= 7.days.from_now %>
+
+# Profissionais para Teste de Passos Dados
+
+prof_1:
+  email: prof_1@test.com.br
+  confirmed_at: <%= 3.days.ago %>
+  created_at: <%= 3.days.ago %>
+
+prof_2:
+  email: prof_2@test.com.br
+  confirmed_at: <%= 3.days.ago %>
+  created_at: <%= 3.days.ago %>
+
+prof_3:
+  email: prof_3@test.com.br
+  confirmed_at: <%= 3.days.ago %>
+  created_at: <%= 3.days.ago %>
+
+prof_4:
+  email: prof_4@test.com.br
+  confirmed_at: <%= 3.days.ago %>
+  created_at: <%= 3.days.ago %>
+
+prof_5:
+  email: prof_5@test.com.br
+  confirmed_at: <%= 3.days.ago %>
+  created_at: <%= 3.days.ago %>
+
+prof_6:
+  email: prof_6@test.com.br
+  confirmed_at: <%= 3.days.ago %>
+  created_at: <%= 3.days.ago %>
+
+prof_7:
+  email: prof_7@test.com.br
+  confirmed_at: <%= 3.days.ago %>
+  created_at: <%= 3.days.ago %>
+
+prof_8:
+  email: prof_8@test.com.br
+  confirmed_at: <%= 3.days.ago %>
+  created_at: <%= 3.days.ago %>
+
+prof_9:
+  email: prof_9@test.com.br
+  confirmed_at: <%= 2.days.ago %>
+  created_at: <%= 2.days.ago %>
+
+prof_10:
+  email: prof_10@test.com.br
+  confirmed_at: <%= 2.days.ago %>
+  created_at: <%= 2.days.ago %>
+
+prof_11:
+  email: prof_11@test.com.br
+  confirmed_at: <%= 2.days.ago %>
+  created_at: <%= 2.days.ago %>
+
+prof_12:
+  email: prof_12@test.com.br
+  confirmed_at: <%= 2.days.ago %>
+  created_at: <%= 2.days.ago %>
+
+prof_13:
+  email: prof_13@test.com.br
+  confirmed_at: <%= 2.days.ago %>
+  created_at: <%= 2.days.ago %>
+
+prof_14:
+  email: prof_14@test.com.br
+  confirmed_at: <%= 2.days.ago %>
+  created_at: <%= 2.days.ago %>
+
+prof_15:
+  email: prof_15@test.com.br
+  created_at: <%= 2.days.ago %>
+
+prof_16:
+  email: prof_16@test.com.br
+  confirmed_at: <%= 1.days.ago %>
+  created_at: <%= 1.days.ago %>
+
+prof_17:
+  email: prof_17@test.com.br
+  confirmed_at: <%= 1.days.ago %>
+  created_at: <%= 1.days.ago %>
+
+prof_18:
+  email: prof_18@test.com.br
+  confirmed_at: <%= 1.days.ago %>
+  created_at: <%= 1.days.ago %>
+
+prof_19:
+  email: prof_19@test.com.br
+  confirmed_at: <%= 1.days.ago %>
+  created_at: <%= 1.days.ago %>
+
+prof_20:
+  email: prof_20@test.com.br
+  confirmed_at: <%= 1.days.ago %>
+  created_at: <%= 1.days.ago %>
+
+prof_21:
+  email: prof_21@test.com.br
+  confirmed_at: <%= 1.days.ago %>
+  created_at: <%= 1.days.ago %>
+
+prof_22:
+  email: prof_22@test.com.br
+  confirmed_at: <%= 1.days.ago %>
+  created_at: <%= 1.days.ago %>
+
+prof_23:
+  email: prof_23@test.com.br
+  confirmed_at: <%= 1.days.ago %>
+  created_at: <%= 1.days.ago %>
+
+prof_24:
+  email: prof_24@test.com.br
+  confirmed_at: <%= 1.days.ago %>
+  created_at: <%= 1.days.ago %>
+
+prof_25:
+  email: prof_25@test.com.br
+  created_at: <%= 1.days.ago %>

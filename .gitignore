@@ -6,6 +6,7 @@
 /tmp
 /config/database.yml
 /config/application.yml
+/config/newrelic.yml
 /coverage
 /doc/
 /config/initializers/faye_token.rb

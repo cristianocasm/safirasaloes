@@ -58,15 +58,14 @@ $(document).on 'click, focus', 'input:text.money', ->
     thousands: ''
     })
 
+# Aplica máscara aos campos de telefone
 $(document).on 'click, focus', 'input:text.telefone', ->
   elm = $(this)
   placeholder = { placeholder: " " }
   mask = if elm.val().length > 14 then "(99) 99999-9999" else "(99) 9999-9999?9"
   elm.mask(mask, placeholder)
 
-$(document).on 'hidden.bs.modal', '#myModalTutorial', ->
-  $('#myModalTutorial iframe').attr("src", $("#myModalTutorial  iframe").attr("src"));
-
+# Aplica máscara aos campos de telefone
 $(document).on('focusout', 'input:text.telefone', ->
   phone = undefined
   element = undefined
@@ -80,7 +79,23 @@ $(document).on('focusout', 'input:text.telefone', ->
   return
 ).trigger 'focusout'
 
-
+# Para vídeo-tutorial quando modal que o envolve é dispensado
+$(document).on 'hidden.bs.modal', '#myModalTutorial', ->
+  $('#myModalTutorial iframe').attr("src", $("#myModalTutorial  iframe").attr("src"));
 
 # Habilita popovers
 $('[data-toggle="popover"]').popover()
+
+# Insere na URL os ids das fotos de divulgação para que próximo passo
+# (no processo de envio de fotos para divulgação de serviço) saiba
+# quais fotos estão sendo enviadas
+$(document).on 'click', '#photo_log_next_step', ->
+  params =
+    $('td.preview a').map (i, el) ->
+      $(el).attr('href').match /[0-9]+/
+
+  params = $.makeArray params # map() retorna objeto. makeArray() retorna array
+  params = $.param('photos': params)
+  
+  $(this).attr 'href', ->
+    this.href + '?' + params

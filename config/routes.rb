@@ -19,6 +19,8 @@ Rails.application.routes.draw do
       resources :photo_logs, only: [:new, :create, :index, :destroy] do
         post 'send_to_fb', on: :collection
       end
+
+      resources :photo_log_steps
     end
   end
 

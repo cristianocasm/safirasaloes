@@ -56,6 +56,8 @@ gem 'slim'
 # Utilizado para autenticação de usuários
 gem 'devise'
 
+gem 'wicked'
+
 # gem 'thin'
 # gem 'private_pub'
 

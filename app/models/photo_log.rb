@@ -31,7 +31,6 @@ class PhotoLog < ActiveRecord::Base
   validates_attachment_content_type :image, :content_type => /(\.|\/)(gif|jpe?g|png|tiff)$/i
 
   scope :not_posted, -> { 
-                          includes(schedule: [:professional]).
                           joins(:schedule).
                           where(posted: false).
                           where("schedules.datahora_inicio >= ? AND schedules.datahora_inicio <= ?",

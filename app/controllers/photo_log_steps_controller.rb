@@ -1,30 +1,36 @@
 class PhotoLogStepsController < ApplicationController
   include Wicked::Wizard
-  steps :photos, :comments, :professional_info, :fb_permission, :revision
+  steps :comments, :professional_info, :fb_permission, :revision
 
   def show
     case step
-    when :photos
-      if current_customer.can_send_photo?
-        @photoLog = current_customer.photo_logs.new
-        @scs = current_customer.schedules_not_more_than_12_hours_ago
-      else
-        redirect_to customer_root_path, flash: { error: "Você não foi atendido por um profissional nas últimas 12 horas e, por isso, ainda não pode enviar fotos." }
-        return
-      end
     when :comments
+      @photos = PhotoLog.find(params['photos'])
+      unless @photos.present?
+        redirect_to :back, flash: { error: 'Carregue pelo menos 1 foto.' } and return
+      end
     when :professional_info
+      @photos = current_customer.photo_logs.where(id: params['photo_logs'])
+      @prof_info = @photos.first.schedule.professional.contact_info
     when :fb_permission
     when :revision
     end
     
-    # @user = current_user
     render_wizard
   end
   
-  # def update
-  #   @user = current_user
-  #   @user.attributes = params[:user]
-  #   render_wizard @user
-  # end
+  def update
+    ids = []
+
+    params["photo_logs"].each do |key, val|
+      pl = current_customer.photo_logs.find_by_id(key)
+
+      if pl.present?
+        pl.update_attribute(:description, val["description"])
+        ids << key
+      end
+    end
+
+    redirect_to next_wizard_path(photo_logs: ids)
+  end
 end

@@ -4,24 +4,19 @@
 jQuery ->
   if $("form#fileupload").length
     load_existing_files()
-    prepend_prof_contact_info_to_posting()
     initialize_fileupload_plugin()
     set_possible_errors()
-    window.profInfoAdded = false
 
-set_possible_errors = ->
-  window.locale = 'fileupload':
-    'errors':
-      'maxFileSize': 'Arquivo é muito grande'
-      'minFileSize': 'Arquivo é muito pequeno'
-      'acceptFileTypes': 'Foto não é do tipo: jpg, jpeg, png, tiff, gif'
-      'maxNumberOfFiles': 'Número máximo de fotos atingido'
-      'uploadedBytes': 'Bytes carregados excedem o tamanho do arquivo'
-      'emptyResult': 'Arquivo vazio'
-    'error': 'Erro'
-    'start': 'Enviar'
-    'cancel': 'Cancelar'
-    'destroy': 'Deletar'
+load_existing_files = ->
+  $.getJSON $('#fileupload').prop('action'), (files) ->
+    fu = $('#fileupload').data('blueimpFileupload')
+    template = undefined
+    fu._adjustMaxNumberOfFiles(-files.length)
+    template = fu._renderDownload(files).appendTo($('#fileupload .files'))
+    # Force reflow:
+    fu._reflow = fu._transition and template.length and template[0].offsetWidth
+    template.addClass 'in'
+    $('#loading').remove()
 
 initialize_fileupload_plugin = ->
   $('#fileupload').fileupload
@@ -38,57 +33,19 @@ initialize_fileupload_plugin = ->
           me.css('width', progress + '%')
           me.text(progress + '%')
 
-insert_prof_contact_info = ->
-  profInfo = $("#profContactInfo" + $('#photo_log_schedule_id').val()).val()
-  $('div.panel-body').html(profInfo)
-
-prepend_prof_contact_info_to_posting = ->
-  $('#prependProfInfoButton').click ->
-    $('td.comment').each ->
-      if window.profInfoAdded == false
-        content = prof_info_plus_comment($(this))
-        comment = $(this).find('span.comment')
-        $(this).html(content)
-        $(this).append(comment)
-        toggle_contact_info_button("Remova por Mim", "btn-danger", "btn-warning")
-      else
-        toggle_contact_info_button("Insira por Mim", "btn-warning", "btn-danger")
-        $(this).find('p.profInfo').remove()
-    window.profInfoAdded = !window.profInfoAdded
-
-toggle_contact_info_button = (text, addClass, removeClass) ->
-  $("#prependProfInfoButton").text(text)
-  $("#prependProfInfoButton").addClass(addClass)
-  $("#prependProfInfoButton").removeClass(removeClass)
-
-fill_comment_text_area = ->
-  if window.profInfoAdded == true
-    $('td.comment').each ->
-      content = prof_info_plus_comment($(this))
-      content = content.replace(/<br\s*[\/]?>/gi, '\n')
-      content = content.replace(/<[\/]?p[\s]*(class='profInfo')?>/gi, '')
-      $(this).find('textarea').val(content)
-
-prof_info_plus_comment = (elm) ->
-  profInfo = $("div.panel-body").children().html()
-  comment = get_comment(elm)
-  if comment != ""
-    profInfo += "<br/>---<br/>"
-  return "<p> <p class='profInfo'>#{profInfo}</p>  <p>#{comment}</p> </p>"
-
-get_comment = (elm) ->
-  elm.find('textarea').val().replace(/\n/gi,'<br />')
-
-load_existing_files = ->
-  $.getJSON $('#fileupload').prop('action'), (files) ->
-    fu = $('#fileupload').data('blueimpFileupload')
-    template = undefined
-    fu._adjustMaxNumberOfFiles(-files.length)
-    template = fu._renderDownload(files).appendTo($('#fileupload .files'))
-    # Force reflow:
-    fu._reflow = fu._transition and template.length and template[0].offsetWidth
-    template.addClass 'in'
-    $('#loading').remove()
+set_possible_errors = ->
+  window.locale = 'fileupload':
+    'errors':
+      'maxFileSize': 'Arquivo é muito grande'
+      'minFileSize': 'Arquivo é muito pequeno'
+      'acceptFileTypes': 'Foto não é do tipo: jpg, jpeg, png, tiff, gif'
+      'maxNumberOfFiles': 'Número máximo de fotos atingido'
+      'uploadedBytes': 'Bytes carregados excedem o tamanho do arquivo'
+      'emptyResult': 'Arquivo vazio'
+    'error': 'Erro'
+    'start': 'Enviar'
+    'cancel': 'Cancelar'
+    'destroy': 'Deletar'
 
 generateDownloadTemplate = (o) ->
   rows = $()
@@ -105,12 +62,6 @@ generateDownloadTemplate = (o) ->
     rows = rows.add(row)
   rows
 
-generateResultButton = (file) ->  
-  if file.posted
-    "<td class='delete' style='vertical-align: middle;'><button class='btn btn-primary' disabled><i class='fa fa-facebook-official'></i><span> Postado com Sucesso</span></button></td>"
-  else
-    "<td class='delete' style='vertical-align: middle;'><button class='btn btn-danger' data-type='#{file.delete_type}' data-url='#{file.delete_url}'><i class='fa fa-trash'></i><span> Excluir</span></button></td>"
-
 generateUploadTemplate = (o) ->
   rows = $()
   $.each o.files, (index, file) ->
@@ -126,6 +77,12 @@ generateUploadTemplate = (o) ->
     row.find('.schedule_id input').val($("#photo_log_schedule_id").val())
     rows = rows.add(row)
   rows
+
+generateResultButton = (file) ->  
+  if file.posted
+    "<td class='delete' style='vertical-align: middle;'><button class='btn btn-primary' disabled><i class='fa fa-facebook-official'></i><span> Postado com Sucesso</span></button></td>"
+  else
+    "<td class='delete' style='vertical-align: middle;'><button class='btn btn-danger' data-type='#{file.delete_type}' data-url='#{file.delete_url}'><i class='fa fa-trash'></i><span> Excluir</span></button></td>"
 
 content = (file, o, index) ->
   if file.error

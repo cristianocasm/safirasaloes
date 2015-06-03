@@ -1,0 +1,41 @@
+<div class="panel panel-danger">
+  <div class="panel-heading">
+    <h3 class="panel-title"><b>ATENÇÃO!</b></h3> Para receber as recompensas, você deverá inserir as informações abaixo nas descrições de suas fotos.
+  </div>
+  <div class="panel-body">
+    <%= simple_format @prof_info  %>
+  </div>
+  <div class="panel-footer">
+    <button type="button" class="btn btn-block btn-warning" id="prependProfInfoButton"><h4 style="
+color: white;"><b>Insira por Mim</b></h4></button>
+  </div>      
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="widget">
+      <div class="widget-content">
+        <div class="padd scroll-chat">
+          <ul class="chats">
+            <% for photo in @photos %>
+              <li class="by-me">
+                <div class="avatar pull-left">
+                  <%= image_tag photo.image.url(:small) %>
+                </div>
+                <div class="chat-content">
+                  <%= photo.description %>
+                  <div class="clearfix"></div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<p><%= link_to "Próximo Passo", next_wizard_path %></p>

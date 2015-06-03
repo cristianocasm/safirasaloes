@@ -1,0 +1,13 @@
+<%= form_for :photo_logs, :url => wizard_path, :html => { :method => :put, class: 'form-horizontal' } do |f| -%>
+  <% for photo in @photos %>
+    <div class="form-group">
+      <div class="col-xs-3 col-md-2 col-lg-2">
+        <%= image_tag photo.image.url(:small) %>
+      </div>
+      <div class="col-xs-9 col-md-8 col-lg-5">
+        <%= f.text_area :description, class: "form-control", placeholder: "Esta foto será postada em seu Facebook. Escreva aqui um comentário para ela.", name: "photo_logs[#{photo.id}][description]" %>
+      </div>
+    </div>
+  <% end %>
+  <p><%= f.submit "Continuar", class: 'btn btn-success' %></p>
+<% end %>

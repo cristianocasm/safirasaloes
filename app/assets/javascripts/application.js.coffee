@@ -89,7 +89,7 @@ $('[data-toggle="popover"]').popover()
 # Insere na URL os ids das fotos de divulgação para que próximo passo
 # (no processo de envio de fotos para divulgação de serviço) saiba
 # quais fotos estão sendo enviadas
-$(document).on 'click', '#photo_log_next_step', ->
+$(document).on 'click', '#photo_log_start_wizard', ->
   params =
     $('td.preview a').map (i, el) ->
       $(el).attr('href').match /[0-9]+/
@@ -97,5 +97,15 @@ $(document).on 'click', '#photo_log_next_step', ->
   params = $.makeArray params # map() retorna objeto. makeArray() retorna array
   params = $.param('photos': params)
   
+  $(this).attr 'href', ->
+    this.href + '?' + params
+
+# Insere na URL a informação a respeito da inserção (ou não)
+# das Informações de Contato do Profissional.
+$(document).on 'click', '#photo_log_step_prof_info', ->
+  window.profInfoAdded ||= false
+  console.log window.profInfoAdded
+  params =  $.param('prof_info_added': window.profInfoAdded)
+
   $(this).attr 'href', ->
     this.href + '?' + params

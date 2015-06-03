@@ -25,8 +25,14 @@ class PhotoLogTest < ActiveSupport::TestCase
   should belong_to(:schedule)
   should have_db_column(:safiras)
 
+  setup do
+    @pl = PhotoLog.create
+  end
   test "na criação, define 'posted' como false" do
-    pl = PhotoLog.create
-    assert_equal false, pl.posted
+    assert_equal false, @pl.posted
+  end
+
+  test "na criação, define 'prof_info_allowed' como false" do
+    assert_equal false, @pl.prof_info_allowed
   end
 end

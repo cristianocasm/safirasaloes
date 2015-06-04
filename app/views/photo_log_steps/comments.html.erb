@@ -1,13 +1,20 @@
-<%= form_for :photo_logs, :url => wizard_path, :html => { :method => :put, class: 'form-horizontal' } do |f| -%>
+<%= form_for :photos, :url => wizard_path, :html => { :method => :put, class: 'form-horizontal' } do |f| -%>
   <% for photo in @photos %>
     <div class="form-group">
       <div class="col-xs-3 col-md-2 col-lg-2">
-        <%= image_tag photo.image.url(:small) %>
+        <%= image_tag photo.image.url(:small), class: "preview" %>
       </div>
       <div class="col-xs-9 col-md-8 col-lg-5">
-        <%= f.text_area :description, class: "form-control", placeholder: "Esta foto será postada em seu Facebook. Escreva aqui um comentário para ela.", name: "photo_logs[#{photo.id}][description]" %>
+        <%= f.text_area :description, class: "form-control", placeholder: "Escreva aqui um comentário para sua foto...", name: "photos[#{photo.id}][description]", value: photo.description %>
       </div>
     </div>
   <% end %>
-  <p><%= f.submit "Continuar", class: 'btn btn-success' %></p>
+  <p>
+    <%= link_to new_photo_log_path, class: 'btn btn-warning' do %>
+      <span><i class="fa fa-angle-double-left"></i></span> Voltar
+    <% end %>
+    <%= button_tag type: 'submit', class: 'btn btn-success' do %>
+      Próximo Passo <span><i class="fa fa-angle-double-right"></i></span>
+    <% end %>
+  </p>
 <% end %>

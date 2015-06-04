@@ -53,7 +53,7 @@ generateDownloadTemplate = (o) ->
     row = $('' +
       if !file.error
         "<tr class='template-download fade'>" +
-        "<td class='preview'><a href='#{file.url}' title='#{file.name}' rel='gallery' download='#{file.name}'><img src='#{file.thumbnail_url}'></a></td>" +
+        "<td class='preview'><img src='#{file.thumbnail_url}' alt='#{file.name}' class='preview'></td>" +
         "<td class='name'></td>" +
         generateResultButton(file) +
         "</tr>"

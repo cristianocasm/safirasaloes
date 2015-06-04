@@ -1,6 +1,6 @@
 module ApplicationHelper
   def active(controller)
-    'active' if controller_name == controller
+    'active' if controller_name.in? controller
   end
 
   def bootstrap_class_for flash_type

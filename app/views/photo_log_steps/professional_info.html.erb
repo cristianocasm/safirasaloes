@@ -20,7 +20,7 @@ color: white;"><b>Insira por Mim</b></h4></button>
             <% for photo in @photos %>
               <li class="by-me">
                 <div class="avatar pull-left">
-                  <%= image_tag photo.image.url(:small) %>
+                  <%= image_tag photo.image.url(:small), class: 'preview' %>
                 </div>
                 <div class="chat-content">
                   <%= photo.description %>
@@ -35,4 +35,11 @@ color: white;"><b>Insira por Mim</b></h4></button>
   </div>
 </div>
 
-<p><%= link_to "Próximo Passo", next_wizard_path, id: 'photo_log_step_prof_info' %></p>
+<p>
+  <%= link_to previous_wizard_path(photos: params['photos']), class: 'btn btn-warning' do %>
+    <span><i class="fa fa-angle-double-left"></i></span> Voltar
+  <% end %>
+  <%= link_to next_wizard_path, id: 'photo_log_step_prof_info', class: 'btn btn-success' do %>
+    Próximo Passo <span><i class="fa fa-angle-double-right"></i></span>
+  <% end %>
+</p>

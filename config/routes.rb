@@ -16,10 +16,7 @@ Rails.application.routes.draw do
 
       get 'politica_privacidade', to: 'static_pages#privacy'
 
-      resources :photo_logs, only: [:new, :create, :index, :destroy] do
-        post 'send_to_fb', on: :collection
-      end
-
+      resources :photo_logs, only: [:new, :create, :index, :destroy]
       resources :photo_log_steps
     end
   end

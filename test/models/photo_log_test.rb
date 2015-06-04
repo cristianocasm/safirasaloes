@@ -14,6 +14,7 @@
 #  image_file_size    :integer
 #  image_updated_at   :datetime
 #  posted             :boolean          default(FALSE)
+#  prof_info_allowed  :boolean          default(FALSE)
 #
 
 require 'test_helper'

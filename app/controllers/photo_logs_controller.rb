@@ -75,26 +75,6 @@ class PhotoLogsController < ApplicationController
     end
   end
 
-  # POST /cliente/photo_logs/send_to_fb
-  def send_to_fb
-    permissionGiven = current_customer.gave_fb_permissions?
-    rewardsGiven = false
-    postedPhotos = []
-
-    if permissionGiven
-      pendingPostings = current_customer.photo_logs.not_posted
-      postedPhotos = post(pendingPostings)
-      postedPhotos = postedPhotos.try(:compact)
-      rewardsGiven = current_customer.get_rewards_by(postedPhotos) unless postedPhotos.blank?
-    end
-
-    render json: {
-                    permissaoDada: permissionGiven,
-                    fotosPostadas: postedPhotos.present?,
-                    recompensaDada: rewardsGiven
-                 }
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_photo_log
@@ -104,16 +84,5 @@ class PhotoLogsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def photo_log_params
       params.require(:photo_log).permit(:image, :description, :schedule_id)
-    end
-
-    def post(pendingPostings)
-      pendingPostings.map do |photo|
-        begin
-          photo.submit_to_fb
-        rescue Koala::Facebook::APIError => e
-          logger.info e.to_s
-          nil
-        end
-      end
     end
 end

@@ -18,7 +18,7 @@
 #  current_sign_in_ip     :string(255)
 #  last_sign_in_ip        :string(255)
 #  schedule_recovered     :boolean          default(FALSE)
-#  provider               :string(255)      default("facebook")
+#  provider               :string(255)
 #  uid                    :string(255)
 #  oauth_token            :string(255)
 #  oauth_expires_at       :datetime
@@ -69,27 +69,32 @@ class Customer < ActiveRecord::Base
   end
 
   def gave_fb_permissions?
-    # self.facebook.get_object("me/permissions")
-    # => [{"permission"=>"public_profile", "status"=>"granted"}, {"permission"=>"publish_actions", "status"=>"granted"}]
+    @gave ||= self.uid.present? &&
+                self.oauth_expires_in_the_future? &&
+                self.fb_publish_action_granted?
+  end
 
-    self.uid.present? &&
-    self.oauth_expires_at.present? &&
-    self.oauth_expires_at > Time.zone.now
+  def oauth_expires_in_the_future?
+    self.oauth_expires_at.present? && self.oauth_expires_at > Time.zone.now
+  end
+
+  def fb_publish_action_granted?
+    self.facebook.get_object("me/permissions").any? do |p|
+      p['permission'] == 'publish_actions' && p['status'] == 'granted'
+    end
   end
 
   def get_rewards_by(postedPhotos)
-    scs = postedPhotos.map { |photo| photo.schedule }.uniq
-    scs.each do |sc|
-      if sc.recompensa_fornecida
-        true
-      else
-        profInfoInserted = false
-        sc.photo_logs.each { |pl| ( profInfoInserted = true and break ) if pl.description.gsub(/\r\n?/,"\n").strip.include? sc.professional.contact_info.strip }
-        if profInfoInserted
-          rw = Reward.find_or_initialize_by(professional_id: sc.professional_id, customer_id: self.id)
-          rw.total_safiras = rw.total_safiras + sc.service.recompensa_divulgacao
-          rw.save ? sc.update_attribute(:recompensa_fornecida, true) : false
-        end
+    pp = postedPhotos.first
+    sc = pp.schedule
+    if sc.recompensa_fornecida
+      0
+    elsif pp.prof_info_allowed
+      rw = Reward.find_or_initialize_by(professional_id: sc.professional_id, customer_id: self.id)
+      rw.total_safiras = rw.total_safiras + sc.service.recompensa_divulgacao
+      if rw.save
+        sc.update_attribute(:recompensa_fornecida, true)
+        sc.service.recompensa_divulgacao
       end
     end
   end

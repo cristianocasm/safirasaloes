@@ -5,6 +5,15 @@ module CustomersHelper
       widget_title('scissors', 'Meus Serviços')
     when 'photo_logs'
       widget_title('camera', 'Enviar Fotos')
+    when 'photo_log_steps'
+      case params[:id]
+      when 'comments'
+       widget_title('camera', 'Enviar Fotos (Passo 2 de 3)')
+      when 'professional_info'
+        widget_title('camera', 'Enviar Fotos (Passo 3 de 3)')
+      when 'revision'
+        widget_title('camera', 'Enviar Fotos (Revisão...)')
+      end
     end
   end
 

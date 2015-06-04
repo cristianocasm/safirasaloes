@@ -6,7 +6,7 @@
     <ul id="nav">
       <!-- Main menu with font awesome icon -->
       <li>
-        <%= link_to(new_photo_log_path, id: 'envio_fotos', class: active('photo_logs')) do %>
+        <%= link_to(new_photo_log_path, id: 'envio_fotos', class: active(['photo_logs', 'photo_log_steps'])) do %>
           <i class="fa fa-camera"></i> Enviar Fotos
         <% end %>
       </li>

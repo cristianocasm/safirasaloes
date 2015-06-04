@@ -14,6 +14,7 @@
 #  image_file_size    :integer
 #  image_updated_at   :datetime
 #  posted             :boolean          default(FALSE)
+#  prof_info_allowed  :boolean          default(FALSE)
 #
 
 class PhotoLog < ActiveRecord::Base
@@ -52,9 +53,13 @@ class PhotoLog < ActiveRecord::Base
     }
   end
 
-  def submit_to_fb
-    self.customer.facebook.put_picture(image.path, :message => description)
-    self.update_attribute(:posted, true)
-    self
+  def submit_to_fb(prof)
+    rst = self.customer.facebook.put_picture(image.path, :message => gen_msg(prof))
+    self.tap { |o| o.update_attribute(:posted, true) } if rst.has_key?('post_id')
+  end
+
+  def gen_msg(prof)
+    desc = self.description.present? ? "---\n#{self.description}" : ""
+    self.prof_info_allowed ? prof.contact_info + desc : desc
   end
 end

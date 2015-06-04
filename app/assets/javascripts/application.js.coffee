@@ -90,22 +90,26 @@ $('[data-toggle="popover"]').popover()
 # (no processo de envio de fotos para divulgação de serviço) saiba
 # quais fotos estão sendo enviadas
 $(document).on 'click', '#photo_log_start_wizard', ->
-  params =
-    $('td.preview a').map (i, el) ->
-      $(el).attr('href').match /[0-9]+/
-
-  params = $.makeArray params # map() retorna objeto. makeArray() retorna array
-  params = $.param('photos': params)
-  
-  $(this).attr 'href', ->
-    this.href + '?' + params
+  gen_restful_url($(this))
 
 # Insere na URL a informação a respeito da inserção (ou não)
 # das Informações de Contato do Profissional.
 $(document).on 'click', '#photo_log_step_prof_info', ->
+  gen_restful_url($(this))
+  
   window.profInfoAdded ||= false
-  console.log window.profInfoAdded
-  params =  $.param('prof_info_added': window.profInfoAdded)
+  params =  $.param('prof_info_allowed': window.profInfoAdded)
 
   $(this).attr 'href', ->
+    this.href + '&' + params
+
+gen_restful_url = (link) ->
+  params =
+    $('img.preview').map (i, el) ->
+      $(el).attr('src').match /[0-9]+/
+
+  params = $.makeArray params # map() retorna objeto. makeArray() retorna array 
+  params = $.param('photos': params)
+  
+  link.attr 'href', ->
     this.href + '?' + params

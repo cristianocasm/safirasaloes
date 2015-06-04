@@ -17,7 +17,7 @@ Rails.application.routes.draw do
       get 'politica_privacidade', to: 'static_pages#privacy'
 
       resources :photo_logs, only: [:new, :create, :index, :destroy]
-      resources :photo_log_steps
+      resources :photo_log_steps, only: [:index, :show, :update]
     end
   end
 

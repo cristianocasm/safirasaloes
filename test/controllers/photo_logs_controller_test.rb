@@ -53,73 +53,73 @@ class PhotoLogsControllerTest < ActionController::TestCase
       end
     end
 
-    should "cliente sem permissões dadas não envia fotos para Facebook" do
-      Customer.any_instance.stubs(:gave_fb_permissions?).returns(false)
-      PhotoLogsController.any_instance.expects(:post).never
+    # should "cliente sem permissões dadas não envia fotos para Facebook" do
+    #   Customer.any_instance.stubs(:gave_fb_permissions?).returns(false)
+    #   PhotoLogsController.any_instance.expects(:post).never
       
-      xhr :post, :send_to_fb
-    end
+    #   xhr :post, :send_to_fb
+    # end
 
-    context "com permissão dada" do
-      setup do
-        Customer.any_instance.stubs(:gave_fb_permissions?).returns(true)
-      end
+    # context "com permissão dada" do
+    #   setup do
+    #     Customer.any_instance.stubs(:gave_fb_permissions?).returns(true)
+    #   end
 
-      should "cliente com permissões dadas envia fotos para Facebook" do
-        images = [mock(), mock(), mock()]
-        images.each { |img| img.expects(:submit_to_fb).returns(img) }
-        PhotoLog.stubs(:not_posted).returns(images)
-        Customer.any_instance.stubs(:get_rewards_by).returns(10)
+    #   should "cliente com permissões dadas envia fotos para Facebook" do
+    #     images = [mock(), mock(), mock()]
+    #     images.each { |img| img.expects(:submit_to_fb).returns(img) }
+    #     PhotoLog.stubs(:not_posted).returns(images)
+    #     Customer.any_instance.stubs(:get_rewards_by).returns(10)
         
-        xhr :post, :send_to_fb
-      end
+    #     xhr :post, :send_to_fb
+    #   end
 
-      context "" do
-        setup do
-          @customer = customers :cristiano_com_integracao
-          sign_in :customer, @customer
-          Koala::Facebook::API.any_instance.stubs(:put_picture).returns({})
-        end
+    #   # context "" do
+    #   #   setup do
+    #   #     @customer = customers :cristiano_com_integracao
+    #   #     sign_in :customer, @customer
+    #   #     Koala::Facebook::API.any_instance.stubs(:put_picture).returns({})
+    #   #   end
 
-        should "fotos postadas devem ter 'posted' setado como 'true'" do
-          @images = get_photo_logs(@customer)
-          PhotoLog.stubs(:not_posted).returns(@images)
-          xhr :post, :send_to_fb
-          @images.each { |img| assert img.posted, "posted != true" }
-        end
+    #   #   should "fotos postadas devem ter 'posted' setado como 'true'" do
+    #   #     @images = get_photo_logs(@customer)
+    #   #     PhotoLog.stubs(:not_posted).returns(@images)
+    #   #     xhr :post, :send_to_fb
+    #   #     @images.each { |img| assert img.posted, "posted != true" }
+    #   #   end
 
-        should "ao postar fotos, cliente deve ser recompensado caso informações do profissional tenha sido inseridas" do
-          @images = get_photo_logs(@customer)
-          PhotoLog.stubs(:not_posted).returns(@images)
-          sc = @customer.schedules_not_more_than_12_hours_ago.first
+    #   #   should "ao postar fotos, cliente deve ser recompensado caso informações do profissional tenha sido inseridas" do
+    #   #     @images = get_photo_logs(@customer)
+    #   #     PhotoLog.stubs(:not_posted).returns(@images)
+    #   #     sc = @customer.schedules_not_more_than_12_hours_ago.first
 
-          assert_difference(-> { @customer.rewards.where(professional_id: sc.professional_id).first.total_safiras }, sc.service.recompensa_divulgacao) do
-            xhr :post, :send_to_fb
-          end
-        end
+    #   #     assert_difference(-> { @customer.rewards.where(professional_id: sc.professional_id).first.total_safiras }, sc.service.recompensa_divulgacao) do
+    #   #       xhr :post, :send_to_fb
+    #   #     end
+    #   #   end
         
-        should "ao postar fotos, cliente não deve ser recompensado caso informações do profissional não tenham sido inseridas ou tenham sido modificadas" do
-          @images = get_photo_logs(@customer)
-          PhotoLog.stubs(:not_posted).returns([@images[0]])
-          sc = @customer.schedules_not_more_than_12_hours_ago.first
+    #   #   should "ao postar fotos, cliente não deve ser recompensado caso informações do profissional não tenham sido inseridas ou tenham sido modificadas" do
+    #   #     @images = get_photo_logs(@customer)
+    #   #     PhotoLog.stubs(:not_posted).returns([@images[0]])
+    #   #     sc = @customer.schedules_not_more_than_12_hours_ago.first
 
-          assert_no_difference(-> { @customer.rewards.where(professional_id: sc.professional_id).first.total_safiras }) do
-            xhr :post, :send_to_fb
-          end
-        end
+    #   #     assert_no_difference(-> { @customer.rewards.where(professional_id: sc.professional_id).first.total_safiras }) do
+    #   #       xhr :post, :send_to_fb
+    #   #     end
+    #   #   end
 
-        should "ao postar fotos, não deve ser recompensado caso já tenha sido" do
-          sc = @customer.schedules_not_more_than_12_hours_ago.first
-          Schedule.any_instance.stubs(:recompensa_fornecida).returns(true)
+    #   #   should "ao postar fotos, não deve ser recompensado caso já tenha sido" do
+    #   #     sc = @customer.schedules_not_more_than_12_hours_ago.first
+    #   #     Schedule.any_instance.stubs(:recompensa_fornecida).returns(true)
 
-          assert_no_difference(-> { @customer.rewards.where(professional_id: sc.professional_id).first.total_safiras }, sc.service.recompensa_divulgacao) do
-            xhr :post, :send_to_fb
-          end
-        end
+    #   #     assert_no_difference(-> { @customer.rewards.where(professional_id: sc.professional_id).first.total_safiras }, sc.service.recompensa_divulgacao) do
+    #   #       xhr :post, :send_to_fb
+    #   #     end
+    #   #   end
 
-      end
+    #   # end
 
-    end
+    # end
   end
 end
 

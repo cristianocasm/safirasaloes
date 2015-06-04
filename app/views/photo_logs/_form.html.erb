@@ -23,8 +23,4 @@
 
 <% end %>
 
-<% @scs.each do |sc| %>
-  <input type="text" id="profContactInfo<%= sc.id %>" value="<%= simple_format(sc.professional.contact_info) %>" style="display: none">
-<% end %>
-
 <%= link_to "Próximo Passo", photo_log_steps_path, id: 'photo_log_start_wizard', class: 'btn btn-success' %>

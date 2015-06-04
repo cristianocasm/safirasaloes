@@ -1,5 +1,5 @@
 class PhotoLogsController < ApplicationController
-  before_action :set_photo_log, only: [:show, :edit, :update, :destroy]
+  before_action :set_photo_log, only: [:destroy]
 
   # GET /photo_logs
   # GET /photo_logs.json
@@ -12,11 +12,6 @@ class PhotoLogsController < ApplicationController
     end
   end
 
-  # GET /photo_logs/1
-  # GET /photo_logs/1.json
-  def show
-  end
-
   # GET /photo_logs/new
   def new
     if current_customer.can_send_photo?
@@ -25,10 +20,6 @@ class PhotoLogsController < ApplicationController
     else
       redirect_to customer_root_path, flash: { error: "Você não foi atendido por um profissional nas últimas 12 horas e, por isso, ainda não pode enviar fotos." }
     end
-  end
-
-  # GET /photo_logs/1/edit
-  def edit
   end
 
   # POST /photo_logs
@@ -47,20 +38,6 @@ class PhotoLogsController < ApplicationController
       else
         format.html { render action: "new" }
         format.json { render json: @photoLog.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /photo_logs/1
-  # PATCH/PUT /photo_logs/1.json
-  def update
-    respond_to do |format|
-      if @photo_log.update(photo_log_params)
-        format.html { redirect_to @photo_log, notice: 'Photo log was successfully updated.' }
-        format.json { render :show, status: :ok, location: @photo_log }
-      else
-        format.html { render :edit }
-        format.json { render json: @photo_log.errors, status: :unprocessable_entity }
       end
     end
   end

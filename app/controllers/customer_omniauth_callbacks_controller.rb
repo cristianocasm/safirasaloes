@@ -1,6 +1,7 @@
 class CustomerOmniauthCallbacksController < Devise::OmniauthCallbacksController
    def facebook
     current_customer.save_provider_uid(request.env["omniauth.auth"])
+    pendingPostings = current_customer.photo_logs.not_posted
     postedPhotos = post(pendingPostings).try(:compact)
     rwd = current_customer.get_rewards_by(postedPhotos) unless postedPhotos.blank?
 

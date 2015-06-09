@@ -2,10 +2,30 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 jQuery ->
-  if $("form#fileupload").length
+  if $("form#fileupload").length && fileInputSupported()
     load_existing_files()
     initialize_fileupload_plugin()
     set_possible_errors()
+
+# Detect file input support - Reference: http://bit.ly/1G9PyLc
+fileInputSupported = ->
+  isFileInputSupported = do ->
+    # Handle devices which falsely report support
+    if navigator.userAgent.match(/(Android (1.0|1.1|1.5|1.6|2.0|2.1))|(Windows Phone (OS 7|8.0))|(XBLWP)|(ZuneWP)|(w(eb)?OSBrowser)|(webOS)|(Kindle\/(1.0|2.0|2.5|3.0))/)
+      return false
+    # Create test element
+    el = document.createElement('input')
+    el.type = 'file'
+    !el.disabled
+  # Add 'fileinput' class to html element if supported
+  if isFileInputSupported
+    $("#photo_log_form").show()
+    return true
+  else
+    alert "Infelizmente seu dispositivo é incapaz de enviar fotos para o SafiraSalões.\n\n
+    Mas nem tudo está perdido :D\n\n
+    Você pode tentar novamente utilizando um outro celular, computador, tablet ou navegador."
+    return false
 
 load_existing_files = ->
   $.getJSON $('#fileupload').prop('action'), (files) ->

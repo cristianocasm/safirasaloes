@@ -1,26 +1,29 @@
-<%= form_for PhotoLog.new, :html => { :multipart => true, :id => "fileupload"  } do |f| %>
-  
-  <div style="margin-bottom: 20px;">
-    Enviando fotos para: 
-    <%= f.select :schedule_id, @scs.collect { |sc| ["#{sc.professional.nome} pelo serviço #{sc.service.nome}", sc.id] }, {} %>
-  </div>
+<!-- Formulário só é exibido caso haja suporte do SO e/ou navegador -->
+<div id="photo_log_form" style="display: none">
+  <%= form_for PhotoLog.new, :html => { :multipart => true, :id => "fileupload"  } do |f| %>
+    
+    <div style="margin-bottom: 20px;">
+      Enviando fotos para: 
+      <%= f.select :schedule_id, @scs.collect { |sc| ["#{sc.professional.nome} pelo serviço #{sc.service.nome}", sc.id] }, {} %>
+    </div>
 
-  <!-- The fileinput-button span is used to style the file input field as button -->
-  <span class="btn btn-warning fileinput-button">
-    <i class="fa fa-plus"></i>
-    <span>Escolher Fotos...</span>
-    <%= f.file_field :image, multiple: true, name: 'photo_log[image]' %>
-  </span>
+    <!-- The fileinput-button span is used to style the file input field as button -->
+    <span class="btn btn-warning fileinput-button">
+      <i class="fa fa-plus"></i>
+      <span>Escolher Fotos...</span>
+      <%= f.file_field :image, multiple: true, name: 'photo_log[image]' %>
+    </span>
 
-  <!-- The loading indicator is shown during image processing -->
-  <div class="fileupload-loading"></div>
-  <br />
+    <!-- The loading indicator is shown during image processing -->
+    <div class="fileupload-loading"></div>
+    <br />
 
-  <!-- The table listing the files available for upload/download -->
-  <table class="table table-striped" style="margin-top: 40px;">
-    <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
-  </table>
+    <!-- The table listing the files available for upload/download -->
+    <table class="table table-striped" style="margin-top: 40px;">
+      <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+    </table>
 
-<% end %>
+  <% end %>
 
-<%= link_to "Próximo Passo", photo_log_steps_path, id: 'photo_log_start_wizard', class: 'btn btn-success' %>
+  <%= link_to "Próximo Passo", photo_log_steps_path, id: 'photo_log_start_wizard', class: 'btn btn-success' %>
+</div>

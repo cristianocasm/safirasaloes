@@ -104,6 +104,17 @@ class ServicesControllerTest < ActionController::TestCase
     prof = professionals :prof_testando
     sign_in :professional, prof
     post :create, service: { nome: "Serviço Teste", preco: 100 }
-    assert_equal flash[:success], "Successfully created..."
+    assert_equal flash[:success], "<p>Serviço criado com sucesso.</p><p><b>PARABÉNS!</b> A partir de agora você pode utilizar a agenda
+        do SafiraSalões (clicando em <b>'MINHA AGENDA'</b>) para que:</p>
+        <ol>
+          <li>Seu cliente seja <b>convidado a divulgar</b> o serviço prestado por você sempre que ele for agendado;</li>
+          <li>Seu cliente seja <b>recompensado</b> sempre que ele realizar a divulgação do serviço prestado por você;</li>
+          <li>Seu cliente seja <b>alertado sobre o hórário agendado</b>;</li>
+          <li>Seu cliente seja alertado (3 horas antes do horário marcado) sobre a <b>aproximação do horário agendado</b>;</li>
+        </ol>
+        <p>Ou seja, utilize a agenda do SafiraSalões para (1) <b>aumentar a divulgação boca-a-boca dos seus serviços</b>, (2) <b>fidelizar</b> e (3) <b>melhorar o
+        relacionamento com o seu cliente</b> e (4) <b>diminuir prejuízos com ausências</b>.</p>
+        <p>Para agendar seus clientes clique em <b>'MINHA AGENDA'</b>. Você poderá cadastrar outros de seus serviços a qualquer momento clicando em <b>'MEUS SERVIÇOS'</b>.</p>"
+
   end
 end

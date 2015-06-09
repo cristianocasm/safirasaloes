@@ -45,6 +45,7 @@ sonia:
   nome: Sônia Silvânia
   email: sss@gmail.com
   telefone: '3188981001'
+  encrypted_password: <%= Devise.bcrypt(Customer, 'password') %>
 
 abilio:
   nome: Abílio

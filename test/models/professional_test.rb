@@ -58,15 +58,18 @@ class ProfessionalTest < ActiveSupport::TestCase
   test "gera relatório corretamente de passos realizados" do
     rpt = Professional.taken_steps_report(3.days.ago.to_date, Date.today.to_date)
     expected = [
-                [ ["23/05", 8], ["24/05", 7], ["25/05", 10] ],
-                [ ["23/05", 8], ["24/05", 6], ["25/05", 9]  ],
-                [ ["23/05", 8], ["24/05", 6], ["25/05", 8]  ],
-                [ ["23/05", 8], ["24/05", 5], ["25/05", 8]  ],
-                [ ["23/05", 8], ["24/05", 5], ["25/05", 8]  ],
-                [ ["23/05", 6], ["24/05", 4], ["25/05", 6]  ],
-                [ ["23/05", 5], ["24/05", 3], ["25/05", 6]  ],
-                [ ["23/05", 4], ["24/05", 2], ["25/05", 5]  ]
-               ]
+                [ [0, "06/06"], [1, "07/06"], [2, "08/06"] ],
+                [
+                  {:label=>"Nº Cadastros", :data=>[ [0, 100], [1, 100], [2, 100] ], :color=>"#ff6c24"},
+                  {:label=>"Nº Confirmados", :data=>[[0, 100], [1, 86], [2, 90]  ], :color=>"#ee5b13"},
+                  {:label=>"Nº TC Contato", :data=>[[0, 100], [1, 86], [2, 80]   ], :color=>"#dd4a13"},
+                  {:label=>"Nº Contato Cad", :data=>[[0, 100], [1, 71], [2, 80]  ], :color=>"#cc4a13"},
+                  {:label=>"Nº TC Servico", :data=>[[0, 100], [1, 71], [2, 80]   ], :color=>"#bb4a13"},
+                  {:label=>"Nº Serviço Cad", :data=>[[0, 75], [1, 57], [2, 60]   ], :color=>"#aa4a13"},
+                  {:label=>"Nº TC Horário", :data=>[[0, 63], [1, 43], [2, 60]    ], :color=>"#994a13"},
+                  {:label=>"Nº Horário Cad", :data=>[[0, 50], [1, 29], [2, 50]   ], :color=>"#884a13"}
+                ]
+              ]
     
     assert_equal expected, rpt
   end

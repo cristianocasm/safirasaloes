@@ -12,6 +12,15 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def after_sign_in_path_for(resource)
+    if resource.instance_of?(Customer) && resource.can_send_photo?
+      flash[:success] = "Parabéns! Você está habilitado para enviar as fotos do serviço prestado e GANHAR SAFIRAS!"
+      new_photo_log_path
+    else
+      super
+    end
+  end
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:nome, :telefone, :whatsapp, :pagina_facebook, :rua, :numero, :bairro, :complemento, :cidade, :estado, :site, :email, :password, :password_confirmation, :current_password) }
   end

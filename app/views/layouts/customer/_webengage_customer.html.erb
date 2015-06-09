@@ -15,7 +15,8 @@
   _weq['webengage.feedback.formData'] = [ 
     {
       name: "Ambiente",
-      value: navigator.userAgent
+      value: "<%= request.env['HTTP_USER_AGENT'] %>",
+      mode: 'hidden'
     },
 
     {

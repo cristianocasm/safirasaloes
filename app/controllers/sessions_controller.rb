@@ -1,6 +1,14 @@
 class SessionsController < Devise::SessionsController
   def new
-    super
+    if customer_signed_in?
+      if current_customer.can_send_photo?
+        redirect_to new_photo_log_path, flash: { success: "Parabéns! Você está habilitado a enviar as fotos do serviço prestado e GANHAR SAFIRAS!" }
+      else
+        redirect_to customer_root_path
+      end
+    else
+      super
+    end
   end
 
   def create

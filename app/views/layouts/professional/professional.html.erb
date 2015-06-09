@@ -28,7 +28,7 @@
     </div>
     <%= render "layouts/professional/footer" %>
     <%= javascript_include_tag 'application' %>
-    <%= render "layouts/professional/webengage" if Rails.env.production? %>
+    <%= render "layouts/professional/webengage_professional" if Rails.env.production? %>
     <%# subscribe_to "/professional/order_exchanges/#{current_professional.id}" %>
   </body>
 </html>

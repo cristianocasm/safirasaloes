@@ -27,6 +27,7 @@
     </div>
     <%= render "layouts/customer/footer" %>
     <%= javascript_include_tag 'application' %>
+    <%= render "layouts/customer/webengage_customer.html.erb" if request.path == new_photo_log_path && Rails.env.production? %>
     <%# subscribe_to "/customer/order_exchanges/#{current_customer.id}" %>
   </body>
 </html>

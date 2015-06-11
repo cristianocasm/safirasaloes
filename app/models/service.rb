@@ -21,6 +21,9 @@ class Service < ActiveRecord::Base
   validates_numericality_of :preco, greater_than: 0
   
   has_many :schedules
+  has_many :prices
+  accepts_nested_attributes_for :prices, allow_destroy: true
+
   belongs_to :professional
 
   before_save :set_defaults

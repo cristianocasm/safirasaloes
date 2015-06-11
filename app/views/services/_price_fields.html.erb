@@ -1,0 +1,26 @@
+<fieldset>
+  <div class="col-xs-12 col-md-12">
+    <div class="col-xs-8 col-md-3">
+      <%= f.text_field :nome, class: "form-control input-sm", placeholder: "Nome da Variação" %>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-md-12">
+    <div class="col-xs-8 col-md-3">
+      <%= f.text_field :preco, class: "money form-control input-sm", placeholder: "Preço" %>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-md-12">
+    <div class="col-xs-8 col-md-3">
+    <%= f.text_field :recompensa_divulgacao, class: "form-control input-sm", placeholder: "Recompesa Divulgação" %>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-md-12">
+    <div class="col-xs-8 col-md-3">
+      <%= f.hidden_field :_destroy %>
+      <%= link_to "Excluir Variação de Preço", '#', class: "remove_fields" %>
+    </div>
+  </div>
+</fieldset>

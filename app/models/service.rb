@@ -18,7 +18,6 @@ class Service < ActiveRecord::Base
   validate :uniqueness_of_descricao
   
   belongs_to :professional
-  has_many :schedules
   
   # callback 'before_destroy' TEM que estar definido antes
   # de has_many :prices para que ensure_future_schedule_inexistence

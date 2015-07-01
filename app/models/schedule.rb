@@ -22,7 +22,6 @@ class Schedule < ActiveRecord::Base
   belongs_to :professional
   belongs_to :customer
   belongs_to :price
-  belongs_to :service
   has_many :photo_logs
 
   validates_presence_of :professional_id, :price_id

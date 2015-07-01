@@ -36,7 +36,7 @@ feature "Calendario" do
       )
     ")
     fill_in "schedule_nome", with: customers(:cristiano).nome
-    select @profAline.services.first.nome, from: :schedule_service_id
+    select @profAline.services.first.nome, from: :schedule_price_id
     click_button 'Marcar Horário'
 
     wait_for_ajax
@@ -81,7 +81,7 @@ feature "Calendario" do
     ")
     find('.fc-agendaWeek-button').click
     fill_in "schedule_nome", with: customers(:cristiano).nome
-    select @profAline.services.first.nome, from: :schedule_service_id
+    select @profAline.services.first.nome, from: :schedule_price_id
     click_button 'Marcar Horário'
 
     wait_for_ajax
@@ -105,7 +105,7 @@ feature "Calendario" do
       )
     ")
     fill_in "schedule_nome", with: customers(:cristiano).nome
-    select @profAline.services.first.nome, from: :schedule_service_id
+    select @profAline.services.first.nome, from: :schedule_price_id
     click_button 'Marcar Horário'
 
     wait_for_ajax
@@ -129,7 +129,7 @@ feature "Calendario" do
       )
     ")
     execute_script("
-      $('#schedule_service_id').prop( 'disabled', true );
+      $('#schedule_price_id').prop( 'disabled', true );
       ")
     fill_in "schedule_nome", with: customers(:cristiano).nome
     click_button 'Marcar Horário'
@@ -138,7 +138,7 @@ feature "Calendario" do
 
     assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
     assert page.has_css?("#myModal", visible: true), "Modal com formulário não aparecendo"
-    assert page.has_content?("Service não pode ficar em branco"), "Modal de formulário não exibe msg de erro"
+    assert page.has_content?("Price não pode ficar em branco"), "Modal de formulário não exibe msg de erro"
   end
 
   scenario "profissional não pode criar horário sem serviço", js: true do
@@ -155,7 +155,7 @@ feature "Calendario" do
       )
     ")
     execute_script("
-      $('#schedule_service_id').val(0);
+      $('#schedule_price_id').val(0);
       ")
     fill_in "schedule_nome", with: customers(:cristiano).nome
     click_button 'Marcar Horário'
@@ -164,7 +164,7 @@ feature "Calendario" do
 
     assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
     assert page.has_css?("#myModal", visible: true), "Modal com formulário não aparecendo"
-    assert page.has_content?("Service não pode ficar em branco"), "Modal de formulário não exibe msg de erro"
+    assert page.has_content?("Price não pode ficar em branco"), "Modal de formulário não exibe msg de erro"
   end
 end
 

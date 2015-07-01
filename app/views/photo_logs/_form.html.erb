@@ -4,7 +4,7 @@
     
     <div style="margin-bottom: 20px;">
       Enviando fotos para: 
-      <%= f.select :schedule_id, @scs.collect { |sc| ["#{sc.professional.nome} pelo serviço #{sc.service.nome}", sc.id] }, {} %>
+      <%= f.select :schedule_id, @scs.collect { |sc| ["#{sc.professional.nome} pelo serviço #{sc.price.nome}", sc.id] }, {} %>
     </div>
 
     <!-- The fileinput-button span is used to style the file input field as button -->

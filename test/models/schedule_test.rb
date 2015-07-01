@@ -5,7 +5,6 @@
 #  id                   :integer          not null, primary key
 #  professional_id      :integer
 #  customer_id          :integer
-#  service_id           :integer
 #  datahora_inicio      :datetime
 #  created_at           :datetime
 #  updated_at           :datetime
@@ -16,6 +15,7 @@
 #  telefone             :string(255)
 #  pago_com_safiras     :boolean          default(FALSE)
 #  recompensa_fornecida :boolean          default(FALSE)
+#  price_id             :integer
 #
 
 require 'test_helper'
@@ -25,14 +25,15 @@ class ScheduleTest < ActiveSupport::TestCase
 
   should belong_to(:professional)
   should belong_to(:customer)
-  should belong_to(:service)
+  should_not belong_to(:service)
+  should belong_to(:price)
   should_not have_db_column(:recompensa_divulgacao)
   should have_db_column(:nome)
   should have_db_column(:email)
   should have_db_column(:telefone)
   should have_many(:photo_logs)
   should validate_presence_of(:professional_id)
-  should validate_presence_of(:service_id)
+  should validate_presence_of(:price_id)
   should validate_presence_of(:datahora_inicio)
   
   before do
@@ -186,7 +187,7 @@ class ScheduleTest < ActiveSupport::TestCase
       test "envia e-mail de notificação se serviço mudar" do
         InvitationWorker.expects(:perform).never
         NotificationWorker.any_instance.stubs(:perform).returns({})
-        @sc.service_id = services(:corte_feminino_aline).id
+        @sc.price_id = prices(:corte_feminino_aline).id
         @sc.save
         assert @sc.valid?, "Objeto considerado inválido"
       end

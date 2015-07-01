@@ -11,7 +11,7 @@ $("#schedule_nome").val("<%= sc.nome %>")
 $("#schedule_email").typeahead('val', "<%= sc.email %>")
 $("#schedule_telefone").typeahead('val', "<%= sc.telefone %>")
 $("#schedule_customer_id").val(<%= sc.customer_id %>)
-$("#schedule_service_id").val(<%= sc.service_id %>)
+$("#schedule_price_id").val(<%= sc.price_id %>)
 $("#schedule_id").val(<%= sc.id %>)
 // Tratando o dia e hora marcado para o início do atendimento
 $("#schedule_datahora_inicio_3i").val(<%= sc.datahora_inicio.day %>)
@@ -31,7 +31,7 @@ $("#schedule_datahora_fim_5i").val(pad2(<%= sc.datahora_fim.min %>))
   $('input#schedule_pago_com_safiras').prop('checked', true)
   $("input#total_safiras").val('<%= rws.total_safiras %>')
   $('span#pagamento_com_safiras').show()
-<% elsif rws.present? && rws.total_safiras >= (sc.service.preco * 2) %>
+<% elsif rws.present? && rws.total_safiras >= (sc.price.preco * 2) %>
   $('input#schedule_pago_com_safiras').prop('disabled', false)
   $("input#total_safiras").val('<%= rws.total_safiras %>')
   $('span#pagamento_com_safiras').show()

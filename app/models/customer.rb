@@ -91,10 +91,10 @@ class Customer < ActiveRecord::Base
       0
     elsif pp.prof_info_allowed
       rw = Reward.find_or_initialize_by(professional_id: sc.professional_id, customer_id: self.id)
-      rw.total_safiras = rw.total_safiras + sc.service.recompensa_divulgacao
+      rw.total_safiras = rw.total_safiras + sc.price.recompensa_divulgacao
       if rw.save
         sc.update_attribute(:recompensa_fornecida, true)
-        sc.service.recompensa_divulgacao
+        sc.price.recompensa_divulgacao
       end
     end
   end

@@ -9,15 +9,20 @@
   <%= @service.nome %>
 </p>
 
-<p>
-  <strong>Preco:</strong>
-  <%= number_to_currency(@service.preco) %>
-</p>
+  <% @service.prices_ordered.each do |price| %>
+    <p <%= "class=padd-left" unless @service.preco_fixo %>>
+      <strong><%= "#{price.descricao}:" unless @service.preco_fixo %></strong>
+    </p>
+    <p <%= "class=padd-left2x" unless @service.preco_fixo %>>
+      <strong>Preço</strong>
+      <%= number_to_currency(price.preco) %>
+    </p>
+    <p <%= "class=padd-left2x" unless @service.preco_fixo %>>
+      <strong>Recompensa Por Divulgação (Safiras):</strong>
+      <%= price.recompensa_divulgacao %>
+    </p>
+  <% end %>
 
-<p>
-  <strong>Safiras (Divulgação):</strong>
-  <%= @service.recompensa_divulgacao %>
-</p>
 
 <%= link_to 'Editar', edit_service_path(@service) %> |
 <%= link_to 'Voltar', services_path %>

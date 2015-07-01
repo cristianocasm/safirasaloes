@@ -85,7 +85,7 @@ feature "Troca de Safiras - Criação de Horário" do
     assert_equal 0, sc.safiras_resgatadas
   end
   
-  scenario "deve resgatar safiras", js: true do
+  scenario "deve resgatar safiras", js: true, focus: true do
     rw = Reward.
           where(
             "professional_id = ? AND customer_id = ?",
@@ -96,7 +96,7 @@ feature "Troca de Safiras - Criação de Horário" do
     total_safiras = rw.total_safiras
 
     within "div.professional_service" do
-      find("option[value='#{ services(:cabelo_joao).id }']").click
+      find("option[value='#{ prices(:cabelo_joao).id }']").click
       find("#schedule_pago_com_safiras").set(true)
     end
 
@@ -106,8 +106,8 @@ feature "Troca de Safiras - Criação de Horário" do
 
     sc = @profJoao.schedules.last
 
-    assert_equal (sc.service.preco*2).to_i, sc.safiras_resgatadas
-    assert_equal (total_safiras - (sc.service.preco*2)).to_i, Reward.where("professional_id = ? AND customer_id = ?",@profJoao.id,@ct.id).first.total_safiras
+    assert_equal (sc.price.preco*2).to_i, sc.safiras_resgatadas
+    assert_equal (total_safiras - (sc.price.preco*2)).to_i, Reward.where("professional_id = ? AND customer_id = ?",@profJoao.id,@ct.id).first.total_safiras
   end
 
 end
@@ -205,14 +205,14 @@ feature "Troca de Safiras - Edição de Horário" do
   scenario "deve alterar 'safiras_resgatadas' e 'rewards.total_safiras' quando 'pago_com_safiras' é alterado de false para true", js: true do
     edit_schedule_by_service(:sch_cristiano_com_joao_service_barba)
 
-    assert_difference(Proc.new { Reward.where("professional_id = ? AND customer_id = ?",@sc.professional_id,@sc.customer_id).first.total_safiras }, -(@sc.service.preco * 2)) do
+    assert_difference(Proc.new { Reward.where("professional_id = ? AND customer_id = ?",@sc.professional_id,@sc.customer_id).first.total_safiras }, -(@sc.price.preco * 2)) do
       fill_in 'schedule_nome', with: 'Cristiano Alencar'
       find("#schedule_pago_com_safiras").set(true)
       click_button 'Marcar Horário'
       wait_for_ajax
     end
 
-    assert_equal (@sc.service.preco * 2), Schedule.find(@sc.id).safiras_resgatadas
+    assert_equal (@sc.price.preco * 2), Schedule.find(@sc.id).safiras_resgatadas
     assert_equal 'Cristiano Alencar', Schedule.find(@sc.id).nome
     assert_equal true, Schedule.find(@sc.id).pago_com_safiras
   end

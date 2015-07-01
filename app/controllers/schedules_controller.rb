@@ -78,7 +78,7 @@ class SchedulesController < ApplicationController
   end
 
   def meus_servicos_por_profissionais
-    @myProfs = current_customer.my_professionals
+    @myProfs = current_customer.my_professionals.includes(services: [:prices])
     flash.now[:success] = "Suas fotos foram enviadas com sucesso. Obrigado!" if params[:photo_sent].present?
   end
 
@@ -100,7 +100,7 @@ class SchedulesController < ApplicationController
               permit(
                 :id,
                 :customer_id,
-                :service_id,
+                :price_id,
                 :nome,
                 :email,
                 :telefone,

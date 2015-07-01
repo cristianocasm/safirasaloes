@@ -13,7 +13,8 @@
   </div>
   <div class="field professional_service">
     <%= f.label :serviço %><br>
-    <%= f.select :service_id, current_professional.services.collect {|s| [ s.nome, s.id, { preco: s.preco } ] } %>
+    <%= f.select :price_id, current_professional.services.includes(:prices).collect {|s| s.prices.map { |p| [ p.nome, p.id, { preco: p.preco } ] } }.flatten(1), {} %>
+
     <span class="field" id="pagamento_com_safiras" style="display: none;">
       <%= f.check_box :pago_com_safiras %> <%= label_tag 'Utilizar Safiras como Pagamento' %> <span><i class="fa fa-question-circle" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true" title="Utilizar Safiras para Pagamento"
           data-content="Seu cliente acumulou Safiras suficientes para trocar por este serviço. Marque esta opção para utilizar as Safiras dele como forma de pagamento por este serviço."></i></span>

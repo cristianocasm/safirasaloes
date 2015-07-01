@@ -73,7 +73,7 @@ class ServicesControllerTest < ActionController::TestCase
   end
 
   test "should update service" do
-    patch :update, id: @service, service: { nome: @service.nome, preco: @service.preco }
+    patch :update, id: @service, service: { nome: @service.nome, preco: @service.prices.first.preco }
     assert_redirected_to service_path(assigns(:service))
   end
 

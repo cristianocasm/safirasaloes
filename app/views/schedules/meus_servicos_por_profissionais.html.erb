@@ -1,15 +1,15 @@
 
-  <% @myProfs.each do |pr| %>
+  <% @myProfs.each do |prof| %>
     <div class="widget">
       <!-- Widget title -->
       <div class="widget-head">
         <div class="pull-left">
           <div>
-            <%= pr.nome.titleize %>
+            <%= prof.nome.titleize %>
           </div>
           <span class="label label-success" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="false" title="Safiras Acumuladas"
             data-content="Exibe a quantia de Safiras que você acumulou com este Profissional / Estabelecimento.">
-            <%= prof_safiras(pr.id) %> <i class="fa fa-diamond"></i>
+            <%= prof_safiras(prof.id) %> <i class="fa fa-diamond"></i>
           </span>
         </div>
         <div class="widget-icons pull-right">
@@ -21,21 +21,23 @@
       
       <div class="widget-content">
         <ul class="file-upload">
-          <% pr.services.each do |srv| %>
-            <li>
-              <!-- Icon with file name -->
-              <a href="#" class="pull-right"><i class="fa fa-times rounded-gray"></i></a>
-              <strong><i class="fa fa-magic"></i> <%= srv.nome %></strong>
-              <!-- Upload details -->
-              <div class="file-meta">Preço: <%= number_to_currency(srv.preco) %></div>
-              <!-- Progress bar -->
-              <div class="progress progress-animated progress-striped active">
-                <span><i class="fa fa-diamond rounded"></i></span>
-                <div class="progress-bar progress-bar-success" data-percentage="<%= safiras_percentage_by(srv.preco) %>">
-                  <span class="sr-only">80% Complete</span>
+          <% prof.services.each do |srv| %>
+            <% srv.prices.each do |pr| %>
+              <li>
+                <!-- Icon with file name -->
+                <a href="#" class="pull-right"><i class="fa fa-times rounded-gray"></i></a>
+                <strong><i class="fa fa-magic"></i> <%= pr.nome %></strong>
+                <!-- Upload details -->
+                <div class="file-meta">Preço: <%= number_to_currency(pr.preco) %></div>
+                <!-- Progress bar -->
+                <div class="progress progress-animated progress-striped active">
+                  <span><i class="fa fa-diamond rounded"></i></span>
+                  <div class="progress-bar progress-bar-success" data-percentage="<%= safiras_percentage_by(pr.preco) %>">
+                    <span class="sr-only">80% Complete</span>
+                  </div>
                 </div>
-              </div>
-            </li>
+              </li>
+            <% end %>
           <% end %>
         </ul>
       </div>

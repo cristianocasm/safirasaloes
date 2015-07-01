@@ -1,11 +1,107 @@
+# == Schema Information
+#
+# Table name: prices
+#
+#  id                    :integer          not null, primary key
+#  descricao             :string(255)
+#  preco                 :decimal(8, 2)
+#  recompensa_divulgacao :integer
+#  service_id            :integer
+#  created_at            :datetime
+#  updated_at            :datetime
+#
+
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  nome: MyString
-  preco: 1
-  service_id: 1
+corte_masculino_aline:
+  preco: 30.00
+  service: corte_masculino_aline
+  recompensa_divulgacao: 10
 
-two:
-  nome: MyString
+corte_feminino_aline:
+  preco: 45.00
+  service: corte_feminino_aline
+  recompensa_divulgacao: 11
+
+unha_mao_aline:
+  preco: 10.00
+  service: unha_mao_aline
+  recompensa_divulgacao: 12
+
+mechas_cabelo_curto_aline:
+  descricao: Curtos
+  preco: 100.00
+  service: mechas_aline
+  recompensa_divulgacao: 10
+
+mechas_cabelo_medio_aline:
+  descricao: Médios
+  preco: 120.00
+  service: mechas_aline
+  recompensa_divulgacao: 12
+
+mechas_cabelo_longo_aline:
+  descricao: Longos
+  preco: 140.00
+  service: mechas_aline
+  recompensa_divulgacao: 14
+
+unha_pe_aline:
+  preco: 15.0
+  service: unha_pe_aline
+  recompensa_divulgacao: 13
+
+unha_mao_e_pe_aline:
+  preco: 20.00
+  service: unha_mao_e_pe_aline
+  recompensa_divulgacao: 14
+
+servico_sem_horario_aline:
+  preco: 20.00
+  service: servico_sem_horario_aline
+  recompensa_divulgacao: 24
+
+servico_sem_horario_aline2:
+  preco: 20.00
+  service: servico_sem_horario_aline2
+  recompensa_divulgacao: 24
+
+barba_joao:
   preco: 1
-  service_id: 1
+  service: barba_joao
+  recompensa_divulgacao: 15
+
+cabelo_joao:
+  preco: 12
+  service: cabelo_joao
+  recompensa_divulgacao: 16
+
+bigode_joao:
+  preco: 10
+  service: bigode_joao
+  recompensa_divulgacao: 17
+
+unha_joao:
+  preco: 
+  service: unha_joao
+  recompensa_divulgacao: 21
+
+bigode_prof_testando:
+  preco: 61.00
+  service: bigode_prof_testando
+  recompensa_divulgacao: 18
+
+bigode_prof_assinante_com_contato_e_servicos:
+  preco: 60.00
+  service: bigode_prof_assinante_com_contato_e_servicos
+  recompensa_divulgacao: 19
+
+depilacao_prof_suspenso:
+  preco: 62.00
+  service: depilacao_prof_suspenso
+  recompensa_divulgacao: 22
+
+sobrancelha_prof_bloqueado:
+  preco: 63.00
+  service: sobrancelha_prof_bloqueado
+  recompensa_divulgacao: 23

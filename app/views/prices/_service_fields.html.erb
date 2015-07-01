@@ -1,0 +1,63 @@
+<fieldset style="border: 2px solid #d58512" class="padd spacer">
+  
+  <%= f.hidden_field :nome, name: 'services[][nome]', class: 'service_nome' %>
+  
+  <div class="row">
+    <div class="form-group">
+      <%= f.label :descricao, 'Descrição:', class: 'control-label col-lg-6' %>
+      <div class="col-lg-6">
+        <div class="inner-pad">
+          <%= f.text_field :descricao, name: 'services[][descricao]', class: "form-control" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group">
+      <%= f.label :preco, 'Preço:', class: 'control-label col-lg-6' %>
+      <div class="col-lg-6">
+        <div class="inner-pad">
+          <%= f.text_field :preco, name: 'services[][preco]', class: "money form-control" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group">
+      <%= f.label :recompensa_divulgacao, 'Safiras (Divulgação):', class: 'control-label col-lg-2' %>
+      <div class="col-lg-8">
+        <div class="padd-left">
+          <%= f.text_field :recompensa_divulgacao, name: 'services[][recompensa_divulgacao]', class: 'controle form-control', style: "width: 15%; display: inline;" %>
+          <a tabindex="0" class="padd-left dica" role="button" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true" title="Defina a Recompensa por Divulgação" data-content="Safiras é a forma através da qual você <b>fideliza</b> seus clientes e também os estimula a <b>divulgar o seu trabalho</b>.<br />
+
+          Defina neste campo quantas Safiras seu cliente receberá quando ele postar as fotos do seu trabalho nas redes sociais (divulgação). <br />
+          <b>Esclarecimentos</b>
+          <ol>
+            <li>
+              <i>Seu cliente receberá as Safiras apenas uma única vez (independentemente da quantida de fotos postadas nas redes sociais) para cada vez que ele for ao seu estabelecimento <b>e divulgar seu trabalho</b>. Ou seja, sem divulgar seu trabalho, ele não é recompensado.</i>
+            </li>
+            <li>
+              <i>
+              Cada Safira equivale a R$ 0,50 (50 centavos). O acumulo de Safiras dará ao seu cliente a vantagem de trocá-las por serviços fornecidos por você quando ele juntar Safiras suficientes.</i>
+            </li>
+          </ul>">O que é isso?</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group">
+      <div class="col-lg-12">
+        <div class="inner-pad">
+          <%= f.hidden_field :_destroy %>
+          <%= link_to '#', class: "remove_fields btn btn-block btn-danger" do %>
+          <span><i class='fa fa-trash'></i> Excluir Esta Variação<span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</fieldset>

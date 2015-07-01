@@ -7,7 +7,7 @@
       email: '<%= sc.email %>',
       nome: '<%= sc.nome %>',
       telefone: '<%= sc.telefone %>',
-      service: '<%= sc.service.nome %>',
+      service: '<%= sc.price.nome %>',
       start: '<%= sc.datahora_inicio.strftime("%Y-%m-%d %H:%M:%S") %>',
       end:   '<%= sc.datahora_fim.strftime("%Y-%m-%d %H:%M:%S") %>'
     };
@@ -15,7 +15,7 @@
   $("#calendar").fullCalendar('renderEvent', myEvent);
   $("#myModal").modal('hide');
 <% elsif sc.errors.added?(:professional_id, :blank) || 
-         sc.errors.added?(:service_id, :blank) ||
+         sc.errors.added?(:price_id, :blank) ||
          sc.errors.added?(:datahora_inicio, :blank) ||
          sc.errors.added?(:datahora_inicio, :after_or_equal_to) ||
          sc.errors.added?(:datahora_fim, :after) ||

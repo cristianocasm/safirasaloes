@@ -2,15 +2,12 @@
 #
 # Table name: services
 #
-#  id                    :integer          not null, primary key
-#  nome                  :string(255)
-#  hora_duracao          :integer
-#  minuto_duracao        :integer
-#  created_at            :datetime
-#  updated_at            :datetime
-#  professional_id       :integer
-#  preco                 :decimal(8, 2)
-#  recompensa_divulgacao :integer          default(0)
+#  id              :integer          not null, primary key
+#  nome            :string(255)
+#  created_at      :datetime
+#  updated_at      :datetime
+#  professional_id :integer
+#  preco_fixo      :boolean          default(TRUE)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -18,85 +15,66 @@
 #Serviços Aline
 corte_masculino_aline:
   nome: Corte Masculino
-  preco: 30.00
   professional: aline
-  recompensa_divulgacao: 10
 
 corte_feminino_aline:
   nome: Corte Feminino
-  preco: 45.00
   professional: aline
-  recompensa_divulgacao: 11
 
 unha_mao_aline:
   nome: Unha Mãos
-  preco: 10.00
   professional: aline
-  recompensa_divulgacao: 12
+
+mechas_aline:
+  nome: Mechas
+  professional: aline
+  preco_fixo: false
 
 unha_pe_aline:
   nome: Unha pé
-  preco: 15.00
   professional: aline
-  recompensa_divulgacao: 13
 
 unha_mao_e_pe_aline:
   nome: Unha Mão e Pé
-  preco: 20.00
   professional: aline
-  recompensa_divulgacao: 14
 
 servico_sem_horario_aline:
-  nome: Servio sem horário
-  preco: 20.00
+  nome: Serviço sem horário
   professional: aline
-  recompensa_divulgacao: 24
+
+servico_sem_horario_aline2:
+  nome: Sem horário
+  professional: aline
 
 #Serviços João
 barba_joao:
   nome: Barba
-  preco: 12.00
   professional: joao
-  recompensa_divulgacao: 15
 
 cabelo_joao:
   nome: Cabelo
-  preco: 12.50
   professional: joao
-  recompensa_divulgacao: 16
 
 bigode_joao:
   nome: Bigode
-  preco: 100.00
   professional: joao
-  recompensa_divulgacao: 17
 
 unha_joao:
   nome: Unhas
-  preco: 13.00
   professional: joao
-  recompensa_divulgacao: 21
 
 bigode_prof_testando:
   nome: Bigodasso
-  preco: 61.00
   professional: prof_testando_com_contato_e_servicos
-  recompensa_divulgacao: 18
 
 bigode_prof_assinante_com_contato_e_servicos:
   nome: Bigodão
-  preco: 60.00
   professional: prof_assinante_com_contato_e_servicos
-  recompensa_divulgacao: 19
 
 depilacao_prof_suspenso:
   nome: Depilação
-  preco: 62.00
   professional: prof_suspenso
-  recompensa_divulgacao: 22
 
 sobrancelha_prof_bloqueado:
   nome: Sobrancelha
-  preco: 63.00
   professional: prof_bloqueado
-  recompensa_divulgacao: 23

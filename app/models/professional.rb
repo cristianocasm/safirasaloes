@@ -150,12 +150,12 @@ class Professional < ActiveRecord::Base
   end
 
   def schedules_to_calendar(start, hend)
-    scs = self.schedules.where(updated_at: start..hend).includes(:service)
+    scs = self.schedules.where(updated_at: start..hend).includes(:price)
     transform(scs)
   end
 
   def services_ordered
-    services.order(:nome)
+    services.includes(:prices).order(:nome)
   end
 
   def has_contato_definido?
@@ -253,7 +253,7 @@ class Professional < ActiveRecord::Base
         email: sc.email,
         nome: sc.nome,
         telefone: sc.telefone,
-        service: sc.service.try(:nome) || 'Serviço Excluído',
+        price: sc.price.nome,
         start: sc.datahora_inicio,
         end:   sc.datahora_fim
       }

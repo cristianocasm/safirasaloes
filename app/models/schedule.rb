@@ -5,7 +5,6 @@
 #  id                   :integer          not null, primary key
 #  professional_id      :integer
 #  customer_id          :integer
-#  service_id           :integer
 #  datahora_inicio      :datetime
 #  created_at           :datetime
 #  updated_at           :datetime
@@ -16,15 +15,16 @@
 #  telefone             :string(255)
 #  pago_com_safiras     :boolean          default(FALSE)
 #  recompensa_fornecida :boolean          default(FALSE)
+#  price_id             :integer
 #
 
 class Schedule < ActiveRecord::Base
   belongs_to :professional
   belongs_to :customer
-  belongs_to :service
+  belongs_to :price
   has_many :photo_logs
 
-  validates_presence_of :professional_id, :service_id
+  validates_presence_of :professional_id, :price_id
   validate :presence_of_customer_info, on: [:create, :update]
   validate :email_format
   validates :datahora_inicio, date: true, presence: true, on: [:create, :update]
@@ -33,7 +33,7 @@ class Schedule < ActiveRecord::Base
   before_save :deal_with_safiras_acceptance, if: Proc.new { |sc| sc.pago_com_safiras_changed? }
   before_save -> { email.downcase! }, if: Proc.new { |sc| sc.email.present? }
   after_create :send_email_notification, if: Proc.new { |sc| sc.email.present? }
-  after_update :send_email_notification, if: Proc.new { |sc| sc.email.present? && (sc.email_changed? || sc.service_id_changed? || sc.datahora_inicio_changed? || sc.datahora_fim_changed?) }
+  after_update :send_email_notification, if: Proc.new { |sc| sc.email.present? && (sc.email_changed? || sc.price_id_changed? || sc.datahora_inicio_changed? || sc.datahora_fim_changed?) }
 
   scope :get_last_two_months_scheduled_customers, -> (prof_id) {
                                                                   select('DISTINCT(nome), customer_id AS id', :email, :telefone).
@@ -42,7 +42,7 @@ class Schedule < ActiveRecord::Base
                                                                 }
 
   scope :not_more_than_12_hours_ago, -> {
-                                          includes(:service, :professional).
+                                          includes(:price, :professional).
                                           where(datahora_inicio: 12.hours.ago..Time.zone.now)
                                         }
 
@@ -77,7 +77,7 @@ class Schedule < ActiveRecord::Base
   def update_customers_rewards(&block)
     rws = get_rewards_by_customer_and_professional
     if rws.present?
-      safiras = self.service.preco * 2
+      safiras = self.price.preco * 2
       yield rws, safiras
       rws.save
     end
@@ -124,14 +124,14 @@ class Schedule < ActiveRecord::Base
     if ct.id != self.customer_id
       self.update_attribute(:customer_id, ct.id)
     else
-      recompensa = self.service.recompensa_divulgacao
+      recompensa = self.price.recompensa_divulgacao
       safiras = ActionController::Base.helpers.pluralize(recompensa, 'Safira')
       
       NotificationWorker.
         perform_async(
                       self.email,
                       self.professional.nome,
-                      self.service.nome,
+                      self.price.nome,
                       self.datahora_inicio.strftime('%d/%m/%Y'),
                       self.datahora_inicio.strftime('%H:%M'),
                       safiras
@@ -148,7 +148,7 @@ class Schedule < ActiveRecord::Base
                                       self.datahora_inicio.strftime('%d/%m/%Y'),
                                       self.datahora_inicio.strftime('%H:%M'),
                                       self.email,
-                                      self.service.nome,
+                                      self.price.nome,
                                       regUrl
                                     )
     end

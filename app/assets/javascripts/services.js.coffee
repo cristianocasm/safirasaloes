@@ -1,52 +1,83 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
-# jQuery ->
-#   $('.controle').each ->
-#     elem = $(this);
-#     preco = $("#service_preco")
-#     fidel = $("#service_recompensa_fidelidade")
-#     divul = $("#service_recompensa_divulgacao")
-#     #Save current value of element
-#     elem.data('oldVal', elem.val());
-
-#     #Look for changes in the value
-#     elem.bind "propertychange change click keyup input paste", ->
-#       #If value has changed...
-#       if (elem.data('oldVal') != elem.val())
-#         #Updated stored value
-#         elem.data('oldVal', elem.val());
-
-#         if(preco.val() != "" && preco.val() != "R$ 0.00" && fidel.val() != "" && divul.val() != "")
-#           precoVal = parseFloat(preco.val())
-#           fidelVal = parseInt(fidel.val())
-#           divulVal = parseInt(divul.val())
-
-#           tempoMin = Math.ceil(preco / (fidel))
-#           tempoMinFidel = Math.ceil(preco / (fidel + divul))
-
-#           update_sim_div(tempoMin, tempoMinFidel, precoVal, fidelVal, divulVal)
-#         else
-#           $("#sim").empty()        
-
-# update_sim_div = (tempoMin, tempoMinFidel, preco, fidel, divul) ->
-#   $("#sim").empty()
-#   $("#sim").append("
-#     <h4>Cenário 1: Cliente nunca fará divulgação</h4>
-#     Recompensa Ganha: #{fidel} Safiras (equivalente a R$ #{(fidel*0.25).toFixed(2)})<br />
-#     Safiras suficientes para troca: após #{Math.ceil(preco / (fidel*0.25))} retornos
-#     <h4>Cenário 2: Cliente sempre fará divulgação</h4>
-#     Recompensa Ganha: #{divul+fidel} Safiras (equivalente a R$ #{((divul+fidel)*0.25).toFixed(2)})<br />
-#     Safiras suficientes para troca: após #{Math.ceil(preco / ((divul+fidel)*0.25))} retornos
-#     ")
 jQuery ->
   $('form').on 'click', '.remove_fields', (event) ->
     $(this).prev('input[type=hidden]').val('1')
-    $(this).closest('fieldset').hide()
+    $(this).closest('fieldset').fadeOut()
     event.preventDefault()
 
+  # Cria campos para a definição de novo preço no cadastro de serviços.
   $('form').on 'click', '.add_fields', (event) ->
     time = new Date().getTime()
     regexp = new RegExp($(this).data('id'), 'g')
     $(this).before($(this).data('fields').replace(regexp, time))
+    active_popovers()
     event.preventDefault()
+
+  # Habilita botão "próximo" no wizard de cadastro de serviço quando
+  # nome do serviço é informado.
+  $('form #service_nome').bind "propertychange change click keyup input paste", ->
+    if $(this).val() == ""
+      $('button.btn-next').prop('disabled', true)
+      $('button.btn-next').text('Informe o Nome do Serviço para Prosseguir')
+    else
+      $('button.btn-next').prop('disabled', false)
+      $('button.btn-next').text('Próximo Passo >')
+
+  # Cria os campos para definição do preço do serviço
+  $('#myWizard').on 'actionclicked.fu.wizard', (evt, data) ->
+    if data.step == 1 && data.direction == 'next'
+      create_price_fields()
+
+  # Esconde todos os popovers de dicas abertos quando
+  # clique em qualquer lugar da página é realizado
+  $('body').on 'click', (event) ->
+    $('[data-toggle=popover]').each ->
+      # hide any open popovers when the anywhere else in the body is clicked
+      if (!$(this).is(event.target) && $(this).has(event.target).length == 0 && $('.popover').has(event.target).length == 0)
+        $(this).popover('hide')
+
+  # Habilita formulário de cadastro somente após o carregamento total do JS
+  if $('form.service_form').length
+    $('form.service_form').show()
+    $('div#aguarde').hide()
+
+  # Exibe/Esconde row da tabela que contém os preços de um
+  # serviço com preço variável quando a row principal é
+  # clicada
+  $('table').on 'click', 'tr.preco_variavel', (event) ->
+    $(this).next().fadeToggle(1000)
+
+  # Esconde row da tabela que contém os preços de um
+  # serviço com preço variável quando um click é dado
+  # sobre ela
+  $('table').on 'click', 'tr.contem_precos_e_recompensas', (event) ->
+    $(this).fadeOut(1000)
+
+create_price_fields = ->
+  radio = $("form input[type=radio][name=service\\[preco_fixo\\]]:checked")
+  if radio.val() == 'true'
+    create_preco_fixo_fields(radio)
+  else if radio.val() == 'false'
+    create_preco_variavel_fields(radio)
+
+create_preco_fixo_fields = (t) ->
+  $('div#wizard_title').html('<h3>Defina o preço e a recompensa por divulgação para o serviço: <b><span id="nome_servico_span"></span></b> </h3> <br/>')
+  $('span#nome_servico_span').html($('input#service_nome').val())
+  $('div#fields').html($(t).data('fields'))
+  $('div#fields').prepend($(t).data('prices'))
+  $('input[type="submit"]').val('Salvar Serviço e Preço')
+  active_popovers()
+  
+create_preco_variavel_fields = (t) ->
+  time = new Date().getTime()
+  regexp = new RegExp($(t).data('id'), 'g')
+  $('div#wizard_title').html('<h3>Defina os preços e as recompensas por divulgação para o serviço: <b><span id="nome_servico_span"></span></b> </h3>')
+  $('span#nome_servico_span').html($('input#service_nome').val())
+  $('div#fields').html($(t).data('fields').replace(regexp, time))
+  $('div#fields').prepend($(t).data('prices'))
+  $('input[type="submit"]').val('Salvar Serviço e Preços')
+
+active_popovers = () ->
+  $('[data-toggle="popover"]').popover()

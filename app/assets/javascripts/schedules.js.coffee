@@ -134,7 +134,7 @@ launch_typeahead = ->
   get_last_two_months_served_customers()
 
 set_bindings = ->
-  $('select#schedule_service_id').change check_whether_show_checkbox_for_safira_acceptance
+  $('select#schedule_price_id').change check_whether_show_checkbox_for_safira_acceptance
   $('#myModal').bind 'hide.bs.modal', reset_form
   $('input.twitter-typeahead').on 'typeahead:selected', (jQueryObj, selectedObj, datasetName) -> fill_form_with_customers_information(jQueryObj, selectedObj, datasetName)
   watch_over_customer_fields()

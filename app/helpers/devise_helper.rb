@@ -5,13 +5,31 @@ module DeviseHelper
   end
 
   def prohibited_path
-    request.path.in?(
-      [
-        new_professional_session_path,
-        edit_professional_password_path,
-        edit_customer_password_path,
-        new_customer_registration_path
-        ])
+    # path = request.path
+    # meth = request.request_method
+
+    # ( path == new_professional_session_path && meth.in?(%w[GET]) ) ||
+    # ( path == edit_professional_password_path && meth.in?(%w[GET]) ) ||
+    # ( path == professional_password_path && meth.in?(%w[PATCH PUT]) ) ||
+    # ( path == edit_customer_password_path && meth.in?(%w[GET PATCH PUT]) ) ||
+    # ( path == customer_password_path && meth.in?(%w[PATCH PUT]) ) ||
+    # ( path == new_customer_registration_path && meth.in?(%w[GET]) ) ||
+    # ( path == customer_registration_path && meth.in?(%w[POST]) )
+
+    contro = params[:controller]
+    action = params[:action]
+
+    ( contro == 'devise/passwords' && action.in?(%w[edit update]) ) ||
+    ( contro == 'customer' && action.in?(%w[new]) ) ||
+    ( contro == 'sessions' && action.in?(%w[new]) )
+
+    # request.path.in?(
+    #   [
+    #     new_professional_session_path,
+    #     edit_professional_password_path,
+    #     edit_customer_password_path,
+    #     new_customer_registration_path
+    #     ])
   end
 
   def label_name

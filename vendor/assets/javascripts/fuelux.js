@@ -3660,10 +3660,6 @@
 
         // change button text of last step, if specified
         var last = this.$nextBtn.attr( 'data-last' );
-        if(isFirstStep) //Add this line
-        {
-            this.$nextBtn.attr( 'disabled', ( isFirstStep === true || canMoveNext === false ) );
-        }
         if ( last ) {
           this.lastText = last;
           // replace text

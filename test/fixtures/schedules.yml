@@ -5,7 +5,6 @@
 #  id                   :integer          not null, primary key
 #  professional_id      :integer
 #  customer_id          :integer
-#  service_id           :integer
 #  datahora_inicio      :datetime
 #  created_at           :datetime
 #  updated_at           :datetime
@@ -16,6 +15,7 @@
 #  telefone             :string(255)
 #  pago_com_safiras     :boolean          default(FALSE)
 #  recompensa_fornecida :boolean          default(FALSE)
+#  price_id             :integer
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -23,21 +23,21 @@
 sch_cristiano_com_aline:
   professional: aline
   customer: cristiano
-  service: corte_masculino_aline
+  price: corte_masculino_aline
   datahora_inicio: <%= 1.hour.from_now %>
   datahora_fim: <%= 2.hours.from_now %>
 
 sch_cristiano_com_aline2:
   professional: aline
   customer: cristiano
-  service: corte_feminino_aline
+  price: corte_feminino_aline
   datahora_inicio: <%= 1.day.ago %>
   datahora_fim: <%= 1.day.ago + 3.hours %>
 
 sch_cristiano_com_joao_service_barba:
   professional: joao
   customer: cristiano
-  service: barba_joao
+  price: barba_joao
   datahora_inicio: <%= 2.hours.ago %>
   datahora_fim: <%= 1.hour.ago %>
   nome: Cristiano
@@ -49,7 +49,7 @@ sch_cristiano_com_joao_service_barba:
 sch_cristiano_com_integracao_com_joao_service_barba:
   professional: joao
   customer: cristiano_com_integracao
-  service: barba_joao
+  price: barba_joao
   datahora_inicio: <%= 2.hours.ago %>
   datahora_fim: <%= 1.hour.ago %>
   nome: Cristiano
@@ -61,7 +61,7 @@ sch_cristiano_com_integracao_com_joao_service_barba:
 sch_cristiano_com_joao_service_cabelo:
   professional: joao
   customer: cristiano
-  service: cabelo_joao
+  price: cabelo_joao
   datahora_inicio: <%= 3.hours.ago %>
   datahora_fim: <%= 2.hour.ago %>
   nome: Cristiano
@@ -73,7 +73,7 @@ sch_cristiano_com_joao_service_cabelo:
 sch_cristiano_com_joao_service_bigode:
   professional: joao
   customer: cristiano
-  service: bigode_joao
+  price: bigode_joao
   datahora_inicio: <%= 4.hours.ago %>
   datahora_fim: <%= 3.hours.ago %>
   nome: Cristiano
@@ -85,7 +85,7 @@ sch_cristiano_com_joao_service_bigode:
 sch_abilio_com_joao_service_bigode:
   professional: joao
   customer: abilio
-  service: bigode_joao
+  price: bigode_joao
   datahora_inicio: <%= 5.hours.ago %>
   datahora_fim: <%= 4.hours.ago %>
   nome: Abilio
@@ -97,7 +97,7 @@ sch_abilio_com_joao_service_bigode:
 sch_abilio_com_joao_service_barba:
   professional: joao
   customer: abilio
-  service: barba_joao
+  price: barba_joao
   datahora_inicio: <%= 5.hours.ago %>
   datahora_fim: <%= 4.hours.ago %>
   nome: Abilio
@@ -109,35 +109,35 @@ sch_abilio_com_joao_service_barba:
 sch_cristiano_com_prof_testando:
   professional: prof_testando_com_contato_e_servicos
   customer: cristiano
-  service: bigode_prof_testando
+  price: bigode_prof_testando
   datahora_inicio: <%= 3.days.ago + 5.hours %>
   datahora_fim: <%= 3.days.ago + 6.hours %>
 
 sch_cristiano_com_prof_suspenso:
   professional: prof_suspenso
   customer: cristiano
-  service: depilacao_prof_suspenso
+  price: depilacao_prof_suspenso
   datahora_inicio: <%= 3.days.ago + 10.hours %>
   datahora_fim: <%= 3.days.ago + 11.hours %>
 
 sch_cristiano_com_prof_bloqueado:
   professional: prof_bloqueado
   customer: cristiano
-  service: sobrancelha_prof_bloqueado
+  price: sobrancelha_prof_bloqueado
   datahora_inicio: <%= 3.days.ago + 11.hours %>
   datahora_fim: <%= 3.days.ago + 12.hours %>
 
 sch_sonia:
   professional: aline
   customer: sonia
-  service: unha_mao_e_pe_aline
+  price: unha_mao_e_pe_aline
   datahora_inicio: <%= Time.zone.now + 1.hour %>
   datahora_fim: <%= Time.zone.now + 2.hours %>
 
 sch_abilio1:
   professional: aline
   customer: abilio
-  service: unha_mao_e_pe_aline
+  price: unha_mao_e_pe_aline
   datahora_inicio: <%= 70.days.ago %>
   datahora_fim: <%= 70.days.ago + 1.hour %>
   nome: Abilio
@@ -147,7 +147,7 @@ sch_abilio1:
 sch_bruno1:
   professional: aline
   customer: bruno
-  service: corte_masculino_aline
+  price: corte_masculino_aline
   datahora_inicio: <%= 2.days.ago %>
   datahora_fim: <%= 2.days.ago + 1.hour %>
   nome: Bruno
@@ -157,7 +157,7 @@ sch_bruno1:
 sch_cesar1:
   professional: aline
   customer: cesar
-  service: corte_feminino_aline
+  price: corte_feminino_aline
   datahora_inicio: <%= 21.days.ago %>
   datahora_fim: <%= 21.days.ago + 1.hour %>
   nome: Cesar
@@ -167,7 +167,7 @@ sch_cesar1:
 sch_cesar2:
   professional: aline
   customer: cesar
-  service: corte_feminino_aline
+  price: corte_feminino_aline
   datahora_inicio: <%= 14.days.ago %>
   datahora_fim: <%= 14.days.ago + 1.hour %>
   nome: Cesar
@@ -177,7 +177,7 @@ sch_cesar2:
 sch_daniel1:
   professional: aline
   customer: daniel
-  service: unha_pe_aline
+  price: unha_pe_aline
   datahora_inicio: <%= 8.days.ago %>
   datahora_fim: <%= 8.days.ago + 1.hour %>
   nome: Daniel
@@ -187,7 +187,7 @@ sch_daniel1:
 sch_elano1:
   professional: joao
   customer: elano
-  service: barba_joao
+  price: barba_joao
   datahora_inicio: <%= 15.days.ago %>
   datahora_fim: <%= 15.days.ago + 1.hour %>
   nome: Elano
@@ -196,14 +196,14 @@ sch_elano1:
 
 invalido_sem_cli_info:
   professional: aline
-  service: corte_feminino_aline
+  price: corte_feminino_aline
   datahora_inicio: <%= 3.days.from_now %>
   datahora_fim: <%= 3.days.from_now + 1.hour %>
 
 valido_com_cli_info:
   professional: aline
   customer: cesar
-  service: corte_masculino_aline
+  price: corte_masculino_aline
   datahora_inicio: <%= 14.days.from_now %>
   datahora_fim: <%= 14.days.from_now + 1.hour %>
   nome: Cesar

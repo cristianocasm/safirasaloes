@@ -29,22 +29,8 @@ p = Professional.create!(
     estado: 'MG',
     site: 'http://www.mybeautysite.com.br' }
   )
-p1= Professional.create!(
-  { email: 'cristiano.souza.mendonca+suspenso@gmail.com',
-    password: '123456',
-    status_id: Status.find_by_nome('suspenso').id }
-  )
-p2 = Professional.create!(
-  { email: 'cristiano.souza.mendonca+bloqueado@gmail.com',
-    password: '123456',
-    status_id: Status.find_by_nome('bloqueado').id }
-  )
-p1.update_attribute(:status_id, Status.find_by_nome(:suspenso).id)
-p2.update_attribute(:status_id, Status.find_by_nome(:bloqueado).id)
 
 p.update_attribute(:confirmed_at, 1.day.ago)
-p1.update_attribute(:confirmed_at, 1.day.ago)
-p2.update_attribute(:confirmed_at, 1.day.ago)
 
 c = Customer.create!(
   nome: 'Aline',
@@ -54,59 +40,30 @@ c = Customer.create!(
 
 Service.create!([
   { nome: 'Corte Masculino',
-    preco: 25.00,
-    professional_id: p.id,
-    recompensa_divulgacao: 20 },
+    professional_id: p.id },
   { nome: 'Corte Feminino',
-    preco: 45.00,
     professional_id: p.id },
   { nome: 'Unha mão',
-    preco: 10.00,
     professional_id: p.id },
   { nome: 'Unha pé',
-    preco: 10.00,
     professional_id: p.id },
   { nome: 'Unha mão e pé',
-    preco: 15.00,
     professional_id: p.id }
-#   { nome: 'Corte Masculino',
-#     preco: 25.00,
-#     professional_id: p1.id },
-#   { nome: 'Corte Feminino',
-#     preco: 45.00,
-#     professional_id: p1.id },
-#   { nome: 'Unha mão',
-#     preco: 10.00,
-#     professional_id: p1.id },
-#   { nome: 'Unha pé',
-#     preco: 10.00,
-#     professional_id: p1.id },
-#   { nome: 'Unha mão e pé',
-#     preco: 15.00,
-#     professional_id: p1.id },
-#   { nome: 'Corte Masculino',
-#     preco: 25.00,
-#     professional_id: p2.id },
-#   { nome: 'Corte Feminino',
-#     preco: 45.00,
-#     professional_id: p2.id },
-#   { nome: 'Unha mão',
-#     preco: 10.00,
-#     professional_id: p2.id },
-#   { nome: 'Unha pé',
-#     preco: 10.00,
-#     professional_id: p2.id },
-#   { nome: 'Unha mão e pé',
-#     preco: 15.00,
-#     professional_id: p2.id }
-
   ])
+
+Service.find_each do |srv|
+
+  srv.prices.create!(
+    preco: 10,
+    recompensa_divulgacao: 20
+  )
+end
 
 Schedule.create!([
   { professional_id: p.id,
     customer_id: c.id,
     datahora_inicio: 1.hour.from_now.to_datetime,
     datahora_fim: 2.hours.from_now.to_datetime,
-    service_id: p.services.first.id,
+    price_id: p.services.first.prices.first.id,
     nome: c.nome }
   ])

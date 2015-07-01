@@ -128,16 +128,13 @@ dias_vigencia<y:LabelModel>
     <node id="n4">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="124.25" width="153.516717325228" x="418.44878419452874" y="651.1986869300912"/>
+          <y:Geometry height="80.73978996499409" width="153.516717325228" x="406.8100303951366" y="492.37969626498034"/>
           <y:Fill color="#E8EEF7" color2="#FF6600" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="53.236328125" x="50.140194600114" y="4.0">services</y:NodeLabel>
-          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="87.8125" modelName="custom" textColor="#000000" visible="true" width="149.412109375" x="2.0" y="29.96875">nome
-preco
-recompensa_divulgacao
-hora_duracao
-minuto_duracao
-professional_id<y:LabelModel>
+          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="45.90625" modelName="custom" textColor="#000000" visible="true" width="117.89453125" x="2.0" y="29.96875">nome
+professional_id
+preco_fixo:boolean<y:LabelModel>
               <y:ErdAttributesNodeLabelModel/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -181,7 +178,7 @@ schedule_recovered<y:LabelModel>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="64.029296875" x="50.9853515625" y="4.0">schedules</y:NodeLabel>
           <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="171.625" modelName="custom" textColor="#000000" visible="true" width="140.546875" x="2.0" y="29.96875">professional_id
-service_id
+price_id
 customer_id
 datahora_inicio
 datahora_fim
@@ -299,13 +296,14 @@ attribute 3<y:LabelModel>
       <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="78.0" width="153.516717325228" x="628.0592705167171" y="674.3236869300912"/>
+          <y:Geometry height="90.0" width="153.516717325228" x="406.81003039513666" y="668.3236869300912"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="40.1171875" x="56.699764912614" y="4.0">prices</y:NodeLabel>
-          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="45.90625" modelName="custom" textColor="#000000" visible="true" width="149.412109375" x="2.0" y="29.96875">nome
+          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="59.875" modelName="custom" textColor="#000000" visible="true" width="149.412109375" x="2.0" y="29.96875">descricao
 preco
-recompensa_divulgacao<y:LabelModel>
+recompensa_divulgacao
+service_id<y:LabelModel>
               <y:ErdAttributesNodeLabelModel/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -338,7 +336,7 @@ recompensa_divulgacao<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e2" source="n6" target="n4">
+    <edge id="e2" source="n6" target="n11">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="1.1449848024316225" sy="-7.000000000000114" tx="0.0" ty="0.0"/>
@@ -362,7 +360,7 @@ recompensa_divulgacao<y:LabelModel>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="43.15527659574457" ty="-4.589525426010302">
-            <y:Point x="495.20714285714274" y="421.4104745739897"/>
+            <y:Point x="483.5683890577506" y="421.4104745739897"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="crows_foot_many" target="none"/>
@@ -424,7 +422,6 @@ recompensa_divulgacao<y:LabelModel>
       </data>
     </edge>
     <edge id="e10" source="n11" target="n4">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>

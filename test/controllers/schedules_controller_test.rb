@@ -30,7 +30,7 @@ class SchedulesControllerTest < ActionController::TestCase
   end
 
   test "salva passo 'horario_cadastrado' como realizado" do
-    xhr :post, :create, schedule: { nome: "Horário Teste", service_id: @profAline.services.first.id, "datahora_inicio(3i)"=>"20", "datahora_inicio(2i)"=>"5", "datahora_inicio(1i)"=>"2015", "datahora_inicio(4i)"=>"07", "datahora_inicio(5i)"=>"30", "datahora_fim(3i)"=>"20", "datahora_fim(2i)"=>"5", "datahora_fim(1i)"=>"2015", "datahora_fim(4i)"=>"08", "datahora_fim(5i)"=>"00"}
+    xhr :post, :create, schedule: { nome: "Horário Teste", price_id: @profAline.services.first.prices.first.id, "datahora_inicio(3i)"=>"20", "datahora_inicio(2i)"=>"5", "datahora_inicio(1i)"=>"2015", "datahora_inicio(4i)"=>"07", "datahora_inicio(5i)"=>"30", "datahora_fim(3i)"=>"20", "datahora_fim(2i)"=>"5", "datahora_fim(1i)"=>"2015", "datahora_fim(4i)"=>"08", "datahora_fim(5i)"=>"00"}
     assert Professional.find(@profAline.id).taken_step.horario_cadastrado, "Passo 'horario_cadastrado' não sendo salvo"
   end
 

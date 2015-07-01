@@ -1,4 +1,13 @@
 pt-BR:
+  servico:
+    com_preco_variavel:
+      deve_ter_pelo_menos_2_precos: Serviços com Preços Variados devem ter 2 ou mais preços. Escolha a opção "Preço Fixo" para cadastrar serviços com apenas 1 preço.
+  price:
+    sem_descricao: ^Informe uma descrição para cada Preço
+    descricao_repetida: ^Informe uma descrição diferente para cada Preço
+    deve_ser_positivo: ^Preço deve ser um número maior que 0
+    recompensa_deve_ser_positivo_ou_zero: ^Recompensa Por Divulgação deve ser um número maior ou igual a 0
+    com_horario_marcado: ^Devido à existência de horários marcados para este serviço, não é possível definir o preço como %{tipo_preco}
   date:
     abbr_day_names:
     - Dom

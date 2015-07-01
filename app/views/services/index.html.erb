@@ -5,17 +5,22 @@
     <tr>
       <th>Nome</th>
       <th>Preco</th>
-      <th>Safiras (Divulgação)</th>
+      <th>Recompensa (Safiras)</th>
       <th>Ações</th>
     </tr>
   </thead>
 
   <tbody>
     <% @services.each do |service| %>
-      <tr>
+      <tr <%= "class=preco_variavel" unless service.preco_fixo %>>
         <td><%= service.nome %></td>
-        <td><%= number_to_currency(service.preco) %></td>
-        <td><%= service.recompensa_divulgacao %></td>
+        <% if service.preco_fixo %>
+          <td><%= number_to_currency(service.prices.first.preco) %></td>
+          <td><%= service.prices.first.recompensa_divulgacao %></td>
+        <% else %>
+          <td><i>Clique para ver os preços</i></td>
+          <td><i>Clique para ver as recompensas</i></td>
+        <% end %>
         <td>
           <%= link_to service, class: 'btn btn-success btn-xs', title: 'Consultar' do %>
             <i class='fa fa-eye fa-border'></i>
@@ -28,6 +33,25 @@
           <% end %>
         </td>
       </tr>
+      <% unless service.preco_fixo %>
+        <tr class="contem_precos_e_recompensasv collapse">
+          <td colspan="4">
+            <% service.prices_ordered.each do |price| %>
+              <p>
+                <strong><%= "#{price.descricao}:" %></strong>
+              </p>
+              <p class="padd-left">
+                <strong>Preço</strong>
+                <%= number_to_currency(price.preco) %>
+              </p>
+              <p class="padd-left">
+                <strong>Recompensa Por Divulgação (Safiras):</strong>
+                <%= price.recompensa_divulgacao %>
+              </p>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>

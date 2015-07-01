@@ -57,8 +57,11 @@ class ProfessionalTest < ActiveSupport::TestCase
 
   test "gera relatório corretamente de passos realizados" do
     rpt = Professional.taken_steps_report(3.days.ago.to_date, Date.today.to_date)
+    day1 = 1.days.ago.strftime('%d/%m')
+    day2 = 2.days.ago.strftime('%d/%m')
+    day3 = 3.days.ago.strftime('%d/%m')
     expected = [
-                [ [0, "06/06"], [1, "07/06"], [2, "08/06"] ],
+                [ [0, day3], [1, day2], [2, day1] ],
                 [
                   {:label=>"Nº Cadastros", :data=>[ [0, 100], [1, 100], [2, 100] ], :color=>"#ff6c24"},
                   {:label=>"Nº Confirmados", :data=>[[0, 100], [1, 86], [2, 90]  ], :color=>"#ee5b13"},

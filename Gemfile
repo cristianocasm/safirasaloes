@@ -31,6 +31,8 @@ gem 'mandrill-api', require: 'mandrill'
 
 gem 'newrelic_rpm'
 
+gem 'custom_error_message', '~> 1.1.1'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

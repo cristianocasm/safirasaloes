@@ -1,60 +1,78 @@
-<%= form_for(@service) do |f| %>
-  <div class="row">
-    <div class="col-xs-12 col-md-12">
-      <div class="col-xs-12 col-md-8">
-      <%= label_tag 'Nome do Serviço' %><br>
-      <%= f.text_field :nome, class: "form-control input-sm" %>
-    </div>
-    </div>
-  </div>
-
-  <div class="flex">
-    <div class="divider">
-      <%= link_to_add_fields "Defina um Preço Fixo", f, :prices %>
-
-      <!-- <div class="row">
-        <div class="col-xs-12 col-md-12">
-          <%= label_tag :preco %><br>
-          <%= f.text_field :preco, class: 'money controle form-control input-sm' %>
+<div id="aguarde">
+  <h2>
+    <i class="fa fa-cog fa-spin"></i> Criando Formulário de <%= acao %> de Serviço. Aguarde... <i class="fa fa-cog fa-spin"></i> 
+  </h2>
+</div>
+<%= form_for(@service, html: { class: 'form-horizontal service_form', style: "display: none" }) do |f| %>
+  <div class="wizard" data-initialize="wizard" id="myWizard">
+    <ul class="steps">
+      <li data-step="1" data-name="nome" class="active"><span class="badge">1</span>Cadastrar Serviço<span class="chevron"></span></li>
+      <li data-step="2"><span class="badge">2</span>Definir Preço<span class="chevron"></span></li>
+    </ul>
+    <div class="step-content">
+      <div class="step-pane active sample-pane alert" data-step="1">
+        <h3><%= title %></h3>
+        <br/>
+        <div class='row'>
+          <div class="form-group">
+            <%= f.label :nome, 'Nome:', class: 'control-label col-lg-2' %>
+            <div class="col-lg-4">
+              <div class="padd-left">
+                <%= f.text_field :nome, class: "form-control input-sm" %>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col-xs-12 col-md-12">
-          <%= label_tag 'Safiras (Divulgação)' %><br>
-          <%= f.text_field :recompensa_divulgacao, class: 'controle form-control', style: "width: 15%; display: inline;" %>
-          <a tabindex="0" class="dica" role="button" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true" title="Defina a Recompensa por Divulgação" data-content="Safiras é a forma através da qual você <b>fideliza</b> seus clientes e também os estimula a <b>divulgar o seu trabalho</b>.<br />
+        <div class='row'>
+          <div class="form-group">
+            <%= f.label :preco_fixo, 'Preço:', class: 'control-label col-lg-2' %>
+            <div class="col-lg-4">
+              <div class="col-lg-6">
+                <div class="padd-left">
+                  <%= f.label :preco_fixo, "Preço Único", :value => "true" %>
+                  <%= radio_button_to_add_fixed_price_fields(f, 'prices') %>
+                </div>
+              </div>
 
-          Defina neste campo quantas Safiras seu cliente receberá quando ele postar as fotos do seu trabalho nas redes sociais (divulgação). <br />
-          <b>Esclarecimentos</b>
-          <ol>
-            <li>
-              <i>Seu cliente receberá as Safiras apenas uma única vez (independentemente da quantida de fotos postadas nas redes sociais) para cada vez que ele for ao seu estabelecimento <b>e divulgar seu trabalho</b>. Ou seja, sem divulgar seu trabalho, ele não é recompensado.</i>
-            </li>
-            <li>
-              <i>
-              Cada Safira equivale a R$ 0,50 (50 centavos). O acumulo de Safiras dará ao seu cliente a vantagem de trocá-las por serviços fornecidos por você quando ele juntar Safiras suficientes.</i>
-            </li>
-          </ul>">O que é isso?</a>
+              <div class="col-lg-6">
+                <div class="padd-left">
+                  <%= f.label :preco_fixo, "Preços Variados", :value => "false" %>
+                  <%= radio_button_to_add_multiple_price_fields(f, 'prices') %>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div> -->
-    </div>
 
-    <div>
-      <div>
-        <%= f.fields_for :prices do |builder| %>
-          <%= render 'price_fields', f: builder %>
+        <%= link_to 'Cancelar', services_path, class: 'btn btn-danger', data: { disable_with: "Cancelar" } %>
+        <% if @service.nome.blank? %>
+          <button type="button" class="btn btn-success btn-next" disabled >Informe o Nome do Serviço para Prosseguir </button>
+        <% else %>
+          <button type="button" class="btn btn-success btn-next" >Próximo Passo &gt</button>
         <% end %>
-        <span class="text-divider">OU</span>
-        <%= link_to_add_fields "Crie Variações de Preços", f, :prices %>
       </div>
+
+      <div class="step-pane sample-pane alert" data-step="2">
+        <!--
+          div#wizard_title recebe o título do wizard no passo 2.
+          Definição da lógica presente em services.js.coffe.
+        -->
+        <div id="wizard_title">
+        </div>
+        <!--
+          div#fields recebe os campos para cadastro / atualização
+          dos preços para um serviço definido no passo 1 do wizard.
+          Definição da lógica presente em services.js.coffe.
+        -->
+        <div id="fields">
+          <%= insert_fields(f, @service.preco_fixo, 'prices') %>
+        </div>
+        
+        <button type="button" class="btn btn-warning btn-prev"><span class="glyphicon glyphicon-arrow-left"></span>&lt Voltar</button>
+        <%= f.submit 'Salvar Serviço e Preço', class: 'btn btn-success', data: { disable_with: "Salvar Serviço e Preço" } %>
+      </div>
+
     </div>
   </div>
-
-  <div class="row">
-    <div class="col-xs-12 col-md-12">
-      <%= f.submit 'Cadastrar', class: 'btn btn-success', data: { disable_with: "Aguarde..." } %>
-    </div>
-  </div>
-
 <% end %>

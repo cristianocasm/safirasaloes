@@ -241,7 +241,6 @@ feature "Services" do
       end
 
       scenario "não exibe lista de serviços de joão", js: true, focus: true do
-        byebug
         within("#table") do
           @joao.services.each do |svc|
             assert page.has_no_content?(svc.nome), 'Serviços de João sendo exibidos para Aline'

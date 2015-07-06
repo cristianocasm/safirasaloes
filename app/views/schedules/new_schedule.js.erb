@@ -7,13 +7,14 @@
       email: '<%= sc.email %>',
       nome: '<%= sc.nome %>',
       telefone: '<%= sc.telefone %>',
-      service: '<%= sc.price.nome %>',
+      price: '<%= sc.price.nome %>',
       start: '<%= sc.datahora_inicio.strftime("%Y-%m-%d %H:%M:%S") %>',
       end:   '<%= sc.datahora_fim.strftime("%Y-%m-%d %H:%M:%S") %>'
     };
   $('#calendar').fullCalendar('removeEvents', <%= sc.id %>);
   $("#calendar").fullCalendar('renderEvent', myEvent);
   $("#myModal").modal('hide');
+  $('div#calendar_feedback').html('<% flash_messages() %>');
 <% elsif sc.errors.added?(:professional_id, :blank) || 
          sc.errors.added?(:price_id, :blank) ||
          sc.errors.added?(:datahora_inicio, :blank) ||

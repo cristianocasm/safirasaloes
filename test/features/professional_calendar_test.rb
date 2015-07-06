@@ -23,7 +23,7 @@ feature "Calendario" do
     assert page.has_css?('#calendar'), 'Agenda não está sendo exibida'
   end
 
-  scenario "profissional pode criar horário", js: true do
+  scenario "profissional pode criar horário receber feedback quando e-mail não informado", js: true, focus: true do
     oneHourAhead = 4.hours.from_now
     twoHoursAhead = 5.hours.from_now
     visit professional_root_path
@@ -44,6 +44,44 @@ feature "Calendario" do
     assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
     assert page.has_no_css?("#myModal", visible: true), "Modal com formulário aparecendo"
     assert page.has_css?("div[data-full='#{oneHourAhead.strftime('%H:00')} - #{twoHoursAhead.strftime('%H:00')}'].fc-time"), 'Não é possível visualizar horário marcado'
+    within('div#calendar_feedback') do
+      assert page.has_css?("div.alert-success", text: I18n.t('schedule.created.success')), "Feedback informando marcação com sucesso não sendo exibido"
+      assert page.has_css?('div.alert-success', text: I18n.t('schedule.created.customer.not_invited', nome_servico: @profAline.services.first.nome).gsub(/<\/?b>/, '')), "Não informando que cliente não foi convidado"
+      assert page.has_link?('Clique aqui para informar um e-mail', href: edit_schedule_path(Schedule.last)), "Não exibindo link para definir e-mail para convite"
+      assert page.has_no_css?("div.alert-success", text: I18n.t('schedule.created.customer.invited', nome_servico: @profAline.services.first.nome).gsub(/<\/?b>/, '')), "Feedback informando convite enviado sendo exibido"
+      assert page.has_no_link?('Clique aqui para ver o convite', href: show_invitation_template_schedule_path(Schedule.last)), "Link para exibição do template sendo exibido"
+    end
+  end
+
+  scenario "profissional pode criar horário receber feedback quando e-mail informado", js: true, focus: true do
+    oneHourAhead = 4.hours.from_now
+    twoHoursAhead = 5.hours.from_now
+    visit professional_root_path
+    find('.fc-agendaWeek-button').click
+    execute_script("
+      $('#calendar').fullCalendar(
+        'select',
+        '#{ oneHourAhead.strftime('%Y-%m-%d %H') }',
+        '#{ twoHoursAhead.strftime('%Y-%m-%d %H') }'
+      )
+    ")
+    fill_in "schedule_nome", with: customers(:cristiano).nome
+    fill_in "schedule_email", with: customers(:cristiano).email
+    select @profAline.services.first.nome, from: :schedule_price_id
+    click_button 'Marcar Horário'
+
+    wait_for_ajax
+
+    assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
+    assert page.has_no_css?("#myModal", visible: true), "Modal com formulário aparecendo"
+    assert page.has_css?("div[data-full='#{oneHourAhead.strftime('%H:00')} - #{twoHoursAhead.strftime('%H:00')}'].fc-time"), 'Não é possível visualizar horário marcado'
+    within('div#calendar_feedback') do
+      assert page.has_css?("div.alert-success", text: I18n.t('schedule.created.success')), "Feedback informando marcação com sucesso não sendo exibido"
+      assert page.has_no_css?('div.alert-success', text: I18n.t('schedule.created.customer.not_invited', nome_servico: @profAline.services.first.nome).gsub(/<\/?b>/, '')), "Não informando que cliente não foi convidado"
+      assert page.has_no_link?('Clique aqui para informar um e-mail', href: edit_schedule_path(Schedule.last)), "Não exibindo link para definir e-mail para convite"
+      assert page.has_css?("div.alert-success", text: I18n.t('schedule.created.customer.invited', nome_servico: @profAline.services.first.nome).gsub(/<\/?b>/, '')), "Feedback informando convite enviado sendo exibido"
+      assert page.has_link?('Clique aqui para ver o convite', href: show_invitation_template_schedule_path(Schedule.last)), "Link para exibição do template sendo exibido"
+    end
   end
 
   scenario "profissional pode encontrar customer por nome, e-mail e telefone", js: true do
@@ -302,7 +340,7 @@ feature "Calendar TypeAhead" do
     assert_equal ct.nome, page.find('#schedule_nome').value, 'schedule_nome não foi preenchido'
   end
 
-  scenario "TypeAhead desconsidera maiúsculas e minúsculas", focus: true, js: true do
+  scenario "TypeAhead desconsidera maiúsculas e minúsculas", js: true do
     ct = customers(:cesar)
     fill_in('schedule_email', with: ct.email[0..5].titleize)
     page.execute_script %Q{ $('#schedule_email').trigger("focus") }

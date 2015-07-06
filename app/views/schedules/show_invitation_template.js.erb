@@ -1,0 +1,10 @@
+<%- sc = @schedule -%>
+
+<% if sc.persisted? %>
+  $("#templateInvitation span#pr_nome").html('<%= sc.professional.nome %>');
+  $("#templateInvitation span#data_inicio").html('<%= sc.datahora_inicio.strftime("%d/%m/%Y") %>');
+  $("#templateInvitation span#hora_inicio").html('<%= sc.datahora_inicio.strftime("%H:%M") %>');
+  $("#templateInvitation span#service_nome").html('<%= sc.price.nome %>');
+  $("#templateInvitation span#customer_email").html('<%= sc.email %>');
+  $("#templateInvitation").modal('show');
+<% end %>

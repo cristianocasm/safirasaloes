@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       resources :statuses
       resources :schedules do
         post :get_last_two_months_scheduled_customers, on: :collection
+        get :show_invitation_template, on: :member
       end
     end
   end

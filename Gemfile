@@ -60,8 +60,8 @@ gem 'devise'
 
 gem 'wicked'
 
-# gem 'thin'
-# gem 'private_pub'
+gem 'thin'
+gem 'private_pub'
 
 gem "bullet", :group => "development"
 

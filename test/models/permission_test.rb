@@ -65,6 +65,7 @@ class PermissionTest < ActiveSupport::TestCase
       assert_not deslogado.allow?("schedules", "get_last_two_months_scheduled_customers"), "Profissional(deslogado) - schedules#get_last_two_months_scheduled_customers - problemas na validação de permissão"
       assert_not deslogado.allow?("schedules", "accept_exchange_order"), "Profissional(deslogado) - schedules#accept_exchange_order - problemas na validação de permissão"
       assert_not deslogado.allow?("schedules", "meus_servicos_por_profissionais"), "Profissional(deslogado) - schedules#meus_servicos_por_profissionais - problemas na validação de permissão"
+      assert_not deslogado.allow?("schedules", "show_invitation_template"), "Profissional(deslogado) - schedules#show_invitation_template - problemas na validação de permissão"
 
       assert deslogado.allow?("customers", "new"), "Profissional(deslogado) - customers#new - problemas na validação de permissão"
       assert_not deslogado.allow?("customers", "update"), "Profissional(deslogado) - customers#update - problemas na validação de permissão"
@@ -152,11 +153,12 @@ class PermissionTest < ActiveSupport::TestCase
       assert _testando.allow?("schedules", "edit"), "Profissional(testando) - schedules#edit - problemas na validação de permissão"
       assert _testando.allow?("schedules", "show"), "Profissional(testando) - schedules#show - problemas na validação de permissão"
       assert _testando.allow?("schedules", "destroy"), "Profissional(testando) - schedules#destroy - problemas na validação de permissão"
-      assert_not bloqueado.allow?("schedules", "new_exchange_order"), "Profissional(testando) - schedules#new_exchange_order - problemas na validação de permissão"
-      assert_not bloqueado.allow?("schedules", "create_exchange_order"), "Profissional(testando) - schedules#create_exchange_order - problemas na validação de permissão"
+      assert_not _testando.allow?("schedules", "new_exchange_order"), "Profissional(testando) - schedules#new_exchange_order - problemas na validação de permissão"
+      assert_not _testando.allow?("schedules", "create_exchange_order"), "Profissional(testando) - schedules#create_exchange_order - problemas na validação de permissão"
       assert _testando.allow?("schedules", "get_last_two_months_scheduled_customers"), "Profissional(testando) - schedules#get_last_two_months_scheduled_customers - problemas na validação de permissão"
       assert_not _testando.allow?("schedules", "accept_exchange_order"), "Profissional(testando) - schedules#accept_exchange_order - problemas na validação de permissão"
       assert_not _testando.allow?("schedules", "meus_servicos_por_profissionais"), "Profissional(testando) - schedules#meus_servicos_por_profissionais - problemas na validação de permissão"
+      assert _testando.allow?("schedules", "show_invitation_template"), "Profissional(testando) - schedules#show_invitation_template - problemas na validação de permissão"
 
       assert_not _testando.allow?("devise/sessions", "new"), "Profissional(testando) - devise/sessions#new - problemas na validação de permissão"
       assert_not _testando.allow?("devise/sessions", "create"), "Profissional(testando) - devise/sessions#create - problemas na validação de permissão"
@@ -277,6 +279,7 @@ class PermissionTest < ActiveSupport::TestCase
       assert_not bloqueado.allow?("schedules", "get_last_two_months_scheduled_customers"), "Profissional(bloqueado) - schedules#get_last_two_months_scheduled_customers - problemas na validação de permissão"
       assert_not bloqueado.allow?("schedules", "accept_exchange_order"), "Profissional(bloqueado) - schedules#accept_exchange_order - problemas na validação de permissão"
       assert_not bloqueado.allow?("schedules", "meus_servicos_por_profissionais"), "Profissional(bloqueado) - schedules#meus_servicos_por_profissionais - problemas na validação de permissão"
+      assert_not bloqueado.allow?("schedules", "show_invitation_template"), "Profissional(bloqueado) - schedules#show_invitation_template - problemas na validação de permissão"
 
       assert_not bloqueado.allow?("devise/sessions", "new"), "Profissional(bloqueado) - devise/sessions#new - problemas na validação de permissão"
       assert_not bloqueado.allow?("devise/sessions", "create"), "Profissional(bloqueado) - devise/sessions#create - problemas na validação de permissão"
@@ -397,6 +400,7 @@ class PermissionTest < ActiveSupport::TestCase
       assert_not suspenso.allow?("schedules", "get_last_two_months_scheduled_customers"), "Profissional(suspenso) - schedules#get_last_two_months_scheduled_customers - problemas na validação de permissão"
       assert_not suspenso.allow?("schedules", "accept_exchange_order"), "Profissional(suspenso) - schedules#accept_exchange_order - problemas na validação de permissão"
       assert_not suspenso.allow?("schedules", "meus_servicos_por_profissionais"), "Profissional(suspenso) - schedules#meus_servicos_por_profissionais - problemas na validação de permissão"
+      assert_not suspenso.allow?("schedules", "show_invitation_template"), "Profissional(suspenso) - schedules#show_invitation_template - problemas na validação de permissão"
 
       assert_not suspenso.allow?("devise/sessions", "new"), "Profissional(suspenso) - devise/sessions#new - problemas na validação de permissão"
       assert_not suspenso.allow?("devise/sessions", "create"), "Profissional(suspenso) - devise/sessions#create - problemas na validação de permissão"
@@ -517,6 +521,7 @@ class PermissionTest < ActiveSupport::TestCase
       assert assinante.allow?("schedules", "get_last_two_months_scheduled_customers"), "Profissional(assinante) - schedules#get_last_two_months_scheduled_customers - problemas na validação de permissão"
       assert_not assinante.allow?("schedules", "accept_exchange_order"), "Profissional(assinante) - schedules#accept_exchange_order - problemas na validação de permissão"
       assert_not assinante.allow?("schedules", "meus_servicos_por_profissionais"), "Profissional(assinante) - schedules#meus_servicos_por_profissionais - problemas na validação de permissão"
+      assert assinante.allow?("schedules", "show_invitation_template"), "Profissional(assinante) - schedules#show_invitation_template - problemas na validação de permissão"
 
       assert_not assinante.allow?("devise/sessions", "new"), "Profissional(assinante) - devise/sessions#new - problemas na validação de permissão"
       assert_not assinante.allow?("devise/sessions", "create"), "Profissional(assinante) - devise/sessions#create - problemas na validação de permissão"
@@ -686,6 +691,7 @@ class PermissionTest < ActiveSupport::TestCase
       assert_not customer.allow?("schedules", "get_last_two_months_scheduled_customers"), "Customer - schedules#get_last_two_months_scheduled_customers - problemas na validação de permissão"
       assert_not customer.allow?("schedules", "accept_exchange_order"), "Customer - schedules#accept_exchange_order - problemas na validação de permissão"
       assert customer.allow?("schedules", "meus_servicos_por_profissionais"), "Customer - schedules#meus_servicos_por_profissionais - problemas na validação de permissão"
+      assert_not customer.allow?("schedules", "show_invitation_template"), "Customer - schedules#show_invitation_template - problemas na validação de permissão"
 
       assert_not customer.allow?("services", "new"), "Customer - services#new - problemas na validação de permissão"
       assert_not customer.allow?("services", "update"), "Customer - services#update - problemas na validação de permissão"

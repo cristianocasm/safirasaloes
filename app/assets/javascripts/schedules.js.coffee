@@ -59,7 +59,7 @@ createTitle = (event) ->
   "#{event.title} <a href='/profissional/schedules/#{event.id}' data-method='delete' data-remote='true'><i class='fa fa-trash-o'></i></a> <a href='/profissional/schedules/#{event.id}/edit' data-remote='true'><i class='fa fa-pencil'></i></a>"
 
 createContent = (event) ->
-  "Nome: #{event.nome}<br/>Tel: #{event.telefone}<br/>Email: #{event.email}<br/>Serviço: #{event.service}"
+  "Nome: #{event.nome}<br/>Tel: #{event.telefone}<br/>Email: #{event.email}<br/>Serviço: #{event.price}"
 
 setPlacement = (event, view) ->
   if view.name == 'month'

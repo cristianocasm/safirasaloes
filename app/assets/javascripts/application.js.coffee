@@ -46,6 +46,7 @@
 #= require jquery.maskedinput.js
 #= require typeahead.bundle
 #= require fuelux
+#= require private_pub
 #= require_tree .
 #= require_self
 

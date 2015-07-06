@@ -1,5 +1,5 @@
 class SchedulesController < ApplicationController
-  before_action :set_schedule, only: [:edit, :update, :destroy]
+  before_action :set_schedule, only: [:edit, :update, :destroy, :show_invitation_template]
 
   # GET /schedules
   # GET /schedules.json
@@ -40,6 +40,7 @@ class SchedulesController < ApplicationController
     @schedule = current_professional.schedules.find_or_initialize_by(id: schedule_params[:id])
     @schedule.assign_attributes(schedule_params)    
     if @schedule.save
+      flash[:success] = generate_success_msg(@schedule)
       current_professional.update_taken_step(horario_cadastrado: true)
     else
       flash.now[:error] = flash_errors(@schedule)
@@ -47,6 +48,12 @@ class SchedulesController < ApplicationController
 
     respond_to do |format|
       format.js { render 'new_schedule' }
+    end
+  end
+
+  def show_invitation_template
+    respond_to do |format|
+      format.js { render 'show_invitation_template' }
     end
   end
 
@@ -109,5 +116,16 @@ class SchedulesController < ApplicationController
                 :observacao,
                 :pago_com_safiras
               )
+    end
+
+    def generate_success_msg(sc)
+      msg = I18n.t('schedule.created.success') + "<br/>"
+      if sc.email.present?
+        msg += I18n.t('schedule.created.customer.invited', nome_servico: sc.price.nome) + " "
+        msg += I18n.t('schedule.created.customer.invitation_template', link: show_invitation_template_schedule_path(sc))
+      else
+        msg += I18n.t('schedule.created.customer.not_invited', nome_servico: sc.price.nome) + " "
+        msg += I18n.t('schedule.created.customer.set_email', link: edit_schedule_path(sc))
+      end
     end
 end

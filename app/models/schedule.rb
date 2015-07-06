@@ -144,14 +144,12 @@ class Schedule < ActiveRecord::Base
       ci = CustomerInvitation.create(email: self.email)
       regUrl = generate_registration_url(ci.token)
       InvitationWorker.perform_async(
-                                      self.professional.id,
                                       self.professional.nome,
                                       self.datahora_inicio.strftime('%d/%m/%Y'),
                                       self.datahora_inicio.strftime('%H:%M'),
                                       self.email,
                                       self.price.nome,
-                                      regUrl,
-                                      self.id
+                                      regUrl
                                     )
     end
   end

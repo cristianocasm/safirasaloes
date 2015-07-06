@@ -60,9 +60,6 @@ gem 'devise'
 
 gem 'wicked'
 
-gem 'thin'
-gem 'private_pub'
-
 gem "bullet", :group => "development"
 
 gem 'rack-mini-profiler', require: false

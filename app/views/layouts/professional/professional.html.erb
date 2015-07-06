@@ -29,6 +29,6 @@
     <%= render "layouts/professional/footer" %>
     <%= javascript_include_tag 'application' %>
     <%= render "layouts/professional/webengage_professional" if Rails.env.production? %>
-    <%= subscribe_to "/professional/email_invitation_problem/#{current_professional.id}" %>
+    <%# subscribe_to "/professional/email_invitation_problem/#{current_professional.id}" %>
   </body>
 </html>

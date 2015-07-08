@@ -10,6 +10,7 @@
 
     <%= stylesheet_link_tag   'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= favicon_link_tag      'favicon.png', rel: "shortcut icon" %>
+    <%= render "layouts/fb_pixel.html" if Rails.env.production? %>
     <%= csrf_meta_tags %>
 
     <!--[if lt IE 9]>

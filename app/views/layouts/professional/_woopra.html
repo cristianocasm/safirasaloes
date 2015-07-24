@@ -7,6 +7,13 @@
 woopra.config({
     domain: 'safirasaloes.com.br'
 });
+// Identify customer
+woopra.identify({
+    email: "<%= current_professional.email %>",
+    name: "<%= current_professional.nome %>"
+});
+ 
+// track
 woopra.track();
 </script>
 <!-- End of Woopra Code -->

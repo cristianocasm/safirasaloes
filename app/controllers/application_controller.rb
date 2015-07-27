@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if resource.instance_of?(Customer) && resource.can_send_photo?
+      flash.clear
       flash[:success] = "Parabéns! Você está habilitado a enviar as fotos do serviço prestado e GANHAR SAFIRAS!"
       new_photo_log_path
     else

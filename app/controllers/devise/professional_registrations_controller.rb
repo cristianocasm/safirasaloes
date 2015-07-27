@@ -12,4 +12,8 @@ class Devise::ProfessionalRegistrationsController < Devise::RegistrationsControl
   def update_resource(resource, params)
     current_professional.update_taken_step(contato_cadastrado: true) if resource.update_without_password(params)
   end
+
+  def after_inactive_sign_up_path_for(resource)
+    new_professional_session_path(signed_up: true)
+  end
 end

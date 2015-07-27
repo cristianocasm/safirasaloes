@@ -13,5 +13,6 @@ signed_up = ->
   vars = query.split('&')
   i = 0
   while i < vars.length
+    i += 1
     pair = vars[i].split('=')
     return true if pair[0] == 'signed_up'

@@ -10,7 +10,8 @@ woopra.config({
 // Identify customer
 woopra.identify({
     email: "<%= current_professional.email %>",
-    name: "<%= current_professional.nome %>"
+    name: "<%= current_professional.nome %>",
+    user_type: 'professional'
 });
  
 // track

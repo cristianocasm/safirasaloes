@@ -226,3 +226,9 @@ pt-BR:
       long: ! '%d de %B de %Y, %H:%M'
       short: ! '%d de %B, %H:%M'
     pm: ''
+  devise
+    professional_confirmations
+      professional
+        confirmed: 'Obrigado! Sua conta foi confirmada com sucesso e você pode agora fazer login.'
+        send_instructions: 'Em breve, você receberá um e-mail com instruções para a confirmação da sua conta.'
+        send_paranoid_instructions: 'Se o seu endereço de e-mail estiver cadastrado, você receberá uma mensagem com instruções para confirmação da sua conta.'

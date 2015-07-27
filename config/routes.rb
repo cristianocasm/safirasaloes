@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   root :to => redirect('/entrar')
     
-  devise_for :professionals, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'profissional/senha', confirmation: 'profissional/confirmar', unlock: 'profissional/desbloquear', sign_up: 'profissional/cadastrar' }, controllers: { sessions: 'sessions', registrations: 'devise/professional_registrations' }
+  devise_for :professionals, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'profissional/senha', confirmation: 'profissional/confirmar', unlock: 'profissional/desbloquear', sign_up: 'profissional/cadastrar' }, controllers: { sessions: 'sessions', registrations: 'devise/professional_registrations', confirmations: 'devise/professional_confirmations' }
   devise_for :customers, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'cliente/senha', confirmation: 'cliente/confirmar', unlock: 'cliente/desbloquear' }, controllers: { sessions: 'sessions', omniauth_callbacks: "customer_omniauth_callbacks" }, skip: ['registrations']
   devise_for :admins, path: "acesso_restrito", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'senha' }
   

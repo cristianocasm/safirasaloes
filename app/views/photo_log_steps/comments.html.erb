@@ -1,3 +1,5 @@
+<%= content_for :title, 'Comentar Fotos | SafiraSalões' %>
+
 <%= form_for :photos, :url => wizard_path, :html => { :method => :put, class: 'form-horizontal' } do |f| -%>
   <% for photo in @photos %>
     <div class="form-group">

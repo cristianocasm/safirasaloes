@@ -31,6 +31,8 @@ cristiano:
   email: cristiano.souza.mendonca@gmail.com
   telefone: '3187827703'
   encrypted_password: <%= Devise.bcrypt(Customer, 'password') %>
+  reset_password_token: <%= OpenSSL::HMAC.hexdigest("SHA256", 'reset_password_token', 'test_token123') %>
+  reset_password_sent_at: <%= Time.now.utc %>
 
 cristiano_com_integracao:
   nome: Cristiano Alencar

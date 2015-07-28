@@ -747,7 +747,7 @@ class PermissionTest < ActiveSupport::TestCase
   end
 
   describe "Admin" do
-    let(:admin)     { Permission.new(admins(:one)) }
+    let(:admin)     { Permission.new(admins(:admin)) }
 
     test "admin" do
       assert admin.allow?("dashboard", "taken_steps"), "Admin - dashboard#taken_steps - problemas na validação de permissão"

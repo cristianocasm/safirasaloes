@@ -6,7 +6,7 @@ jQuery ->
 # Envia para o Woopra um evento informando
 # acerca do cadastro de um profissional.
 track_if_signed_up = ->
-  woopra.track('professional_signed_up') if url_has('signed_up')
+  woopra.track('professional_signed_up', { plan: 'trial' }) if url_has('signed_up')
 
 track_if_confirmed = ->
   woopra.track('professional_confirmed_email') if url_has('email_confirmado')

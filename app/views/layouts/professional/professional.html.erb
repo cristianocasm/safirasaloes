@@ -13,7 +13,6 @@
     <%= render "layouts/fb_pixel.html" if Rails.env.production? %>
     <%= render "layouts/analytics.html" if Rails.env.production? %>
     <%= render "layouts/kissmetrics.html" if Rails.env.production? %>
-    <%= render "layouts/professional/woopra.html" if Rails.env.production? %>
     <%= csrf_meta_tags %>
 
     <!--[if lt IE 9]>
@@ -33,6 +32,7 @@
     <%= render "layouts/professional/footer" %>
     <%= javascript_include_tag 'application' %>
     <%= render "layouts/professional/webengage_professional" if Rails.env.production? %>
+    <%= render "layouts/professional/woopra.html" if Rails.env.production? %>
     <%# subscribe_to "/professional/email_invitation_problem/#{current_professional.id}" %>
   </body>
 </html>

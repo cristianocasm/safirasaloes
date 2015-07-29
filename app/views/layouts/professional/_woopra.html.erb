@@ -17,7 +17,11 @@ woopra.identify({
     whatsapp: "<%= current_professional.whatsapp %>"
 });
  
-// track
-woopra.track();
+// The line above is equivalent to
+woopra.track("pv", {
+    url: window.location.pathname,
+    title: document.title,
+    error: $("div.alert.alert-danger.fade.in li").text()
+});
 </script>
 <!-- End of Woopra Code -->

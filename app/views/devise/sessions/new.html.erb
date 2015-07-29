@@ -1,7 +1,7 @@
 <% content_for :titulo, "Entrar" %>
 <%= content_for :title, 'Entrar | SafiraSalões' %>
 
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { class: "form-horizontal" }) do |f| %>
+<%= form_for(resource, :as => resource_name, :url => session_path(resource_name, logged_in: true), :html => { class: "form-horizontal" }) do |f| %>
   <div class="form-group">
     <label class="control-label col-lg-3" for="inputEmail">Email</label>
     <div class="col-lg-9">

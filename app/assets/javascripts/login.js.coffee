@@ -5,8 +5,7 @@ jQuery ->
       track_if_confirmed()
 
     if is_login_page(document.referrer) && !is_login_page(window.location.href)
-      woopra.track('professional_login') if url_contains('profissional')
-      woopra.track('customer_login') if url_contains('cliente')
+      track_login_event()
 
 # Envia para o Woopra um evento informando
 # acerca do cadastro de um profissional.
@@ -18,6 +17,10 @@ track_if_signed_up = ->
 # profissional
 track_if_confirmed = ->
   woopra.track('professional_confirmed_email') if url_has_param('email_confirmado')
+
+track_login_event = ->
+  woopra.track('professional_login') if url_contains('profissional')
+  woopra.track('customer_login') if url_contains('cliente')
 
 # Encontra na URL parâmetros inseridos para
 # tornar possível o tracking dos eventos do

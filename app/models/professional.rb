@@ -41,10 +41,10 @@
 
 class Professional < ActiveRecord::Base
   # Include default devise modules. Others available are:
-  # :lockable, :timeoutable and :omniauthable
+  # :lockable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
-         :validatable, :confirmable
+         :validatable, :confirmable, :timeoutable
 
   belongs_to :status
   has_many :schedules

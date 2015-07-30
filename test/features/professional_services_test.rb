@@ -78,7 +78,7 @@ feature "Services" do
         assert page.has_css?("button:disabled", text: 'Informe o Nome do Serviço para Prosseguir')
       end
 
-      scenario "edição carrega valores dos campos corretamente serviço", js: true, focus: true do
+      scenario "edição carrega valores dos campos corretamente serviço", js: true do
         srv = @aline.services_ordered.first
         click_link "Editar", href: edit_service_path(srv.id)
         assert page.has_content?("Editar Serviço"), 'Não possui texto "Editar Serviço"'
@@ -240,7 +240,7 @@ feature "Services" do
         end
       end
 
-      scenario "não exibe lista de serviços de joão", js: true, focus: true do
+      scenario "não exibe lista de serviços de joão", js: true do
         within("#table") do
           @joao.services.each do |svc|
             assert page.has_no_content?(svc.nome), 'Serviços de João sendo exibidos para Aline'

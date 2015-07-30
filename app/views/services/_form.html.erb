@@ -3,7 +3,8 @@
     <i class="fa fa-cog fa-spin"></i> Criando Formulário de <%= acao %> de Serviço. Aguarde... <i class="fa fa-cog fa-spin"></i> 
   </h2>
 </div>
-<%= form_for(@service, html: { class: 'form-horizontal service_form', style: "display: none" }) do |f| %>
+
+<%= form_for(@service, as: :service, url: url, html: { class: 'form-horizontal service_form', style: "display: none" }, test: :test ) do |f| %>
   <div class="wizard" data-initialize="wizard" id="myWizard">
     <ul class="steps">
       <li data-step="1" data-name="nome" class="active"><span class="badge">1</span>Cadastrar Serviço<span class="chevron"></span></li>

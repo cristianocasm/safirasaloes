@@ -23,7 +23,7 @@ feature "Calendario" do
     assert page.has_css?('#calendar'), 'Agenda não está sendo exibida'
   end
 
-  scenario "profissional pode criar horário receber feedback quando e-mail não informado", js: true, focus: true do
+  scenario "profissional pode criar horário receber feedback quando e-mail não informado", js: true do
     oneHourAhead = 4.hours.from_now
     twoHoursAhead = 5.hours.from_now
     visit professional_root_path
@@ -39,8 +39,6 @@ feature "Calendario" do
     select @profAline.services.first.nome, from: :schedule_price_id
     click_button 'Marcar Horário'
 
-    wait_for_ajax
-
     assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
     assert page.has_no_css?("#myModal", visible: true), "Modal com formulário aparecendo"
     assert page.has_css?("div[data-full='#{oneHourAhead.strftime('%H:00')} - #{twoHoursAhead.strftime('%H:00')}'].fc-time"), 'Não é possível visualizar horário marcado'
@@ -53,7 +51,7 @@ feature "Calendario" do
     end
   end
 
-  scenario "profissional pode criar horário receber feedback quando e-mail informado", js: true, focus: true do
+  scenario "profissional pode criar horário receber feedback quando e-mail informado", js: true do
     oneHourAhead = 4.hours.from_now
     twoHoursAhead = 5.hours.from_now
     visit professional_root_path
@@ -69,8 +67,6 @@ feature "Calendario" do
     fill_in "schedule_email", with: customers(:cristiano).email
     select @profAline.services.first.nome, from: :schedule_price_id
     click_button 'Marcar Horário'
-
-    wait_for_ajax
 
     assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
     assert page.has_no_css?("#myModal", visible: true), "Modal com formulário aparecendo"
@@ -122,11 +118,11 @@ feature "Calendario" do
     select @profAline.services.first.nome, from: :schedule_price_id
     click_button 'Marcar Horário'
 
-    wait_for_ajax
-
     assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
     assert page.has_css?("#myModal", visible: true), "Modal com formulário não aparecendo"
-    assert page.has_content?("Datahora fim deve estar após Datahora inicio"), "Modal de formulário não exibe msg de erro"
+    within('div#errors') do
+      assert page.has_content?("Datahora fim deve estar após Datahora inicio"), "Modal de formulário não exibe msg de erro"
+    end
   end
 
   scenario "profissional não pode criar horário com início igual ao fim", js: true do
@@ -146,11 +142,11 @@ feature "Calendario" do
     select @profAline.services.first.nome, from: :schedule_price_id
     click_button 'Marcar Horário'
 
-    wait_for_ajax
-
     assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
     assert page.has_css?("#myModal", visible: true), "Modal com formulário não aparecendo"
-    assert page.has_content?("Datahora fim deve estar após Datahora inicio"), "Modal de formulário não exibe msg de erro"
+    within('div#errors') do
+      assert page.has_content?("Datahora fim deve estar após Datahora inicio"), "Modal de formulário não exibe msg de erro"
+    end
   end
 
   scenario "profissional não pode criar horário sem serviço", js: true do
@@ -172,11 +168,11 @@ feature "Calendario" do
     fill_in "schedule_nome", with: customers(:cristiano).nome
     click_button 'Marcar Horário'
 
-    wait_for_ajax
-
     assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
     assert page.has_css?("#myModal", visible: true), "Modal com formulário não aparecendo"
-    assert page.has_content?("Price não pode ficar em branco"), "Modal de formulário não exibe msg de erro"
+    within('div#errors') do
+      assert page.has_content?("Price não pode ficar em branco"), "Modal de formulário não exibe msg de erro"
+    end
   end
 
   scenario "profissional não pode criar horário sem serviço", js: true do
@@ -198,11 +194,11 @@ feature "Calendario" do
     fill_in "schedule_nome", with: customers(:cristiano).nome
     click_button 'Marcar Horário'
 
-    wait_for_ajax
-
     assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
     assert page.has_css?("#myModal", visible: true), "Modal com formulário não aparecendo"
-    assert page.has_content?("Price não pode ficar em branco"), "Modal de formulário não exibe msg de erro"
+    within('div#errors') do
+      assert page.has_content?("Price não pode ficar em branco"), "Modal de formulário não exibe msg de erro"
+    end
   end
 end
 
@@ -223,9 +219,11 @@ end
 
 def suggestion_appears?(field, ctm, method, limit)
   fill_in(field, with: ctm.send(method)[0..limit])
-  page.execute_script %Q{ $('##{field}').trigger("focus") }
-  wait_for_ajax
-  assert_equal ctm.send(method), page.find('div.tt-suggestion').text
+  # page.execute_script %Q{ $('##{field}').trigger("focus") }
+  # wait_for_ajax
+  # assert_equal ctm.send(method), page.find('div.tt-suggestion').text
+  # assert_equal ctm.send(method), page.find('div.tt-suggestion').text
+  assert page.has_selector?('div.tt-suggestion', text: ctm.send(method), :visible => true)
 end
 
 feature "Calendar TypeAhead" do
@@ -332,8 +330,6 @@ feature "Calendar TypeAhead" do
   scenario "escolha de email preenche 'schedule_customer_id', 'schedule_telefone' e 'schedule_nome'", js: true do
     ct = customers(:cesar)
     fill_in('schedule_email', with: ct.email[0..5])
-    page.execute_script %Q{ $('#schedule_email').trigger("focus") }
-    wait_for_ajax
     page.find('div.tt-suggestion').click
     assert_equal ct.id.to_s, page.find('#schedule_customer_id', visible: false).value, 'schedule_customer_id não foi preenchido'
     assert_equal ct.telefone, page.find('#schedule_telefone').value, 'schedule_telefone não foi preenchido'
@@ -343,8 +339,6 @@ feature "Calendar TypeAhead" do
   scenario "TypeAhead desconsidera maiúsculas e minúsculas", js: true do
     ct = customers(:cesar)
     fill_in('schedule_email', with: ct.email[0..5].titleize)
-    page.execute_script %Q{ $('#schedule_email').trigger("focus") }
-    wait_for_ajax
     page.find('div.tt-suggestion').click
     assert_equal ct.id.to_s, page.find('#schedule_customer_id', visible: false).value, 'schedule_customer_id não foi preenchido'
     assert_equal ct.telefone, page.find('#schedule_telefone').value, 'schedule_telefone não foi preenchido'
@@ -355,22 +349,19 @@ feature "Calendar TypeAhead" do
   scenario "escolha de telefone preenche 'schedule_customer_id', 'schedule_telefone' e 'schedule_nome'", js: true do
     ct = customers(:cesar)
     fill_in('schedule_telefone', with: ct.telefone[0..7])
-    page.execute_script %Q{ $('#schedule_telefone').trigger("focus") }
-    wait_for_ajax
     page.find('div.tt-suggestion').click
     assert_equal ct.id.to_s, page.find('#schedule_customer_id', visible: false).value, 'schedule_customer_id não foi preenchido'
     assert_equal ct.telefone, page.find('#schedule_telefone').value, 'schedule_telefone não foi preenchido'
     assert_equal ct.nome, page.find('#schedule_nome').value, 'schedule_nome não foi preenchido'
   end
 
-  scenario "submissão com sucesso limpa formulário", js: true do
+  scenario "submissão com sucesso limpa formulário", js: true, focus: true do
     ct = customers(:cesar)
     fill_in('schedule_telefone', with: ct.telefone[0..7])
-    page.execute_script %Q{ $('#schedule_telefone').trigger("focus") }
-    wait_for_ajax
     page.find('div.tt-suggestion').click
     click_button 'Marcar Horário'
-    wait_for_ajax
+    assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
+    assert page.has_no_css?("#myModal", visible: true), "Modal com formulário aparecendo"
     assert_equal "", page.find("#schedule_nome", visible: false).value, "Nome continua preenchido"
     assert_equal "", page.find("#schedule_email", visible: false).value, "Email continua preenchido"
     assert_equal "", page.find("#schedule_telefone", visible: false).value, "Telefone continua preenchido"
@@ -380,10 +371,9 @@ feature "Calendar TypeAhead" do
   scenario "clique em 'cancelar', no modal com formulário de cadastro, limpa formulário", js: true do
     ct = customers(:cesar)
     fill_in('schedule_telefone', with: ct.telefone[0..7])
-    page.execute_script %Q{ $('#schedule_telefone').trigger("focus") }
-    wait_for_ajax
-    page.find('div.tt-suggestion').click
     click_button 'Cancelar'
+    assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
+    assert page.has_no_css?("#myModal", visible: true), "Modal com formulário aparecendo"
     assert_equal "", page.find("#schedule_nome", visible: false).value, "Nome continua preenchido"
     assert_equal "", page.find("#schedule_email", visible: false).value, "Email continua preenchido"
     assert_equal "", page.find("#schedule_telefone", visible: false).value, "Telefone continua preenchido"
@@ -406,11 +396,8 @@ feature "Calendar TypeAhead" do
 
     ct = customers(:cesar)
     fill_in('schedule_telefone', with: ct.telefone[0..7])
-    page.execute_script %Q{ $('#schedule_telefone').trigger("focus") }
-    wait_for_ajax
     page.find('div.tt-suggestion').click
     click_button 'Marcar Horário'
-    wait_for_ajax
     assert_equal ct.nome, page.find("#schedule_nome", visible: true).value, "Nome apagado"
     assert_equal ct.email, page.find("#schedule_email", visible: true).value, "Email apagado"
     assert_equal ct.telefone, page.find("#schedule_telefone", visible: true).value, "Telefone apagado"
@@ -421,8 +408,6 @@ feature "Calendar TypeAhead" do
     before do
       @ct = customers(:cesar)
       fill_in('schedule_telefone', with: @ct.telefone[0..7])
-      page.execute_script %Q{ $('#schedule_telefone').trigger("focus") }
-      wait_for_ajax
       page.find('div.tt-suggestion').click
     end
 

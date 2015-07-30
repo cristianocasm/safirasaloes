@@ -15,6 +15,7 @@
   $("#calendar").fullCalendar('renderEvent', myEvent);
   $("#myModal").modal('hide');
   $('div#calendar_feedback').html('<% flash_messages() %>');
+  if( ( typeof woopra ) != 'undefined') { woopra.track('appointment_scheduled'); }
 <% elsif sc.errors.added?(:professional_id, :blank) || 
          sc.errors.added?(:price_id, :blank) ||
          sc.errors.added?(:datahora_inicio, :blank) ||

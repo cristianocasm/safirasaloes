@@ -1,2 +1,7 @@
 <%= content_for :title, 'Cadastrar Serviço | SafiraSalões' %>
-<%= render 'form', title: 'Cadastrar Serviço', acao: 'Cadastro' %>
+
+<!-- Instrução abaixo cria condições de fazer o tracking do evento
+  de quando profissional cria seu primeiro serviço.
+-->
+<%- param = current_professional.taken_step.servico_cadastrado? ? nil : { service_created: true } -%>
+<%= render 'form', title: 'Cadastrar Serviço', acao: 'Cadastro', url: services_path(param) %>

@@ -13,7 +13,7 @@
     <%= render "layouts/fb_pixel.html" if Rails.env.production? %>
     <%= render "layouts/analytics.html" if Rails.env.production? %>
     <%= render "layouts/kissmetrics.html" if Rails.env.production? %>
-    <%= render "layouts/professional/fb_convertion_pixel" if Rails.env.production? && !current_professional.taken_step.contato_cadastrado? %>
+    <%# render "layouts/professional/fb_convertion_pixel.html" if Rails.env.production? && !current_professional.taken_step.contato_cadastrado? %>
     <%= csrf_meta_tags %>
 
     <!--[if lt IE 9]>

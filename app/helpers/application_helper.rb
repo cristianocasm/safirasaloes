@@ -9,10 +9,18 @@ module ApplicationHelper
  
   def flash_messages(opts = {})
     flash.each do |msg_type, message|
-      concat(content_tag(:div, message, class: "alert #{bootstrap_class_for(msg_type)} fade in") do 
-              concat content_tag(:button, 'x', class: "close", data: { dismiss: 'alert' })
-              concat message.html_safe
-            end)
+    # Verificação abaixo faz-se necessária já que devise utiliza o comando
+    # flash[:timedout] = true
+    # para fazer verificação quanto a expiração da sessão. Assim sendo,
+    # caso ela não seja realizada, a instrução html_safe é invocada em
+    # um objeto da classe TrueClass, o que ocasiona o lançamento de erro
+    # NoMethodError.
+    unless msg_type.to_sym == :timedout
+        concat(content_tag(:div, message, class: "alert #{bootstrap_class_for(msg_type)} fade in") do 
+                concat content_tag(:button, 'x', class: "close", data: { dismiss: 'alert' })
+                concat message.html_safe
+              end)
+      end
     end
     nil
   end

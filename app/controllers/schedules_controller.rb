@@ -1,3 +1,5 @@
+include WoopraRailsSDK
+
 class SchedulesController < ApplicationController
   before_action :set_schedule, only: [:edit, :update, :destroy, :show_invitation_template]
 
@@ -23,7 +25,16 @@ class SchedulesController < ApplicationController
 
   # GET /schedules/new
   def new
-    current_professional.update_taken_step(tela_cadastro_horario_acessada: true)
+    unless current_professional.taken_step.tela_cadastro_horario_acessada?
+      
+      if Rails.env.production?
+        woopra = WoopraTracker.new(request)
+        woopra.config( domain: "safirasaloes.com.br" )
+        woopra.track('professional_accessed_schedule_page', {}, true)
+      end
+
+      current_professional.update_taken_step(tela_cadastro_horario_acessada: true)
+    end
     @schedule = Schedule.new
   end
 
@@ -41,7 +52,17 @@ class SchedulesController < ApplicationController
     @schedule.assign_attributes(schedule_params)    
     if @schedule.save
       flash[:success] = generate_success_msg(@schedule)
-      current_professional.update_taken_step(horario_cadastrado: true)
+
+      unless current_professional.taken_step.horario_cadastrado?
+      
+        if Rails.env.production?
+          woopra = WoopraTracker.new(request)
+          woopra.config( domain: "safirasaloes.com.br" )
+          woopra.track('appointment_scheduled', {}, true)
+        end
+        
+        current_professional.update_taken_step(horario_cadastrado: true)
+      end
     else
       flash.now[:error] = flash_errors(@schedule)
     end

@@ -33,6 +33,9 @@ gem 'newrelic_rpm'
 
 gem 'custom_error_message', '~> 1.1.1'
 
+# Tracking de eventos de visitantes, clientes e profissionais
+gem 'woopra_tracker', '1.2'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

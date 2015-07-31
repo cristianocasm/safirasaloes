@@ -1,3 +1,5 @@
+include WoopraRailsSDK
+
 class ServicesController < ApplicationController
   before_action :set_service, only: [:show, :edit, :update, :destroy]
 
@@ -28,7 +30,16 @@ class ServicesController < ApplicationController
     @service = current_professional.services.new(service_params)
 
     if @service.save
-      current_professional.update_taken_step(servico_cadastrado: true)
+      unless current_professional.taken_step.servico_cadastrado?
+        
+        if Rails.env.production?
+          woopra = WoopraTracker.new(request)
+          woopra.config( domain: "safirasaloes.com.br" )
+          woopra.track('professional_created_service', {}, true)
+        end
+        
+        current_professional.update_taken_step(servico_cadastrado: true)
+      end
       redirect_to @service, flash: { success: generate_msg }
     else
       flash[:error] = flash_errors(@service)

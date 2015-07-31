@@ -1,3 +1,5 @@
+include WoopraRailsSDK
+
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -13,6 +15,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def after_sign_in_path_for(resource)
+    track_login_event if Rails.env.production?
+    
     if resource.instance_of?(Customer) && resource.can_send_photo?
       flash.clear
       flash[:success] = "Parabéns! Você está habilitado a enviar as fotos do serviço prestado e GANHAR SAFIRAS!"
@@ -51,6 +55,34 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def track_login_event
+    if resource.instance_of?(Professional)
+        woopra = WoopraTracker.new(request)
+        woopra.config( domain: "safirasaloes.com.br" )
+        woopra.identify(
+          email: current_professional.email,
+          name: current_professional.nome,
+          user_type: 'professional',
+          professional_plan: current_professional.status.nome.capitalize,
+          telefone: current_professional.telefone,
+          whatsapp: current_professional.whatsapp
+        )
+        woopra.track('professional_login', {}, true)
+      elsif resource.instance_of?(Customer)
+        woopra = WoopraTracker.new(request)
+        woopra.config( domain: "safirasaloes.com.br" )
+        woopra.identify(
+          email: current_professional.email,
+          name: current_professional.nome,
+          user_type: 'professional',
+          professional_plan: current_professional.status.nome.capitalize,
+          telefone: current_professional.telefone,
+          whatsapp: current_professional.whatsapp
+        )
+        woopra.track('customer_login', {}, true)
+      end
+  end
 
   def authenticate!
     self.send "authenticate_#{resource_name}!" unless ( controller_name.in?(%w[static_pages notifications]) )

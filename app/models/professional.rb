@@ -283,8 +283,7 @@ class Professional < ActiveRecord::Base
   def define_status
     status = Status.find_by_nome('testando')
     self.status_id = status.id
-    # self.data_expiracao_status = Time.zone.now + status.dias_vigencia.days
-    self.data_expiracao_status = Time.zone.now + 60.days
+    self.data_expiracao_status = Time.zone.now + status.dias_vigencia.days
   end
 
 

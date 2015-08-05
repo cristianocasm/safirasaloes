@@ -73,12 +73,8 @@ class ApplicationController < ActionController::Base
         woopra = WoopraTracker.new(request)
         woopra.config( domain: "safirasaloes.com.br" )
         woopra.identify(
-          email: current_professional.email,
-          name: current_professional.nome,
-          user_type: 'professional',
-          professional_plan: current_professional.status.nome.capitalize,
-          telefone: current_professional.telefone,
-          whatsapp: current_professional.whatsapp
+          email: current_customer.email,
+          user_type: 'customer'
         )
         woopra.track('customer_login', {}, true)
       end

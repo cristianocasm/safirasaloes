@@ -90,9 +90,11 @@ class ApplicationController < ActionController::Base
 
   def authorize
     if current_permission.forçar_cadastro_dos_dados_de_contato?(params[:controller], params[:action])
+      track_login_event if Rails.env.production? && request.path == '/entrar'
       redirect_to edit_professional_registration_path, flash: { success: 'Seja bem vindo!!! Como primeiro passo para utilizar todos os recursos que fornecemos, cadastre abaixo suas Informações de Contato e visualize o resultado de suas alterações instantaneamente no simulador.' }
       return
     elsif current_permission.forcar_cadastro_de_servico?(params[:controller], params[:action])
+      track_login_event if Rails.env.production? && request.path == '/entrar'
       redirect_to new_service_path, flash: { success: "Como último passo para utilizar o sistema, cadastre abaixo um dos seus serviços. Isso lhe permitirá utilizar a agenda do Safira Salões - a qual será sua grande amiga daqui pra frente :D" }
       return
     end

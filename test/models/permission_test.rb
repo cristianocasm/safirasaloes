@@ -32,7 +32,7 @@ class PermissionTest < ActiveSupport::TestCase
       assert deslogado.allow?("sessions", "new"), "Profissional(deslogado) - sessions#new - problemas na validação de permissão"
       assert deslogado.allow?("sessions", "create"), "Profissional(deslogado) - sessions#create - problemas na validação de permissão"
       assert deslogado.allow?("sessions", "destroy"), "Profissional(deslogado) - sessions#destroy - problemas na validação de permissão"
-      assert_not deslogado.allow?("customer_omniauth_callbacks", "facebook"), "Profissional(deslogado) - customer_omniauth_callbacks#facebook - problemas na validação de permissão"
+      assert deslogado.allow?("omniauth_callbacks", "facebook"), "Profissional(deslogado) - omniauth_callbacks#facebook - problemas na validação de permissão"
 
       assert deslogado.allow?("devise/passwords", "new"), "Profissional(deslogado) - devise/passwords#new - problemas na validação de permissão"
       assert deslogado.allow?("devise/passwords", "update"), "Profissional(deslogado) - devise/passwords#update - problemas na validação de permissão"
@@ -167,7 +167,7 @@ class PermissionTest < ActiveSupport::TestCase
       assert _testando.allow?("sessions", "new"), "Profissional(testando) - sessions#new - problemas na validação de permissão"
       assert _testando.allow?("sessions", "create"), "Profissional(testando) - sessions#create - problemas na validação de permissão"
       assert _testando.allow?("sessions", "destroy"), "Profissional(testando) - sessions#destroy - problemas na validação de permissão"
-      assert_not _testando.allow?("customer_omniauth_callbacks", "facebook"), "Profissional(testando) - customer_omniauth_callbacks#facebook - problemas na validação de permissão"
+      assert _testando.allow?("omniauth_callbacks", "facebook"), "Profissional(testando) - omniauth_callbacks#facebook - problemas na validação de permissão"
 
       assert _testando.allow?("devise/passwords", "new"), "Profissional(testando) - devise/passwords#new - problemas na validação de permissão"
       assert _testando.allow?("devise/passwords", "update"), "Profissional(testando) - devise/passwords#update - problemas na validação de permissão"
@@ -288,7 +288,7 @@ class PermissionTest < ActiveSupport::TestCase
       assert bloqueado.allow?("sessions", "new"), "Profissional(bloqueado) - sessions#new - problemas na validação de permissão"
       assert bloqueado.allow?("sessions", "create"), "Profissional(bloqueado) - sessions#create - problemas na validação de permissão"
       assert bloqueado.allow?("sessions", "destroy"), "Profissional(bloqueado) - sessions#destroy - problemas na validação de permissão"
-      assert_not bloqueado.allow?("customer_omniauth_callbacks", "facebook"), "Profissional(bloqueado) - customer_omniauth_callbacks#facebook - problemas na validação de permissão"
+      assert bloqueado.allow?("omniauth_callbacks", "facebook"), "Profissional(bloqueado) - omniauth_callbacks#facebook - problemas na validação de permissão"
 
       assert bloqueado.allow?("devise/passwords", "new"), "Profissional(bloqueado) - devise/passwords#new - problemas na validação de permissão"
       assert bloqueado.allow?("devise/passwords", "update"), "Profissional(bloqueado) - devise/passwords#update - problemas na validação de permissão"
@@ -405,7 +405,7 @@ class PermissionTest < ActiveSupport::TestCase
       assert_not suspenso.allow?("devise/sessions", "new"), "Profissional(suspenso) - devise/sessions#new - problemas na validação de permissão"
       assert_not suspenso.allow?("devise/sessions", "create"), "Profissional(suspenso) - devise/sessions#create - problemas na validação de permissão"
       assert_not suspenso.allow?("devise/sessions", "destroy"), "Profissional(suspenso) - devise/sessions#destroy - problemas na validação de permissão"
-      assert_not suspenso.allow?("customer_omniauth_callbacks", "facebook"), "Profissional(suspenso) - customer_omniauth_callbacks#facebook - problemas na validação de permissão"
+      assert suspenso.allow?("omniauth_callbacks", "facebook"), "Profissional(suspenso) - omniauth_callbacks#facebook - problemas na validação de permissão"
 
       assert suspenso.allow?("sessions", "new"), "Profissional(suspenso) - sessions#new - problemas na validação de permissão"
       assert suspenso.allow?("sessions", "create"), "Profissional(suspenso) - sessions#create - problemas na validação de permissão"
@@ -530,7 +530,7 @@ class PermissionTest < ActiveSupport::TestCase
       assert assinante.allow?("sessions", "new"), "Profissional(assinante) - sessions#new - problemas na validação de permissão"
       assert assinante.allow?("sessions", "create"), "Profissional(assinante) - sessions#create - problemas na validação de permissão"
       assert assinante.allow?("sessions", "destroy"), "Profissional(assinante) - sessions#destroy - problemas na validação de permissão"
-      assert_not assinante.allow?("customer_omniauth_callbacks", "facebook"), "Profissional(assinante) - customer_omniauth_callbacks#facebook - problemas na validação de permissão"
+      assert assinante.allow?("omniauth_callbacks", "facebook"), "Profissional(assinante) - omniauth_callbacks#facebook - problemas na validação de permissão"
 
       assert assinante.allow?("devise/passwords", "new"), "Profissional(assinante) - devise/passwords#new - problemas na validação de permissão"
       assert assinante.allow?("devise/passwords", "update"), "Profissional(assinante) - devise/passwords#update - problemas na validação de permissão"
@@ -654,7 +654,7 @@ class PermissionTest < ActiveSupport::TestCase
       assert customer.allow?("sessions", "new"), "Customer - sessions#new - problemas na validação de permissão"
       assert customer.allow?("sessions", "create"), "Customer - sessions#create - problemas na validação de permissão"
       assert customer.allow?("sessions", "destroy"), "Customer - sessions#destroy - problemas na validação de permissão"
-      assert customer.allow?("customer_omniauth_callbacks", "facebook"), "Customer - customer_omniauth_callbacks#facebook - problemas na validação de permissão"
+      assert customer.allow?("omniauth_callbacks", "facebook"), "Customer - omniauth_callbacks#facebook - problemas na validação de permissão"
 
       assert customer.allow?("devise/passwords", "new"), "Customer - devise/passwords#new - problemas na validação de permissão"
       assert customer.allow?("devise/passwords", "update"), "Customer - devise/passwords#update - problemas na validação de permissão"

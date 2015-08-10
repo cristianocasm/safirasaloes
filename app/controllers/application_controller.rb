@@ -66,7 +66,8 @@ class ApplicationController < ActionController::Base
           user_type: 'professional',
           professional_plan: current_professional.status.nome.capitalize,
           telefone: current_professional.telefone,
-          whatsapp: current_professional.whatsapp
+          whatsapp: current_professional.whatsapp,
+          avatar: current_professional.avatar_url
         )
         woopra.track('professional_login', {}, true)
       elsif resource.instance_of?(Customer)

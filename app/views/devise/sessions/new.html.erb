@@ -1,23 +1,31 @@
 <% content_for :titulo, "Entrar" %>
 <%= content_for :title, 'Entrar | SafiraSalões' %>
 
+<div style="text-align: center; margin-top: 5%;">
+  <%= link_to '/auth/facebook?scope=email&action=signup_or_signin', class: 'btn btn-primary btn-lg', style: 'background-color: #3b5998;' do %>
+    <i class='fa fa-facebook'> <span style="padding-left: 20px"><b>Acessar com o Facebook</b></span> </i>
+  <% end %>
+
+  <div class="hr">
+    <div class="text-divider">ou</div>
+  </div>
+</div>
+
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name, login: true), :html => { class: "form-horizontal" }) do |f| %>
   <div class="form-group">
-    <label class="control-label col-lg-3" for="inputEmail">Email</label>
-    <div class="col-lg-9">
+    <div class="col-lg-8 col-lg-offset-2">
       <%= f.text_field :email, class: "form-control", placeholder: "Email" %>
     </div>
   </div>
 
   <div class="form-group">
-    <label class="control-label col-lg-3" for="inputPassword">Senha</label>
-    <div class="col-lg-9">
+    <div class="col-lg-8 col-lg-offset-2">
       <%= f.password_field :password, class: "form-control", placeholder: "Senha" %>
     </div>
   </div>
 
   <div class="form-group">
-    <div class="col-lg-9 col-lg-offset-3">
+    <div class="col-lg-9 col-lg-offset-2">
       <div class="checkbox">
         <label>
           <%= f.check_box :remember_me %> Mantenha-me conectado
@@ -25,9 +33,10 @@
       </div>
     </div>
   </div>
-
-  <div class="col-lg-9 col-lg-offset-3">
-    <%= f.submit 'Entrar',  class: "btn btn-info btn-sm" %>
+  
+  <div class="form-group">
+    <div class="col-lg-9 col-lg-offset-2">
+      <%= f.submit 'Entrar',  class: "btn btn-warning" %>
+    </div>
   </div>
-  <br />
 <% end %>

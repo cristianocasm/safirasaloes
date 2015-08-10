@@ -37,11 +37,18 @@
 #  pagina_facebook        :string(255)
 #  whatsapp               :string(255)
 #  transacao_pagseguro    :string(255)
+#  provider               :string(255)
+#  uid                    :string(255)
+#  oauth_token            :string(255)
+#  oauth_expires_at       :datetime
+#  avatar_url             :string(255)
 #
 
 require 'test_helper'
 
 class ProfessionalTest < ActiveSupport::TestCase
+  should have_db_column(:uid)
+  should have_db_column(:provider)
   should validate_presence_of(:email)
   should belong_to(:status)
   should have_many(:schedules)

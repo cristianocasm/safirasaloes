@@ -29,8 +29,7 @@ class Customer < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
-         :validatable, :omniauthable,
-         :omniauth_providers => [:facebook]
+         :validatable
   has_many :rewards
   has_many :schedules
   has_many :professionals, through: :schedules
@@ -38,6 +37,7 @@ class Customer < ActiveRecord::Base
 
   after_commit :find_last_schedule, unless: Proc.new { |ct| ct.schedule_recovered }
 
+  scope :find_by_provider_and_uid_or_email, -> (provider, uid, email) { where("( ( provider=? AND uid=? ) OR email=? )", provider, uid, email) }
   scope :filter_by_email, -> (query) { select(:id, :nome, :email, :telefone).where("email LIKE '%#{query}%'") }
   scope :filter_by_telefone, -> (query) { select(:id, :nome, :email, :telefone).where("telefone LIKE '%#{query}%'") }
 

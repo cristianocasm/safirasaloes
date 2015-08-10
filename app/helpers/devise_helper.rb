@@ -20,8 +20,8 @@ module DeviseHelper
     action = params[:action]
 
     ( contro == 'devise/passwords' && action.in?(%w[edit update]) ) ||
-    ( contro == 'customer' && action.in?(%w[new]) ) ||
-    ( contro == 'sessions' && action.in?(%w[new]) )
+    ( contro == 'customers' && action.in?(%w[new create]) ) ||
+    ( contro == 'sessions' && action.in?(%w[new create]) )
 
     # request.path.in?(
     #   [

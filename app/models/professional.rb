@@ -37,6 +37,11 @@
 #  pagina_facebook        :string(255)
 #  whatsapp               :string(255)
 #  transacao_pagseguro    :string(255)
+#  provider               :string(255)
+#  uid                    :string(255)
+#  oauth_token            :string(255)
+#  oauth_expires_at       :datetime
+#  avatar_url             :string(255)
 #
 
 class Professional < ActiveRecord::Base
@@ -77,6 +82,22 @@ class Professional < ActiveRecord::Base
   scope :count_tela_cadastro_horario_acessada, -> (start, hend) { joins(:taken_step).where("(professionals.created_at BETWEEN '#{start}' AND '#{hend}') AND taken_steps.tela_cadastro_horario_acessada = true").order("DATE(professionals.created_at) ASC").group("DATE(professionals.created_at)").count }
   scope :count_horario_cadastrado, -> (start, hend) { joins(:taken_step).where("(professionals.created_at BETWEEN '#{start}' AND '#{hend}') AND taken_steps.horario_cadastrado = true").order("DATE(professionals.created_at) ASC").group("DATE(professionals.created_at)").count }
   # Fim Scopes Para Geração de Relatórios
+
+  def self.find_by_provider_and_uid_or_email(provider, uid, email)
+    professional = self.where("( ( provider=? AND uid=? ) OR email=? )", provider, uid, email).try(:first)
+    
+    # Ao invés de apenas retornar o profissional encontrado,
+    # verifico se ele já confirmou o e-mail (necessário quando)
+    # cadastro é realizado manualmente. Caso não, atualizo essa
+    # informação para que ele não tenha que realizar esse processo.
+    if professional.present?
+      if professional.confirmed_at.present?
+        professional
+      else
+        professional.tap { |prof| prof.update_attribute(:confirmed_at, Time.now) }
+      end
+    end
+  end
 
   def self.taken_steps_report(start, hend)
     cad = count_cadastros(start, hend)
@@ -185,6 +206,19 @@ class Professional < ActiveRecord::Base
   def status_equal_to?(status)
     update_status
     self.status.nome == status.to_s
+  end
+
+  def self.create_with_omniauth(auth)
+    create! do |professional|
+      professional.provider = auth.provider
+      professional.uid = auth.uid
+      professional.oauth_token = auth.credentials.token
+      professional.oauth_expires_at =  Time.at(auth.credentials.expires_at)
+      professional.email = auth.info.email
+      professional.password = professional.password_confirmation = SecureRandom.urlsafe_base64(32)
+      professional.confirmed_at = Time.now
+      professional.avatar_url = auth.info.image
+    end
   end
 
   private

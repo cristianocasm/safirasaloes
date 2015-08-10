@@ -5,6 +5,7 @@ class Permission < Struct.new(:resource)
     return true if controller == "customers" && action.in?(%w[new create])
     return true if controller == "devise/professional_registrations" && action.in?(%w[new create])
     return true if controller == "sessions" && action.in?(%w[new create destroy])
+    return true if controller == "omniauth_callbacks" && action.in?(%w[facebook])
     return true if controller == "devise/professional_confirmations" && action.in?(%w[new create show])
     return true if controller == "devise/passwords" && action.in?(%w[new create edit update])
     if resource.instance_of? Professional
@@ -65,7 +66,6 @@ class Permission < Struct.new(:resource)
   def customer_permission(controller, action)
     return true if controller.in?(%w[photo_logs]) && action.in?(%w[create new index destroy send_to_fb])
     return true if controller.in?(%w[schedules]) && action.in?(%w[meus_servicos_por_profissionais])
-    return true if controller.in?(%w[customer_omniauth_callbacks]) && action.in?(%w[facebook])
     return true if controller.in?(%w[photo_log_steps]) && action.in?(%w[index show update])
     return false
   end

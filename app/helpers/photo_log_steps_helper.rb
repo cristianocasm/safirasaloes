@@ -74,7 +74,7 @@ module PhotoLogStepsHelper
             end
           )
           concat(
-            link_to(customer_omniauth_authorize_path(:facebook), class: 'btn btn-block btn-primary') do
+            link_to('/auth/facebook?scope=publish_actions&action=publish_photos', class: 'btn btn-block btn-primary') do
               concat content_tag(:i, nil, class: 'fa fa-facebook-official')
               concat content_tag(:span, ' OK! Publique Minhas Fotos!')
             end

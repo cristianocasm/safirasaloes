@@ -14,7 +14,8 @@ woopra.identify({
     user_type: 'professional',
     professional_plan: "<%= current_professional.status.nome.capitalize %>",
     telefone: "<%= current_professional.telefone %>",
-    whatsapp: "<%= current_professional.whatsapp %>"
+    whatsapp: "<%= current_professional.whatsapp %>",
+    avatar: "<%= current_professional.avatar_url %>"
 });
  
 // The line above is equivalent to

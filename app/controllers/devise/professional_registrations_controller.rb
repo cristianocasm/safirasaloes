@@ -12,16 +12,19 @@ class Devise::ProfessionalRegistrationsController < Devise::RegistrationsControl
   protected
 
   def update_resource(resource, params)
-    if resource.update_without_password(params) && !current_professional.taken_step.contato_cadastrado?
+    resource.tap do |rsc|
+      if rsc.update_without_password(params) && !resource.taken_step.contato_cadastrado?
       
-      if Rails.env.production?
-        woopra = WoopraTracker.new(request)
-        woopra.config( domain: "safirasaloes.com.br" )
-        woopra.track('professional_defined_contact', {}, true)
+        if Rails.env.production?
+          woopra = WoopraTracker.new(request)
+          woopra.config( domain: "safirasaloes.com.br" )
+          woopra.track('professional_defined_contact', {}, true)
+        end
+        
+        resource.update_taken_step(contato_cadastrado: true)
       end
-      
-      current_professional.update_taken_step(contato_cadastrado: true)
     end
+    
   end
 
   # Registra no woopra evento relacionado ao cadastro

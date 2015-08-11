@@ -15,7 +15,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def after_sign_in_path_for(resource)
-    track_login_event if Rails.env.production?
+    track_signup_event(resource) if Rails.env.production? && resource.sign_in_count == 1
+    track_login_event(resource) if Rails.env.production?
     
     if resource.instance_of?(Customer) && resource.can_send_photo?
       flash.clear
@@ -56,29 +57,41 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def track_login_event
+  def track_login_event(resource)
     if resource.instance_of?(Professional)
         woopra = WoopraTracker.new(request)
         woopra.config( domain: "safirasaloes.com.br" )
         woopra.identify(
-          email: current_professional.email,
-          name: current_professional.nome,
+          email: resource.email,
+          name: resource.nome,
           user_type: 'professional',
-          professional_plan: current_professional.status.nome.capitalize,
-          telefone: current_professional.telefone,
-          whatsapp: current_professional.whatsapp,
-          avatar: current_professional.avatar_url
+          professional_plan: resource.status.nome.capitalize,
+          telefone: resource.telefone,
+          whatsapp: resource.whatsapp,
+          avatar: resource.avatar_url
         )
         woopra.track('professional_login', {}, true)
       elsif resource.instance_of?(Customer)
         woopra = WoopraTracker.new(request)
         woopra.config( domain: "safirasaloes.com.br" )
         woopra.identify(
-          email: current_customer.email,
+          email: resource.email,
           user_type: 'customer'
         )
         woopra.track('customer_login', {}, true)
       end
+  end
+
+  def track_signup_event(resource)
+    woopra = WoopraTracker.new(request)
+    woopra.config( domain: "safirasaloes.com.br" )
+    woopra.identify(
+      email: resource.email,
+      user_type: 'professional',
+      professional_plan: resource.status.nome.capitalize,
+      avatar: resource.avatar_url
+    )
+    woopra.track('professional_signed_up', { plan: 'trial' }, true)
   end
 
   def authenticate!

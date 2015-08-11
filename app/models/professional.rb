@@ -215,7 +215,6 @@ class Professional < ActiveRecord::Base
       professional.oauth_token = auth.credentials.token
       professional.oauth_expires_at =  Time.at(auth.credentials.expires_at)
       professional.email = auth.info.email
-      professional.password = professional.password_confirmation = SecureRandom.urlsafe_base64(32)
       professional.confirmed_at = Time.now
       professional.avatar_url = auth.info.image
     end
@@ -320,6 +319,18 @@ class Professional < ActiveRecord::Base
     self.data_expiracao_status = Time.zone.now + status.dias_vigencia.days
   end
 
+  # Sobrescrevendo método que ativa validações no e-mail
+  # para que e-mail não seja obrigatório nos casos onde
+  # cadastro é realizado com sistemas de terceiros.
+  def email_required?
+    super && provider.blank? && uid.blank?
+  end
 
+  # Sobrescrevendo método que ativa validações no password
+  # para que password não seja obrigatório nos casos onde
+  # cadastro é realizado com sistemas de terceiros.
+  def password_required?
+    super && provider.blank? && uid.blank?
+  end
 end
 

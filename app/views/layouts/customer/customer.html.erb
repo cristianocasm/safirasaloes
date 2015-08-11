@@ -11,8 +11,6 @@
     <%= stylesheet_link_tag   'application', media: 'all' %>
     <%= favicon_link_tag      'favicon.png', rel: "shortcut icon" %>
     <%= render "layouts/fb_pixel.html" if Rails.env.production? %>
-    <%= render "layouts/analytics.html" if Rails.env.production? %>
-    <%= render "layouts/kissmetrics.html" if Rails.env.production? %>
     <%= render "layouts/customer/woopra.html" if Rails.env.production? %>
     <%= csrf_meta_tags %>
 

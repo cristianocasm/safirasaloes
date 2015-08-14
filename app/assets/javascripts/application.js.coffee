@@ -65,6 +65,15 @@ $(document).on 'click, focus', 'input:text.telefone', ->
   mask = if elm.val().length > 14 then "(99) 99999-9999" else "(99) 9999-9999?9"
   elm.mask(mask, placeholder)
 
+# Aplica máscara aos campos de recompensa
+$(document).on 'click, focus', 'input:text.recompensa', ->
+  $(this).maskMoney({
+    suffix: ' safiras',
+    precision: 0,
+    affixesStay: false,
+    thousands: ''
+    })
+
 # Aplica máscara aos campos de telefone
 $(document).on('focusout', 'input:text.telefone', ->
   phone = undefined

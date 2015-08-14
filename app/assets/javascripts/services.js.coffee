@@ -27,6 +27,9 @@ jQuery ->
     else
       true
 
+  $('form').on 'click', '.recompensa', (event) ->
+    $(this).select()
+
   # Habilita botão "próximo" no wizard de cadastro de serviço quando
   # nome do serviço é informado.
   $('form #service_nome').bind "propertychange change click keyup input paste", ->

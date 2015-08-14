@@ -15,6 +15,18 @@ jQuery ->
     active_popovers()
     event.preventDefault()
 
+  # Caso o formulário seja submetido (com o pressionamento do botão
+  # "enter", por exemplo) estando o profissional ainda no passo 1
+  # do wizard, então, caso o nome do serviço tenha sido informado,
+  # o profissional é repassado ao passo 2 do wizard.
+  $('form').submit ->
+    if $('#myWizard').wizard('selectedItem').step == 1
+      if $("form #service_nome").val() != ""
+        $('#myWizard').wizard('next')
+      false
+    else
+      true
+
   # Habilita botão "próximo" no wizard de cadastro de serviço quando
   # nome do serviço é informado.
   $('form #service_nome').bind "propertychange change click keyup input paste", ->

@@ -7,7 +7,7 @@
     <tr>
       <th>Nome</th>
       <th>Preco</th>
-      <th>Recompensa (Safiras)</th>
+      <th>Recompensa Divulgação</th>
       <th>Ações</th>
     </tr>
   </thead>
@@ -18,7 +18,7 @@
         <td><%= service.nome %></td>
         <% if service.preco_fixo %>
           <td><%= number_to_currency(service.prices.first.preco) %></td>
-          <td><%= service.prices.first.recompensa_divulgacao %></td>
+          <td><%= rec = service.prices.first.recompensa_divulgacao; pluralize(rec, 'safira') %> (<%= number_to_currency(rec / 2) %>)</td>
         <% else %>
           <td><i>Clique para ver os preços</i></td>
           <td><i>Clique para ver as recompensas</i></td>
@@ -47,8 +47,8 @@
                 <%= number_to_currency(price.preco) %>
               </p>
               <p class="padd-left">
-                <strong>Recompensa Por Divulgação (Safiras):</strong>
-                <%= price.recompensa_divulgacao %>
+                <strong>Recompensa Por Divulgação:</strong>
+                <%= rec = price.recompensa_divulgacao; pluralize(rec, 'safira') %> (<%= number_to_currency(rec / 2) %>)
               </p>
             <% end %>
           </td>

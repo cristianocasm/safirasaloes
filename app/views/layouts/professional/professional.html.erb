@@ -11,7 +11,9 @@
     <%= stylesheet_link_tag   'application', media: 'all' %>
     <%= favicon_link_tag      'favicon.png', rel: "shortcut icon" %>
     <%= render "layouts/fb_pixel.html" if Rails.env.production? %>
-    <%= render "layouts/professional/fb_convertion_pixel.html" if Rails.env.production? && !current_professional.taken_step.contato_cadastrado? %>
+    <!-- Se profissional ainda não cadastrou informações de contato e não há errors na edição de suas informações, quer dizer
+    que ele está acessando a tela de edição das informações de contato pela primeira vez. Logo, pixel do FB tem que ser carregado para contabilizar conversão  -->
+    <%= render "layouts/professional/fb_convertion_pixel.html" if Rails.env.production? && !current_professional.taken_step.contato_cadastrado? && resource && resource.errors.blank? %>
     <%= csrf_meta_tags %>
 
     <!--[if lt IE 9]>

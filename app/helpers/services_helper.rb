@@ -64,7 +64,7 @@ module ServicesHelper
   def get_prices_and_fields(f, preco_fixo)
     obj = f.object
     prices = insert_price_fields(f, preco_fixo) if ( (obj.persisted? || obj.errors.present?) && ( obj.preco_fixo == preco_fixo ) )
-    fields = yield unless obj.persisted? && obj.preco_fixo && preco_fixo
+    fields = yield unless (obj.persisted? || obj.errors.present?) && obj.preco_fixo && preco_fixo
     { prices: prices, fields: fields }
   end
 

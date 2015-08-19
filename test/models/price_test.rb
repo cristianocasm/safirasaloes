@@ -19,9 +19,9 @@ class PriceTest < ActiveSupport::TestCase
   should have_many(:schedules)
   should belong_to(:service)
   should validate_presence_of(:descricao).with_message('^Informe uma descrição para cada Preço')
-  should validate_presence_of(:preco)
-  should validate_numericality_of(:preco).is_greater_than(0).with_message('^Preço deve ser um número maior que 0')
-  should validate_numericality_of(:recompensa_divulgacao).only_integer.is_greater_than_or_equal_to(0).allow_nil
+  # should validate_presence_of(:preco)
+  should validate_numericality_of(:preco).is_greater_than(0).with_message(I18n.t('price.deve_ser_positivo'))
+  should validate_numericality_of(:recompensa_divulgacao).only_integer.is_greater_than_or_equal_to(0).allow_nil.with_message(I18n.t('price.recompensa_deve_ser_positivo_ou_zero'))
   # Não consegui fazer o teste abaixo
   # should validate_uniqueness_of(:descricao).scoped_to(:service_id)
 

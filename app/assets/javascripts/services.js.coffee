@@ -13,6 +13,7 @@ jQuery ->
     regexp = new RegExp($(this).data('id'), 'g')
     $(this).before($(this).data('fields').replace(regexp, time))
     active_popovers()
+    active_calculator()
     event.preventDefault()
 
   # Caso o formulário seja submetido (com o pressionamento do botão
@@ -84,6 +85,7 @@ create_preco_fixo_fields = (t) ->
   $('div#fields').prepend($(t).data('prices'))
   $('input[type="submit"]').val('Salvar Serviço e Preço')
   active_popovers()
+  active_calculator()
   
 create_preco_variavel_fields = (t) ->
   time = new Date().getTime()
@@ -93,6 +95,13 @@ create_preco_variavel_fields = (t) ->
   $('div#fields').html($(t).data('fields').replace(regexp, time))
   $('div#fields').prepend($(t).data('prices'))
   $('input[type="submit"]').val('Salvar Serviço e Preços')
+  active_calculator()
 
 active_popovers = () ->
   $('[data-toggle="popover"]').popover()
+
+active_calculator = ->
+  $('form .recompensa').bind 'propertychange change click keyup input paste', (event) ->
+    saf = $(this).val().match(/\d+/)[0]
+    cred = parseFloat(saf / 2).toFixed(2)
+    $(this).parent().siblings().text("#{saf} safiras equivalem a R$ #{cred} em créditos que seus clientes poderão trocar por seus serviços")

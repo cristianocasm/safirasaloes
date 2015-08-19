@@ -12,7 +12,7 @@
 
   <div class='row'>
     <div class="form-group">
-      <%= f.label :recompensa_divulgacao, 'Recompensa Por Divulgação (Safiras):', class: 'control-label col-lg-2' %>
+      <%= f.label :recompensa_divulgacao, 'Recompensa Por Divulgação:', class: 'control-label col-lg-2' %>
       <span>
       <i class="fa fa-question-circle dica" tabindex="0" role="button" data-toggle="popover" data-container="body" data-placement="bottom" data-html="true" style="color: dodgerblue;" title="Defina a Recompensa por Divulgação" data-content="Safiras é a forma através da qual você <b>fideliza</b> seus clientes e também os estimula a <b>divulgar o seu trabalho</b>.<br />
 
@@ -32,6 +32,8 @@
       <div class="col-lg-4">
         <div class="padd-left">
           <%= f.text_field :recompensa_divulgacao, class: "form-control input-sm recompensa", placeholder: "Exemplo: 10 safiras" %>
+        </div>
+        <div class="padd-left calculo">
         </div>
       </div>
     </div>

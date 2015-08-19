@@ -19,8 +19,8 @@
       <%= number_to_currency(price.preco) %>
     </p>
     <p <%= "class=padd-left2x" unless @service.preco_fixo %>>
-      <strong>Recompensa Por Divulgação (Safiras):</strong>
-      <%= price.recompensa_divulgacao %>
+      <strong>Recompensa Por Divulgação:</strong>
+      <%= rec = price.recompensa_divulgacao; pluralize(rec, 'safira') %> (<%= number_to_currency(rec / 2) %>)
     </p>
   <% end %>
 

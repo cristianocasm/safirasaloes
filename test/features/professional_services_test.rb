@@ -400,7 +400,7 @@ feature "Services" do
         click_link "Definir Novo Preço"
         fill_in 'Descrição', with: 'Descrição 1'
         fill_in 'Preço', with: 10
-        fill_in 'Recompensa Por Divulgação (Safiras)', with: 1
+        fill_in 'Recompensa Por Divulgação', with: 1
         
         assert_no_difference('Price.count') do
           assert_no_difference('Service.count') do

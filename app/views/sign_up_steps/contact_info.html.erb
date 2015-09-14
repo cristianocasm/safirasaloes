@@ -1,0 +1,42 @@
+<%= content_for :title, 'Cadastrar | SafiraSalões' %>
+
+<!-- Login form -->
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, class: "sign-in form-horizontal shadow rounded no-overflow" }) do |f| %>
+    <div class="sign-header">
+      <div class="form-group">
+        <div class="sign-text">
+          <% if current_professional.avatar_url.present? %>
+            <%= image_tag current_professional.avatar_url, class: "img-circle" %>
+            <p style="text-transform: none;"><strong><%= current_professional.nome %></strong>, informe os telefones onde seus futuros clientes marcarão horários</p>
+          <% else %>
+          <p style="text-transform: none;">Informe os telefones onde seus futuros clientes marcarão horários</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="sign-body">
+      <div class="form-group">
+        <div class="input-group input-group-lg rounded no-overflow">
+          <%= f.text_field :nome, class: "form-control input-sm", placeholder: "Nome", autofocus: true %>
+          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+        </div>
+      </div><!-- /.form-group -->
+      <div class="form-group">
+        <div class="input-group input-group-lg rounded no-overflow">
+          <%= f.text_field :telefone, class: "form-control input-sm telefone", placeholder: 'Telefone para marcar horário' %>
+          <span class="input-group-addon"><i class="fa fa-mobile"></i></span>
+        </div>
+      </div><!-- /.form-group -->
+      <div class="form-group">
+        <div class="input-group input-group-lg rounded no-overflow">
+          <%= f.text_field :whatsapp, class: "form-control input-sm telefone", placeholder: 'WhatsApp para marcar horário' %>
+          <span class="input-group-addon"><i class="fa fa-whatsapp"></i></span>
+        </div>
+      </div><!-- /.form-group -->
+    </div><!-- /.sign-body -->
+    <div class="sign-footer">
+      <div class="form-group">
+        <%= button_tag 'Quero Clientes AGORA!', class: "btn btn-theme btn-lg btn-block no-margin rounded", id: "login-btn", type: 'submit' %>
+      </div><!-- /.form-group -->
+    </div><!-- /.sign-footer -->
+<% end %><!-- /.form-horizontal -->

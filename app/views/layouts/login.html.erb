@@ -12,6 +12,12 @@
     <%= favicon_link_tag      'favicon.png', rel: "shortcut icon" %>
     <%= render "layouts/fb_pixel.html" if Rails.env.production? %>
     <%= render "layouts/woopra.html" if Rails.env.production? %>
+    <%= render "layouts/hotjar.html" if Rails.env.production? %>
+
+    <!-- Se profissional ainda não cadastrou informações de contato e não há errors na edição de suas informações, quer dizer
+    que ele está acessando a tela de edição das informações de contato pela primeira vez. Logo, pixel do FB tem que ser carregado para contabilizar conversão  -->
+    <%= render "layouts/professional/fb_convertion_pixel.html" if Rails.env.production? && sign_up_step_path(:contact_info) == request.path && !current_professional.contato_definido && current_professional.errors.blank? %>
+
     <%= csrf_meta_tags %>
 
     <!--[if lt IE 9]>
@@ -20,36 +26,30 @@
   </head>
 
   <body>
-    <!-- Form area -->
-    <div class="admin-form">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <%= "*Área de <strong>#{label_name}</strong>. #{link_to 'Clique aqui', nil, href: toggle_scope_path()} caso você seja um <strong>#{toggle_resource_name('pt')}</strong>.".html_safe unless prohibited_path %>
-            <!-- Widget starts -->
-            <div class="widget worange">
-              <!-- Widget head -->
-              <div class="widget-head">
-                <i class="fa fa-lock"></i> <%= yield :titulo %>
-              </div>
 
-              <div class="widget-content">
-                <div class="padd">
-                  <% devise_error_messages! %>
-                  <% flash_messages %>
-                  <%= yield %>
-                </div>
-              </div>
-              
-              <div class="widget-foot">
-                <%= render "devise/shared/links" %>
-              </div>
-            </div>  
-          </div>
-        </div>
-      </div> 
-    </div>
-    <!-- JS -->
-    <%= javascript_include_tag 'application' %>
-  </body>
-</html>
+        <!--[if lt IE 9]>
+        <p class="upgrade-browser">Oppsss!! Você está usando um navegador <strong>desatualizado</strong>. Por favor <a href="http://browsehappy.com/" target="_blank">atualize seu navegador</a> para melhor utilizar nosso sistema.</p>
+        <![endif]-->
+
+        <!-- START @SIGN WRAPPER -->
+        <div id="sign-wrapper">
+
+            <!-- Brand -->
+            <div class="brand">
+              <%= image_tag "logo220x100.png", alt: 'SafiraSalões' %>
+            </div>
+            <!--/ Brand -->
+
+            
+            <% devise_error_messages! %>
+            <% flash_messages %>
+            <%= yield %>
+
+            <!-- Content text -->
+            <!--/ Content text -->
+
+        </div><!-- /#sign-wrapper -->
+        <!--/ END SIGN WRAPPER -->
+        <%= javascript_include_tag 'application' %>
+    </body>
+    <!-- END BODY -->

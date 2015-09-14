@@ -2,6 +2,6 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$(document).on 'submit', 'form#new_customer', ->
-  $("#customer_email").prop('disabled', false)
-  true
+# $(document).on 'submit', 'form#new_customer', ->
+#   $("#customer_telefone").prop('disabled', false)
+#   true

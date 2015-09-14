@@ -3,7 +3,7 @@
 # Table name: professionals
 #
 #  id                     :integer          not null, primary key
-#  email                  :string(255)      default(""), not null
+#  email                  :string(255)      default("")
 #  encrypted_password     :string(255)      default(""), not null
 #  reset_password_token   :string(255)
 #  reset_password_sent_at :datetime
@@ -54,6 +54,7 @@ class Professional < ActiveRecord::Base
   belongs_to :status
   has_many :schedules
   has_many :services
+  has_many :prices, through: :services
   has_many :rewards
   has_one :taken_step
 
@@ -97,6 +98,10 @@ class Professional < ActiveRecord::Base
         professional.tap { |prof| prof.update_attribute(:confirmed_at, Time.now) }
       end
     end
+  end
+
+  def creating_first_service?
+    self.services.size == 0
   end
 
   def self.taken_steps_report(start, hend)
@@ -217,6 +222,7 @@ class Professional < ActiveRecord::Base
       professional.email = auth.info.email
       professional.confirmed_at = Time.now
       professional.avatar_url = auth.info.image
+      professional.nome = auth.extra.raw_info.first_name
     end
   end
 

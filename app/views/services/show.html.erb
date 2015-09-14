@@ -1,29 +1,50 @@
 <%= content_for :title, 'Consultar Serviço | SafiraSalões' %>
 <p id="notice"><%= notice %></p>
 
-<h1>
-  Consultar Serviço
-</h1>
-
-<p>
-  <strong>Nome:</strong>
-  <%= @service.nome %>
-</p>
-
-  <% @service.prices_ordered.each do |price| %>
-    <p <%= "class=padd-left" unless @service.preco_fixo %>>
-      <strong><%= "#{price.descricao}:" unless @service.preco_fixo %></strong>
-    </p>
-    <p <%= "class=padd-left2x" unless @service.preco_fixo %>>
-      <strong>Preço</strong>
-      <%= number_to_currency(price.preco) %>
-    </p>
-    <p <%= "class=padd-left2x" unless @service.preco_fixo %>>
-      <strong>Recompensa Por Divulgação:</strong>
-      <%= rec = price.recompensa_divulgacao; pluralize(rec, 'safira') %> (<%= number_to_currency(rec / 2) %>)
-    </p>
-  <% end %>
+<fieldset class="border-left dotted green">
+  <div class="form-group col-sm-12">
+    <strong class="col-sm-2">Nome:</strong>
+    <div class="col-sm-4">
+      <%= @service.nome %>
+    </div>
+  </div>
+</fieldset>
 
 
-<%= link_to 'Editar', edit_service_path(@service) %> |
-<%= link_to 'Voltar', services_path %>
+<% @service.prices_ordered.each do |price| %>
+  <fieldset class="border-left dotted orange mt-30">
+    <% unless @service.preco_fixo %>
+      <div class="form-group col-sm-12">
+        <strong class="col-sm-2">Descrição: </strong>
+        <div class="col-sm-6">
+          <%= price.descricao %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="form-group col-sm-12">
+      <strong class="col-sm-2">Preço: </strong>
+      <div class="col-sm-4">
+        <%= number_to_currency(price.preco) %>
+      </div>
+    </div>
+
+    <div class="form-group col-sm-12">
+      <strong class="col-sm-2">Recompensa Por Divulgação: </strong>
+      <div class="col-sm-4">
+        <%= rec = price.recompensa_divulgacao; pluralize(rec, 'safira') %> (<%= number_to_currency(rec / 2) %>)
+      </div>
+    </div>
+  </fieldset>
+<% end %>
+
+<div class="panel-footer mt-30">
+  <ul class="pager wizard no-margin">
+    <li class="mr-15">
+      <%= link_to 'Voltar', services_path, class: 'btn btn-warning btn-lg', data: { disable_with: "Voltar" } %>
+    </li>
+    <li>
+      <%= link_to 'Editar', edit_service_path(@service), class: "btn btn-success btn-lg btn-next" %>
+    </li>
+  </ul>
+</div>

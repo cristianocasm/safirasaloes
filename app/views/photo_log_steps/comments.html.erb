@@ -11,12 +11,18 @@
       </div>
     </div>
   <% end %>
-  <p>
-    <%= link_to new_photo_log_path, class: 'btn btn-warning' do %>
-      <span><i class="fa fa-angle-double-left"></i></span> Voltar
-    <% end %>
-    <%= button_tag type: 'submit', class: 'btn btn-success' do %>
-      Próximo Passo <span><i class="fa fa-angle-double-right"></i></span>
-    <% end %>
-  </p>
+  <div class="panel-footer mt-30">
+    <ul class="pager wizard no-margin">
+      <li class="mr-15">
+        <%= link_to new_photo_log_path, class: 'btn btn-warning btn-lg' do %>
+          <span><i class="fa fa-angle-double-left"></i></span> Voltar
+        <% end %>
+      </li>
+      <li>
+        <%= button_tag type: 'submit', class: 'btn btn-success btn-lg' do %>
+          Próximo Passo <span><i class="fa fa-angle-double-right"></i></span>
+        <% end %>
+      </li>
+    </ul>
+  </div>
 <% end %>

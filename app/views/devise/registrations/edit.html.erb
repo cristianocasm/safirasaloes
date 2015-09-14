@@ -1,175 +1,176 @@
-<%= content_for :title, 'Dados de Contato | SafiraSalões' %>
-  <div class="row">
-    <div class="col-xs-12 col-md-6" style="float: right;">
-      <h2>Informações de Contato Profissional</h2>
-
-      <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
-
-        <% devise_error_messages! %>
-        <div class="row">
-          <div class="form-group">
-            <div class="col-xs-10 col-md-11">
-              <%= f.text_field :nome, class: "form-control input-sm", placeholder: "Nome", autofocus: true %>
-            </div>
-            <div class="col-xs-1 col-md-1">
-              <i class="fa fa-question-circle dica" tabindex="0" role="button" data-toggle="popover" data-container="body" data-placement="left" data-html="true" style="color: dodgerblue;" title="Defina o nome para divulgação" data-content="Defina aqui o nome que você deseja que apareça nas postagens (divulgação) que seus clientes fizerem dos serviços prestados por você.
-              <br/>  
-              <b>Dicas</b>:
-              <ul>
-                <li>
-                  Caso você seja um <u>profissional que trabalhe em um salão de beleza</u> informe seu nome e, entre parênteses, o nome do salão. Exemplo: <i>Juliana Souza (Salão Formas & Fios).</i>
-                </li>
-                <li>
-                  Caso você seja um <u>profissional que atenda a domicílio</u> informe seu nome e, entre parênteses, 'atendimento a domicílio'. Exemplo: <i>Juliana Souza (atendimento a domicílio).</i>
-                </li>
-                <li>
-                  Caso você seja um <u>profissional que atenda na sua própria residência</u>, informe apenas seu nome. Exemplo: <i>Juliana Souza</i>
-                </li>
-              </ul>">
-              </i>
-            </div>
-          </div>
+<% content_for :modals do %>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Simulador de Divulgação no Facebook</h4>
         </div>
-
-        <div class="row">
-          <div class="form-group">
-            <div class="col-xs-10 col-md-5">
-              <%= f.text_field :telefone, class: "form-control input-sm telefone", placeholder: 'Telefone para marcar horário' %>
-            </div>
-            <div class="col-xs-0 col-md-1">
-            </div>
-            <div class="col-xs-10 col-md-5">
-              <%= f.text_field :whatsapp, class: "form-control input-sm telefone", placeholder: 'WhatsApp para marcar horário' %>
-            </div>
-            <div class="col-xs-1 col-md-1">
-              <i class="fa fa-question-circle dica" tabindex="0" role="button" data-toggle="popover" data-container="body" data-placement="left" data-html="true" style="color: dodgerblue;" title="Defina os telefones para contato e marcação de horário" data-content="Defina aqui o telefone e/ou o whatsapp para que seus novos clientes possam entrar em contato e/ou marcar horários.
-              <br/>
-              <b>Dicas</b>:
-              <ul>
-                <li>
-                  Caso você seja um <u>profissional que trabalhe em um salão de beleza</u>, informe o telefone/whatsapp do salão.
-                </li>
-                <li>
-                  Caso você seja um <u>profissional que atenda a domicílio</u> ou <u>que atenda na sua própria residência</u>, informe o seu telefone/whatsapp.
-                </li>
-              </ul>">
-              </i>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="form-group">
-            <div class="col-xs-10 col-md-11">
-              <i>Informe o CEP para preencher o endereço automaticamente</i>
-            </div>
-            <div class="col-xs-1 col-md-1">
-              <i class="fa fa-question-circle dica" tabindex="0" role="button" data-toggle="popover" data-container="body" data-placement="left" data-html="true" style="color: dodgerblue;" title="Defina o endereço do seu local de trabalho" data-content="Defina nestes campos, o endereço do seu local de trabalho para que seus novos clientes possam encontrar você.
-              <br/>
-              <b>Dicas</b>:
-              <ul>
-                <li>
-                  Caso você seja um <u>profissional que trabalhe em um salão de beleza</u>, informe o endereço do salão.
-                </li>
-                <li>
-                  Caso você seja um <u>profissional que atenda a domicílio</u>, não preencha estes campos.
-                </li>
-                <li>
-                  Caso você seja um <u>profissional que atenda na sua própria residência</u>, informe o seu endereço.
-                </li>
-              </ul>">
-              </i>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group">
-            <div class="col-xs-12 col-md-12">
-              <div class="row">
-                <div class="col-xs-6 col-md-4">
-                  <%= f.text_field :cep, class: "form-control input-sm cep", placeholder: 'CEP' %>
+        <div class="modal-body">
+          <h4 class="italic">O conteúdo abaixo simula uma postagem do seu cliente no Facebook logo após ter sido atendido por você.</h4>
+          <h4 class="italic">A foto aqui é meramente ilustrativa. Quando seus clientes fizerem a divulgação do seu trabalho (postando fotos), serão eles a aparecerem
+          nas fotos, exibindo o visual obtido pelo trabalho fornecido por você.</h4>
+          <h4 class="italic">Note a presença das suas informações de contato na postagem. Para serem recompensados, seus clientes terão de inserir
+          esses dados. Assim, todos que verem a postagem saberão como entrar em contato contigo para marcar horários.</h4>
+          <br />
+          <div class="white_fb_background">
+            <div class="main_fb_content">
+              <div class="fb_header">
+                <%= image_tag("mulher.jpg", id: :mini_profile) %>
+                <div class="fb_header_content">
+                      Cliente de Souza
+                    <div class="posted_at">
+                      11h · 
+                      <i class="fa fa-globe"></i>
+                    </div>
                 </div>
-                <div class="col-xs-1 col-md-1">
-                  <div id="curvedarrow"></div>
+              </div>
+              <div class="fb_content">
+                <div id="info_contato">
                 </div>
-                <div class="col-xs-1 col-md-1 loading" style="visibility: hidden; margin-left: -4em;">
-                  <i class="fa fa-spinner fa-pulse fa-spin"></i>
-                </div>
+                <p class="fb_description" style="margin-bottom: 1.5em !important;">
+                  Meu novo visual :P
+                </p>
+              </div>
+              <div>
+                <%= image_tag("cabelo.jpg", :alt => "Selfie", id: :image) %>
               </div>
             </div>
           </div>
         </div>
-
-        <div class="row">
-          <div class="form-group">
-            <div class="col-xs-12 col-md-6">
-              <%= f.text_field :rua, class: "form-control input-sm", placeholder: 'Logradouro (Rua, Av, Travessa...)' %>
-            </div>
-            <div class="col-xs-4 col-md-2">
-              <%= f.text_field :numero, class: "form-control input-sm", placeholder: 'Nº' %>
-            </div>
-            <div class="col-xs-8 col-md-4">
-              <%= f.text_field :bairro, class: "form-control input-sm", placeholder: 'Bairro' %>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="form-group">
-            <div class="col-xs-12 col-md-6">
-              <%= f.text_field :complemento, class: "form-control input-sm", placeholder: 'Complemento' %>
-            </div>
-            <div class="col-xs-7 col-md-4">
-              <%= f.text_field :cidade, class: "form-control input-sm", placeholder: 'Cidade' %>
-            </div>
-            <div class="col-xs-5 col-md-2">
-              <%= f.text_field :estado, class: "form-control input-sm", placeholder: 'Estado' %>
-            </div>
-          </div>
-        </div>
-
-        <br />
-        <%= f.submit "Atualizar", class: "btn btn-success" %>
-        <br />
-        <br />
-
-      <% end %>
-    </div>
-    
-    <div class="col-xs-12 col-md-6">
-      <div class="white_fb_background">
-        <div class="main_fb_content">
-          <div class="fb_header">
-            <%= image_tag("mulher.jpg", id: :mini_profile) %>
-            <div class="fb_header_content">
-                  Cliente de Souza
-                <div class="posted_at">
-                  11h · 
-                  <i class="fa fa-globe"></i>
-                </div>
-            </div>
-          </div>
-          <div class="fb_content">
-            <div id="info_contato">
-            </div>
-            <p class="fb_description" style="margin-bottom: 1.5em !important;">
-              O SafiraSalões incentivará seus clientes a tirar fotos deles próprios (após terem recebido serviços fornecidos por você) e postar no Facebook <b>juntamente com as suas informações de contato</b>.
-            </p>
-            <p class="fb_description" style="margin-bottom: 1.5em !important;">
-            Este é um <u>exemplo</u> de postagem do seu cliente para que você entenda como suas informações de contato serão adicionadas à postagem dele.
-            </p>
-            <p class="fb_description" style="margin-bottom: 1.5em !important;">
-              Altere suas informações de contato e veja o resultado aqui.
-            </p>
-            <p class="fb_description" style="color: #3b5998; margin-bottom: 1.5em !important;">
-              #MaisClientes   #MaisRendimentos   #SafiraSalões
-            </p>
-          </div>
-          <div>
-            <%= image_tag("selfie.jpg", :alt => "Selfie", id: :image) %>
+        <div class="modal-footer">
+          <div class="panel-footer no-border">
+            <ul class="pager wizard no-margin">
+              <li class="mr-15">
+                <button type="button" class="btn btn-warning btn-lg" data-dismiss="modal">Fechar Simulação</button>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
+  </div>
+<% end %>
 
-</div>
+<%= content_for :title, 'Dados de Contato | SafiraSalões' %>
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, class: 'form-horizontal' }) do |f| %>
+
+  <% devise_error_messages! %>
+  <div class="form-group">
+    <div class="col-xs-10 col-md-11">
+      <%= f.text_field :nome, class: "form-control input-lg", placeholder: "Nome", autofocus: true %>
+    </div>
+    <div class="col-xs-1 col-md-1 dica">
+      <i class="fa fa-question-circle dica" tabindex="0" role="button" data-toggle="popover" data-container="body" data-placement="left" data-html="true" style="color: dodgerblue;" title="Defina o nome para divulgação" data-content="Defina aqui o nome que você deseja que apareça nas postagens (divulgação) que seus clientes fizerem dos serviços prestados por você.
+      <br/>  
+      <b>Dicas</b>:
+      <ul>
+        <li>
+          Caso você seja um <u>profissional que trabalhe em um salão de beleza</u> informe seu nome e, entre parênteses, o nome do salão. Exemplo: <i>Juliana Souza (Salão Formas & Fios).</i>
+        </li>
+        <li>
+          Caso você seja um <u>profissional que atenda a domicílio</u> informe seu nome e, entre parênteses, 'atendimento a domicílio'. Exemplo: <i>Juliana Souza (atendimento a domicílio).</i>
+        </li>
+        <li>
+          Caso você seja um <u>profissional que atenda na sua própria residência</u>, informe apenas seu nome. Exemplo: <i>Juliana Souza</i>
+        </li>
+      </ul>">
+      </i>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-xs-10 col-md-5">
+      <%= f.text_field :telefone, class: "form-control input-lg telefone", placeholder: 'Telefone para marcar horário' %>
+    </div>
+    <div class="col-xs-0 col-md-1">
+    </div>
+    <div class="col-xs-10 col-md-5">
+      <%= f.text_field :whatsapp, class: "form-control input-lg telefone", placeholder: 'WhatsApp para marcar horário' %>
+    </div>
+    <div class="col-xs-1 col-md-1">
+      <i class="fa fa-question-circle dica" tabindex="0" role="button" data-toggle="popover" data-container="body" data-placement="left" data-html="true" style="color: dodgerblue;" title="Defina os telefones para contato e marcação de horário" data-content="Defina aqui o telefone e/ou o whatsapp para que seus novos clientes possam entrar em contato e/ou marcar horários.
+      <br/>
+      <b>Dicas</b>:
+      <ul>
+        <li>
+          Caso você seja um <u>profissional que trabalhe em um salão de beleza</u>, informe o telefone/whatsapp do salão.
+        </li>
+        <li>
+          Caso você seja um <u>profissional que atenda a domicílio</u> ou <u>que atenda na sua própria residência</u>, informe o seu telefone/whatsapp.
+        </li>
+      </ul>">
+      </i>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-xs-10 col-md-11">
+      <i>Informe o CEP para preencher o endereço automaticamente</i>
+    </div>
+    <div class="col-xs-1 col-md-1">
+      <i class="fa fa-question-circle dica" tabindex="0" role="button" data-toggle="popover" data-container="body" data-placement="left" data-html="true" style="color: dodgerblue;" title="Defina o endereço do seu local de trabalho" data-content="Defina nestes campos, o endereço do seu local de trabalho para que seus novos clientes possam encontrar você.
+      <br/>
+      <b>Dicas</b>:
+      <ul>
+        <li>
+          Caso você seja um <u>profissional que trabalhe em um salão de beleza</u>, informe o endereço do salão.
+        </li>
+        <li>
+          Caso você seja um <u>profissional que atenda a domicílio</u>, não preencha estes campos.
+        </li>
+        <li>
+          Caso você seja um <u>profissional que atenda na sua própria residência</u>, informe o seu endereço.
+        </li>
+      </ul>">
+      </i>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-xs-12 col-md-12">
+      <div class="col-xs-6 col-md-4">
+        <%= f.text_field :cep, class: "form-control input-lg cep", placeholder: 'CEP' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-xs-12 col-md-6">
+      <%= f.text_field :rua, class: "form-control input-lg", placeholder: 'Logradouro (Rua, Av, Travessa...)' %>
+    </div>
+    <div class="col-xs-4 col-md-2">
+      <%= f.text_field :numero, class: "form-control input-lg", placeholder: 'Nº' %>
+    </div>
+    <div class="col-xs-8 col-md-4">
+      <%= f.text_field :bairro, class: "form-control input-lg", placeholder: 'Bairro' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-xs-12 col-md-6">
+      <%= f.text_field :complemento, class: "form-control input-lg", placeholder: 'Complemento' %>
+    </div>
+    <div class="col-xs-7 col-md-4">
+      <%= f.text_field :cidade, class: "form-control input-lg", placeholder: 'Cidade' %>
+    </div>
+    <div class="col-xs-5 col-md-2">
+      <%= f.text_field :estado, class: "form-control input-lg", placeholder: 'Estado' %>
+    </div>
+  </div>
+
+  <div class="panel-footer no-border">
+    <ul class="pager wizard no-margin">
+      <li class="mr-15">
+        <%= button_tag 'Salvar', data: { disable_with: "Salvar" }, class: 'btn btn-success btn-lg btn-prev', type: 'submit' %>
+      </li>
+      <li>
+        <button type="button" class="btn btn-primary btn-lg btn-next" data-toggle="modal" data-target="#myModal">
+          Simular Divulgação
+        </button>
+      </li>
+    </ul>
+  </div>
+
+<% end %>

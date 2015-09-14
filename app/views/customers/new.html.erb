@@ -1,33 +1,46 @@
-<%= content_for :titulo, 'Cadastrar' %>
 <%= content_for :title, 'Cadastrar | SafiraSalões' %>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), html: { class: 'form-horizontal' }) do |f| %>
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), html: { class: 'sign-in form-horizontal shadow rounded no-overflow' }) do |f| %>
+  <div>
+      <div class="form-group">
+        <div style="padding: 10px;">
+            <span><i class="fa fa-lock"></i> Cadastrar</span>
+        </div>
+      </div><!-- /.form-group -->
+    </div><!-- /.sign-header -->
+  <div class="sign-body">
+    <div class="form-group">
+      <div class="input-group input-group-lg rounded no-overflow">
+        <%= f.email_field :email, class: "form-control input-sm", placeholder: 'Email' %>
+        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+      </div>
+    </div>
 
-  <div class="form-group">
-    <label class="control-label col-lg-3" for="inputEmail">Email</label>
-    <div class="col-lg-9">
-      <%= f.email_field :email, class: "form-control", placeholder: "Email", :autofocus => true, value: @email, disabled: true %>
+    <div class="form-group">
+      <div class="input-group input-group-lg rounded no-overflow">
+        <%= f.password_field :password, class: "form-control input-sm", placeholder: "Senha", :autofocus => true %>
+        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="input-group input-group-lg rounded no-overflow">
+        <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirmar senha" %>
+        <span class="input-group-addon"><i class="fa fa-check"></i></span>
+      </div>
     </div>
   </div>
 
-  <div class="form-group">
-    <label class="control-label col-lg-3" for="inputPassword">Senha</label>
-    <div class="col-lg-9">
-      <%= f.password_field :password, class: "form-control", placeholder: "Senha" %>
-    </div>
-  </div>
+    <%= hidden_field_tag :t, @token %>
+    <%= f.hidden_field :schedule_invitation, value: @sc %>
 
-  <div class="form-group">
-    <label class="control-label col-lg-3" for="inputPassword">Confirmação</label>
-    <div class="col-lg-9">
-      <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirmar senha" %>
-    </div>
-  </div>
-
-  <%= f.hidden_field :token, value: @token %>
-
-  <div class="col-lg-9 col-lg-offset-3">
-    <%= f.submit 'Cadastrar',  class: "btn btn-info btn-sm" %>
-  </div>
-  <br />
+    <div class="sign-footer">
+      <div class="form-group">
+        <%= f.submit 'Cadastrar',  class: "btn btn-theme btn-lg btn-block no-margin rounded", id: "login-btn" %>
+      </div><!-- /.form-group -->
+    </div><!-- /.sign-footer -->
 <% end %>
+
+<p class="text-muted text-center sign-link">Voltar para
+  <%= link_to "Entrar", new_session_path(resource_name) %>
+</p>

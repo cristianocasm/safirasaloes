@@ -6,6 +6,8 @@ class ServicesController < ApplicationController
   # GET /services
   # GET /services.json
   def index
+    @step_taken = current_professional.taken_step.tela_listagem_servicos_acessada?
+    current_professional.update_taken_step(tela_listagem_servicos_acessada: true) unless @step_taken
     @services = current_professional.services_ordered
   end
 
@@ -16,12 +18,16 @@ class ServicesController < ApplicationController
 
   # GET /services/new
   def new
-    current_professional.update_taken_step(tela_cadastro_servico_acessada: true)
+    @step_taken = current_professional.taken_step.tela_cadastro_servico_acessada?
+    current_professional.update_taken_step(tela_cadastro_servico_acessada: true) unless @step_taken
     @service = Service.new
+    @service.prices.build
   end
 
   # GET /services/1/edit
   def edit
+    @step_taken = current_professional.taken_step.tela_edicao_servico_acessada?
+    current_professional.update_taken_step(tela_edicao_servico_acessada: true) unless @step_taken
   end
 
   # POST /services
@@ -40,9 +46,9 @@ class ServicesController < ApplicationController
         
         current_professional.update_taken_step(servico_cadastrado: true)
       end
-      redirect_to @service, flash: { success: generate_msg }
+      redirect_to @service, flash: { success: 'Serviço criado com sucesso.' }
     else
-      flash[:error] = flash_errors(@service)
+      flash.now[:error] = flash_errors(@service)
       render :new
     end
   end
@@ -53,7 +59,7 @@ class ServicesController < ApplicationController
     if @service.update(service_params)
       redirect_to @service, flash: { success: 'Serviço atualizado com sucesso.' }
     else
-      flash[:error] = flash_errors(@service)
+      flash.now[:error] = flash_errors(@service)
       render :edit
     end
   end
@@ -85,24 +91,24 @@ class ServicesController < ApplicationController
       params.require(:service).permit(:nome, :preco_fixo, prices_attributes: [:id, :descricao, :preco, :recompensa_divulgacao, :_destroy])
     end
 
-    def generate_msg
-      msgDefault = '<p>Serviço criado com sucesso.</p>'
+    # def generate_msg
+    #   msgDefault = '<p>Serviço criado com sucesso.</p>'
       
-      unless current_professional.taken_step.horario_cadastrado
-        msgCustom = "<p><b>PARABÉNS!</b> A partir de agora você pode utilizar a agenda
-        do SafiraSalões (clicando em <b>'MINHA AGENDA'</b>) para que:</p>
-        <ol>
-          <li>Seu cliente seja <b>convidado a divulgar</b> o serviço prestado por você sempre que ele for agendado;</li>
-          <li>Seu cliente seja <b>recompensado</b> sempre que ele realizar a divulgação do serviço prestado por você;</li>
-          <li>Seu cliente seja <b>alertado sobre o hórário agendado</b>;</li>
-          <li>Seu cliente seja alertado (3 horas antes do horário marcado) sobre a <b>aproximação do horário agendado</b>;</li>
-        </ol>
-        <p>Ou seja, utilize a agenda do SafiraSalões para (1) <b>aumentar a divulgação boca-a-boca dos seus serviços</b>, (2) <b>fidelizar</b> e (3) <b>melhorar o
-        relacionamento com o seu cliente</b> e (4) <b>diminuir prejuízos com ausências</b>.</p>
-        <p>Para agendar seus clientes clique em <b>'MINHA AGENDA'</b>. Você poderá cadastrar outros de seus serviços a qualquer momento clicando em <b>'MEUS SERVIÇOS'</b>.</p>"
-        msgDefault = msgDefault + msgCustom
-      end
+    #   unless current_professional.taken_step.horario_cadastrado
+    #     msgCustom = "<p><b>PARABÉNS!</b> A partir de agora você pode utilizar a agenda
+    #     do SafiraSalões (clicando em <b>'MINHA AGENDA'</b>) para que:</p>
+    #     <ol>
+    #       <li>Seu cliente seja <b>convidado a divulgar</b> o serviço prestado por você sempre que ele for agendado;</li>
+    #       <li>Seu cliente seja <b>recompensado</b> sempre que ele realizar a divulgação do serviço prestado por você;</li>
+    #       <li>Seu cliente seja <b>alertado sobre o hórário agendado</b>;</li>
+    #       <li>Seu cliente seja alertado (3 horas antes do horário marcado) sobre a <b>aproximação do horário agendado</b>;</li>
+    #     </ol>
+    #     <p>Ou seja, utilize a agenda do SafiraSalões para (1) <b>aumentar a divulgação boca-a-boca dos seus serviços</b>, (2) <b>fidelizar</b> e (3) <b>melhorar o
+    #     relacionamento com o seu cliente</b> e (4) <b>diminuir prejuízos com ausências</b>.</p>
+    #     <p>Para agendar seus clientes clique em <b>'MINHA AGENDA'</b>. Você poderá cadastrar outros de seus serviços a qualquer momento clicando em <b>'MEUS SERVIÇOS'</b>.</p>"
+    #     msgDefault = msgDefault + msgCustom
+    #   end
 
-      msgDefault
-    end
+    #   msgDefault
+    # end
 end

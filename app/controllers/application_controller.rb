@@ -28,13 +28,15 @@ class ApplicationController < ActionController::Base
   end
 
   def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) << :schedule_invitation if (controller_name == "customers" && action_name == "create")
     devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:nome, :telefone, :whatsapp, :pagina_facebook, :cep, :rua, :numero, :bairro, :complemento, :cidade, :estado, :site, :email, :password, :password_confirmation, :current_password) }
   end
 
   def layout_by_resource
     if devise_controller? && params[:controller].in?(%w[devise/sessions]) && params[:action].in?(%w[new create])
       "admin/login_admin"
-    elsif devise_controller? && ( !params[:controller].in?(%w[devise/professional_registrations]) || !params[:action].in?(%w[edit update]) )
+    elsif ( devise_controller? && ( !params[:controller].in?(%w[devise/professional_registrations]) || !params[:action].in?(%w[edit update]) ) ) ||
+            ( params[:controller] == 'sign_up_steps' )
       "login"
     else
       case resource_name
@@ -103,13 +105,13 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize
-    if current_permission.forçar_cadastro_dos_dados_de_contato?(params[:controller], params[:action])
-      redirect_to edit_professional_registration_path, flash: { success: 'Seja bem vindo!!! Como primeiro passo para utilizar todos os recursos que fornecemos, cadastre abaixo suas Informações de Contato e visualize o resultado de suas alterações instantaneamente no simulador.' }
-      return
-    elsif current_permission.forcar_cadastro_de_servico?(params[:controller], params[:action])
-      redirect_to new_service_path, flash: { success: "Como último passo para utilizar o sistema, cadastre abaixo um dos seus serviços. Isso lhe permitirá utilizar a agenda do Safira Salões - a qual será sua grande amiga daqui pra frente :D" }
-      return
-    end
+    # if current_permission.forçar_cadastro_dos_dados_de_contato?(params[:controller], params[:action])
+    #   redirect_to edit_professional_registration_path, flash: { success: 'Seja bem vindo!!! Como primeiro passo para utilizar todos os recursos que fornecemos, cadastre abaixo suas Informações de Contato e visualize o resultado de suas alterações instantaneamente no simulador.' }
+    #   return
+    # elsif current_permission.forcar_cadastro_de_servico?(params[:controller], params[:action])
+    #   redirect_to new_service_path, flash: { success: "Como último passo para utilizar o sistema, cadastre abaixo um dos seus serviços. Isso lhe permitirá utilizar a agenda do Safira Salões - a qual será sua grande amiga daqui pra frente :D" }
+    #   return
+    # end
     
     unless allow?(params[:controller], params[:action])
       if current_resource.instance_of? Professional
@@ -123,8 +125,10 @@ class ApplicationController < ActionController::Base
   end
 
   def current_resource
-    @resource ||= resource_name
-    self.send "current_#{@resource}" if @resource
+    rscName = resource_name
+    self.send "current_#{rscName}" if rscName
+    # @resource ||= resource_name
+    # self.send "current_#{@resource}" if @resource
   end
 
   def resource_name

@@ -1,26 +1,36 @@
-<%= content_for :titulo, 'Alterar senha' %>
 <%= content_for :title, 'Alterar Senha | SafiraSalões' %>
 
-<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put, class: 'form-horizontal' }) do |f| %>
-  
-  <%= f.hidden_field :reset_password_token %>
+<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { class: "sign-in form-horizontal shadow rounded no-overflow" }) do |f| %>
+    <div>
+      <div class="form-group">
+        <div style="padding: 10px;">
+            <span><i class="fa fa-lock"></i> Alterar Senha</span>
+        </div>
+      </div><!-- /.form-group -->
+    </div><!-- /.sign-header -->
+    <div class="sign-body">
+      <div class="form-group">
+          <div class="input-group input-group-lg rounded no-overflow">
+            <%= f.password_field :password, class: "form-control", autofocus: true, placeholder: "Nova senha" %>
+            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+          </div>
+      </div><!-- /.form-group -->
+    </div><!-- /.sign-body -->
+    <div class="sign-body">
+      <div class="form-group">
+          <div class="input-group input-group-lg rounded no-overflow">
+            <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirme a nova senha" %>
+            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+          </div>
+      </div><!-- /.form-group -->
+    </div><!-- /.sign-body -->
+    <div class="sign-footer">
+      <div class="form-group">
+        <%= button_tag 'Alterar Senha', class: "btn btn-theme btn-lg btn-block no-margin rounded", id: "login-btn", type: 'submit' %>
+      </div><!-- /.form-group -->
+    </div><!-- /.sign-footer -->
+<% end %><!-- /.form-horizontal -->
 
-  <div class="form-group">
-    <label class="control-label col-lg-3" for="inputEmail">Nova Senha</label>
-    <div class="col-lg-9">
-      <%= f.password_field :password, class: "form-control", autofocus: true, placeholder: "Nova senha" %>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label class="control-label col-lg-3" for="inputEmail">Confirme a nova senha</label>
-    <div class="col-lg-9">
-      <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirme a nova senha" %>
-    </div>
-  </div>
-
-  <div class="col-lg-9 col-lg-offset-3">
-    <%= f.submit 'Alterar senha',  class: "btn btn-info btn-sm" %>
-  </div>
-  <br />
-<% end %>
+<p class="text-muted text-center sign-link">Voltar para
+  <%= link_to "Entrar", new_session_path(resource_name) %>
+</p>

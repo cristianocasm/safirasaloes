@@ -16,6 +16,7 @@ class Devise::ProfessionalRegistrationsControllerTest < ActionController::TestCa
     end
 
     should ":create deve renderizar layout login" do
+      byebug
       put :create, professional: { email: 'testtest@test.com', password: 'testing', password_confirmation: 'testing' }
       assert_redirected_to new_professional_session_path
     end

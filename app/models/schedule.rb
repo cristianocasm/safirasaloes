@@ -19,27 +19,28 @@
 #
 
 class Schedule < ActiveRecord::Base
+  has_many :photo_logs
+  has_one :customer_invitation
   belongs_to :professional
   belongs_to :customer
-  belongs_to :price
-  has_many :photo_logs
+  belongs_to :price, :inverse_of => :schedules
+  accepts_nested_attributes_for :price
 
-  validates_presence_of :professional_id, :price_id
+  validates_presence_of :professional
+  validates_presence_of :price, message: I18n.t('schedule.not_created.price.blank')
   validate :presence_of_customer_info, on: [:create, :update]
-  validate :email_format
   validates :datahora_inicio, date: true, presence: true, on: [:create, :update]
   validates :datahora_fim, date: true, date: { after: Proc.new { :datahora_inicio } }, on: [:create, :update]
 
   before_save :deal_with_safiras_acceptance, if: Proc.new { |sc| sc.pago_com_safiras_changed? }
-  before_save -> { email.downcase! }, if: Proc.new { |sc| sc.email.present? }
-  after_create :send_email_notification, if: Proc.new { |sc| sc.email.present? }
-  after_update :send_email_notification, if: Proc.new { |sc| sc.email.present? && (sc.email_changed? || sc.price_id_changed? || sc.datahora_inicio_changed? || sc.datahora_fim_changed?) }
+  after_create :send_sms_notification, if: Proc.new { |sc| sc.telefone.present? }
+  after_update :send_sms_notification, if: Proc.new { |sc| sc.telefone.present? && (sc.telefone_changed? || sc.price_id_changed? || sc.datahora_inicio_changed? || sc.datahora_fim_changed?) }
 
-  scope :get_last_two_months_scheduled_customers, -> (prof_id) {
-                                                                  select('DISTINCT(nome), customer_id AS id', :email, :telefone).
-                                                                  where(professional_id: prof_id).
-                                                                  where(datahora_inicio: 60.days.ago .. 7.days.ago)
-                                                                }
+  # scope :get_last_two_months_scheduled_customers, -> (prof_id) {
+  #                                                                 select('DISTINCT(nome), customer_id AS id', :telefone).
+  #                                                                 where(professional_id: prof_id).
+  #                                                                 where(datahora_inicio: 60.days.ago .. 7.days.ago)
+  #                                                               }
 
   scope :not_more_than_12_hours_ago, -> {
                                           includes(:price, :professional).
@@ -84,19 +85,8 @@ class Schedule < ActiveRecord::Base
   end
 
   def presence_of_customer_info
-    if(nome.blank? && email.blank? && telefone.blank?)
-      self.errors.add(:base, "Informe Nome e/ou Email e/ou Telefone do cliente")
-      return false
-    end
-    true
-  end
-
-  def email_format
-    return true if self.email.blank?
-
-    match = (self.email =~ /(.+)(@)(.+)(\.)(.+)/)
-    if match.nil?
-      self.errors.add(:email, "formato incorreto") 
+    if(nome.blank? && telefone.blank?)
+      self.errors.add(:base, "Informe Nome e/ou Telefone do cliente")
       return false
     end
     true
@@ -115,9 +105,11 @@ class Schedule < ActiveRecord::Base
   # do seu horário marcado (customer_id do schedule estaria nulo). Assim, atualizamos
   # o atributo customer_id caso haja alguma inconsistência entre o cliente encontrado
   # e o e-mail informado.
-  def send_email_notification
-    ct = Customer.find_by_email(self.email)
+  def send_sms_notification
+    ct = Customer.find_by_telefone(self.telefone)
     ct.present? ? notify_customer(ct) : invite_customer
+    # notify_customer(ct)
+    # invite_customer(ct) if ct.present?
   end
 
   def notify_customer(ct)
@@ -129,28 +121,28 @@ class Schedule < ActiveRecord::Base
       
       NotificationWorker.
         perform_async(
-                      self.email,
+                      self.telefone,
                       self.professional.nome,
                       self.price.nome,
                       self.datahora_inicio.strftime('%d/%m/%Y'),
                       self.datahora_inicio.strftime('%H:%M'),
                       safiras
-                    )
+                    ) if Rails.env.production?
     end
   end
 
   def invite_customer
-    if self.email.present?
-      ci = CustomerInvitation.create(email: self.email)
+    if self.telefone.present?
+      ci = CustomerInvitation.create(schedule_id: self.id)
       regUrl = generate_registration_url(ci.token)
       InvitationWorker.perform_async(
                                       self.professional.nome,
                                       self.datahora_inicio.strftime('%d/%m/%Y'),
                                       self.datahora_inicio.strftime('%H:%M'),
-                                      self.email,
+                                      self.telefone,
                                       self.price.nome,
                                       regUrl
-                                    )
+                                    ) if Rails.env.production?
     end
   end
 
@@ -158,7 +150,8 @@ class Schedule < ActiveRecord::Base
     routes = Rails.application.routes.url_helpers
     routes.new_customer_registration_url(
               host: ENV["HOST_URL"],
-              customer: { email: self.email, token: token }
+              t: token,
+              s: self.id
             )
   end
 

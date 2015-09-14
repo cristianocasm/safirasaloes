@@ -6,7 +6,7 @@ jQuery ->
     set_bindings()
     config_callendar()
     load_events('profissional/schedules')
-    launch_typeahead()
+    # launch_typeahead()
 
 
 config_callendar = ->
@@ -30,6 +30,7 @@ config_callendar = ->
     allDayDefault: false
     height: 'auto'
     timeFormat: 'HH:mm'
+    eventColor: '#628a14'
     eventDrop:   (event, delta, revertFunc) -> dealChangeEvent(event, delta, revertFunc)
     eventResize: (event, delta, revertFunc) -> dealChangeEvent(event, delta, revertFunc)
     eventRender:     (event, element, view) -> assocPopOver(event, element, view)
@@ -59,7 +60,7 @@ createTitle = (event) ->
   "#{event.title} <a href='/profissional/schedules/#{event.id}' data-method='delete' data-remote='true'><i class='fa fa-trash-o'></i></a> <a href='/profissional/schedules/#{event.id}/edit' data-remote='true'><i class='fa fa-pencil'></i></a>"
 
 createContent = (event) ->
-  "Nome: #{event.nome}<br/>Tel: #{event.telefone}<br/>Email: #{event.email}<br/>Serviço: #{event.price}"
+  "Nome: #{event.nome}<br/>Tel: #{event.telefone}<br/>Serviço: #{event.price}"
 
 setPlacement = (event, view) ->
   if view.name == 'month'
@@ -78,6 +79,8 @@ dealChangeEvent = (event, delta, revertFunc) ->
       schedule:
         datahora_inicio: event.start.format(),
         datahora_fim: event.end.format()
+    beforeSend: (xhr) ->
+      xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
     success: (data, textStatus, jqXHR) ->
       $('#calendar').fullCalendar('render')
     error: (jqXHR, textStatus, errorThrown) ->
@@ -136,6 +139,8 @@ launch_typeahead = ->
 set_bindings = ->
   $('select#schedule_price_id').change check_whether_show_checkbox_for_safira_acceptance
   $('#myModal').bind 'hide.bs.modal', reset_form
+  $('#myModal').on 'shown.bs.modal', (e) ->
+    window.tour.next() if window.started
   $('input.twitter-typeahead').on 'typeahead:selected', (jQueryObj, selectedObj, datasetName) -> fill_form_with_customers_information(jQueryObj, selectedObj, datasetName)
   watch_over_customer_fields()
 
@@ -143,7 +148,6 @@ watch_over_customer_fields = ->
   $('.twitter-typeahead').each ->
     elem = $(this);
     nome = $("#schedule_nome")
-    email = $("#schedule_email")
     telefone = $("#schedule_telefone")
     ctId = $("#schedule_customer_id")
     
@@ -160,7 +164,6 @@ watch_over_customer_fields = ->
             ctId.val("")
             nome.val("")
             telefone.typeahead('val', '')
-            email.typeahead('val', '')
             elem.typeahead('val', val)
             hide_checkbox()
 
@@ -168,10 +171,6 @@ check_whether_show_checkbox_for_safira_acceptance = () ->
   preco = $('option:selected').attr('preco')
   preco = parseFloat(preco)
   total_safiras = $("#total_safiras").val()
-
-  console.log preco
-  console.log total_safiras
-  console.log (preco * 2) <= total_safiras
 
   if((preco * 2) <= total_safiras)
     show_checkbox()
@@ -181,7 +180,6 @@ check_whether_show_checkbox_for_safira_acceptance = () ->
 fill_form_with_customers_information = (jQueryObj, selectedObj, datasetName) ->
   $('#schedule_customer_id').val(selectedObj['id'])
   $('#schedule_nome').val(selectedObj['nome'])
-  $('#schedule_email').typeahead('val', selectedObj['email'])
   $('#schedule_telefone').typeahead('val', selectedObj['telefone'])
   get_customer_rewards(selectedObj['id'])
 
@@ -190,6 +188,8 @@ get_customer_rewards = (customer_id) ->
     url: "/profissional/get_customer_rewards/#{customer_id}"
     type: 'post'
     dataType: 'json'
+    beforeSend: (xhr) ->
+      xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
     success: (data, textStatus, jqXHR) ->
       preco = $('option:selected').attr('preco')
       preco = parseFloat(preco)
@@ -207,39 +207,27 @@ reset_form = ->
   hide_checkbox()
 
 hide_checkbox = ->
-  $("span#pagamento_com_safiras").hide()
+  $("div#pagamento_com_safiras").hide()
   $("input#schedule_pago_com_safiras").prop('disabled', true)
 
 show_checkbox = ->
-  $("span#pagamento_com_safiras").show()
+  $("div#pagamento_com_safiras").show()
   $("input#schedule_pago_com_safiras").prop('disabled', false)
-
-
-new_bloodhound_email = (data) ->
-  new Bloodhound
-    name: 'customers'
-    local: data
-    limit: 4
-    remote: {
-      url: "profissional/filter_by_email?e=%QUERY"
-      wildcard: '%QUERY'
-      ajax: method: 'POST'
-    }
-    dupDetector: (remoteMatch, localMatch) ->
-      remoteMatch.email == localMatch.email
-    datumTokenizer: (d) ->
-      Bloodhound.tokenizers.whitespace d.email
-    queryTokenizer: Bloodhound.tokenizers.whitespace
 
 new_bloodhound_telefone = (data) ->
   new Bloodhound
     name: 'customers'
     local: data
-    limit: 4
     remote: {
       url: "profissional/filter_by_telefone?t=%QUERY"
       wildcard: '%QUERY'
-      ajax: method: 'POST'
+      ajax:
+        method: 'POST'
+        beforeSend: (xhr) ->
+          $("#schedule_telefone").addClass("spinner")
+          xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+        complete: ->
+          $("#schedule_telefone").removeClass("spinner")
     }
     dupDetector: (remoteMatch, localMatch) ->
       remoteMatch.telefone == localMatch.telefone
@@ -264,14 +252,12 @@ get_last_two_months_served_customers = (engine) ->
     url: "/profissional/schedules/get_last_two_months_scheduled_customers"
     type: 'post'
     dataType: 'json'
-    success: (data, textStatus, jqXHR) ->
-      engine_email = new_bloodhound_email(data)
-      engine_email.initialize()
-      start_typeahead(engine_email, 'schedule_email', 'email', 6)
-      
+    beforeSend: (xhr) ->
+      xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+    success: (data, textStatus, jqXHR) ->    
       engine_telefone = new_bloodhound_telefone(data)
       engine_telefone.initialize()
-      start_typeahead(engine_telefone, 'schedule_telefone', 'telefone', 6)
+      start_typeahead(engine_telefone, 'schedule_telefone', 'telefone', 1)
     error: (jqXHR, textStatus, errorThrown) ->
 
 start_typeahead = (engine, elm, key, minLength) ->

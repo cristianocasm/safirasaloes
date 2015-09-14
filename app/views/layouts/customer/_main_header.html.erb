@@ -1,38 +1,62 @@
-<div class="navbar navbar-fixed-top bs-docs-nav" role="banner">
-  
-    <div class="container">
-      <!-- Menu button for smallar screens -->
-      <div class="navbar-header">
-      <button class="navbar-toggle btn-navbar" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
-      <span>Menu</span>
-      </button>
-      
-      <%= link_to customer_root_path, class: "navbar-brand" do %>
-        SafiraSalões
-      <% end %>
-    </div>
-      
-      <!-- Navigation starts -->
-      <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">         
-        <!-- Links -->
-        <ul class="nav navbar-nav pull-right">
-          <li class="dropdown pull-right">            
-            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-              <i class="fa fa-user"></i> <%= nome_cliente %> <b class="caret"></b>              
-            </a>
-            
-            <!-- Dropdown menu -->
-            <ul class="dropdown-menu">
-              <li>
-                <%= link_to destroy_session_path(current_resource), :method => :delete do %>
-                  <i class="fa fa-sign-out"></i> Sair
-                <% end %>
-              </li>
-            </ul>
-          </li>
-          
-        </ul>
-      </nav>
+<!--START @HEADER -->
+<header id="header">
 
-    </div>
-  </div>
+    <!-- Start header left -->
+    <div class="header-left">
+        <!-- Start offcanvas left: This menu will take position at the top of template header (mobile only). Make sure that only #header have the `position: relative`, or it may cause unwanted behavior -->
+        <div class="navbar-minimize-mobile left">
+            <i class="fa fa-bars"></i>
+        </div>
+        <!--/ End offcanvas left -->
+
+        <!-- Start navbar header -->
+        <div class="navbar-header" style="background-color: #c4e2bb">
+
+            <!-- Start brand -->
+            <%= link_to '', class: "navbar-brand" do %>
+                <%= image_tag "logo175x50.png", class: 'logo', alt: 'SafiraSalões' %>
+            <% end %>
+            
+            <!--/ End brand -->
+
+        </div><!-- /.navbar-header -->
+        <!--/ End navbar header -->
+
+        <!-- Start offcanvas right: This menu will take position at the top of template header (mobile only). Make sure that only #header have the `position: relative`, or it may cause unwanted behavior -->
+        <!-- <div class="navbar-minimize-mobile right">
+            <i class="fa fa-cog"></i>
+        </div> -->
+        <!--/ End offcanvas right -->
+
+        <div class="clearfix"></div>
+    </div><!-- /.header-left -->
+    <!--/ End header left -->
+
+    <!-- Start header right -->
+    <div class="header-right">
+        <!-- Start navbar toolbar -->
+        <div class="navbar navbar-toolbar">
+
+            <!-- Start left navigation -->
+            <ul class="nav navbar-nav navbar-left">
+
+                <!-- Start sidebar shrink -->
+                <li class="navbar-minimize">
+                    <a href="javascript:void(0);" title="Minimize sidebar">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </li>
+                <!--/ End sidebar shrink -->
+
+            </ul><!-- /.navbar-left -->
+            <!--/ End left navigation -->
+
+
+
+        </div><!-- /.navbar-toolbar -->
+        <!--/ End navbar toolbar -->
+    </div><!-- /.header-right -->
+    <!--/ End header left -->
+
+</header> <!-- /#header -->
+<!--/ END HEADER -->

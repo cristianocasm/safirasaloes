@@ -17,7 +17,6 @@
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :string(255)
 #  last_sign_in_ip        :string(255)
-#  schedule_recovered     :boolean          default(FALSE)
 #  provider               :string(255)
 #  uid                    :string(255)
 #  oauth_token            :string(255)
@@ -25,6 +24,10 @@
 #
 
 class Customer < ActiveRecord::Base
+
+
+  attr_accessor :schedule_invitation
+
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -35,12 +38,20 @@ class Customer < ActiveRecord::Base
   has_many :professionals, through: :schedules
   has_many :photo_logs
 
-  after_commit :find_last_schedule, unless: Proc.new { |ct| ct.schedule_recovered }
+  # after_commit :find_last_schedule, unless: Proc.new { |ct| ct.schedule_recovered }
+
+  after_create :update_schedule
 
   scope :find_by_provider_and_uid_or_email, -> (provider, uid, email) { where("( ( provider=? AND uid=? ) OR email=? )", provider, uid, email) }
   scope :filter_by_email, -> (query) { select(:id, :nome, :email, :telefone).where("email LIKE '%#{query}%'") }
   scope :filter_by_telefone, -> (query) { select(:id, :nome, :email, :telefone).where("telefone LIKE '%#{query}%'") }
 
+  def update_schedule
+    sc = Schedule.find(self.schedule_invitation)
+    sc.update_attribute(:customer_id, self.id)
+    self.update_attribute(:telefone, sc.telefone)
+    CustomerInvitation.find_by_schedule_id(self.schedule_invitation).delete
+  end
 
   def schedules_not_more_than_12_hours_ago
     @sc ||= self.schedules.not_more_than_12_hours_ago
@@ -99,9 +110,9 @@ class Customer < ActiveRecord::Base
     end
   end
 
-  def find_last_schedule
-    GetLastScheduleWorker.perform_async(self.email, self.id)
-  end
+  # def find_last_schedule
+  #   GetLastScheduleWorker.perform_async(self.email, self.telefone, self.id)
+  # end
 
   def safiras_somadas
     self.rewards.

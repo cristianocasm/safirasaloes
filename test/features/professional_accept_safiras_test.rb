@@ -14,7 +14,6 @@ def open_schedule_form
   twoHoursAhead = 2.hours.from_now
 
   visit professional_root_path
-  find('.fc-agendaWeek-button').click
   execute_script("
     $('#calendar').fullCalendar(
       'select',
@@ -157,7 +156,7 @@ feature "Troca de Safiras - Edição de Horário" do
     edit_schedule_by_service(:sch_cristiano_com_joao_service_bigode)
 
     within "div.professional_service" do
-      assert page.has_no_css?('span#pagamento_com_safiras'), 'checkbox sendo exibido'
+      assert page.has_no_css?('div#pagamento_com_safiras'), 'checkbox sendo exibido'
     end
   end
 
@@ -219,7 +218,7 @@ feature "Troca de Safiras - Edição de Horário" do
 
   scenario "mudança de cliente com Safiras para cliente sem Safiras esconde checkbox", js: true do
     edit_schedule_by_service(:sch_cristiano_com_joao_service_barba)
-    assert page.has_css?('span#pagamento_com_safiras'), 'checkbox não sendo exibido'
+    assert page.has_css?('div#pagamento_com_safiras'), 'checkbox não sendo exibido'
     
     ctm = customers(:abilio)
     fill_in('schedule_email', with: ctm.email)
@@ -227,7 +226,7 @@ feature "Troca de Safiras - Edição de Horário" do
     wait_for_ajax
     page.find('div.tt-suggestion').click
     wait_for_ajax
-    assert page.has_no_css?('span#pagamento_com_safiras'), 'checkbox sendo exibido'
+    assert page.has_no_css?('div#pagamento_com_safiras'), 'checkbox sendo exibido'
   end
 
   scenario "mudança de cliente com Safiras para cliente com Safiras mantem exibição de checkbox", js: true do
@@ -235,18 +234,18 @@ feature "Troca de Safiras - Edição de Horário" do
 
 
     # edit_schedule_by_service(:sch_cristiano_com_joao_service_barba)
-    # assert page.has_css?('span#pagamento_com_safiras'), 'checkbox não sendo exibido'
+    # assert page.has_css?('div#pagamento_com_safiras'), 'checkbox não sendo exibido'
     
     # ctm = customers(:abilio)
     # fill_in('schedule_email', with: ctm.email)
     # page.execute_script %Q{ $('#schedule_email').trigger("focus") }
     # wait_for_ajax
-    # assert page.has_no_css?('span#pagamento_com_safiras'), 'checkbox sendo exibido'
+    # assert page.has_no_css?('div#pagamento_com_safiras'), 'checkbox sendo exibido'
   end
 
   scenario "mudança de cliente sem Safiras para cliente sem Safiras não exibe checkbox", js: true do
     edit_schedule_by_service(:sch_abilio_com_joao_service_bigode)
-    assert page.has_no_css?('span#pagamento_com_safiras'), 'checkbox sendo exibido'
+    assert page.has_no_css?('div#pagamento_com_safiras'), 'checkbox sendo exibido'
     
     ctm = customers(:cristiano)
     fill_in('schedule_email', with: ctm.email)
@@ -254,12 +253,12 @@ feature "Troca de Safiras - Edição de Horário" do
     wait_for_ajax
     page.find('div.tt-suggestion').click
     wait_for_ajax
-    assert page.has_no_css?('span#pagamento_com_safiras'), 'checkbox sendo exibido'
+    assert page.has_no_css?('div#pagamento_com_safiras'), 'checkbox sendo exibido'
   end
 
   scenario "mudança de cliente sem Safiras para cliente com Safiras exibe checkbox", js: true do
     edit_schedule_by_service(:sch_abilio_com_joao_service_barba)
-    assert page.has_no_css?('span#pagamento_com_safiras'), 'checkbox sendo exibido'
+    assert page.has_no_css?('div#pagamento_com_safiras'), 'checkbox sendo exibido'
     
     ctm = customers(:cristiano)
     fill_in('schedule_email', with: ctm.email)
@@ -267,7 +266,7 @@ feature "Troca de Safiras - Edição de Horário" do
     wait_for_ajax
     page.find('div.tt-suggestion').click
     wait_for_ajax
-    assert page.has_css?('span#pagamento_com_safiras:not(:checked)'), 'checkbox não sendo exibido'
+    assert page.has_css?('div#pagamento_com_safiras:not(:checked)'), 'checkbox não sendo exibido'
   end
 end
 

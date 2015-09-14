@@ -118,6 +118,10 @@ class PermissionTest < ActiveSupport::TestCase
       assert_not deslogado.allow?("photo_log_steps", "show"), "Profissional(deslogado) - photo_log_steps#show - problemas na validação de permissão"
       assert_not deslogado.allow?("photo_log_steps", "update"), "Profissional(deslogado) - photo_log_steps#update - problemas na validação de permissão"
 
+      assert_not deslogado.allow?("sign_up_steps", "index"), "Profissional(deslogado) - sign_up_steps#index - problemas na validação de permissão"
+      assert_not deslogado.allow?("sign_up_steps", "show"), "Profissional(deslogado) - sign_up_steps#show - problemas na validação de permissão"
+      assert_not deslogado.allow?("sign_up_steps", "update"), "Profissional(deslogado) - sign_up_steps#update - problemas na validação de permissão"
+
       assert_not deslogado.allow?("order_statuses", "new"), "Profissional(deslogado) - order_statuses#new - problemas na validação de permissão"
       assert_not deslogado.allow?("order_statuses", "update"), "Profissional(deslogado) - order_statuses#update - problemas na validação de permissão"
       assert_not deslogado.allow?("order_statuses", "index"), "Profissional(deslogado) - order_statuses#index - problemas na validação de permissão"
@@ -238,6 +242,10 @@ class PermissionTest < ActiveSupport::TestCase
       assert_not _testando.allow?("photo_log_steps", "index"), "Profissional(testando) - photo_log_steps#index - problemas na validação de permissão"
       assert_not _testando.allow?("photo_log_steps", "show"), "Profissional(testando) - photo_log_steps#show - problemas na validação de permissão"
       assert_not _testando.allow?("photo_log_steps", "update"), "Profissional(testando) - photo_log_steps#update - problemas na validação de permissão"
+
+      assert _testando.allow?("sign_up_steps", "index"), "Profissional(testando) - sign_up_steps#index - problemas na validação de permissão"
+      assert _testando.allow?("sign_up_steps", "show"), "Profissional(testando) - sign_up_steps#show - problemas na validação de permissão"
+      assert _testando.allow?("sign_up_steps", "update"), "Profissional(testando) - sign_up_steps#update - problemas na validação de permissão"
 
       assert_not _testando.allow?("order_statuses", "new"), "Profissional(testando) - order_statuses#new - problemas na validação de permissão"
       assert_not _testando.allow?("order_statuses", "update"), "Profissional(testando) - order_statuses#update - problemas na validação de permissão"
@@ -360,6 +368,10 @@ class PermissionTest < ActiveSupport::TestCase
       assert_not bloqueado.allow?("photo_log_steps", "show"), "Profissional(bloqueado) - photo_log_steps#show - problemas na validação de permissão"
       assert_not bloqueado.allow?("photo_log_steps", "update"), "Profissional(bloqueado) - photo_log_steps#update - problemas na validação de permissão"
 
+      assert_not bloqueado.allow?("sign_up_steps", "index"), "Profissional(bloqueado) - sign_up_steps#index - problemas na validação de permissão"
+      assert_not bloqueado.allow?("sign_up_steps", "show"), "Profissional(bloqueado) - sign_up_steps#show - problemas na validação de permissão"
+      assert_not bloqueado.allow?("sign_up_steps", "update"), "Profissional(bloqueado) - sign_up_steps#update - problemas na validação de permissão"
+
       assert_not bloqueado.allow?("order_statuses", "new"), "Profissional(bloqueado) - order_statuses#new - problemas na validação de permissão"
       assert_not bloqueado.allow?("order_statuses", "update"), "Profissional(bloqueado) - order_statuses#update - problemas na validação de permissão"
       assert_not bloqueado.allow?("order_statuses", "index"), "Profissional(bloqueado) - order_statuses#index - problemas na validação de permissão"
@@ -480,6 +492,10 @@ class PermissionTest < ActiveSupport::TestCase
       assert_not suspenso.allow?("photo_log_steps", "index"), "Profissional(suspenso) - photo_log_steps#index - problemas na validação de permissão"
       assert_not suspenso.allow?("photo_log_steps", "show"), "Profissional(suspenso) - photo_log_steps#show - problemas na validação de permissão"
       assert_not suspenso.allow?("photo_log_steps", "update"), "Profissional(suspenso) - photo_log_steps#update - problemas na validação de permissão"
+
+      assert_not suspenso.allow?("sign_up_steps", "index"), "Profissional(suspenso) - sign_up_steps#index - problemas na validação de permissão"
+      assert_not suspenso.allow?("sign_up_steps", "show"), "Profissional(suspenso) - sign_up_steps#show - problemas na validação de permissão"
+      assert_not suspenso.allow?("sign_up_steps", "update"), "Profissional(suspenso) - sign_up_steps#update - problemas na validação de permissão"
 
       assert_not suspenso.allow?("order_statuses", "new"), "Profissional(suspenso) - order_statuses#new - problemas na validação de permissão"
       assert_not suspenso.allow?("order_statuses", "update"), "Profissional(suspenso) - order_statuses#update - problemas na validação de permissão"
@@ -602,6 +618,10 @@ class PermissionTest < ActiveSupport::TestCase
       assert_not assinante.allow?("photo_log_steps", "show"), "Profissional(assinante) - photo_log_steps#show - problemas na validação de permissão"
       assert_not assinante.allow?("photo_log_steps", "update"), "Profissional(assinante) - photo_log_steps#update - problemas na validação de permissão"
 
+      assert assinante.allow?("sign_up_steps", "index"), "Profissional(assinante) - sign_up_steps#index - problemas na validação de permissão"
+      assert assinante.allow?("sign_up_steps", "show"), "Profissional(assinante) - sign_up_steps#show - problemas na validação de permissão"
+      assert assinante.allow?("sign_up_steps", "update"), "Profissional(assinante) - sign_up_steps#update - problemas na validação de permissão"
+
       assert_not assinante.allow?("order_statuses", "new"), "Profissional(assinante) - order_statuses#new - problemas na validação de permissão"
       assert_not assinante.allow?("order_statuses", "update"), "Profissional(assinante) - order_statuses#update - problemas na validação de permissão"
       assert_not assinante.allow?("order_statuses", "index"), "Profissional(assinante) - order_statuses#index - problemas na validação de permissão"
@@ -646,6 +666,10 @@ class PermissionTest < ActiveSupport::TestCase
       assert customer.allow?("photo_log_steps", "index"), "Customer - photo_log_steps#index - problemas na validação de permissão"
       assert customer.allow?("photo_log_steps", "show"), "Customer - photo_log_steps#show - problemas na validação de permissão"
       assert customer.allow?("photo_log_steps", "update"), "Customer - photo_log_steps#update - problemas na validação de permissão"
+
+      assert_not customer.allow?("sign_up_steps", "index"), "Customer - sign_up_steps#index - problemas na validação de permissão"
+      assert_not customer.allow?("sign_up_steps", "show"), "Customer - sign_up_steps#show - problemas na validação de permissão"
+      assert_not customer.allow?("sign_up_steps", "update"), "Customer - sign_up_steps#update - problemas na validação de permissão"
 
       assert_not customer.allow?("devise/sessions", "new"), "Customer - devise/sessions#new - problemas na validação de permissão"
       assert_not customer.allow?("devise/sessions", "create"), "Customer - devise/sessions#create - problemas na validação de permissão"

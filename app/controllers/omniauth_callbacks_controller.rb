@@ -18,11 +18,26 @@ private
   def signup_or_signin_with_facebook
     auth = request.env["omniauth.auth"]
     resource = Professional.find_by_provider_and_uid_or_email(auth.provider, auth.uid, auth.info.email) ||
-                  Customer.find_by_provider_and_uid_or_email(auth.provider, auth.uid, auth.info.email).try(:first) ||
-                  Professional.create_with_omniauth(auth)
-    resource_name = resource.class.to_s.downcase.to_sym
-    sign_in(resource_name, resource)
-    redirect_to after_sign_in_path_for(resource)
+                  Customer.find_by_provider_and_uid_or_email(auth.provider, auth.uid, auth.info.email).try(:first)
+    if resource.present?
+      resource_name = resource.class.to_s.downcase.to_sym
+      sign_in(resource_name, resource)
+      redirect_to after_sign_in_path_for(resource)
+    else
+      resource = Professional.create_with_omniauth(auth)
+      resource_name = resource.class.to_s.downcase.to_sym
+      sign_in(resource_name, resource)
+      redirect_to sign_up_steps_path
+    end
+
+    # auth = request.env["omniauth.auth"]
+    # resource = Professional.find_by_provider_and_uid_or_email(auth.provider, auth.uid, auth.info.email) ||
+    #               Customer.find_by_provider_and_uid_or_email(auth.provider, auth.uid, auth.info.email).try(:first) ||
+    #               Professional.create_with_omniauth(auth)
+    # resource_name = resource.class.to_s.downcase.to_sym
+    # sign_in(resource_name, resource)
+    # redirect_to after_sign_in_path_for(resource)
+
   end
 
   # Função abaixo publica as fotos do cliente no Facebook e fornece

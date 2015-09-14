@@ -189,10 +189,12 @@ p + p {
 }
 
 .tt-dropdown-menu {
-  width: 422px;
-  margin-top: 12px;
+  // width: 422px;
+  width: 40.6em;
+  margin-top: 2px;
   padding: 8px 0;
-  background-color: #fff;
+  background-color: #8cc152;
+  color: #fff;
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
   -webkit-border-radius: 8px;

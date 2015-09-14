@@ -3,7 +3,8 @@ include WoopraRailsSDK
 class Devise::ProfessionalRegistrationsController < Devise::RegistrationsController
 
   def edit
-    current_professional.update_taken_step(tela_cadastro_contato_acessada: true)
+    @step_taken = current_professional.taken_step.tela_cadastro_contato_acessada?
+    current_professional.update_taken_step(tela_cadastro_contato_acessada: true) unless @step_taken
     super
   end
 
@@ -27,11 +28,25 @@ class Devise::ProfessionalRegistrationsController < Devise::RegistrationsControl
     
   end
 
-  # Registra no woopra evento relacionado ao cadastro
-  # do profissional no plano free trial e o redireciona
-  # para a home page - local no qual ele é avisado sobre
-  # a necessidade de confirmação do e-mail.
-  def after_inactive_sign_up_path_for(resource)
+  # # Registra no woopra evento relacionado ao cadastro
+  # # do profissional no plano free trial e o redireciona
+  # # para a home page - local no qual ele é avisado sobre
+  # # a necessidade de confirmação do e-mail.
+  # def after_inactive_sign_up_path_for(resource)
+  #   if Rails.env.production?
+  #     woopra = WoopraTracker.new(request)
+  #     woopra.config( domain: "safirasaloes.com.br" )
+  #     woopra.identify(
+  #       email: params[:professional][:email],
+  #       user_type: 'professional'
+  #     )
+  #     woopra.track('professional_signed_up', { plan: 'trial' }, true)
+  #   end
+
+  #   new_professional_session_path
+  # end
+
+  def after_sign_up_path_for(resource)
     if Rails.env.production?
       woopra = WoopraTracker.new(request)
       woopra.config( domain: "safirasaloes.com.br" )
@@ -41,7 +56,7 @@ class Devise::ProfessionalRegistrationsController < Devise::RegistrationsControl
       )
       woopra.track('professional_signed_up', { plan: 'trial' }, true)
     end
-
-    new_professional_session_path
+    
+    sign_up_steps_path
   end
 end

@@ -23,7 +23,7 @@ jQuery ->
         #Updated stored value
         elem.data('oldVal', elem.val());
         if elem.val() == cep.val() && cep.val().length == 8
-          $(".loading").css('visibility', 'visible')
+          $("#professional_cep").addClass("spinner")
           get_full_address(cep, nome, telefone, whatsapp, rua, num, bairro, comp, cidade, estado)
         else
           update_preview(nome, telefone, whatsapp, rua, num, bairro, comp, cidade, estado)
@@ -35,7 +35,7 @@ get_full_address = (cep, nome, telefone, whatsapp, rua, num, bairro, comp, cidad
     cidade.val(address.cidade)
     estado.val(address.estado)
     update_preview(nome, telefone, whatsapp, rua, num, bairro, comp, cidade, estado)
-    $(".loading").css('visibility', 'hidden')
+    $("#professional_cep").removeClass("spinner")
 
 update_preview = (nome, telefone, whatsapp, rua, num, bairro, comp, cidade, estado) ->
   $("#info_contato").empty()

@@ -1,24 +1,70 @@
-<div class="sidebar" id="sidebar">
-    <div class="sidebar-dropdown"><a href="#">MENU &gt&gt CLIQUE PARA ABRIR &lt&lt</a></div>
+<!--
 
-    <!--- Sidebar navigation -->
-    <!-- If the main navigation has sub navigation, then add the class "has_sub" to "li" of main navigation. -->
-    <ul id="nav">
-      <!-- Main menu with font awesome icon -->
-      <li>
-        <%= link_to(professional_root_path, id: 'agenda', class: active('schedules')) do %>
-          <i class="fa fa-calendar"></i> Minha Agenda
+START @SIDEBAR LEFT
+|=========================================================================================================================|
+|  TABLE OF CONTENTS (Apply to sidebar left class)                                                                        |
+|=========================================================================================================================|
+|  01. sidebar-box               |  Variant style sidebar left with box icon                                              |
+|  02. sidebar-rounded           |  Variant style sidebar left with rounded icon                                          |
+|  03. sidebar-circle            |  Variant style sidebar left with circle icon                                           |
+|=========================================================================================================================|
+
+-->
+<aside id="sidebar-left" class="sidebar-circle">
+
+    <!-- Start left navigation - profile shortcut -->
+    <div class="sidebar-content">
+        <div class="media">
+            <a class="pull-left has-notif avatar" href="page-profile.html">
+                <% if current_professional.avatar_url.present? %>
+                    <%= image_tag current_professional.avatar_url %>
+                <% end %>
+                <!-- <i class="online"></i> -->
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading"><%= "Olá, <span>#{current_professional.nome}</span>".html_safe if current_professional.nome.present? %></h4>
+                <!-- <small>Web Designer</small> -->
+            </div>
+        </div>
+    </div><!-- /.sidebar-content -->
+    <!--/ End left navigation -  profile shortcut -->
+
+    <!-- Start left navigation - menu -->
+    <ul class="sidebar-menu">
+
+        <!-- Start navigation - dashboard -->
+        <li class="<%= active('schedules') %>">
+          <%= link_to(professional_root_path, id: 'agenda', class: active('schedules')) do %>
+            <span class="icon"><i class="fa fa-bullhorn"></i></span>
+            <span class="text">Divulgador</span>
+          <% end %>
+        </li>
+
+        <li class="<%= active('services') %>">
+          <%= link_to(services_path, id: 'servicos', class: active('services')) do %>
+            <span class="icon"><i class="fa fa-scissors"></i></span>
+            <span class="text">Meus Serviços</span>
+          <% end %>
+        </li>
+        
+        <li class="<%= active('professional_registrations') %>">
+          <%= link_to(edit_professional_registration_path) do %>
+            <span class="icon"><i class="fa fa-tty"></i></span>
+            <span class="text">Dados de Contato</span>
+          <% end %>
+        </li>
+        <!--/ End navigation - dashboard -->
+
+    </ul><!-- /.sidebar-menu -->
+    <!--/ End left navigation - menu -->
+
+    <!-- Start left navigation - footer -->
+    <div class="sidebar-footer">
+        <%= link_to destroy_session_path(current_resource), :method => :delete, id: "logout", 'data-url' => "page-lock-screen.html", class: "pull-left", style: "margin: 0% 30%;", 'data-toggle' => "tooltip", 'data-placement' => "top", 'data-title' => "Sair" do %>
+          <i class="fa fa-power-off"></i> Sair
         <% end %>
-      </li>
-      <li>
-        <%= link_to(services_path, id: 'servicos', class: active('services')) do %>
-          <i class="fa fa-scissors"></i> Meus Serviços
-        <% end %>
-      </li>
-      <li>
-        <%= link_to(edit_professional_registration_path, class: active('professional_registrations')) do %>
-          <i class="fa fa-tty"></i> Dados de Contato
-        <% end %>
-      </li>
-    </ul>
-</div>
+    </div><!-- /.sidebar-footer -->
+    <!--/ End left navigation - footer -->
+
+</aside><!-- /#sidebar-left -->
+<!--/ END SIDEBAR LEFT -->

@@ -13,39 +13,24 @@
 #= require jquery
 #= require jquery_ujs
 #= require jquery-fileupload
-#= require respond.min
-#= require bootstrap.min
-#= require jquery-ui.min
-#= require moment.min
-#= require fullcalendar
-#= require pt-br
-#= require jquery.rateit.min
-#= require jquery.prettyPhoto
-#= require jquery.slimscroll.min
-#= require jquery.dataTables.min
-#= require excanvas.min
-#= require jquery.flot
-#= require jquery.flot.resize
-#= require jquery.flot.pie
-#= require jquery.flot.stack
-#= require jquery.flot.time
-#= require jquery.flot.axislabels
-#= require jquery.noty
-#= require themes/default
-#= require layouts/bottom
-#= require layouts/topRight
-#= require layouts/top
-#= require sparklines
-#= require jquery.cleditor.min
-#= require bootstrap-datetimepicker.min
-#= require jquery.onoff.min
-#= require filter
+#= require third-part/bootstrap
+#= require third-part/typeahead/handlebars
+#= require third-part/typeahead/typeahead.bundle
+#= require third-part/jquery.nicescroll
+#= require third-part/index
+#= require third-part/jquery.easing.1.3
+#= require third-part/bootbox
+#= require third-part/moment
+#= require third-part/fullcalendar
+#= require third-part/pt-br
+#= require third-part/jquery.maskedinput
+#= require third-part/jquery-maskmoney.min
+#= require third-part/jquery.cookie
+#= require third-part/bootstrap-tour
+#= require third-part/jquery.bootstrap.wizard
+#= require third-part/jquery.bootstrap-touchspin
+#= require template/apps
 #= require custom
-#= require charts
-#= require jquery-maskmoney.min
-#= require jquery.maskedinput.js
-#= require typeahead.bundle
-#= require fuelux
 #= require_tree .
 #= require_self
 
@@ -58,13 +43,6 @@ $(document).on 'click, focus', 'input:text.money', ->
     thousands: ''
     })
 
-# Aplica máscara aos campos de telefone
-$(document).on 'click, focus', 'input:text.telefone', ->
-  elm = $(this)
-  placeholder = { placeholder: " " }
-  mask = if elm.val().length > 14 then "(99) 99999-9999" else "(99) 9999-9999?9"
-  elm.mask(mask, placeholder)
-
 # Aplica máscara aos campos de recompensa
 $(document).on 'click, focus', 'input:text.recompensa', ->
   $(this).maskMoney({
@@ -73,6 +51,13 @@ $(document).on 'click, focus', 'input:text.recompensa', ->
     affixesStay: false,
     thousands: ''
     })
+
+# Aplica máscara aos campos de telefone
+$(document).on 'click, focus', 'input:text.telefone', ->
+  elm = $(this)
+  placeholder = { placeholder: " " }
+  mask = if elm.val().length > 14 then "(99) 99999-9999" else "(99) 9999-9999?9"
+  elm.mask(mask, placeholder)
 
 # Aplica máscara aos campos de telefone
 $(document).on('focusout', 'input:text.telefone', ->
@@ -88,9 +73,35 @@ $(document).on('focusout', 'input:text.telefone', ->
   return
 ).trigger 'focusout'
 
-# Para vídeo-tutorial quando modal que o envolve é dispensado
-$(document).on 'hidden.bs.modal', '#myModalTutorial', ->
-  $('#myModalTutorial iframe').attr("src", $("#myModalTutorial  iframe").attr("src"));
+# Tutorial
+if $('button#tutorial').length
+  tour = $('button#tutorial')
+  autoStart = tour.data().autoStart
+  
+  tour = tour.data().tour
+  tour['onHidden'] = (tour) ->
+    window.started = false
+  tour['onShown'] = (tour) ->
+    window.started = true
+    stp = tour.getStep(tour._current)
+    elm = stp.element
+    plc = stp.placement
+    if plc == 'bottom'
+      $('html, body').animate(
+        {
+          scrollTop: $(elm).offset().top
+        }, 1000);
+    else if plc == 'top'
+      $('html, body').animate(
+        {
+          scrollTop: $(".popover-title").offset().top
+        }, 1000);
+  tour = new Tour(tour)
+  tour.init()
+  tour.restart() if autoStart
+  window.tour = tour
+  $('button#tutorial').click ->
+    tour.restart()
 
 # Habilita popovers
 $('[data-toggle="popover"]').popover()

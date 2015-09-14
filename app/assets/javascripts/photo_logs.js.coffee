@@ -19,7 +19,7 @@ fileInputSupported = ->
     !el.disabled
   # Add 'fileinput' class to html element if supported
   if isFileInputSupported
-    $("#photo_log_form").show()
+    $("#photo_log_form").removeClass('hidden')
     return true
   else
     alert "Infelizmente seu dispositivo é incapaz de enviar fotos para o SafiraSalões.\n\n
@@ -80,6 +80,7 @@ generateDownloadTemplate = (o) ->
       )
     row.find('.name').text file.name
     rows = rows.add(row)
+  $('.hidden').removeClass('hidden') if rows.length > 0
   rows
 
 generateUploadTemplate = (o) ->
@@ -100,9 +101,9 @@ generateUploadTemplate = (o) ->
 
 generateResultButton = (file) ->  
   if file.posted
-    "<td class='delete' style='vertical-align: middle;'><button class='btn btn-primary' disabled><i class='fa fa-facebook-official'></i><span> Postado com Sucesso</span></button></td>"
+    "<td class='delete' style='vertical-align: middle;'><button class='btn btn-primary rounded' disabled><i class='fa fa-facebook-official'></i><span> Postado com Sucesso</span></button></td>"
   else
-    "<td class='delete' style='vertical-align: middle;'><button class='btn btn-danger' data-type='#{file.delete_type}' data-url='#{file.delete_url}'><i class='fa fa-trash'></i><span> Excluir</span></button></td>"
+    "<td class='delete' style='vertical-align: middle;'><button class='btn btn-danger rounded' data-type='#{file.delete_type}' data-url='#{file.delete_url}'><i class='fa fa-trash'></i><span> Excluir</span></button></td>"
 
 content = (file, o, index) ->
   if file.error

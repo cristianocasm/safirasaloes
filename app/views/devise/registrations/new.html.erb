@@ -1,40 +1,50 @@
-<%= content_for :titulo, 'Cadastro de Profissional' %>
 <%= content_for :title, 'Cadastrar | SafiraSalões' %>
 
-<div style="text-align: center; margin-top: 5%;">
-  <%= link_to '/auth/facebook?scope=email&action=signup_or_signin', class: 'btn btn-primary btn-lg', style: 'background-color: #3b5998;' do %>
-    <i class='fa fa-facebook'> <span style="padding-left: 20px"><b>Cadastrar com o Facebook</b></span> </i>
-  <% end %>
+<!-- Login form -->
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { class: "sign-in form-horizontal shadow rounded no-overflow" }) do |f| %>
+    <div>
+      <div class="form-group">
+        <div style="padding: 10px;">
+            <span><i class="fa fa-lock"></i> Cadastrar</span>
+        </div>
+      </div><!-- /.form-group -->
+    </div><!-- /.sign-header -->
+    <div class="sign-body">
+      <div class="form-group" style="margin-top: 5%;">
+        <%= link_to '/auth/facebook?scope=email&action=signup_or_signin', class: 'btn btn-primary btn-lg btn-block', style: 'background-color: #3b5998; font-size: 18px; border-radius: 6px;' do %>
+          <i class='fa fa-facebook'> <span style="padding-left: 20px"><b>Cadastrar com o Facebook</b></span> </i>
+        <% end %>
 
-  <div class="hr">
-    <div class="text-divider">ou</div>
-  </div>
-</div>
-
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { class: 'form-horizontal' }) do |f| %>
-
-    <div class="form-group">
-      <div class="col-lg-8 col-lg-offset-2">
-        <%= f.email_field :email, class: "form-control", placeholder: "Informe seu E-mail" %>
+        <div class="hr">
+          <div class="text-divider">ou</div>
+        </div>
       </div>
-    </div>
+      <div class="form-group">
+          <div class="input-group input-group-lg rounded no-overflow">
+            <%= f.text_field :email, class: "form-control input-sm", placeholder: "Email" %>
+            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+          </div>
+      </div><!-- /.form-group -->
+      <div class="form-group">
+          <div class="input-group input-group-lg rounded no-overflow">
+            <%= f.password_field :password, class: "form-control  input-sm", placeholder: "Senha" %>
+            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+          </div>
+      </div><!-- /.form-group -->
+      <div class="form-group">
+          <div class="input-group input-group-lg rounded no-overflow">
+            <%= f.password_field :password_confirmation, class: "form-control input-sm", placeholder: "Confirme sua Senha" %>
+            <span class="input-group-addon"><i class="fa fa-check"></i></span>
+          </div>
+      </div><!-- /.form-group -->
+    </div><!-- /.sign-body -->
+    <div class="sign-footer">
+      <div class="form-group">
+        <%= button_tag 'Cadastrar', class: "btn btn-theme btn-lg btn-block no-margin rounded", id: "login-btn", type: 'submit' %>
+      </div><!-- /.form-group -->
+    </div><!-- /.sign-footer -->
+<% end %><!-- /.form-horizontal -->
 
-    <div class="form-group">
-      <div class="col-lg-8 col-lg-offset-2">
-        <%= f.password_field :password, class: "form-control", placeholder: "Informe sua Senha" %>
-      </div>
-    </div>
-
-  <div class="form-group">
-    <div class="col-lg-8 col-lg-offset-2">
-      <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirme sua Senha" %>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <div class="col-lg-8 col-lg-offset-2">
-      <%= f.submit "Cadastrar", class: "btn btn-warning" %>
-    </div>
-  </div>
-
-<% end %>
+<p class="text-muted text-center sign-link">Voltar para
+  <%= link_to "Entrar", new_session_path(resource_name) %>
+</p>

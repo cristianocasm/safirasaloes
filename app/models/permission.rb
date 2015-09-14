@@ -56,6 +56,7 @@ class Permission < Struct.new(:resource)
       return true if controller == "customers" && action.in?(%w[filter_by_email filter_by_telefone])
       return true if controller == "devise/professional_registrations" && action.in?(%w[edit update])
       return true if controller == "rewards" && action.in?(%w[get_customer_rewards])
+      return true if controller == "sign_up_steps" && action.in?(%w[index show update])
     end
 
     return true if resource.bloqueado? && controller == "schedules" && action.in?(%w[new index])

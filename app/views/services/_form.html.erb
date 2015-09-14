@@ -1,79 +1,32 @@
-<div id="aguarde">
-  <h2>
-    <i class="fa fa-cog fa-spin"></i> Criando Formulário de <%= acao %> de Serviço. Aguarde... <i class="fa fa-cog fa-spin"></i> 
-  </h2>
-</div>
+<%= form_for(@service, html: { class: 'tab-content form-horizontal service_form' }, test: :test ) do |f| %>
 
-<%= form_for(@service, html: { class: 'form-horizontal service_form', style: "display: none" }, test: :test ) do |f| %>
-  <div class="wizard" data-initialize="wizard" id="myWizard">
-    <ul class="steps">
-      <li data-step="1" data-name="nome" class="active"><span class="badge">1</span>Serviço<span class="chevron"></span></li>
-      <li data-step="2"><span class="badge">2</span>Preço<span class="chevron"></span></li>
-    </ul>
-    <div class="step-content">
-      <div class="step-pane active sample-pane alert" data-step="1">
-        <h3><%= title %></h3>
-        <br/>
-        <div class='row'>
-          <div class="form-group">
-            <%= f.label :nome, 'Nome do Serviço:', class: 'control-label col-lg-2' %>
-            <div class="col-lg-4">
-              <div class="padd-left">
-                <%= f.text_field :nome, class: "form-control input-sm" %>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class='row'>
-          <div class="form-group">
-            <%= f.label :preco_fixo, 'Tipo de Preço:', class: 'control-label col-lg-2' %>
-            <div class="col-lg-4">
-              <div class="col-lg-6">
-                <div class="padd-left">
-                  <%= f.label :preco_fixo, "Preço Único", :value => "true" %>
-                  <%= radio_button_to_add_fixed_price_fields(f, 'prices') %>
-                </div>
-              </div>
-
-              <div class="col-lg-6">
-                <div class="padd-left">
-                  <%= f.label :preco_fixo, "Preços Variados", :value => "false" %>
-                  <%= radio_button_to_add_multiple_price_fields(f, 'prices') %>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <%= link_to 'Cancelar', services_path, class: 'btn btn-danger', data: { disable_with: "Cancelar" } %>
-        <% if @service.nome.blank? %>
-          <button type="button" class="btn btn-success btn-next" disabled >Informe o Nome do Serviço para Prosseguir </button>
-        <% else %>
-          <button type="button" class="btn btn-success btn-next" >Próximo Passo &gt</button>
-        <% end %>
+  <fieldset class="border-left dotted green">
+    <div class="form-group">
+      <%= f.label :nome, 'Nome do Serviço:', class: 'col-sm-2' %>
+      <div class="col-sm-4">
+          <%= f.text_field :nome, class: "form-control input-lg" %>
       </div>
-
-      <div class="step-pane sample-pane alert" data-step="2">
-        <!--
-          div#wizard_title recebe o título do wizard no passo 2.
-          Definição da lógica presente em services.js.coffe.
-        -->
-        <div id="wizard_title">
-        </div>
-        <!--
-          div#fields recebe os campos para cadastro / atualização
-          dos preços para um serviço definido no passo 1 do wizard.
-          Definição da lógica presente em services.js.coffe.
-        -->
-        <div id="fields">
-          <%= insert_fields(f, @service.preco_fixo, 'prices') %>
-        </div>
-        
-        <button type="button" class="btn btn-warning btn-prev"><span class="glyphicon glyphicon-arrow-left"></span>&lt Voltar</button>
-        <%= f.submit 'Salvar Serviço e Preço', class: 'btn btn-success', data: { disable_with: "Salvar Serviço e Preço" } %>
-      </div>
-
     </div>
+    
+    <%= f.hidden_field :preco_fixo %>
+  </fieldset>
+  
+  <%= f.fields_for :prices do |builder| %>
+    <%= render 'price_fields', f: builder, hide_optionals: @service.preco_fixo %>
+  <% end %>
+  
+  <div class="form-group">
+    <%= link_to_add_fields(f, :prices) %>
+  </div>
+
+  <div class="panel-footer mt-30">
+    <ul class="pager wizard no-margin">
+      <li class="mr-15">
+        <%= link_to 'Cancelar', services_path, class: 'btn btn-warning btn-lg', data: { disable_with: "Cancelar" } %>
+      </li>
+      <li>
+        <%= button_tag 'Salvar', class: "btn btn-success btn-lg btn-next", type: 'submit' %>
+      </li>
+    </ul>
   </div>
 <% end %>

@@ -2,11 +2,12 @@
 #
 # Table name: customer_invitations
 #
-#  id         :integer          not null, primary key
-#  email      :string(255)
-#  token      :string(255)
-#  created_at :datetime
-#  updated_at :datetime
+#  id          :integer          not null, primary key
+#  token       :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  schedule_id :integer
+#  recovered   :boolean          default(FALSE)
 #
 
 require 'test_helper'

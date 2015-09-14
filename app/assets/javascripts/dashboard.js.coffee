@@ -10,6 +10,8 @@ build_bottle_neck_graph = ->
     url: "/admin/taken_steps"
     type: 'put'
     dataType: "json"
+    beforeSend: (xhr) ->
+      xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
     success: (data, textStatus, jqXHR) ->
       plot(data)
     error: (jqXHR, textStatus, errorThrown) ->

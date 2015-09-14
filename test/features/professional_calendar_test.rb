@@ -23,11 +23,10 @@ feature "Calendario" do
     assert page.has_css?('#calendar'), 'Agenda não está sendo exibida'
   end
 
-  scenario "profissional pode criar horário receber feedback quando e-mail não informado", js: true do
+  scenario "profissional pode criar horário receber feedback quando telefone não informado", js: true do
     oneHourAhead = 4.hours.from_now
     twoHoursAhead = 5.hours.from_now
     visit professional_root_path
-    find('.fc-agendaWeek-button').click
     execute_script("
       $('#calendar').fullCalendar(
         'select',
@@ -45,17 +44,16 @@ feature "Calendario" do
     within('div#calendar_feedback') do
       assert page.has_css?("div.alert-success", text: I18n.t('schedule.created.success')), "Feedback informando marcação com sucesso não sendo exibido"
       assert page.has_css?('div.alert-success', text: I18n.t('schedule.created.customer.not_invited', nome_servico: @profAline.services.first.nome).gsub(/<\/?b>/, '')), "Não informando que cliente não foi convidado"
-      assert page.has_link?('Clique aqui para informar um e-mail', href: edit_schedule_path(Schedule.last)), "Não exibindo link para definir e-mail para convite"
+      assert page.has_link?('Clique aqui para informar um telefone celular', href: edit_schedule_path(Schedule.last)), "Não exibindo link para definir telefone para convite"
       assert page.has_no_css?("div.alert-success", text: I18n.t('schedule.created.customer.invited', nome_servico: @profAline.services.first.nome).gsub(/<\/?b>/, '')), "Feedback informando convite enviado sendo exibido"
       assert page.has_no_link?('Clique aqui para ver o convite', href: show_invitation_template_schedule_path(Schedule.last)), "Link para exibição do template sendo exibido"
     end
   end
 
-  scenario "profissional pode criar horário receber feedback quando e-mail informado", js: true do
+  scenario "profissional pode criar horário receber feedback quando telefone informado", js: true do
     oneHourAhead = 4.hours.from_now
     twoHoursAhead = 5.hours.from_now
     visit professional_root_path
-    find('.fc-agendaWeek-button').click
     execute_script("
       $('#calendar').fullCalendar(
         'select',
@@ -64,7 +62,7 @@ feature "Calendario" do
       )
     ")
     fill_in "schedule_nome", with: customers(:cristiano).nome
-    fill_in "schedule_email", with: customers(:cristiano).email
+    fill_in "schedule_telefone", with: customers(:cristiano).telefone
     select @profAline.services.first.nome, from: :schedule_price_id
     click_button 'Marcar Horário'
 
@@ -73,18 +71,17 @@ feature "Calendario" do
     assert page.has_css?("div[data-full='#{oneHourAhead.strftime('%H:00')} - #{twoHoursAhead.strftime('%H:00')}'].fc-time"), 'Não é possível visualizar horário marcado'
     within('div#calendar_feedback') do
       assert page.has_css?("div.alert-success", text: I18n.t('schedule.created.success')), "Feedback informando marcação com sucesso não sendo exibido"
-      assert page.has_no_css?('div.alert-success', text: I18n.t('schedule.created.customer.not_invited', nome_servico: @profAline.services.first.nome).gsub(/<\/?b>/, '')), "Não informando que cliente não foi convidado"
-      assert page.has_no_link?('Clique aqui para informar um e-mail', href: edit_schedule_path(Schedule.last)), "Não exibindo link para definir e-mail para convite"
-      assert page.has_css?("div.alert-success", text: I18n.t('schedule.created.customer.invited', nome_servico: @profAline.services.first.nome).gsub(/<\/?b>/, '')), "Feedback informando convite enviado sendo exibido"
-      assert page.has_link?('Clique aqui para ver o convite', href: show_invitation_template_schedule_path(Schedule.last)), "Link para exibição do template sendo exibido"
+      assert page.has_no_css?('div.alert-success', text: I18n.t('schedule.created.customer.not_invited', nome_servico: @profAline.services.first.nome).gsub(/<\/?b>/, '')), "Informando que cliente não foi convidado"
+      assert page.has_no_link?('Clique aqui para informar um e-mail', href: edit_schedule_path(Schedule.last)), "Exibindo link para definir telefone para convite"
+      assert page.has_css?("div.alert-success", text: I18n.t('schedule.created.customer.invited', nome_servico: @profAline.services.first.nome).gsub(/<\/?b>/, '')), "Feedback informando convite enviado não sendo exibido"
+      assert page.has_link?('Clique aqui para ver o convite', href: show_invitation_template_schedule_path(Schedule.last)), "Link para exibição do template não sendo exibido"
     end
   end
 
-  scenario "profissional pode encontrar customer por nome, e-mail e telefone", js: true do
+  scenario "profissional pode encontrar customer por nome e telefone", js: true do
     oneHourAhead = 4.hours.from_now
     twoHoursAhead = 5.hours.from_now
     visit professional_root_path
-    find('.fc-agendaWeek-button').click
     execute_script("
       $('#calendar').fullCalendar(
         'select',
@@ -96,7 +93,6 @@ feature "Calendario" do
     assert page.has_css?("#myModal", visible: true), "Modal com formulário não aparecendo"
     assert page.has_no_css?("#schedule_customer_id"), "Campo 'customer_id' não está oculto"
     assert page.has_css?("#schedule_nome"), "Campo 'Nome' não está aparecendo"
-    assert page.has_css?("#schedule_email"), "Campo 'Email' não está aparecendo"
     assert page.has_css?("#schedule_telefone"), "Campo 'Telefone' não está aparecendo"
   end
 
@@ -105,7 +101,6 @@ feature "Calendario" do
     twoHoursAhead = 5.hours.from_now
 
     visit professional_root_path
-    find('.fc-agendaWeek-button').click
     execute_script("
       $('#calendar').fullCalendar(
         'select',
@@ -113,7 +108,6 @@ feature "Calendario" do
         '#{ oneHourAhead.strftime('%Y-%m-%d %H') }'
       )
     ")
-    find('.fc-agendaWeek-button').click
     fill_in "schedule_nome", with: customers(:cristiano).nome
     select @profAline.services.first.nome, from: :schedule_price_id
     click_button 'Marcar Horário'
@@ -130,7 +124,6 @@ feature "Calendario" do
     twoHoursAhead = oneHourAhead
 
     visit professional_root_path
-    find('.fc-agendaWeek-button').click
     execute_script("
       $('#calendar').fullCalendar(
         'select',
@@ -154,7 +147,6 @@ feature "Calendario" do
     twoHoursAhead = 6.hours.from_now
 
     visit professional_root_path
-    find('.fc-agendaWeek-button').click
     execute_script("
       $('#calendar').fullCalendar(
         'select',
@@ -180,7 +172,6 @@ feature "Calendario" do
     twoHoursAhead = 6.hours.from_now
 
     visit professional_root_path
-    find('.fc-agendaWeek-button').click
     execute_script("
       $('#calendar').fullCalendar(
         'select',
@@ -207,7 +198,6 @@ def open_schedule_form
   twoHoursAhead = 2.hours.from_now
 
   visit professional_root_path
-  find('.fc-agendaWeek-button').click
   execute_script("
     $('#calendar').fullCalendar(
       'select',
@@ -253,100 +243,100 @@ feature "Calendar TypeAhead" do
     suggestion_appears?('schedule_telefone', ct, :telefone, @telLimit)
   end
 
-  scenario "sistema não carrega no buffer do profissional dados de clientes atendidos há mais de 60 dias", js: true do
-    ct = customers(:abilio)
+  # scenario "sistema não carrega no buffer do profissional dados de clientes atendidos há mais de 60 dias", js: true do
+  #   ct = customers(:abilio)
 
-    Customer.expects(:filter_by_email).
-      with(ct.email[0..@emailLimit]).
-      returns([Customer.new(nome: ct.nome, email: ct.email, telefone: ct.telefone)])  
+  #   Customer.expects(:filter_by_email).
+  #     with(ct.email[0..@emailLimit]).
+  #     returns([Customer.new(nome: ct.nome, email: ct.email, telefone: ct.telefone)])  
 
-    suggestion_appears?('schedule_email', ct, :email, @emailLimit)
-  end
+  #   suggestion_appears?('schedule_email', ct, :email, @emailLimit)
+  # end
 
-  scenario "(email) sistema não carrega no buffer do profissional dados de clientes atendidos há menos de 7 dias", js: true do
-    ct = customers(:bruno)
+  # scenario "(email) sistema não carrega no buffer do profissional dados de clientes atendidos há menos de 7 dias", js: true do
+  #   ct = customers(:bruno)
 
-    Customer.expects(:filter_by_email).
-      with(ct.email[0..@emailLimit]).
-      returns([Customer.new(nome: ct.nome, email: ct.email, telefone: ct.telefone)])  
+  #   Customer.expects(:filter_by_email).
+  #     with(ct.email[0..@emailLimit]).
+  #     returns([Customer.new(nome: ct.nome, email: ct.email, telefone: ct.telefone)])  
 
-    suggestion_appears?('schedule_email', ct, :email, @emailLimit)
-  end
+  #   suggestion_appears?('schedule_email', ct, :email, @emailLimit)
+  # end
 
-  scenario "(telefone) sistema não carrega no buffer do profissional dados de clientes atendidos há menos de 7 dias", js: true do
-    ct = customers(:bruno)
+  # scenario "(telefone) sistema não carrega no buffer do profissional dados de clientes atendidos há menos de 7 dias", js: true do
+  #   ct = customers(:bruno)
 
-    Customer.expects(:filter_by_telefone).
-      with(ct.telefone[0..@telLimit]).
-      returns([Customer.new(nome: ct.nome, email: ct.email, telefone: ct.telefone)])  
+  #   Customer.expects(:filter_by_telefone).
+  #     with(ct.telefone[0..@telLimit]).
+  #     returns([Customer.new(nome: ct.nome, email: ct.email, telefone: ct.telefone)])  
 
-    suggestion_appears?('schedule_telefone', ct, :telefone, @telLimit)
-  end
+  #   suggestion_appears?('schedule_telefone', ct, :telefone, @telLimit)
+  # end
 
-  scenario "sistema carrega no buffer do profissional os dados de clientes atendidos entre [60, 7] dias atrás", js: true do
-    ctCs = customers(:cesar)
-    Customer.expects(:filter_by_telefone).never
-    suggestion_appears?('schedule_telefone', ctCs, :telefone, @telLimit)
-  end
+  # scenario "sistema carrega no buffer do profissional os dados de clientes atendidos entre [60, 7] dias atrás", js: true do
+  #   ctCs = customers(:cesar)
+  #   Customer.expects(:filter_by_telefone).never
+  #   suggestion_appears?('schedule_telefone', ctCs, :telefone, @telLimit)
+  # end
 
-  scenario "sistema carrega no buffer do profissional os dados de clientes atendidos entre [60, 7] dias atrás", js: true do
-    ctCs = customers(:cesar)
-    Customer.expects(:filter_by_email).never
-    suggestion_appears?('schedule_email', ctCs, :email, @emailLimit)
-  end
+  # scenario "sistema carrega no buffer do profissional os dados de clientes atendidos entre [60, 7] dias atrás", js: true do
+  #   ctCs = customers(:cesar)
+  #   Customer.expects(:filter_by_email).never
+  #   suggestion_appears?('schedule_email', ctCs, :email, @emailLimit)
+  # end
 
-  scenario "sistema carrega no buffer do profissional os dados de clientes atendidos entre [60, 7] dias atrás", js: true do
-    ctDa = customers(:daniel)
-    Customer.expects(:filter_by_email).never
-    suggestion_appears?('schedule_email', ctDa, :email, @emailLimit)
-  end
+  # scenario "sistema carrega no buffer do profissional os dados de clientes atendidos entre [60, 7] dias atrás", js: true do
+  #   ctDa = customers(:daniel)
+  #   Customer.expects(:filter_by_email).never
+  #   suggestion_appears?('schedule_email', ctDa, :email, @emailLimit)
+  # end
 
-  scenario "sistema carrega no buffer do profissional os dados de clientes atendidos entre [60, 7] dias atrás", js: true do
-    ctDa = customers(:daniel)
-    Customer.expects(:filter_by_telefone).never
-    suggestion_appears?('schedule_telefone', ctDa, :telefone, @telLimit)
-  end
+  # scenario "sistema carrega no buffer do profissional os dados de clientes atendidos entre [60, 7] dias atrás", js: true do
+  #   ctDa = customers(:daniel)
+  #   Customer.expects(:filter_by_telefone).never
+  #   suggestion_appears?('schedule_telefone', ctDa, :telefone, @telLimit)
+  # end
 
-  scenario "sistema não carrega no buffer do profissional os dados de clientes atendidos entre [60, 7] dias em outros estabelecimentos", js: true do
-    ct = customers(:elano)
+  # scenario "sistema não carrega no buffer do profissional os dados de clientes atendidos entre [60, 7] dias em outros estabelecimentos", js: true do
+  #   ct = customers(:elano)
 
-    Customer.expects(:filter_by_email).
-      with(ct.email[0..@emailLimit]).
-      returns([Customer.new(nome: ct.nome, email: ct.email, telefone: ct.telefone)])  
+  #   Customer.expects(:filter_by_email).
+  #     with(ct.email[0..@emailLimit]).
+  #     returns([Customer.new(nome: ct.nome, email: ct.email, telefone: ct.telefone)])  
 
-    suggestion_appears?('schedule_email', ct, :email, @emailLimit)
-  end
+  #   suggestion_appears?('schedule_email', ct, :email, @emailLimit)
+  # end
 
-  scenario "sistema não carrega no buffer do profissional os dados de clientes atendidos entre [60, 7] dias em outros estabelecimentos", js: true do
-    ct = customers(:elano)
+  # scenario "sistema não carrega no buffer do profissional os dados de clientes atendidos entre [60, 7] dias em outros estabelecimentos", js: true do
+  #   ct = customers(:elano)
 
-    Customer.expects(:filter_by_telefone).
-      with(ct.telefone[0..@telLimit]).
-      returns([Customer.new(nome: ct.nome, email: ct.email, telefone: ct.telefone)])  
+  #   Customer.expects(:filter_by_telefone).
+  #     with(ct.telefone[0..@telLimit]).
+  #     returns([Customer.new(nome: ct.nome, email: ct.email, telefone: ct.telefone)])  
 
-    suggestion_appears?('schedule_telefone', ct, :telefone, @telLimit)
-  end
+  #   suggestion_appears?('schedule_telefone', ct, :telefone, @telLimit)
+  # end
 
-  scenario "escolha de email preenche 'schedule_customer_id', 'schedule_telefone' e 'schedule_nome'", js: true do
-    ct = customers(:cesar)
-    fill_in('schedule_email', with: ct.email[0..5])
-    page.find('div.tt-suggestion').click
-    assert_equal ct.id.to_s, page.find('#schedule_customer_id', visible: false).value, 'schedule_customer_id não foi preenchido'
-    assert_equal ct.telefone, page.find('#schedule_telefone').value, 'schedule_telefone não foi preenchido'
-    assert_equal ct.nome, page.find('#schedule_nome').value, 'schedule_nome não foi preenchido'
-  end
+  # scenario "escolha de email preenche 'schedule_customer_id', 'schedule_telefone' e 'schedule_nome'", js: true do
+  #   ct = customers(:cesar)
+  #   fill_in('schedule_email', with: ct.email[0..5])
+  #   page.find('div.tt-suggestion').click
+  #   assert_equal ct.id.to_s, page.find('#schedule_customer_id', visible: false).value, 'schedule_customer_id não foi preenchido'
+  #   assert_equal ct.telefone, page.find('#schedule_telefone').value, 'schedule_telefone não foi preenchido'
+  #   assert_equal ct.nome, page.find('#schedule_nome').value, 'schedule_nome não foi preenchido'
+  # end
 
-  scenario "TypeAhead desconsidera maiúsculas e minúsculas", js: true do
-    ct = customers(:cesar)
-    fill_in('schedule_email', with: ct.email[0..5].titleize)
-    page.find('div.tt-suggestion').click
-    assert_equal ct.id.to_s, page.find('#schedule_customer_id', visible: false).value, 'schedule_customer_id não foi preenchido'
-    assert_equal ct.telefone, page.find('#schedule_telefone').value, 'schedule_telefone não foi preenchido'
-    assert_equal ct.nome, page.find('#schedule_nome').value, 'schedule_nome não foi preenchido'
-  end
+  # scenario "TypeAhead desconsidera maiúsculas e minúsculas", js: true do
+  #   ct = customers(:cesar)
+  #   fill_in('schedule_email', with: ct.email[0..5].titleize)
+  #   page.find('div.tt-suggestion').click
+  #   assert_equal ct.id.to_s, page.find('#schedule_customer_id', visible: false).value, 'schedule_customer_id não foi preenchido'
+  #   assert_equal ct.telefone, page.find('#schedule_telefone').value, 'schedule_telefone não foi preenchido'
+  #   assert_equal ct.nome, page.find('#schedule_nome').value, 'schedule_nome não foi preenchido'
+  # end
 
   
-  scenario "escolha de telefone preenche 'schedule_customer_id', 'schedule_telefone' e 'schedule_nome'", js: true do
+  scenario "escolha de telefone preenche 'schedule_customer_id' e 'schedule_telefone'", js: true do
     ct = customers(:cesar)
     fill_in('schedule_telefone', with: ct.telefone[0..7])
     page.find('div.tt-suggestion').click
@@ -363,7 +353,6 @@ feature "Calendar TypeAhead" do
     assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
     assert page.has_no_css?("#myModal", visible: true), "Modal com formulário aparecendo"
     assert_equal "", page.find("#schedule_nome", visible: false).value, "Nome continua preenchido"
-    assert_equal "", page.find("#schedule_email", visible: false).value, "Email continua preenchido"
     assert_equal "", page.find("#schedule_telefone", visible: false).value, "Telefone continua preenchido"
     assert_equal "", page.find("#schedule_customer_id", visible: false).value, "Customer_id continua preenchido"
   end
@@ -375,7 +364,6 @@ feature "Calendar TypeAhead" do
     assert page.has_no_css?("#myModalError", visible: true), "Modal de erro aparecendo"
     assert page.has_no_css?("#myModal", visible: true), "Modal com formulário aparecendo"
     assert_equal "", page.find("#schedule_nome", visible: false).value, "Nome continua preenchido"
-    assert_equal "", page.find("#schedule_email", visible: false).value, "Email continua preenchido"
     assert_equal "", page.find("#schedule_telefone", visible: false).value, "Telefone continua preenchido"
     assert_equal "", page.find("#schedule_customer_id", visible: false).value, "Customer_id continua preenchido"
   end
@@ -385,7 +373,6 @@ feature "Calendar TypeAhead" do
     twoHoursAhead = 5.hours.from_now
 
     visit professional_root_path
-    find('.fc-agendaWeek-button').click
     execute_script("
       $('#calendar').fullCalendar(
         'select',
@@ -399,7 +386,6 @@ feature "Calendar TypeAhead" do
     page.find('div.tt-suggestion').click
     click_button 'Marcar Horário'
     assert_equal ct.nome, page.find("#schedule_nome", visible: true).value, "Nome apagado"
-    assert_equal ct.email, page.find("#schedule_email", visible: true).value, "Email apagado"
     assert_equal ct.telefone, page.find("#schedule_telefone", visible: true).value, "Telefone apagado"
     assert_equal ct.id.to_s, page.find("#schedule_customer_id", visible: false).value, "Customer_id apagado"
   end
@@ -411,27 +397,25 @@ feature "Calendar TypeAhead" do
       page.find('div.tt-suggestion').click
     end
 
-    scenario "Alteração de 'schedule_nome' não apaga 'schedule_customer_id', 'schedule_email' e 'schedule_telefone'", js: true do
+    scenario "Alteração de 'schedule_nome' não apaga 'schedule_customer_id' e 'schedule_telefone'", js: true do
       fill_in('schedule_nome', with: 'Abilio Machado Mendonça')
       assert_equal @ct.id.to_s, find('#schedule_customer_id', visible: false).value, "Apagando id do cliente"
       assert_equal @ct.telefone, find('#schedule_telefone').value, "Apagando telefone do cliente"
-      assert_equal @ct.email, find('#schedule_email').value, "Apagando email do cliente"
     end
 
-    scenario "Alteração de e-mail após escolha, apaga 'schedule_customer_id', 'schedule_nome' e 'schedule_telefone'", js: true do
-      ct = customers(:abilio)
-      fill_in('schedule_email', with: ct.email[0..5])
-      assert_equal '', find('#schedule_customer_id', visible: false).value, "Mantendo lixo no id do cliente"
-      assert_equal '', find('#schedule_nome').value, "Mantendo lixo no nome do cliente"
-      assert_equal '', find('#schedule_telefone').value, "Mantendo lixo no telefone do cliente"
-    end
+    # scenario "Alteração de e-mail após escolha, apaga 'schedule_customer_id', 'schedule_nome' e 'schedule_telefone'", js: true do
+    #   ct = customers(:abilio)
+    #   fill_in('schedule_email', with: ct.email[0..5])
+    #   assert_equal '', find('#schedule_customer_id', visible: false).value, "Mantendo lixo no id do cliente"
+    #   assert_equal '', find('#schedule_nome').value, "Mantendo lixo no nome do cliente"
+    #   assert_equal '', find('#schedule_telefone').value, "Mantendo lixo no telefone do cliente"
+    # end
 
-    scenario "Alteração de telefone após escolha, apaga 'schedule_customer_id', 'schedule_nome' e 'schedule_email'", js: true do
+    scenario "Alteração de telefone após escolha, apaga 'schedule_customer_id' e 'schedule_nome'", js: true do
       ct = customers(:abilio)
       fill_in('schedule_telefone', with: ct.telefone[0..7])
       assert_equal '', find('#schedule_customer_id', visible: false).value, "Mantendo lixo no id do cliente"
       assert_equal '', find('#schedule_nome').value, "Mantendo lixo no nome do cliente"
-      assert_equal '', find('#schedule_email').value, "Mantendo lixo no email do cliente"
     end
 
   end

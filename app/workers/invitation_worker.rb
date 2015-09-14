@@ -12,24 +12,34 @@ class InvitationWorker
   # @scEmail - E-mail do cliente ainda não cadastrado
   # @serviceNome - Nome do serviço que será fornecido pelo profissional ao cliente
   # @registrationURL - URL no qual cliente será habilitado a fazer seu cadastro
-  def perform(prNome, dataInicio, horaInicio, scEmail, serviceNome, registrationURL)
-    mandrill = Mandrill::API.new(ENV["MANDRILL_PASSWORD"])
-    templateName = "customer_invitation"
-    async = false
-    message = generate_message(
-                                scEmail,
-                                registrationURL, 
-                                prNome,
-                                serviceNome,
-                                dataInicio,
-                                horaInicio
-                              )
-    result = mandrill.messages.send_template(
-                                             templateName,
-                                             nil,
-                                             message,
-                                             async
-                                            )
+  def perform(prNome, dataInicio, horaInicio, scTelefone, serviceNome, registrationURL)
+    sms = "Oi\n\nSeu horário para #{serviceNome} foi marcado para #{dataInicio} às #{horaInicio}\n\n-#{prNome}"
+    sms = URI.encode(sms)
+    uri = "http://www.facilitamovel.com.br/api/simpleSend.ft?user=_SMS_USER_&password=_SMS_PASSWORD_&destinatario=_SMS_TELEFONE_&msg=_SMS_MSG_"
+    uri.gsub!(/_SMS_USER_/, ENV['SMS_USER'])
+    uri.gsub!(/_SMS_PASSWORD_/, ENV['SMS_PASSWORD'])
+    uri.gsub!(/_SMS_TELEFONE_/, scTelefone.gsub(/[^0-9]/, ''))
+    uri.gsub!(/_SMS_MSG_/, sms)
+    Net::HTTP.get_response(URI(uri))
+
+
+    # mandrill = Mandrill::API.new(ENV["MANDRILL_PASSWORD"])
+    # templateName = "customer_invitation"
+    # async = false
+    # message = generate_message(
+    #                             scEmail,
+    #                             registrationURL, 
+    #                             prNome,
+    #                             serviceNome,
+    #                             dataInicio,
+    #                             horaInicio
+    #                           )
+    # result = mandrill.messages.send_template(
+    #                                          templateName,
+    #                                          nil,
+    #                                          message,
+    #                                          async
+    #                                         )
     # puts result
     # if ( (result.first['status'] == 'invalid') || (result.first['status'] == 'rejected' && result.first['reject_reason'] == "hard-bounce") )
     #   PrivatePub.publish_to(
@@ -39,31 +49,31 @@ class InvitationWorker
     # end
   end
 
-  private
+  # private
 
-  def generate_message(scEmail, registrationURL, prNome, serviceNome, dataInicio, horaInicio)
-    {
-      from_email: "convite@safirasaloes.com.br",
-      from_name: "SafiraSalões",
-      subject: "Uma surpresa aguarda você com o(a) #{prNome}",
-      to: [ { email: scEmail } ],
-      track_opens: true,
-      track_clicks: true,
-      inline_css: true,
-      preserve_recipients: false,
-      tracking_domain: 'stats.safirasaloes.com.br',
-      merge: true,
-      merge_vars: [ {
-                      rcpt: scEmail,
-                      vars: [ 
-                              { name: 'url', content: registrationURL },
-                              { name: 'prof_name', content: prNome },
-                              { name: 'service_name', content: serviceNome },
-                              { name: 'data_inicio', content: dataInicio },
-                              { name: 'hora_inicio', content: horaInicio },
-                            ]
-                      }
-                  ]
-    }
-  end
+  # def generate_message(scEmail, registrationURL, prNome, serviceNome, dataInicio, horaInicio)
+  #   {
+  #     from_email: "convite@safirasaloes.com.br",
+  #     from_name: "SafiraSalões",
+  #     subject: "Uma surpresa aguarda você com o(a) #{prNome}",
+  #     to: [ { email: scEmail } ],
+  #     track_opens: true,
+  #     track_clicks: true,
+  #     inline_css: true,
+  #     preserve_recipients: false,
+  #     tracking_domain: 'stats.safirasaloes.com.br',
+  #     merge: true,
+  #     merge_vars: [ {
+  #                     rcpt: scEmail,
+  #                     vars: [ 
+  #                             { name: 'url', content: registrationURL },
+  #                             { name: 'prof_name', content: prNome },
+  #                             { name: 'service_name', content: serviceNome },
+  #                             { name: 'data_inicio', content: dataInicio },
+  #                             { name: 'hora_inicio', content: horaInicio },
+  #                           ]
+  #                     }
+  #                 ]
+  #   }
+  # end
 end

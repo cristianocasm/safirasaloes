@@ -1,4 +1,4 @@
-<%= content_for :title, 'Minha Agenda | SafiraSalões' %>
+<%= content_for :title, 'Divulgador | SafiraSalões' %>
 
 <% content_for :modals do %>
   <!-- Modal -->
@@ -22,22 +22,32 @@
   <!-- Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Cadastrar Horário</h4>
+      <%= form_for @schedule, remote: true, onsubmit: "", html: { class: 'form-vertical', autocomplete: "off" } do |f| %>
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Marcar Horário</h4>
+          </div>
+          <div class="modal-body">
+            <div id="errors"></div>
+            <%= render "form", f: f %>
+          </div>
+          <div class="modal-footer">
+            <div class="panel-footer no-border">
+              <ul class="pager wizard no-margin">
+                <li class="mr-15">
+                  <button type="button" class="btn btn-warning btn-lg" data-dismiss="modal">Cancelar</button>
+                </li>
+                <li>
+                  <%= button_tag 'Marcar Horário', data: { disable_with: "Aguarde..." }, class: 'btn btn-success btn-lg btn-next', type: 'submit' %>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <div class="modal-body">
-          <div id="errors"></div>
-          <%= render "form" %>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        </div>
-      </div>
+      <% end %>
     </div>
   </div>
-
   <!-- Modal -->
   <div class="modal fade" id="templateInvitation" tabindex="-1" role="dialog" aria-labelledby="templateInvitationLabel" aria-hidden="true">
     <div class="modal-dialog">

@@ -1,42 +1,59 @@
-<!-- Main bar -->
-<div class="mainbar" id="main_content">
+<!-- START @PAGE CONTENT -->
+<section id="page-content">
 
-  <!-- Page heading -->
-  <div class="page-head">
-    <h2 class="pull-left"><% professional_widget_title %></h2>
+    <!-- Start page header -->
+    <div class="header-content">
+        <h2><% professional_widget_title %> <!-- <span>Just-add-water CSS animations</span> --></h2>
+        <!-- /.breadcrumb-wrapper
+        <div class="breadcrumb-wrapper hidden-xs">
+            <span class="label">You are here:</span>
+            <ol class="breadcrumb">
+                <li>
+                    <i class="fa fa-home"></i>
+                    <a href="dashboard.html">Dashboard</a>
+                    <i class="fa fa-angle-right"></i>
+                </li>
+                <li class="active">Animate.css</li>
+            </ol>
+        </div> -->
+    </div><!-- /.header-content -->
+    <!--/ End page header -->
 
-    <div class="clearfix"></div>
+    <!-- Start body content -->
+    <div class="body-content">
 
-  </div>
-  <!-- Page heading ends -->
+        <div class="row">
+            <div class="col-md-12">
 
-  <!-- Matter -->
-  <div class="matter">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <!-- Widget -->
-          <div class="widget">
-            <!-- Widget title -->
-            <div class="widget-head">
-              <div class="pull-left"><% professional_widget_title %></div>
-              <div class="clearfix"></div>
+                <!-- Start animate.css -->
+                <div class="panel rounded shadow">
+                    <div class="panel-heading test">
+                        <div class="pull-left">
+                            <h3 class="panel-title"><% professional_widget_title %></h3>
+                        </div>
+                        <!--
+                        <div class="pull-right">
+                            <button title="" data-original-title="" class="btn btn-sm" data-action="collapse" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Collapse"><i class="fa fa-angle-up"></i></button>
+                            <button title="" data-original-title="" class="btn btn-sm" data-action="remove" data-container="body" data-toggle="tooltip" data-placement="top" data-title="Remove"><i class="fa fa-times"></i></button>
+                        </div>-->
+                        <div class="clearfix"></div>
+                    </div><!-- /.panel-heading -->
+                    <div class="panel-body">
+
+                      <%= flash_messages %>
+                      <%= yield %>
+
+                    </div><!-- /.panel-body -->
+                </div><!-- /.panel -->
+                <!--/ End animate.css -->
+
             </div>
-            <div class="widget-content">
-              <!-- Widget content -->
-              <div class="padd">
-                <%= flash_messages %>
-                <%= yield %>
-              </div>
-            </div>
-          </div> 
         </div>
-      </div>
-    </div>
-  </div>
 
-<!-- Matter ends -->
-</div>
+    </div><!-- /.body-content -->
+    <!--/ End body content -->
 
-<!-- Mainbar ends -->     
-<div class="clearfix"></div>
+    <%= render "layouts/professional/footer" %>
+
+</section><!-- /#page-content -->
+<!--/ END PAGE CONTENT -->

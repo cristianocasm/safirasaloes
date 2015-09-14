@@ -12,18 +12,16 @@
  *
  *= require_tree .
  *= require_self
- *= require jquery.fileupload-ui
- *= require bootstrap
- *= require font-awesome
- *= require jquery-ui
- *= require fullcalendar
- *= require prettyPhoto
- *= require rateit
- *= require bootstrap-datetimepicker.min
- *= require jquery.cleditor
- *= require jquery.dataTables
- *= require jquery.onoff
- *= require style
- *= require widgets
- *= require fuelux
+ *= require third-part/bootstrap
+ *= require third-part/font-awesome
+ *= require third-part/fullcalendar
+ *= require third-part/bootstrap-tour
+ *= require third-part/jquery.bootstrap-touchspin
+ *= require template/reset
+ *= require template/layout
+ *= require template/components
+ *= require template/plugins
+ *= require template/themes/default.theme
+ *= require template/sign
+ *= require template/custom
  */

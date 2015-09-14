@@ -1,16 +1,29 @@
-<%= content_for :titulo, 'Resgatar senha' %>
 <%= content_for :title, 'Solicitar Troca de Senha | SafiraSalões' %>
 
-<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, class: 'form-horizontal' }) do |f| %>
-  <div class="form-group">
-    <label class="control-label col-lg-3" for="inputEmail">Email</label>
-    <div class="col-lg-9">
-      <%= f.email_field :email, class: "form-control", placeholder: "Email", :autofocus => true %>
-    </div>
-  </div>
+<!-- Login form -->
+<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { class: "sign-in form-horizontal shadow rounded no-overflow" }) do |f| %>
+    <div>
+      <div class="form-group">
+        <div style="padding: 10px;">
+            <span><i class="fa fa-lock"></i> Resgatar Senha</span>
+        </div>
+      </div><!-- /.form-group -->
+    </div><!-- /.sign-header -->
+    <div class="sign-body">
+      <div class="form-group">
+          <div class="input-group input-group-lg rounded no-overflow">
+            <%= f.email_field :email, class: "form-control", placeholder: "Email", :autofocus => true %>
+            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+          </div>
+      </div><!-- /.form-group -->
+    </div><!-- /.sign-body -->
+    <div class="sign-footer">
+      <div class="form-group">
+        <%= button_tag 'Solicitar Alteração de Senha', class: "btn btn-theme btn-lg btn-block no-margin rounded", id: "login-btn", type: 'submit' %>
+      </div><!-- /.form-group -->
+    </div><!-- /.sign-footer -->
+<% end %><!-- /.form-horizontal -->
 
-  <div class="col-lg-9 col-lg-offset-3">
-    <%= f.submit 'Enviar instruções para alteração de senha',  class: "btn btn-info btn-sm" %>
-  </div>
-  <br />
-<% end %>
+<p class="text-muted text-center sign-link">Voltar para
+  <%= link_to "Entrar", new_session_path(resource_name) %>
+</p>

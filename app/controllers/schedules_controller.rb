@@ -1,7 +1,7 @@
 include WoopraRailsSDK
 
 class SchedulesController < ApplicationController
-  before_action :set_schedule, only: [:edit, :update, :destroy, :show_invitation_template]
+  before_action :set_schedule, only: [:edit, :update, :destroy]
 
   # GET /schedules
   # GET /schedules.json
@@ -25,7 +25,8 @@ class SchedulesController < ApplicationController
 
   # GET /schedules/new
   def new
-    unless current_professional.taken_step.tela_cadastro_horario_acessada?
+    @step_taken = current_professional.taken_step.tela_cadastro_horario_acessada?
+    unless @step_taken
       
       if Rails.env.production?
         woopra = WoopraTracker.new(request)
@@ -36,6 +37,7 @@ class SchedulesController < ApplicationController
       current_professional.update_taken_step(tela_cadastro_horario_acessada: true)
     end
     @schedule = Schedule.new
+    @schedule.build_price if current_professional.creating_first_service?
   end
 
   # GET /schedules/1/edit
@@ -49,9 +51,10 @@ class SchedulesController < ApplicationController
   # POST /schedules.json
   def create
     @schedule = current_professional.schedules.find_or_initialize_by(id: schedule_params[:id])
-    @schedule.assign_attributes(schedule_params)    
+    @schedule.assign_attributes(schedule_params)
+    set_price_on_schedule if current_professional.creating_first_service?
     if @schedule.save
-      flash[:success] = generate_success_msg(@schedule)
+      flash.now[:success] = generate_success_msg(@schedule)
 
       unless current_professional.taken_step.horario_cadastrado?
       
@@ -72,11 +75,11 @@ class SchedulesController < ApplicationController
     end
   end
 
-  def show_invitation_template
-    respond_to do |format|
-      format.js { render 'show_invitation_template' }
-    end
-  end
+  # def show_invitation_template
+  #   respond_to do |format|
+  #     format.js { render 'show_invitation_template' }
+  #   end
+  # end
 
   # PATCH/PUT /schedules/1
   # PATCH/PUT /schedules/1.json
@@ -123,30 +126,47 @@ class SchedulesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def schedule_params
-      data = params.
-              require(:schedule).
-              permit(
-                :id,
-                :customer_id,
-                :price_id,
-                :nome,
-                :email,
-                :telefone,
-                :datahora_inicio,
-                :datahora_fim,
-                :observacao,
-                :pago_com_safiras
-              )
+      params.
+        require(:schedule).
+        permit(
+          :id,
+          :customer_id,
+          :price_id,
+          :nome,
+          :telefone,
+          :datahora_inicio,
+          :datahora_fim,
+          :observacao,
+          :pago_com_safiras,
+          :price_attributes => [:on_schedule_form]
+        )
+    end
+
+    def service_params
+      params.
+        require(:schedule).
+        require(:price_attributes).
+        require(:service).
+        permit(:nome)
     end
 
     def generate_success_msg(sc)
       msg = I18n.t('schedule.created.success') + "<br/>"
-      if sc.email.present?
-        msg += I18n.t('schedule.created.customer.invited', nome_servico: sc.price.nome) + " "
-        msg += I18n.t('schedule.created.customer.invitation_template', link: show_invitation_template_schedule_path(sc))
+      if sc.telefone.present?
+        msg += I18n.t('schedule.created.customer.invited', nome_servico: sc.price.nome) #+ " "
+        # msg += I18n.t('schedule.created.customer.invitation_template', link: show_invitation_template_schedule_path(sc))
       else
         msg += I18n.t('schedule.created.customer.not_invited', nome_servico: sc.price.nome) + " "
-        msg += I18n.t('schedule.created.customer.set_email', link: edit_schedule_path(sc))
+        msg += I18n.t('schedule.created.customer.set_telefone', link: edit_schedule_path(sc))
       end
+    end
+
+    def set_price_on_schedule
+      @schedule.price.tap { |p| p.service = Service.new(service_params) }
+      set_professional_on_service if @schedule.price.service.professional_id.nil?
+    end
+
+    def set_professional_on_service
+      @schedule.price.service.professional = current_professional
     end
 end

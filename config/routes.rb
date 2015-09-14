@@ -42,8 +42,10 @@ Rails.application.routes.draw do
       resources :statuses
       resources :schedules do
         post :get_last_two_months_scheduled_customers, on: :collection
-        get :show_invitation_template, on: :member
+        # get :show_invitation_template, on: :member
       end
+
+      resources :sign_up_steps, only: [:index, :show, :update]
     end
   end
 

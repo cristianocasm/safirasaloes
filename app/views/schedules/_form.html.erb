@@ -1,37 +1,50 @@
-<%= form_for @schedule, remote: true, autocomplete: "off", onsubmit: "" do |f| %>
-  <div class="field">
-    <%= f.label :nome %><br>
-    <%= f.text_field :nome, class: "form-control", autocomplete: "off" %>
+<div class="customer">
+  <div class="form-group">
+    <%= f.label :nome, 'Nome do Cliente' %>
+    <%= f.text_field :nome, class: "form-control input-lg", autocomplete: "off" %>
   </div>
-  <div class="field">
-    <%= f.label :email %><br>
-    <%= f.text_field :email, class: 'twitter-typeahead form-control', autocomplete: "off", placeholder: "Informe o email (letras em minúsculo)" %>
+  <div class="form-group">
+    <%= f.label :celular, 'Telefone (Celular) do Cliente' %>
+    <%= f.text_field :telefone, class: "form-control input-lg telefone", autocomplete: "off", onkeypress: 'return event.charCode >= 48 && event.charCode <= 57' %>
   </div>
-  <div class="field">
-    <%= f.label :celular %><br>
-    <%= f.text_field :telefone, class: "twitter-typeahead form-control", autocomplete: "off", onkeypress: 'return event.charCode >= 48 && event.charCode <= 57', placeholder: "Informe o celular com DDD (apenas números)" %>
-  </div>
-  <div class="field professional_service">
-    <%= f.label :serviço %><br>
-    <%= f.select :price_id, current_professional.services.includes(:prices).collect {|s| s.prices.map { |p| [ p.nome, p.id, { preco: p.preco } ] } }.flatten(1), {} %>
+</div>
 
-    <span class="field" id="pagamento_com_safiras" style="display: none;">
-      <%= f.check_box :pago_com_safiras %> <%= label_tag 'Utilizar Safiras como Pagamento' %> <span><i class="fa fa-question-circle" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true" title="Utilizar Safiras para Pagamento"
-          data-content="Seu cliente acumulou Safiras suficientes para trocar por este serviço. Marque esta opção para utilizar as Safiras dele como forma de pagamento por este serviço."></i></span>
-    </span>
+<div class="form-group">
+  <%= f.label :serviço %>
+  <div id="service_field">
+    <% if current_professional.services.blank? %>
+      <%= f.fields_for :price do |p| %>
+        <%= p.fields_for :service do |s| %>
+          <%= s.text_field :nome, class: "form-control input-lg", autocomplete: "off" %>
+        <% end %>
+        <%= p.hidden_field :on_schedule_form, value: true %>
+      <% end %>
+    <% else %>
+      <%= f.fields_for :price do |p| %>
+        <%= p.hidden_field :on_schedule_form, value: true %>
+      <% end %>
+      <%= f.select :price_id, options_from_collection_for_select(current_professional.prices.includes(:service), 'id', 'nome'), {}, class: "form-control input-lg" %>
+    <% end %>
   </div>
-  <div class="field">
-    <%= f.label :início %><br>
+</div>
+
+<div class="form-group" id="pagamento_com_safiras" style="display: none;">
+  <%= f.check_box :pago_com_safiras %> <%= label_tag 'Utilizar Safiras como Pagamento' %> <span><i class="fa fa-question-circle" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true" title="Utilizar Safiras para Pagamento"
+      data-content="Seu cliente acumulou Safiras suficientes para trocar por este serviço. Marque esta opção para utilizar as Safiras dele como forma de pagamento por este serviço."></i></span>
+</div>
+
+<div class="form-group">
+  <%= f.label :início %>
+  <div>
     <%= f.datetime_select :datahora_inicio %>
   </div>
-  <div class="field">
-    <%= f.label :fim %><br>
+</div>
+<div class="form-group">
+  <%= f.label :fim %>
+  <div>
     <%= f.datetime_select :datahora_fim %>
   </div>
-  <%= f.hidden_field :customer_id %>
-  <%= f.hidden_field :id %>
-  <%= hidden_field_tag :total_safiras %>
-  <div class="actions">
-    <%= f.submit 'Marcar Horário', data: { disable_with: "Aguarde..." } %>
-  </div>
-<% end %>
+</div>
+<%= f.hidden_field :customer_id %>
+<%= f.hidden_field :id %>
+<%= hidden_field_tag :total_safiras %>

@@ -53,7 +53,7 @@ feature "Alteração de Senha" do
     Devise::TokenGenerator.any_instance.stubs(:key_for).returns('reset_password_token')
     fill_in 'Nova senha', with: '123456'
     fill_in 'Confirme a nova senha', with: '123456'
-    click_button 'Alterar senha'
+    click_button 'Alterar Senha'
     assert_equal edit_professional_registration_path, page.current_path
   end
 

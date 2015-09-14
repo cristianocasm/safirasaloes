@@ -27,10 +27,10 @@ feature "Títulos" do
       assert page.has_title? 'Cadastrar | SafiraSalões'
     end
 
-    scenario "instruções de confirmação" do
-      visit new_professional_confirmation_path
-      assert page.has_title? 'Reenviar Instruções | SafiraSalões'
-    end
+    # scenario "instruções de confirmação" do
+    #   visit new_professional_confirmation_path
+    #   assert page.has_title? 'Reenviar Instruções | SafiraSalões'
+    # end
 
     scenario "login - cliente" do
       visit new_customer_session_path
@@ -88,7 +88,7 @@ feature "Títulos" do
 
       scenario "minha agenda" do
         visit professional_root_path
-        assert page.has_title? 'Minha Agenda | SafiraSalões'
+        assert page.has_title? 'Divulgador | SafiraSalões'
       end
 
       scenario "meus serviços" do
@@ -113,7 +113,7 @@ feature "Títulos" do
 
       scenario "minha agenda" do
         visit new_schedule_path
-        assert page.has_title? 'Minha Agenda | SafiraSalões'
+        assert page.has_title? 'Divulgador | SafiraSalões'
       end
     end
 

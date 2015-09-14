@@ -21,7 +21,7 @@ prepend_prof_contact_info_to_posting = ->
   window.profInfoAdded = !window.profInfoAdded
 
 prof_info_plus_comment = (elm) ->
-  profInfo = $("div.panel-body").children().html()
+  profInfo = $("div.prof-info").children().html()
   comment = elm.html()
   if comment != ""
     profInfo += "<br/>---<br/>"

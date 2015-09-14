@@ -21,8 +21,8 @@ class PhotoLog < ActiveRecord::Base
   belongs_to :customer
   belongs_to :schedule
 
-  validates_presence_of :customer_id
-  validates_presence_of :schedule_id
+  validates_presence_of :customer
+  validates_presence_of :schedule
 
   has_attached_file :image, :styles => { :small => "80x80>" },
                   :url  => "/assets/products/:id/:style/:basename.:extension",

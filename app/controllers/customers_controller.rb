@@ -17,7 +17,7 @@ class CustomersController < Devise::RegistrationsController
     if invited?
       super
     else
-      redirect_to root_path, flash: { error: 'Para cadastrar-se como cliente, você deve ser convidado. Caso tenha recebido o convite, certifique-se de clicar no link enviado para seu e-mail.' }
+      redirect_to root_path, flash: { error: 'Para cadastrar-se como cliente, você deve ser convidado. Caso tenha recebido o convite, certifique-se de acessar usando o link enviado para seu telefone.' }
     end
   end
 
@@ -31,7 +31,7 @@ class CustomersController < Devise::RegistrationsController
     if invited?
       super
     else
-      redirect_to :back, flash: { error: 'Não encontramos convite para o e-mail fornecido. Por acaso você alterou seu e-mail?' }
+      redirect_to :back, flash: { error: 'Não encontramos convite para os dados fornecidos.' }
     end
   end
 
@@ -59,20 +59,20 @@ class CustomersController < Devise::RegistrationsController
     end
   end
 
-  # POST "/customers/filter"
-  def filter_by_email
-    ctms = Customer.filter_by_email(params[:e])
-    respond_to do |format|
-      format.json { render json: ctms.to_json, status: :ok }
-    end
-  end
+  # # POST "/customers/filter"
+  # def filter_by_email
+  #   ctms = Customer.filter_by_email(params[:e])
+  #   respond_to do |format|
+  #     format.json { render json: ctms.to_json, status: :ok }
+  #   end
+  # end
 
-  def filter_by_telefone
-    ctms = Customer.filter_by_telefone(params[:t])
-    respond_to do |format|
-      format.json { render json: ctms.to_json, status: :ok }
-    end
-  end
+  # def filter_by_telefone
+  #   ctms = Customer.filter_by_telefone(params[:t])
+  #   respond_to do |format|
+  #     format.json { render json: ctms.to_json, status: :ok }
+  #   end
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -82,20 +82,13 @@ class CustomersController < Devise::RegistrationsController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def customer_params
-      params.require(:customer).permit(:email, :password, :password_confirmation, :token)
+      params.require(:customer).permit(:email, :password, :password_confirmation, :schedule_invitation)
     end
 
     def invited?
-      if params[:customer].present?
-        @email = customer_params[:email]
-        @token = customer_params[:token]
+      @sc = params[:s] || customer_params[:schedule_invitation]
+      @token = params[:t]
 
-        if @email.present? && @token.present?
-          ivt = CustomerInvitation.find_by_email_and_token(@email, @token)
-          return ivt.present?
-        end
-      else
-        false
-      end
+      CustomerInvitation.find_by_schedule_and_token(@sc, @token).present?
     end
 end

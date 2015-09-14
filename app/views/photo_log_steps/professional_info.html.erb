@@ -4,7 +4,7 @@
   <div class="panel-heading">
     <h3 class="panel-title"><b>ATENÇÃO!</b></h3> Para receber as recompensas, você deverá inserir as informações abaixo nas descrições de suas fotos.
   </div>
-  <div class="panel-body">
+  <div class="panel-body prof-info">
     <%= simple_format @prof_info  %>
   </div>
   <div class="panel-footer">
@@ -37,11 +37,17 @@ color: white;"><b>Insira por Mim</b></h4></button>
   </div>
 </div>
 
-<p>
-  <%= link_to previous_wizard_path(photos: params['photos']), class: 'btn btn-warning' do %>
-    <span><i class="fa fa-angle-double-left"></i></span> Voltar
-  <% end %>
-  <%= link_to next_wizard_path, id: 'photo_log_step_prof_info', class: 'btn btn-success' do %>
+<div class="panel-footer mt-30">
+  <ul class="pager wizard no-margin">
+    <li class="mr-15">
+      <%= link_to previous_wizard_path(photos: params['photos']), class: 'btn btn-warning btn-lg' do %>
+        <span><i class="fa fa-angle-double-left"></i></span> Voltar
+      <% end %>
+    </li>
+    <li>
+      <%= link_to next_wizard_path, id: 'photo_log_step_prof_info', class: 'btn btn-success btn-lg' do %>
     Próximo Passo <span><i class="fa fa-angle-double-right"></i></span>
   <% end %>
-</p>
+    </li>
+  </ul>
+</div>

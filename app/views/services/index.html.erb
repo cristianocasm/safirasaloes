@@ -1,8 +1,6 @@
 <%= content_for :title, 'Meus Serviços | SafiraSalões' %>
 
-<h1>Listagem de Serviços</h1>
-
-<table id="table" class="table table-striped table-bordered table-hover">
+<table id="table" class="table table-striped table-bordered table-hover table-success">
   <thead>
     <tr>
       <th>Nome</th>
@@ -39,17 +37,17 @@
         <tr class="contem_precos_e_recompensasv collapse">
           <td colspan="4">
             <% service.prices_ordered.each do |price| %>
-              <p>
+              <div class="mt-10">
                 <strong><%= "#{price.descricao}:" %></strong>
-              </p>
-              <p class="padd-left">
+              </div>
+              <div class="ml-20">
                 <strong>Preço</strong>
                 <%= number_to_currency(price.preco) %>
-              </p>
-              <p class="padd-left">
+              </div>
+              <div class="ml-20">
                 <strong>Recompensa Por Divulgação:</strong>
                 <%= rec = price.recompensa_divulgacao; pluralize(rec, 'safira') %> (<%= number_to_currency(rec / 2) %>)
-              </p>
+              </div>
             <% end %>
           </td>
         </tr>
@@ -60,4 +58,10 @@
 
 <br>
 
-<%= link_to 'Cadastrar Serviço', new_service_path, class: 'btn btn-success btn-xs' %>
+<div class="panel-footer mt-30">
+  <ul class="pager wizard no-margin">
+    <li>
+      <%= link_to 'Cadastrar Serviço', new_service_path, class: 'btn btn-success btn-lg' %>
+    </li>
+  </ul>
+</div>

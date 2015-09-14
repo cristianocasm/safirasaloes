@@ -22,8 +22,10 @@ module CustomersHelper
   end
 
   def safiras_percentage_by(service_price)
-    percentage = ( prof_safiras / ( service_price * 2 ) ) * 100
-    percentage > 100 ? 100 : percentage
+    if service_price
+      percentage = ( prof_safiras / ( service_price * 2 ) ) * 100
+      percentage > 100 ? 100 : percentage
+    end
   end
 
   def economia

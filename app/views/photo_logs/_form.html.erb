@@ -1,29 +1,42 @@
 <!-- Formulário só é exibido caso haja suporte do SO e/ou navegador -->
-<div id="photo_log_form" style="display: none">
-  <%= form_for PhotoLog.new, :html => { :multipart => true, :id => "fileupload"  } do |f| %>
+<div id="photo_log_form" class="hidden">
+  <%= form_for PhotoLog.new, :html => { :multipart => true, :id => "fileupload", class: 'form-horizontal'  } do |f| %>
     
-    <div style="margin-bottom: 20px;">
-      Enviando fotos para: 
-      <%= f.select :schedule_id, @scs.collect { |sc| ["#{sc.professional.nome} pelo serviço #{sc.price.nome}", sc.id] }, {} %>
+    <div class="form-group col-sm-12">
+        <%= f.label :schedule_id, 'Enviando fotos para:', class: 'col-sm-2' %>
+      <div class="col-sm-4">
+        <%= f.select :schedule_id, @scs.collect { |sc| ["#{sc.professional.nome} pelo serviço #{sc.price.nome}", sc.id] }, {}, class: 'form-control input-sm' %>
+      </div>
     </div>
 
     <!-- The fileinput-button span is used to style the file input field as button -->
-    <span class="btn btn-warning fileinput-button">
-      <i class="fa fa-plus"></i>
-      <span>Escolher Fotos...</span>
-      <%= f.file_field :image, multiple: true, name: 'photo_log[image]' %>
-    </span>
+    <div class="form-group col-sm-12">
+      <span class="btn btn-warning btn-lg rounded col-sm-6 fileinput-button">
+        <i class="fa fa-plus"></i>
+        <span>Escolher Fotos...</span>
+        <%= f.file_field :image, multiple: true, name: 'photo_log[image]', class: 'col-sm-12', style: 'height: 100%;
+    padding: 0px;' %>
+      </span>
+    </div>
 
     <!-- The loading indicator is shown during image processing -->
-    <div class="fileupload-loading"></div>
-    <br />
+    <div class="form-group col-sm-12">
+      <div class="fileupload-loading"></div>
+      <br />
+    </div>
 
     <!-- The table listing the files available for upload/download -->
-    <table class="table table-striped" style="margin-top: 40px;">
-      <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
-    </table>
+    <div class="form-group col-sm-12">
+      <table class="table table-striped">
+        <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+      </table>
+    </div>
 
   <% end %>
 
-  <%= link_to "Próximo Passo", photo_log_steps_path, id: 'photo_log_start_wizard', class: 'btn btn-success' %>
+  <div style="text-align: center;" class="hidden">
+    <%= link_to photo_log_steps_path, id: 'photo_log_start_wizard', class: 'btn btn-success btn-lg rounded' do %>
+      Próximo Passo <span><i class="fa fa-angle-double-right"></i></span>
+    <% end %>
+  </div>
 </div>

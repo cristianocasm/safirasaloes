@@ -3,7 +3,7 @@ module PhotoLogStepsHelper
   def submit_to_fb_button
     if can_submit_to_fb?
       concat(
-        link_to(next_wizard_path(photos: params[:photos]), class: 'btn btn-block btn-success') do
+        link_to(next_wizard_path(photos: params[:photos]), class: 'btn btn-block btn-success btn-fb') do
           concat content_tag(:i, nil, class: 'fa fa-diamond')
           concat content_tag(:i, nil, class: 'fa fa-diamond')
           concat content_tag(:i, nil, class: 'fa fa-diamond')
@@ -35,7 +35,7 @@ module PhotoLogStepsHelper
               concat 'Clique no botão abaixo para voltar ao passo onde essas informações podem ser adicionadas a sua postagem:'
               concat tag(:br)
               concat(
-                link_to(wizard_path(:professional_info, photos: params[:photos]), class: 'btn btn-block btn-primary') do
+                link_to(wizard_path(:professional_info, photos: params[:photos]), class: 'btn btn-block btn-primary btn-fb') do
                   concat content_tag(:i, nil, class: 'fa fa-tty')
                   concat content_tag(:span, ' OK! Me Deixe Corrigir Isso!')
                 end

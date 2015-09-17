@@ -59,6 +59,18 @@ $(document).on 'click, focus', 'input:text.telefone', ->
   mask = if elm.val().length > 14 then "(99) 99999-9999" else "(99) 9999-9999?9"
   elm.mask(mask, placeholder)
 
+$(document).on 'click', 'a.sms_success_link', (event) ->
+  title = event.toElement.dataset.title.replace(/%0A/g,"<br/>")
+  title = decodeURIComponent(title)
+  
+  content = event.toElement.dataset.content.replace(/%0A/g,"<br/>")
+  content = decodeURIComponent(content)
+
+  $("#smsContentLabel").html(title)
+  $("#smsContentBody").html(content)
+  $("#smsContent").modal('show')
+  event.preventDefault()
+
 # Aplica máscara aos campos de telefone
 $(document).on('focusout', 'input:text.telefone', ->
   phone = undefined

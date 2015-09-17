@@ -54,7 +54,7 @@ class SchedulesController < ApplicationController
     @schedule.assign_attributes(schedule_params)
     set_price_on_schedule if current_professional.creating_first_service?
     if @schedule.save
-      flash.now[:success] = generate_success_msg(@schedule)
+      flash.now[:success] = @schedule.feedback_msg
 
       unless current_professional.taken_step.horario_cadastrado?
       

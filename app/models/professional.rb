@@ -101,7 +101,7 @@ class Professional < ActiveRecord::Base
   end
 
   def creating_first_service?
-    self.services.size == 0
+    @first ||= self.services.size == 0
   end
 
   def self.taken_steps_report(start, hend)

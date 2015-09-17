@@ -25,7 +25,6 @@
 
 class Customer < ActiveRecord::Base
 
-
   attr_accessor :schedule_invitation
 
   # Include default devise modules. Others available are:

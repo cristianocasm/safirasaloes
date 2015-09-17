@@ -15,12 +15,25 @@ pt-BR:
       success: Horário marcado com sucesso.
       customer:
         invited: Seu cliente foi convidado a divulgar o serviço <b>%{nome_servico}</b> e poderá fazê-lo até 12 horas após ser atendido por você.
-        not_invited: Seu cliente não foi convidado a divulgar o serviço <b>%{nome_servico}</b>, pois não foi informado um telefone celular.
         invitation_template: <a href="%{link}" data-remote="true">Clique aqui para ver o convite</a>.
         set_telefone: <a href="%{link}" data-remote="true">Clique aqui para informar um telefone celular</a>.
+      sms:
+        login_error: <li>Erro ao %{action} %{sms_type}. Motivo":" Login inválido (contate o suporte)</li>
+        no_credits_error: <li>Erro ao %{action} %{sms_type}. Motivo":" Usuário sem créditos (contate o suporte)</li>
+        invalid_cellphone_error: <li>Erro ao %{action} %{sms_type}. Motivo":" Celular inválido</li>
+        invalid_msg_error: <li>Erro ao %{action} %{sms_type}. Motivo":" Mensagem inválida (contate o suporte)</li>
+        confirmation:
+          success: "<li>Horário confirmado (<a href=\"#\" data-content=\"%{sms_content}\" data-title=\"%{sms_title}\" class=\"sms_success_link\" style=\"text-decoration: underline\">ver mensagem</a>)</li>"
+        remembering:
+          success: "<li>Lembrete para evitar esquecimento (<a href=\"#\" data-content=\"%{sms_content}\" data-title=\"%{sms_title}\" class=\"sms_success_link\" style=\"text-decoration: underline\">ver mensagem</a>)</li>"
+        divulgation:
+          success: "<li>Lembrete para divulgar (<a href=\"#\" data-content=\"%{sms_content}\" data-title=\"%{sms_title}\" class=\"sms_success_link\" style=\"text-decoration: underline\">ver mensagem</a>). %{link}"
+          create_rewards: Estimule seu cliente a divulgar este serviço. <a href=%{url}>Clique aqui para criar uma recompensa por divulgação</a>.
     not_created:
       price:
         blank: ^Informe o serviço
+      celular:
+        invalido: ^Informe um telefone celular válido.
   date:
     abbr_day_names:
     - Dom
@@ -121,8 +134,8 @@ pt-BR:
     format: ! '%{attribute} %{message}'
     messages:
       not_a_date: "não é uma data válida"
-      after: "deve estar após Datahora inicio"
-      after_or_equal_to: "deve estar no futuro"
+      after: "^Data/Hora de início do atendimento deve estar antes da data/hora do fim"
+      after_or_equal_to: "^Agendamento deve estar no futuro"
       before: "deve estar antes de Datahora fim"
       before_or_equal_to: "deve estar antes ou igual a %{date}"
       accepted: deve ser aceito

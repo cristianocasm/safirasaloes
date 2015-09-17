@@ -23,6 +23,7 @@ class Schedule < ActiveRecord::Base
 
   attr_accessor :feedback_msg
 
+  has_many :scheduled_msgs
   has_many :photo_logs
   has_one :customer_invitation
   belongs_to :professional
@@ -38,6 +39,7 @@ class Schedule < ActiveRecord::Base
   validates :datahora_fim, date: true, date: { after: Proc.new { :datahora_inicio } }, on: [:create, :update]
 
   before_save :deal_with_safiras_acceptance, if: Proc.new { |sc| sc.pago_com_safiras_changed? }
+  before_destroy :cancel_scheduled_sms, if: Proc.new { |sc| sc.scheduled_msgs.present? }
   after_create :notify
   after_update :notify, if: Proc.new { |sc| sc.telefone_changed? || sc.price_id_changed? || sc.datahora_inicio_changed? || sc.datahora_fim_changed? }
 
@@ -113,7 +115,17 @@ class Schedule < ActiveRecord::Base
   def notify
     ct = Customer.find_by_telefone(self.telefone)
     self.update_columns(customer_id: ct.id) if ct && ct.id != self.customer_id
-    send_sms_notification(ct) # if Rails.env.production? # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Ativar ISSO!!!!!!!!!!!!!!!!!
+    cancel_scheduled_sms if self.scheduled_msgs.present?
+    send_sms_notification(ct) if Rails.env.production?
+  end
+
+  def cancel_scheduled_sms
+    smsIds = self.scheduled_msgs.map(&:api_id).join(";")
+    uri = "https://www.facilitamovel.com.br/api/deleteMsgAgendadasPorId.ft?user=_SMS_USER_&password=_SMS_PASSWORD_&ids=_SMS_IDS_"
+    uri.gsub!(/_SMS_USER_/, ENV['SMS_USER'])
+    uri.gsub!(/_SMS_PASSWORD_/, ENV['SMS_PASSWORD'])
+    uri.gsub!(/_SMS_IDS_/, smsIds)
+    Net::HTTP.get_response(URI(uri))
   end
 
   def send_sms_notification(ct)
@@ -130,7 +142,7 @@ class Schedule < ActiveRecord::Base
     }
 
     send_sms_to(:customer, options)
-    send_sms_to(:professional, options) if prTel
+    send_sms_to(:professional, options) if prTel.present?
   end
 
   def get_date_to_send_sms_for(name)
@@ -154,13 +166,12 @@ class Schedule < ActiveRecord::Base
     rememberingSMSId = send_sms_remembering_to(name, options)
     divulgationSMSId = send_sms_divulgation_to(name, options)
 
-    # generate_msg_for_feedback(confirmationSMSId, rememberingSMSId, divulgationSMSId)
-    generate_msg_for_feedback(5, 5, 5) # <<<<<<<<<<<<<<<<<------------------------------------------- Retirar ISSO!
+    generate_msg_for_feedback(confirmationSMSId, rememberingSMSId, divulgationSMSId)
   end
 
   def generate_msg_for_feedback(confirmationSMSId, rememberingSMSId, divulgationSMSId)
     msgSent = ""
-    msgSent += case confirmationSMSId
+    msgSent += case confirmationSMSId.body.match(/(\d);(\d+)/)[1].to_i
     when 1
       I18n.t('schedule.created.sms.login_error', action: 'enviar', sms_type: 'SMS de confirmação de horário')
     when 2
@@ -170,13 +181,14 @@ class Schedule < ActiveRecord::Base
     when 4
       I18n.t('schedule.created.sms.invalid_msg_error', action: 'enviar', sms_type: 'SMS de confirmação de horário')
     when 5, 6
+      self.scheduled_msgs.create(api_id: confirmationSMSId.body.match(/(\d);(\d+)/)[2].to_i)
       I18n.t('schedule.created.sms.confirmation.success', sms_content: @confirmation, sms_title: @confirmationTitle)
     end
 
     msgSent = "As seguintes mensagens foram <b>enviadas</b> para <i>#{self.telefone}</i>:<br /><ul>#{msgSent}</ul>"
 
     msgScheduled = ""
-    msgScheduled += case rememberingSMSId
+    msgScheduled += case rememberingSMSId.body.match(/(\d);(\d+)/)[1].to_i
     when 1
       I18n.t('schedule.created.sms.login_error', action: 'agendar', sms_type: 'SMS de aproximação de horário')
     when 2
@@ -186,10 +198,11 @@ class Schedule < ActiveRecord::Base
     when 4
       I18n.t('schedule.created.sms.invalid_msg_error', action: 'agendar', sms_type: 'SMS de aproximação de horário')
     when 5, 6
+      self.scheduled_msgs.create(api_id: rememberingSMSId.body.match(/(\d);(\d+)/)[2].to_i)
       I18n.t('schedule.created.sms.remembering.success', sms_content: @remembering, sms_title: @rememberingTitle)
     end
 
-    msgScheduled += case divulgationSMSId
+    msgScheduled += case divulgationSMSId.body.match(/(\d);(\d+)/)[1].to_i
     when 1
       I18n.t('schedule.created.sms.login_error', action: 'agendar', sms_type: 'SMS para estimular divulgação')
     when 2
@@ -199,6 +212,7 @@ class Schedule < ActiveRecord::Base
     when 4
       I18n.t('schedule.created.sms.invalid_msg_error', action: 'agendar', sms_type: 'SMS para estimular divulgação')
     when 5, 6
+      self.scheduled_msgs.create(api_id: divulgationSMSId.body.match(/(\d);(\d+)/)[2].to_i)
       link = if self.price.recompensa_divulgacao.zero?
         I18n.t('schedule.created.sms.divulgation.create_rewards', url: get_edit_url_for(self.price.service))
       end
@@ -242,11 +256,10 @@ class Schedule < ActiveRecord::Base
     sms = get_sms_prefix(name, options)
     sms += yield
     sms = URI.encode(sms)
+    instance_variable_set("@#{sms_type}", sms)  if name == :customer # usado para "salvar" sms e exibi-lo ao profissional.
 
     tel = ( name == :profissional ) ? options[:prTel] : options[:ctTel]
     fire(sms, tel, schedule, date)
-    
-    instance_variable_set("@#{sms_type}", sms)  if name == :customer # usado para "salvar" sms e exibi-lo ao profissional.
   end
 
   def get_sms_prefix(name, options)
@@ -267,7 +280,7 @@ class Schedule < ActiveRecord::Base
       uri.gsub!(/_SMS_HOUR_/, date[:h])
       uri.gsub!(/_SMS_MINUTE_/, date[:m])
     end
-    Net::HTTP.get_response(URI(uri)) if Rails.env.production? # <<<<<<<<<<<<<<<<<<<<<<<<<-------------------------- Retirar ISSO!!!!!!!
+    Net::HTTP.get_response(URI(uri))
   end
 
 end

@@ -15,7 +15,7 @@ module ApplicationHelper
     # caso ela não seja realizada, a instrução html_safe é invocada em
     # um objeto da classe TrueClass, o que ocasiona o lançamento de erro
     # NoMethodError.
-    unless msg_type.to_sym == :timedout
+    unless msg_type.to_sym == :timedout || message.nil?
         concat(content_tag(:div, message, class: "alert #{bootstrap_class_for(msg_type)} fade in") do 
                 concat content_tag(:button, 'x', class: "close", data: { dismiss: 'alert' })
                 concat message.html_safe

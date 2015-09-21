@@ -27,6 +27,7 @@ private
       resource = Professional.create_with_omniauth(auth)
       resource_name = resource.class.to_s.downcase.to_sym
       sign_in(resource_name, resource)
+      track_signup_event(resource) if Rails.env.production?
       redirect_to sign_up_steps_path
     end
 

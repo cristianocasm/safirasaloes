@@ -15,7 +15,6 @@ class ApplicationController < ActionController::Base
   protected
 
   def after_sign_in_path_for(resource)
-    track_signup_event(resource) if Rails.env.production? && resource.sign_in_count == 1
     track_login_event(resource) if Rails.env.production?
     
     if resource.instance_of?(Customer) && resource.can_send_photo?

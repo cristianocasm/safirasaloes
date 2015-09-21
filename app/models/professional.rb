@@ -176,7 +176,7 @@ class Professional < ActiveRecord::Base
   end
 
   def schedules_to_calendar(start, hend)
-    scs = self.schedules.where(updated_at: start..hend).includes(:price)
+    scs = self.schedules.where(updated_at: start..hend).includes(price: :service)
     transform(scs)
   end
 

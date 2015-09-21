@@ -23,7 +23,7 @@ class Schedule < ActiveRecord::Base
 
   attr_accessor :feedback_msg
 
-  has_many :scheduled_msgs
+  has_many :scheduled_msgs, dependent: :destroy
   has_many :photo_logs
   has_one :customer_invitation
   belongs_to :professional
@@ -116,7 +116,7 @@ class Schedule < ActiveRecord::Base
     ct = Customer.find_by_telefone(self.telefone)
     self.update_columns(customer_id: ct.id) if ct && ct.id != self.customer_id
     cancel_scheduled_sms if self.scheduled_msgs.present?
-    send_sms_notification(ct) if Rails.env.production?
+    send_sms_notification(ct)
   end
 
   def cancel_scheduled_sms
@@ -280,7 +280,12 @@ class Schedule < ActiveRecord::Base
       uri.gsub!(/_SMS_HOUR_/, date[:h])
       uri.gsub!(/_SMS_MINUTE_/, date[:m])
     end
-    Net::HTTP.get_response(URI(uri))
+
+    if Rails.env.production?
+      Net::HTTP.get_response(URI(uri))
+    else
+      "6;123456".tap { |o| o.define_singleton_method(:body) { self } }
+    end
   end
 
 end

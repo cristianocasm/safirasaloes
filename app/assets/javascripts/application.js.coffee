@@ -66,6 +66,9 @@ $(document).on 'click', 'a.sms_success_link', (event) ->
   content = event.toElement.dataset.content.replace(/%0A/g,"<br/>")
   content = decodeURIComponent(content)
 
+  if window.started
+    window.tour.end()
+
   $("#smsContentLabel").html(title)
   $("#smsContentBody").html(content)
   $("#smsContent").modal('show')
@@ -110,10 +113,12 @@ if $('button#tutorial').length
         }, 1000);
   tour = new Tour(tour)
   tour.init()
+  # tour.setCurrentStep(0)
   tour.restart() if autoStart
   window.tour = tour
   $('button#tutorial').click ->
     tour.restart()
+    tour.init(true)
 
 # Habilita popovers
 $('[data-toggle="popover"]').popover()

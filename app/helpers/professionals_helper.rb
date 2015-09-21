@@ -54,7 +54,7 @@ module ProfessionalsHelper
         edit_service_steps
       end
     when 'schedules'
-      schedules_bootstrap_steps
+      schedule_steps
     end
   end
 
@@ -74,29 +74,27 @@ module ProfessionalsHelper
         edit_service_steps
       end
     when 'schedules'
-      schedules_steps
+      schedule_steps
     end
   end
 
-  def schedules_steps
+  def schedule_steps
     {
-      name: "schedules_bootstrap",
+      name: "schedule_steps",
       steps: [
         {
           orphan: true,
-          title: "Estimule o boca-a-boca do seu cliente<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
+          title: "<i>O boca-a-boca é a melhor forma de divulgação</i><button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
           content: "
-          <p>O SafiraSalões foi criado para estimular o boca-a-boca de seus clientes, porque (você sabe né?!) <b>o boca-a-boca
-          é a melhor forma de divulgação!</b></p>
-          <p>Clique em <b>'Próximo'</b> e descubra como o SafiraSalões fará seus clientes divulgar seu trabalho\
-          e <b>atrair muitos outros clientes</b> para você.</p>",
+          <p>O <b>SafiraSalões</b> <b>incentivará</b> seus clientes a <b>divulgar</b> nas redes sociais <b>seu contato profissional</b>\
+          juntamente com as <b>fotos</b> do visual <b>criado por você</b>.</p>",
           template: "
           <div class='popover tour'>
             <div class='arrow'></div>
             <h3 class='popover-title' style='background-color: #c4e2bb'></h3>
             <div class='popover-content'></div>
             <div class='popover-navigation' style='background-color: #c4e2bb'>
-              <button class='btn btn-success' data-role='next'>Próximo »</button>
+              <button class='btn btn-success' data-role='next'>Ótimo! Me mostre como »</button>
             </div>
           </div>"
         },
@@ -104,47 +102,43 @@ module ProfessionalsHelper
           element: "div.fc-view-container",
           placement: "top",
           backdrop: false,
-          title: "Agende seus clientes<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
+          title: "Utilize nossa <b>Agenda</b><button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
           content: "
-          <p>Utilize nossa agenda para informar qual o seu próximo cliente.</p>
-          <p>Assim poderemos convidá-lo a divulgar seu trabalho nas redes sociais
-          (postando fotos do novo visual), logo após o atendimento.</p>
-          <p><b>Clique em qualquer área da agenda (logo abaixo) para agendar um cliente.</b></p>",
+          <p><b>Informe</b> quem é <b>seu próximo cliente</b> e o SafiraSalões irá incentivá-lo a <b>divulgar seu trabalho</b>.</p>",
           template: "
           <div class='popover tour'>
             <div class='arrow'></div>
             <h3 class='popover-title' style='background-color: #c4e2bb'></h3>
             <div class='popover-content'></div>
+            <div class='popover-navigation' style='background-color: #c4e2bb'>
+              <b>Clique</b> em <b>qualquer ponto da agenda abaixo</b> para <b>informar seu próximo cliente</b>
+            </div>
           </div>"
         },
         {
           element: "input#schedule_telefone",
           backdrop: false,
           placement: "right",
-          title: "Marque o Horário<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
+          title: "Informe o <b>telefone celular</b><button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
           content: "
-          <p>Não se esqueça de informar o <b>telefone celular</b> do cliente. Assim o SafiraSalões poderá:</p>
-          
-          <ul class='pl-10'>
-            <li class='orangered'>Convidá-lo a divulgar seu trabalho</li>
-            <li class='orangered'>Confirmar que o horário foi marcado</li>
-            <li class='orangered'>Lembrá-lo da aproximação do horário e evitar que ele se esqueça</li>
-          </ul>",
+          <p>O incentivo à divulgação é feito através de <b>mensagens de texto</b> no celular do cliente. Portanto, tenha atenção especial a este campo.</p>",
           template: "
           <div class='popover tour'>
             <div class='arrow'></div>
             <h3 class='popover-title' style='background-color: #c4e2bb'></h3>
             <div class='popover-content'></div>
+            <div class='popover-navigation' style='background-color: #c4e2bb'>
+              Preencha os campos para continuar
+            </div>
           </div>"
         },
         {
-          orphan: true,
-          title: "Horário Marcado<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
+          backdrop: false,
+          placement: 'bottom',
+          element: "a#reward_creation_link",
+          title: "Estimule e Fidelize<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
           content: "
-          <p>Parabéns! O horário foi marcado com sucesso. Muuuuito fácil neh!?</p>
-          <p>Mas nós ainda temos mais para você! <b>Que tal fidelizar seus clientes recompensando
-          aqueles que divulgarem seu trabalho?</b></p>
-          <p><b>Clique em 'Próximo' para criar recompensas agora</b> ou acesse 'Meus Serviços' no menu lateral.</p>",
+          <p><b>Estimule</b> seus clientes a <b>divulgar</b> o serviço agendado criando uma recompensa por divulgação.</p>",
           template: "
           <div class='popover tour'>
             <div class='arrow'></div>
@@ -156,7 +150,21 @@ module ProfessionalsHelper
           </div>"
         },
         {
-          path: services_path
+          backdrop: false,
+          placement: 'bottom',
+          element: "button#tutorial",
+          title: "Ative este tutorial<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
+          content: "
+          <p>Ative este tutorial novamente, sempre que desejar, através deste botão.</p>",
+          template: "
+          <div class='popover tour'>
+            <div class='arrow'></div>
+            <h3 class='popover-title' style='background-color: #c4e2bb'></h3>
+            <div class='popover-content'></div>
+            <div class='popover-navigation' style='background-color: #c4e2bb'>
+              <button class='btn btn-success' data-role='next'>Terminar</button>
+            </div>
+          </div>"
         }
       ],
       backdrop: true,
@@ -237,102 +245,6 @@ module ProfessionalsHelper
               <button class='btn btn-success' data-role='next'>Próximo »</button>
             </div>
           </div>"
-    }.to_json
-  end
-
-  def schedules_bootstrap_steps
-    {
-      name: "schedules_bootstrap",
-      steps: [
-        {
-          orphan: true,
-          title: "Seja bem-vinda(o)#{', ' + current_professional.nome}<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
-          content: "
-          <p>O SafiraSalões foi criado para estimular o boca-a-boca de seus clientes, porque (você sabe né?!) <b>o boca-a-boca
-          é a melhor forma de divulgação!</b></p>
-          <p>Clique em <b>'Próximo'</b> e descubra como o SafiraSalões fará seus clientes divulgar seu trabalho\
-          e <b>atrair muitos outros clientes</b> para você.</p>",
-          template: "
-          <div class='popover tour'>
-            <div class='arrow'></div>
-            <h3 class='popover-title' style='background-color: #c4e2bb'></h3>
-            <div class='popover-content'></div>
-            <div class='popover-navigation' style='background-color: #c4e2bb'>
-              <button class='btn btn-success' data-role='next'>Próximo »</button>
-            </div>
-          </div>"
-        },
-        {
-          element: "div.fc-view-container",
-          placement: "top",
-          backdrop: false,
-          title: "Agende seus clientes<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
-          content: "
-          <p>Utilize nossa agenda para informar qual o seu próximo cliente.</p>
-          <p>Assim poderemos convidá-lo a divulgar seu trabalho nas redes sociais
-          (postando fotos do novo visual), logo após o atendimento.</p>
-          <p><b>Clique em qualquer área da agenda (logo abaixo) para agendar um cliente.</b></p>",
-          template: "
-          <div class='popover tour'>
-            <div class='arrow'></div>
-            <h3 class='popover-title' style='background-color: #c4e2bb'></h3>
-            <div class='popover-content'></div>
-          </div>"
-        },
-        {
-          element: "input#schedule_telefone",
-          backdrop: false,
-          placement: "right",
-          title: "Marque o Horário<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
-          content: "
-          <p>Não se esqueça de informar o <b>telefone celular</b> do cliente. Assim o SafiraSalões poderá:</p>
-          
-          <ul class='pl-10'>
-            <li class='orangered'>Convidá-lo a divulgar seu trabalho</li>
-            <li class='orangered'>Confirmar que o horário foi marcado</li>
-            <li class='orangered'>Lembrá-lo da aproximação do horário e evitar que ele se esqueça</li>
-          </ul>",
-          template: "
-          <div class='popover tour'>
-            <div class='arrow'></div>
-            <h3 class='popover-title' style='background-color: #c4e2bb'></h3>
-            <div class='popover-content'></div>
-          </div>"
-        },
-        {
-          orphan: true,
-          title: "Horário Marcado<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
-          content: "
-          <p>Parabéns! O horário foi marcado com sucesso. Muuuuito fácil neh!?</p>
-          <p>Mas nós ainda temos mais para você! <b>Que tal fidelizar seus clientes recompensando
-          aqueles que divulgarem seu trabalho?</b></p>
-          <p><b>Clique em 'Próximo' para criar recompensas agora</b> ou acesse 'Meus Serviços' no menu lateral.</p>",
-          template: "
-          <div class='popover tour'>
-            <div class='arrow'></div>
-            <h3 class='popover-title' style='background-color: #c4e2bb'></h3>
-            <div class='popover-content'></div>
-            <div class='popover-navigation' style='background-color: #c4e2bb'>
-              <button class='btn btn-success' data-role='next'>Próximo »</button>
-            </div>
-          </div>"
-        },
-        {
-          path: services_path
-        }
-      ],
-      backdrop: true,
-      template: "
-      <div class='popover tour'>
-        <div class='arrow'></div>
-        <h3 class='popover-title' style='background-color: #c4e2bb'></h3>
-        <div class='popover-content'></div>
-        <div class='popover-navigation' style='background-color: #c4e2bb'>
-          <button class='btn btn-success' data-role='next'> »</button>
-          <button class='btn btn-danger' data-role='prev'>« </button>
-          <button class='btn btn-default' data-role='end' style='float: none !important;'>x</button>
-        </div>
-      </div>"
     }.to_json
   end
 

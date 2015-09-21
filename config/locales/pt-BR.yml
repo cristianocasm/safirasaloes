@@ -28,7 +28,7 @@ pt-BR:
           success: "<li>Lembrete para evitar esquecimento (<a href=\"#\" data-content=\"%{sms_content}\" data-title=\"%{sms_title}\" class=\"sms_success_link\" style=\"text-decoration: underline\">ver mensagem</a>)</li>"
         divulgation:
           success: "<li>Lembrete para divulgar (<a href=\"#\" data-content=\"%{sms_content}\" data-title=\"%{sms_title}\" class=\"sms_success_link\" style=\"text-decoration: underline\">ver mensagem</a>). %{link}"
-          create_rewards: Estimule seu cliente a divulgar este serviço. <a href=%{url}>Clique aqui para criar uma recompensa por divulgação</a>.
+          create_rewards: "Estimule seu cliente a divulgar este serviço, <a href=%{url} style=\"text-decoration: underline\" id=\"reward_creation_link\">clique aqui para criar uma recompensa por divulgação</a>."
     not_created:
       price:
         blank: ^Informe o serviço

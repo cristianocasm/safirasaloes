@@ -24,8 +24,8 @@
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet">
         <!--/ END FONT STYLES -->
         
-        <%= stylesheet_link_tag   'application', media: 'all' %>
         <%= render "layouts/hotjar.html" if Rails.env.production? %>
+        <%= stylesheet_link_tag   'application', media: 'all' %>
         <%= render "layouts/fb_pixel.html" if Rails.env.production? %>
         <%= csrf_meta_tags %>
 

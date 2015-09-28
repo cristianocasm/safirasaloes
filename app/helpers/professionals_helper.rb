@@ -101,7 +101,6 @@ module ProfessionalsHelper
         {
           element: "div.fc-view-container",
           placement: "top",
-          backdrop: false,
           title: "Utilize nossa <b>Agenda</b><button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
           content: "
           <p><b>Informe</b> quem é <b>seu próximo cliente</b> e o SafiraSalões irá incentivá-lo a <b>divulgar seu trabalho</b>.</p>",
@@ -117,7 +116,6 @@ module ProfessionalsHelper
         },
         {
           element: "input#schedule_telefone",
-          backdrop: false,
           placement: "right",
           title: "Informe o <b>telefone celular</b><button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
           content: "
@@ -133,7 +131,6 @@ module ProfessionalsHelper
           </div>"
         },
         {
-          backdrop: false,
           placement: 'bottom',
           element: "a#reward_creation_link",
           title: "Estimule e Fidelize<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
@@ -150,7 +147,6 @@ module ProfessionalsHelper
           </div>"
         },
         {
-          backdrop: false,
           placement: 'bottom',
           element: "button#tutorial",
           title: "Ative este tutorial<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
@@ -167,7 +163,8 @@ module ProfessionalsHelper
           </div>"
         }
       ],
-      backdrop: true,
+      backdrop: false,
+      keyboard: false,
       template: "
       <div class='popover tour'>
         <div class='arrow'></div>
@@ -235,6 +232,7 @@ module ProfessionalsHelper
         }
       ],
       backdrop: true,
+      keyboard: false,
       template: "
           <div class='popover tour'>
             <div class='arrow'></div>
@@ -289,6 +287,7 @@ module ProfessionalsHelper
         }
       ],
       backdrop: true,
+      keyboard: false,
       template: "
       <div class='popover tour'>
         <div class='arrow'></div>
@@ -327,6 +326,7 @@ module ProfessionalsHelper
         }
       ],
       backdrop: false,
+      keyboard: false,
       template: "
       <div class='popover tour'>
         <div class='arrow'></div>
@@ -362,6 +362,7 @@ module ProfessionalsHelper
           }
         ],
         backdrop: false,
+        keyboard: false,
         template: "
         <div class='popover tour'>
           <div class='arrow'></div>
@@ -400,6 +401,7 @@ module ProfessionalsHelper
         }
       ],
       backdrop: false,
+      keyboard: false,
       template: "
       <div class='popover tour'>
         <div class='arrow'></div>
@@ -439,6 +441,7 @@ module ProfessionalsHelper
         }
       ],
       backdrop: false,
+      keyboard: false,
       template: "
       <div class='popover tour'>
         <div class='arrow'></div>

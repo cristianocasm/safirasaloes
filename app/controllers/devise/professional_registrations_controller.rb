@@ -47,6 +47,7 @@ class Devise::ProfessionalRegistrationsController < Devise::RegistrationsControl
   # end
 
   def after_sign_up_path_for(resource)
+    
     if Rails.env.production?
       woopra = WoopraTracker.new(request)
       woopra.config( domain: "safirasaloes.com.br" )
@@ -57,6 +58,7 @@ class Devise::ProfessionalRegistrationsController < Devise::RegistrationsControl
       woopra.track('professional_signed_up', { plan: 'trial' }, true)
     end
     
+    flash.clear
     sign_up_steps_path
   end
 end

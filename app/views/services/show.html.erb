@@ -32,7 +32,7 @@
     <div class="form-group col-sm-12">
       <strong class="col-sm-2">Recompensa Por Divulgação: </strong>
       <div class="col-sm-4">
-        <%= rec = price.recompensa_divulgacao; pluralize(rec, 'safira') %> (<%= number_to_currency(rec / 2) %>)
+        <%= rec = price.recompensa_divulgacao; pluralize(rec, 'safira') %> (<%= number_to_currency(rec.to_f / 2) %>)
       </div>
     </div>
   </fieldset>

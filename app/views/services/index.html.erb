@@ -46,7 +46,7 @@
               </div>
               <div class="ml-20">
                 <strong>Recompensa Por Divulgação:</strong>
-                <%= rec = price.recompensa_divulgacao; pluralize(rec, 'safira') %> (<%= number_to_currency(rec / 2) %>)
+                <%= rec = price.recompensa_divulgacao; pluralize(rec, 'safira') %> (<%= number_to_currency(rec.to_f / 2) %>)
               </div>
             <% end %>
           </td>

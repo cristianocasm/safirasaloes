@@ -23,7 +23,7 @@
       </i>
     </span>
     <div class="col-sm-4">
-        <%= f.text_field :preco, class: "money form-control input-sm", onkeypress: 'return event.charCode >= 48 && event.charCode <= 57' %>
+        <%= f.text_field :preco, class: "money form-control input-sm", onkeypress: 'return event.charCode >= 48 && event.charCode <= 57', maxlength: 11 %>
     </div>
   </div>
 
@@ -46,7 +46,7 @@
       </i>
     </span>
     <div class="col-sm-4">
-      <%= f.text_field :recompensa_divulgacao, class: "recompensa form-control input-sm", placeholder: "Exemplo: 10 safiras", onkeypress: 'return event.charCode >= 48 && event.charCode <= 57' %>
+      <%= f.text_field :recompensa_divulgacao, class: "recompensa form-control input-sm", placeholder: "Exemplo: 10 safiras", onkeypress: 'return event.charCode >= 48 && event.charCode <= 57', maxlength: 11 %>
     </div>
   </div>
 

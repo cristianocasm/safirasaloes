@@ -21,6 +21,7 @@
       $("#schedule_price_id").val("<%= sc.price_id %>");
     }
   <% end %>
+  $("#myCarouselModal").modal('show');
 <% else %>
   $('#errors').empty()
   $('#errors').append('<%= flash_messages %>')

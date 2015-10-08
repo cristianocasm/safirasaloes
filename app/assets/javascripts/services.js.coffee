@@ -7,9 +7,7 @@ jQuery ->
 
   # Remove campos para a definição de novo preço no cadastro de serviços.
   $('form').on 'click', '.remove_fields', (event) ->
-    console.log $(this).prev('input[type=hidden]')
     $(this).prev('input[type=hidden]').val('1')
-    console.log $(this).prev('input[type=hidden]')
     $(this).closest('fieldset').hide()
     if $('fieldset.price_fields:visible').length == 1
       $('div.optional').hide()

@@ -5,9 +5,16 @@ jQuery ->
   if $('#calendar').length
     set_bindings()
     config_callendar()
+    config_carousel()
     load_events('profissional/schedules')
     # launch_typeahead()
 
+config_carousel = ->
+  $("#carousel-example-generic").carousel( { interval: false } )
+  $('#prev_car_tour').on 'click', (e) ->
+    $("#carousel-example-generic").carousel('prev')
+  $('#next_car_tour').on 'click', (e) ->
+    $("#carousel-example-generic").carousel('next')
 
 config_callendar = ->
   $('#calendar').fullCalendar({

@@ -7,7 +7,7 @@ module ServicesHelper
     fields = f.fields_for(association, new_object, child_index: id) do |builder|
       render(association.to_s.singularize + "_fields", f: builder, hide_optionals: false)
     end
-    link_to('#', class: "add_fields btn btn-warning mt-30", data: {id: id, fields: fields.gsub("\n", "")}) do
+    link_to('#', class: "add_fields", data: {id: id, fields: fields.gsub("\n", "")}) do
       concat(
         content_tag(:span) do
           concat(content_tag(:i, '', class: "fa fa-plus") do
@@ -30,7 +30,7 @@ module ServicesHelper
 
   def generate_div_for_price_deletion(f, hide_optionals, scheduled, persisted)
     concat(content_tag(:div, '', delete_price_div_options(hide_optionals)) do
-            concat(content_tag(:div, '', class: 'col-sm-6') do
+            concat(content_tag(:div, '') do
               concat(link_for_price_deletion(f, scheduled, persisted))
             end)
           end
@@ -46,28 +46,18 @@ module ServicesHelper
   end
 
   def link_for_price_deletion(f, scheduled, persisted)
-    text = text_for_delete_price_link(scheduled, persisted)
     if scheduled
-      content_tag(:div, text, style: 'font-style: italic; color: #f5b22a;' )
+      content_tag(:div, '', style: 'font-style: italic; color: #f5b22a;' )
     else
       hiddenField = f.hidden_field(:_destroy)
 
       link = link_to('#', class: "remove_fields") do
         concat(content_tag(:span) do
           concat(content_tag(:i, '', class: 'fa fa-trash fa-2x mr-5'))
-          concat(text)
         end)
       end
 
       hiddenField + link
-    end
-  end
-
-  def text_for_delete_price_link(scheduled, persisted)
-    if scheduled
-      I18n.t('price.com_horario_marcado.nao_pode_ser_excluido')
-    else
-      persisted ?  "Excluir preço (não esqueça de salvar alteração)" : "Excluir preço"
     end
   end
 

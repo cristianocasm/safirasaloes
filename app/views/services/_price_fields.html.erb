@@ -1,55 +1,59 @@
-<fieldset class="border-left dotted orange mt-30 price_fields">
-  <div class="form-group optional" <%= "style=display:none;" if hide_optionals %>>
-    <%= f.label :descricao, 'Descrição:', class: 'col-sm-2' %>
-    <span>
-      <i class="fa fa-question-circle dica fg-theme" tabindex="0" role="button" data-toggle="popover" data-container="body" data-placement="bottom" data-html="true" title="Defina uma Descrição" data-content="Este campo descreve o preço do serviço a ser criado.
-      <br/>
-      <br/>
-      <b>Exemplo:</b> imagine que você esteja definindo os preços para o serviço <b>Mechas</b>. Você poderia criar três preços distintos sendo que, na descrição de cada um deles, você poderia inserir <b>Cabelos Curtos</b>, <b>Cabelos Médios</b> e <b>Cabelos Longos</b>, respectivamente.
-      <br/>
-      <br/>
-      O mesmo poderia ser feito (por exemplo) para o serviço <b>Esmaltação</b>, o qual poderia ter preços distintos <b>Com Adesivos</b> e <b>Sem Adesivos</b>.">
-      </i>
-    </span>
-    <div class="col-sm-4">
-        <%= f.text_field :descricao, class: "form-control input-sm" %>
+<fieldset class="mb-30 price_fields">
+  <div class="row vertical-align">
+    <div class="col-xs-1 col-sm-1" style="padding: 0px; text-align: center;">
+      <% delete_price_div(f, hide_optionals) %>
+    </div>
+    <div class="border-left dotted orange col-xs-11 col-sm-11">
+      <div class="form-group">
+        <%= f.label :preco, 'Preço:', class: 'col-sm-2' %>
+        <span>
+          <i class="fa fa-question-circle dica fg-theme" tabindex="0" role="button" data-toggle="popover" data-container="body" data-placement="bottom" data-html="true" title="Informe o preço cobrado" data-content="
+          <div>Informe quanto custa o serviço. <b>Caso o preço varie</b> de cliente para cliente, <b>informe</b> também <b>em qual caso</b> este preço será cobrado.</div>">
+          </i>
+        </span>
+        <div class="col-xs-12 col-sm-4">
+          <div class="col-xs-5 col-sm-5 no-padding">
+            <%= f.text_field :preco, class: "money form-control input-sm", onkeypress: 'return event.charCode >= 48 && event.charCode <= 57', maxlength: 11, placeholder: 'Ex: R$ 35,00' %>
+          </div>
+          <div class="col-xs-2 col-sm-2 simulating-touchspin">
+            para
+          </div>
+          <div class="col-xs-5 col-sm-5 no-padding">
+            <%= f.text_field :descricao, class: "descricao form-control input-sm", placeholder: "cabelo curto", 'data-toggle'=>"popover", 'data-container'=>"body", 'data-placement'=>"top", 'data-html'=>"true", 'title'=>"Preço para...", 'data-content'=>"
+          Caso preço varie (de acordo com o comprimento do cabelo do cliente, por exemplo) <b>informe quando o preço informado se aplica</b>.
+          <div>Exemplos:</div>
+          <ul>
+            <li>Cabelos curtos</li>
+            <li>Cabelos longos</li>
+            <li>Todos os clientes (se preço não varia)</li>
+          </ul>
+          " %>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :recompensa_divulgacao, 'Recompensa Por Divulgação:', class: 'col-sm-2' %>
+        <span>
+          <i class="fa fa-question-circle dica fg-theme" tabindex="0" role="button" data-toggle="popover" data-container="body" data-placement="bottom" data-html="true" title="Defina a Recompensa por Divulgação" data-content="Safiras é a forma através da qual você <b>fideliza</b> seus clientes e também os estimula a <b>divulgar o seu trabalho</b>.<br />
+
+          Defina neste campo quantas Safiras seu cliente receberá como recompensa quando ele postar nas redes sociais seu contato juntamente com as fotos do serviço prestado por você. <br />
+          <b>Esclarecimentos</b>
+          <ol>
+            <li>
+              <i>
+              Cada Safira equivale a R$ 0,50 (50 centavos). O acumulo de Safiras dará ao seu cliente a vantagem de trocá-las por serviços fornecidos por você quando ele juntar Safiras suficientes.</i>
+            </li>
+            <li>
+              <i>Seu cliente receberá as Safiras apenas uma única vez (independentemente da quantidade de fotos postadas nas redes sociais) para cada vez que ele for ao seu estabelecimento <b>e divulgar seu trabalho</b>. Ou seja, sem divulgar seu trabalho, ele não é recompensado.</i>
+            </li>
+          </ul>">
+          </i>
+        </span>
+        <div class="col-sm-4">
+          <%= f.text_field :recompensa_divulgacao, class: "recompensa form-control input-sm", placeholder: "Ex: 10 safiras", onkeypress: 'return event.charCode >= 48 && event.charCode <= 57', maxlength: 11 %>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="form-group">
-    <%= f.label :preco, 'Preço:', class: 'col-sm-2' %>
-    <span>
-      <i class="fa fa-question-circle dica fg-theme" tabindex="0" role="button" data-toggle="popover" data-container="body" data-placement="bottom" data-html="true" title="Defina o Preço" data-content="Informe o preço cobrado pelo serviço.">
-      </i>
-    </span>
-    <div class="col-sm-4">
-        <%= f.text_field :preco, class: "money form-control input-sm", onkeypress: 'return event.charCode >= 48 && event.charCode <= 57', maxlength: 11 %>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :recompensa_divulgacao, 'Recompensa Por Divulgação:', class: 'col-sm-2' %>
-    <span>
-      <i class="fa fa-question-circle dica fg-theme" tabindex="0" role="button" data-toggle="popover" data-container="body" data-placement="bottom" data-html="true" title="Defina a Recompensa por Divulgação" data-content="Safiras é a forma através da qual você <b>fideliza</b> seus clientes e também os estimula a <b>divulgar o seu trabalho</b>.<br />
-
-      Defina neste campo quantas Safiras seu cliente receberá como recompensa quando ele postar as fotos do serviço prestado por você nas redes sociais. <br />
-      <b>Esclarecimentos</b>
-      <ol>
-        <li>
-          <i>
-          Cada Safira equivale a R$ 0,50 (50 centavos). O acumulo de Safiras dará ao seu cliente a vantagem de trocá-las por serviços fornecidos por você quando ele juntar Safiras suficientes.</i>
-        </li>
-        <li>
-          <i>Seu cliente receberá as Safiras apenas uma única vez (independentemente da quantidade de fotos postadas nas redes sociais) para cada vez que ele for ao seu estabelecimento <b>e divulgar seu trabalho</b>. Ou seja, sem divulgar seu trabalho, ele não é recompensado.</i>
-        </li>
-      </ul>">
-      </i>
-    </span>
-    <div class="col-sm-4">
-      <%= f.text_field :recompensa_divulgacao, class: "recompensa form-control input-sm", placeholder: "Exemplo: 10 safiras", onkeypress: 'return event.charCode >= 48 && event.charCode <= 57', maxlength: 11 %>
-    </div>
-  </div>
-
-  <% delete_price_div(f, hide_optionals) %>
-
 </fieldset>

@@ -48,6 +48,32 @@
       <% end %>
     </div>
   </div>
+
+  <div class="modal fade" id="myCarouselModal" tabindex="-1" role="dialog" aria-labelledby="myCarouselModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myCarouselModalLabel">Próximos Passos...</h4>
+        </div>
+        <div class="modal-body">
+          <%= render "carousel_tour" %>
+        </div>
+        <div class="modal-footer">
+          <div class="panel-footer no-border">
+            <ul class="pager wizard no-margin">
+              <li class="mr-15">
+                <button type="button" class="btn btn-warning btn-lg" id="prev_car_tour">Anterior</button>
+              </li>
+              <li>
+                <button type="button" class="btn btn-success btn-lg" id="next_car_tour">Próximo</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- Modal -->
   <div class="modal fade" id="smsContent" tabindex="-1" role="dialog" aria-labelledby="smsContentLabel" aria-hidden="true">
     <div class="modal-dialog">

@@ -29,6 +29,9 @@
 #= require third-part/bootstrap-tour
 #= require third-part/jquery.bootstrap.wizard
 #= require third-part/jquery.bootstrap-touchspin
+#= require third-part/modal-carousel
+#= require third-part/modal-local
+#= require third-part/carousel-fit
 #= require template/apps
 #= require custom
 #= require_tree .

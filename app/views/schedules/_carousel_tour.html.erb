@@ -1,0 +1,85 @@
+<!-- Início Carousel -->
+<div id="carousel-example-generic" class="carousel slide carousel-fit" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="5"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="6"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+
+    <div class="item active">
+      <%= image_tag "tutorial/0. agendar.jpg", alt: 'Parabéns' %>
+      <div class="carousel-caption">
+        <h3>Parabéns!!!</h3>
+        <p>Ao informar quem é seu próximo cliente (agendando ele no SafiraSalões) você o habilitou a divulgar seu trabalho. <b>Clique em 'Próximo'</b> e descubra como ele mostrará ao mundo o quão competente você é.</p>
+      </div>
+    </div>
+    
+    <div class="item">
+      <%= image_tag "tutorial/1. servico.jpg", alt: 'Forneça o Serviço' %>
+      <div class="carousel-caption">
+        <h3>Forneça o Serviço</h3>
+        <p>Atenda seu cliente no dia e hora marcado. Lembre-se: a divulgação do serviço prestado é feita com fotos do visual criado por você. <b>Capriche</b>!!!</p>
+      </div>
+    </div>
+    
+    <div class="item">
+      <%= image_tag("tutorial/2. mensagem.jpg", :alt => "Link para Divulgação") %>
+      <div class="carousel-caption">
+        <h3>Avisamos por SMS</h3>
+        <p>Enquanto você presta o serviço, o SafiraSalões informa seu cliente para onde ele deverá enviar as fotos do serviço prestado.</p>
+      </div>
+    </div>
+    
+    <div class="item">
+      <%= image_tag("tutorial/3. foto.jpg", :alt => "Tirar Foto") %>
+      <div class="carousel-caption">
+        <h3>Hora da Foto</h3>
+        <p>Serviço prestado... é hora de tirar fotos do novo visual. Dica: se ofereça para tirar as fotos. Isso aumenta as chances do seu cliente fazer a divulgação além de garantir uma melhor qualidade das imagens.</p>
+      </div>
+    </div>
+
+    <div class="item">
+      <%= image_tag("tutorial/4. facebook.jpg", :alt => "Enviar Foto") %>
+      <div class="carousel-caption">
+        <h3>Divulgando</h3>
+        <p>Fotos tiradas... seu cliente utiliza o SafiraSalões (acessando o endereço enviado por SMS) para postar no Facebook os dados de contato definidos por você juntamente com as fotos do novo visual.</p>
+      </div>
+    </div>
+
+    <div class="item">
+      <%= image_tag("tutorial/5. recompensa.jpg", :alt => "Fidelização") %>
+      <div class="carousel-caption">
+        <h3>Recompensa e Fidelização</h3>
+        <p>Após a divulgação, o SafiraSalões fornece ao cliente a recompensa criada por você - fidelizando-o.</p>
+      </div>
+    </div>
+
+    <div class="item">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/nIjVuRTm-dc?list=PLB7LggrPIOMVQkk5W2yqFfuC5uwY07PEV" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+  </div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+    <span class="control-left fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fa fa-chevron-left fa-stack-1x"></i>
+    </span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+    <span class="control-right fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fa fa-chevron-right fa-stack-1x"></i>
+    </span>
+  </a>
+</div>
+<!-- Fim Carousel -->

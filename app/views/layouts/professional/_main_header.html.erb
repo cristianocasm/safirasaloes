@@ -37,6 +37,12 @@
         <!-- Start navbar toolbar -->
         <div class="navbar navbar-toolbar">
 
+            <div class="tour-mobile">
+              <button type="button" class="btn btn-warning btn-block m-5"  id="tutorial" data-auto-start="<%= @step_taken.nil? ? false : !@step_taken %>" data-tour="<%= build_tour_steps %>">
+                <i class="fa fa-play-circle"></i> <b>Iniciar Tutorial</b>
+              </button>
+            </div>
+
             <!-- Start left navigation -->
             <ul class="nav navbar-nav navbar-left">
 

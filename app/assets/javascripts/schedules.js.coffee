@@ -9,6 +9,20 @@ jQuery ->
     load_events('profissional/schedules')
     # launch_typeahead()
 
+$(document).on 'click', 'button#btn_agendar', ->
+  c = $('#calendar')
+  s = null
+  e = null
+
+  if c.fullCalendar( 'getView' ).type == "month"
+    s = moment().utc()
+    e = moment().utc().add(1, 'd')
+  else
+    s = moment.utc().add(1, 'h').startOf('hour').local()
+    e = moment.utc().add(1, 'h').startOf('hour').add(30, 'm').local()
+
+  c.fullCalendar( 'select', s, e )
+
 config_carousel = ->
   $("#carousel-example-generic").carousel( { interval: false } )
   $('#prev_car_tour').on 'click', (e) ->
@@ -23,7 +37,7 @@ config_callendar = ->
       center: 'title',
       right: 'month,agendaWeek,agendaDay,next'
     },
-    defaultView: 'agendaWeek'
+    defaultView: 'month'
     editable: true
     firstDay: 1
     fixedWeekCount: false
@@ -49,22 +63,25 @@ load_events = (source) ->
 
 assocPopOver = (event, element, view) ->
   element.popover({
-    title: createTitle(event),
+    title: event.title,
     placement: setPlacement(event, view),
     html: true,
     content: createContent(event),
-    trigger: "hover",
-    delay: { "show": 0, "hide": 1000 },
-    template: '
-    <div class="popover" role="tooltip">
-      <div class="arrow"></div>
-      <h3 class="popover-title"></h3>
-      <div class="popover-content"></div>
-    </div>'
+    trigger: "click",
+    delay: { "show": 0 },
+    container:'body',
+    template: "
+    <div class='popover' role='tooltip'>
+      <div class='arrow'></div>
+      <h3 class='popover-title' style='overflow: hidden;'></h3>
+      <div class='popover-content' style='overflow: auto;'></div>
+      <div class='popover-footer'>
+        <button type='button' class='btn btn-default btn-sm' onclick='$(this).parent().parent().popover(\"hide\")'><i class='fa fa-close'></i></button>
+        <a class='btn btn-danger btn-sm' onclick='$(this).parent().parent().popover(\"hide\")' href='/profissional/schedules/#{event.id}' data-method='delete' data-remote='true'><i class='fa fa-trash-o'></i></a>
+        <a class='btn btn-warning btn-sm' onclick='$(this).parent().parent().popover(\"hide\")' href='/profissional/schedules/#{event.id}/edit' data-remote='true'><i class='fa fa-pencil'></i></a>
+      </div>
+    </div>"
   });
-
-createTitle = (event) ->
-  "#{event.title} <a href='/profissional/schedules/#{event.id}' data-method='delete' data-remote='true'><i class='fa fa-trash-o'></i></a> <a href='/profissional/schedules/#{event.id}/edit' data-remote='true'><i class='fa fa-pencil'></i></a>"
 
 createContent = (event) ->
   "Nome: #{event.nome}<br/>Tel: #{event.telefone}<br/>Serviço: #{event.price}"
@@ -108,6 +125,7 @@ dealNewEvent = (start, end, jsEvent, view) ->
     minI = 0
     hourF = 11
     minF = 0
+    diaF = diaF - 1
   else if view.name == 'agendaWeek' || view.name == 'agendaDay'
     hourI = start.get("hour")
     minI = start.get("minute")

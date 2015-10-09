@@ -149,7 +149,7 @@ class Schedule < ActiveRecord::Base
     smsScheduledForDateTime = if name == :remembering
       self.datahora_inicio - 3.hours
     elsif name == :divulgation
-      self.datahora_fim
+      self.datahora_inicio
     end
 
     day = smsScheduledForDateTime.strftime("%d")

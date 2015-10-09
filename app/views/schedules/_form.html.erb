@@ -1,16 +1,18 @@
 <div class="customer">
   <div class="form-group">
-    <%= f.label :nome, 'Nome do Cliente' %>
+    <%= f.label :nome, 'Nome do cliente' %>
     <%= f.text_field :nome, class: "form-control input-lg", autocomplete: "off" %>
   </div>
   <div class="form-group">
-    <%= f.label :celular, 'Telefone (Celular) do Cliente' %>
+    <%= f.label :celular, 'Celular do cliente', class: 'no-margin' %>
+    <div class="observacao">*Enviaremos um SMS com as informações necessárias para a divulgação do seu trabalho</div>
     <%= f.text_field :telefone, class: "form-control input-lg telefone", autocomplete: "off", onkeypress: 'return event.charCode >= 48 && event.charCode <= 57' %>
   </div>
 </div>
 
 <div class="form-group">
-  <%= f.label :serviço %>
+  <%= f.label :serviço, class: 'no-margin' %>
+  <div class="observacao">*O serviço prestado é o serviço que seu cliente divulgará nas redes sociais com fotos do resultado</div>
   <div id="service_field">
     <% if current_professional.services.blank? %>
       <%= f.fields_for :price do |p| %>

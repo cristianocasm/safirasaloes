@@ -55,6 +55,9 @@ $(document).on 'click, focus', 'input:text.recompensa', ->
     thousands: ''
     })
 
+$(document).on 'click, focus', 'input:text.cep', ->
+  $(this).mask('99.999-999')
+
 # Aplica máscara aos campos de telefone
 $(document).on 'click, focus', 'input:text.telefone', ->
   elm = $(this)

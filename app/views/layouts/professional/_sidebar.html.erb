@@ -36,23 +36,34 @@ START @SIDEBAR LEFT
         <li class="<%= active('schedules') %>">
           <%= link_to(professional_root_path, id: 'agenda', class: active('schedules')) do %>
             <span class="icon"><i class="fa fa-bullhorn"></i></span>
-            <span class="text">Divulgador</span>
+            <span class="text">Estimular Cliente Divulgar Trabalho</span>
+            <% selected('schedules') %>
           <% end %>
         </li>
 
-        <li class="<%= active('services') %>">
-          <%= link_to(services_path, id: 'servicos', class: active('services')) do %>
-            <span class="icon"><i class="fa fa-scissors"></i></span>
-            <span class="text">Meus Serviços</span>
-          <% end %>
+        <li class="submenu <%= active('services') || active('professional_registrations') -%>">
+            <a href="javascript:void(0);">
+                <span class="icon"><i class="fa fa-comments"></i></span>
+                <span class="text">Serviços e Contato para Divulgação</span>
+                <% selected('services', 'professional_registrations') %>
+            </a>
+            <ul>
+                <li class="<%= active('services') %>">
+                  <%= link_to(services_path, id: 'servicos', class: active('services')) do %>
+                    <span class="icon"><i class="fa fa-scissors"></i></span>
+                    <span class="text">Meus Serviços</span>
+                  <% end %>
+                </li>
+                <li class="<%= active('professional_registrations') %>">
+                  <%= link_to(edit_professional_registration_path) do %>
+                    <span class="icon"><i class="fa fa-tty"></i></span>
+                    <span class="text">Meu Contato Profissional</span>
+                  <% end %>
+                </li>
+            </ul>
         </li>
         
-        <li class="<%= active('professional_registrations') %>">
-          <%= link_to(edit_professional_registration_path) do %>
-            <span class="icon"><i class="fa fa-tty"></i></span>
-            <span class="text">Dados de Contato</span>
-          <% end %>
-        </li>
+        
         <!--/ End navigation - dashboard -->
 
     </ul><!-- /.sidebar-menu -->

@@ -817,6 +817,11 @@ body.page-footer-fixed #page-content .footer-content {
     right: 0px !important;
   }
 }
+@media (min-width: 481px) {
+  #header .tour-mobile {
+    display: none;
+  }
+}
 @media (max-width: 360px) {
   #header .navbar-right .navbar-notification .dropdown-menu {
     right: -45px;
@@ -2180,7 +2185,7 @@ body.page-footer-fixed #page-content .footer-content {
   position: absolute;
   top: 0px;
   bottom: 0px;
-  left: 29px;
+  left: 15px;
   z-index: -1;
 }
 .sidebar-menu > li > a > .icon i {

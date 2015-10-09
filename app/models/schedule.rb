@@ -92,12 +92,13 @@ class Schedule < ActiveRecord::Base
   end
 
   def generate_registration_url(token)
-    routes = Rails.application.routes.url_helpers
-    routes.new_customer_registration_url(
-              host: ENV["HOST_URL"],
-              t: token,
-              s: self.id
-            )
+    "http://safirasaloes.com.br/fotos?s=#{token}#{self.id}"
+    # routes = Rails.application.routes.url_helpers
+    # routes.new_customer_registration_url(
+    #           host: ENV["HOST_URL"],
+    #           t: token,
+    #           s: self.id
+    #         )
   end
 
   def generate_invitation(ct)
@@ -249,7 +250,7 @@ class Schedule < ActiveRecord::Base
   def send_sms_divulgation_to(name, options)
     @divulgationTitle = "SMS divulgação (programado para #{self.datahora_fim.strftime('%d/%m/%Y às %H:%M')})"
     url = options[:regUrl] || ENV["HOST_URL"]
-    fire_to(name, options, :divulgation, true, get_date_to_send_sms_for(:divulgation)) { "Gostou do novo visual? Envie uma foto do resultado p/ #{url}, acumule pontos e troque por nossos serviços\n\n-#{options[:prNome]}" }
+    fire_to(name, options, :divulgation, true, get_date_to_send_sms_for(:divulgation)) { "Gostou do novo visual? Envie fotos do resultado p/ #{url}, acumule pontos e troque por nossos serviços\n\n-#{options[:prNome]}" }
   end
 
   def fire_to(name, options, sms_type, schedule = false, date = {})

@@ -86,8 +86,14 @@ class CustomersController < Devise::RegistrationsController
     end
 
     def invited?
-      @sc = params[:s] || customer_params[:schedule_invitation]
-      @token = params[:t]
+      @sc = @token = nil
+      if params[:s]
+        @sc = params[:s][ 4...params[:s].size]
+        @token = params[:s][0..3]
+      else
+        @sc = customer_params[:schedule_invitation]
+        @token = params[:t]
+      end
 
       CustomerInvitation.find_by_schedule_and_token(@sc, @token).present?
     end

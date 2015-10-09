@@ -95,8 +95,8 @@ $(document).on('focusout', 'input:text.telefone', ->
 ).trigger 'focusout'
 
 # Tutorial
-if $('#tutorial').length
-  tour = $('#tutorial')
+if $('.passos-tutorial').length
+  tour = $('.passos-tutorial')
   autoStart = tour.data().autoStart
   
   tour = tour.data().tour
@@ -122,7 +122,7 @@ if $('#tutorial').length
   # tour.setCurrentStep(0)
   tour.restart() if autoStart
   window.tour = tour
-  $('#tutorial').click ->
+  $('.passos-tutorial').click ->
     tour.restart()
     tour.init(true)
 

@@ -23,7 +23,7 @@
         <!--/ End navbar header -->
 
         <!-- Start offcanvas right: This menu will take position at the top of template header (mobile only). Make sure that only #header have the `position: relative`, or it may cause unwanted behavior -->
-        <div class="navbar-minimize-mobile right" id="tutorial" data-auto-start="<%= @step_taken.nil? ? false : !@step_taken %>" data-tour="<%= build_tour_steps %>">
+        <div class="navbar-minimize-mobile right passos-tutorial" data-auto-start="<%= @step_taken.nil? ? false : !@step_taken %>" data-tour="<%= build_tour_steps %>">
             <i class="fa fa-question"></i>
         </div>
         <!--/ End offcanvas right -->
@@ -56,7 +56,7 @@
 
             <ul class="nav navbar-nav navbar-right"><!-- /.nav navbar-nav navbar-right -->
                 <!-- Start profile -->
-                <li class="navbar-setting pull-right" style="font-size: 24px; border-left: 1px solid #dddddd; padding: 16px 15px 13px; color: white; background-color: #81b71a;" id="tutorial" data-auto-start="<%= @step_taken.nil? ? false : !@step_taken %>" data-tour="<%= build_tour_steps %>">
+                <li class="navbar-setting pull-right passos-tutorial" style="font-size: 24px; border-left: 1px solid #dddddd; padding: 16px 15px 13px; color: white; background-color: #81b71a; cursor: pointer;" data-auto-start="<%= @step_taken.nil? ? false : !@step_taken %>" data-tour="<%= build_tour_steps %>">
                     <span><i class="fa fa-question"></i></span>
                 </li>
                 <!--/ End profile -->

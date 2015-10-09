@@ -156,3 +156,17 @@ gen_restful_url = (link) ->
   
   link.attr 'href', ->
     this.href + '?' + params
+
+
+$('div.modal').on 'show.bs.modal', ->
+  modal = this
+  hash = modal.id
+  window.location.hash = hash
+
+  window.onhashchange = ->
+    if !location.hash
+      $(modal).modal('hide')
+  
+$('div.modal').on 'hidden.bs.modal', ->
+  hash = @id
+  history.pushState '', document.title, window.location.pathname

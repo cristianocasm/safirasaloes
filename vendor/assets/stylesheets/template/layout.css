@@ -369,11 +369,11 @@ body.page-sidebar-minimize #sidebar-left .sidebar-menu > li > a > .icon,
 body.page-sidebar-minimize-auto #sidebar-left .sidebar-menu > li > a > .icon {
   min-width: 75px;
   margin-left: 6px;
-  margin-right: 29px;
+  margin-right: 10px;
 }
 body.page-sidebar-minimize #sidebar-left .sidebar-menu > li > a > .icon:after,
 body.page-sidebar-minimize-auto #sidebar-left .sidebar-menu > li > a > .icon:after {
-  left: 36px;
+  left: 22px;
 }
 body.page-sidebar-minimize #sidebar-left .sidebar-menu > li > a > .icon i,
 body.page-sidebar-minimize-auto #sidebar-left .sidebar-menu > li > a > .icon i {
@@ -604,7 +604,7 @@ body.page-sidebar-minimize-auto #page-content {
 /* ========================================================================
  * PAGE SIDEBAR RIGHT SHOW
  * ======================================================================== */
-body.page-sidebar-right-show #header .header-right {
+/*body.page-sidebar-right-show #header .header-right {
   right: 220px !important;
 }
 body.page-sidebar-right-show #sidebar-right {
@@ -640,8 +640,8 @@ body.page-sidebar-right-show #back-top {
   body.page-sidebar-right-show #back-top {
     right: 250px !important;
   }
-}
-@media (max-width: 768px) {
+}*/
+/*@media (max-width: 768px) {
   body.page-sidebar-right-show #header .header-left,
   body.page-sidebar-right-show #header .header-right {
     left: -220px;
@@ -664,12 +664,12 @@ body.page-sidebar-right-show #back-top {
   body.page-sidebar-right-show #page-content .header-content .breadcrumb-wrapper {
     display: block;
   }
-}
-@media (max-width: 640px) {
+}*/
+/*@media (max-width: 640px) {
   body.page-sidebar-right-show #header .navbar-toolbar .navbar-form input {
     min-width: 270px;
   }
-}
+}*/
 /* ========================================================================
  * PAGE FOOTER FIXED
  * ======================================================================== */
@@ -809,17 +809,12 @@ body.page-footer-fixed #page-content .footer-content {
     min-width: 270px;
   }
 }
-@media (max-width: 480px) {
-  #header .navbar-search {
+@media (max-width: 768px) {
+  #header .header-right {
     display: none;
   }
   #header .navbar-toolbar .navbar-right .dropdown-menu {
     right: 0px !important;
-  }
-}
-@media (min-width: 481px) {
-  #header .tour-mobile {
-    display: none;
   }
 }
 @media (max-width: 360px) {
@@ -1725,7 +1720,7 @@ body.page-footer-fixed #page-content .footer-content {
     display: block;
     width: 100%;
     margin-left: 0px !important;
-    margin-top: 50px;
+    margin-top: 0px;
     margin-right: 0px !important;
   }
   #page-content .header-content {

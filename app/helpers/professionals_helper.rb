@@ -169,7 +169,7 @@ module ProfessionalsHelper
         },
         {
           placement: 'bottom',
-          element: "button#tutorial",
+          element: "#tutorial",
           title: "Ative este tutorial<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
           content: "
           <p>Ative este tutorial novamente, sempre que desejar, através deste botão.</p>",

@@ -6,22 +6,41 @@ jQuery ->
     set_bindings()
     config_callendar()
     config_carousel()
+    config_datetime_picker()
     load_events('profissional/schedules')
     # launch_typeahead()
 
-$(document).on 'click', 'button#btn_agendar', ->
-  c = $('#calendar')
-  s = null
-  e = null
+config_datetime_picker = ->
+  $('#schedule_datahora_inicio').datetimepicker({
+    useCurrent: false
+    locale: 'pt-br'
+    icons: {
+      time: 'fa fa-clock-o'
+      date: 'fa fa-calendar'
+      up: 'fa fa-chevron-up'
+      down: 'fa fa-chevron-down'
+      previous: 'fa fa-chevron-left'
+      next: 'fa fa-chevron-right'
+      today: 'fa fa-calendar-check-o'
+      clear: 'fa fa-trash-o'
+      close: 'fa fa-close'
+    }
+  })
 
-  if c.fullCalendar( 'getView' ).type == "month"
-    s = moment().utc()
-    e = moment().utc().add(1, 'd')
-  else
-    s = moment.utc().add(1, 'h').startOf('hour').local()
-    e = moment.utc().add(1, 'h').startOf('hour').add(30, 'm').local()
-
-  c.fullCalendar( 'select', s, e )
+  $('#schedule_datahora_fim').datetimepicker({
+    locale: 'pt-br'
+    icons: {
+      time: 'fa fa-clock-o'
+      date: 'fa fa-calendar'
+      up: 'fa fa-chevron-up'
+      down: 'fa fa-chevron-down'
+      previous: 'fa fa-chevron-left'
+      next: 'fa fa-chevron-right'
+      today: 'fa fa-calendar-check-o'
+      clear: 'fa fa-trash-o'
+      close: 'fa fa-close'
+    }
+  })
 
 config_carousel = ->
   $("#carousel-example-generic").carousel( { interval: false } )
@@ -111,48 +130,27 @@ dealChangeEvent = (event, delta, revertFunc) ->
       $('#calendar').fullCalendar('refetchEvents')
       alert("Um erro inesperado ocorreu e não foi possível atualizar o horário.")
 
+$(document).on 'click', 'button#btn_agendar', ->
+  $('#calendar').fullCalendar( 'select', null)
+
 dealNewEvent = (start, end, jsEvent, view) ->
-  anoI = start.get("year")
-  mesI = start.get("month") + 1
-  diaI = start.get("date")
+  # Para o caso onde botão é utilizado (data sempre será inválida)
+  if !start.isValid() && !end.isValid()
+    start = moment().utc().add(1, 'h').startOf('hour').local()
+    end = moment().utc().add(1, 'h').startOf('hour').add(30, 'm').local()
+  else if view.name == 'month'
+    r = moment().utc().local()
+    start = start.hour(r.hour()).add(1, 'h').startOf('hour').local()
+    end = end.hour(r.hour()).subtract(1, 'd').add(1, 'h').startOf('hour').add(30, 'm').local()
 
-  anoF = end.get("year")
-  mesF = end.get("month") + 1
-  diaF = end.get("date")
-
-  if view.name == 'month'
-    hourI = 10
-    minI = 0
-    hourF = 11
-    minF = 0
-    diaF = diaF - 1
-  else if view.name == 'agendaWeek' || view.name == 'agendaDay'
-    hourI = start.get("hour")
-    minI = start.get("minute")
-    hourF = end.get("hour")
-    minF = end.get("minute")
-  else
-    $("#myModalError").modal(show: true)
-    return
-
-  fillFields(anoI, mesI, diaI, hourI, minI, anoF, mesF, diaF, hourF, minF)
+  fillFields(start, end)
   $("div#errors").empty()
   $("#myModal").modal(show: true)
 
-fillFields = (anoI, mesI, diaI, hourI, minI, anoF, mesF, diaF, hourF, minF) ->
-  $("#schedule_datahora_inicio_1i").val(anoI)
-  $("#schedule_datahora_inicio_2i").val(mesI)
-  $("#schedule_datahora_inicio_3i").val(diaI)
-  $("#schedule_datahora_inicio_4i").val(pad2(hourI))
-  $("#schedule_datahora_inicio_5i").val(pad2(minI))
-  $("#schedule_datahora_fim_1i").val(anoF)
-  $("#schedule_datahora_fim_2i").val(mesF)
-  $("#schedule_datahora_fim_3i").val(diaF)
-  $("#schedule_datahora_fim_4i").val(pad2(hourF))
-  $("#schedule_datahora_fim_5i").val(pad2(minF))
 
-pad2 = (number) ->
-  (if number < 10 then '0' else '') + number
+fillFields = (i, f) ->
+  $("#schedule_datahora_inicio").val(i.format("DD/MM/YYYY HH:mm"))
+  $("#schedule_datahora_fim").val(f.format("DD/MM/YYYY HH:mm"))
 
 ################# INICIALIZANDO UTILIZAÇÃO DE TYPEAHEAD.JS PLUGIN #################
 

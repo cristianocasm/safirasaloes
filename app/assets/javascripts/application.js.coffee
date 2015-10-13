@@ -21,6 +21,7 @@
 #= require third-part/jquery.easing.1.3
 #= require third-part/bootbox
 #= require third-part/moment
+#= require third-part/bootstrap-datetimepicker
 #= require third-part/fullcalendar
 #= require third-part/pt-br
 #= require third-part/jquery.maskedinput

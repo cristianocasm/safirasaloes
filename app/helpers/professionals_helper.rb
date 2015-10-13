@@ -36,7 +36,7 @@ module ProfessionalsHelper
       when 'index'
         widget_title('scissors', 'Cadastre seus serviços para que você possa estimular seus clientes a divulgá-los.')
       when 'show'
-        widget_title('scissors', 'Veja abaixo os detalhes do serviço.')
+        widget_title('scissors', "Veja abaixo os detalhes do serviço #{@service.nome.titleize}.")
       end
     when 'schedules'
       widget_title('bullhorn', 'Informe o cliente e o serviço na agenda abaixo para estimulá-lo a divulgar seu trabalho.')

@@ -35,18 +35,18 @@
       data-content="Seu cliente acumulou Safiras suficientes para trocar por este serviço. Marque esta opção para utilizar as Safiras dele como forma de pagamento por este serviço."></i></span>
 </div>
 
-<div class="form-group">
-  <%= f.label :início %>
-  <div>
-    <%= f.datetime_select :datahora_inicio %>
+<div class="form-group row no-margin">
+  <div style="width: 49%; float: left;">
+    <%= f.label :início %>
+    <%= f.text_field :datahora_inicio, class: 'form-control' %>
+  </div>
+  <div style="width: 49%; float: right;">
+    <%= f.label :fim %>
+    <%= f.text_field :datahora_fim, class: "form-control" %>
   </div>
 </div>
-<div class="form-group">
-  <%= f.label :fim %>
-  <div>
-    <%= f.datetime_select :datahora_fim %>
-  </div>
-</div>
+
+
 <%= f.hidden_field :customer_id %>
 <%= f.hidden_field :id %>
 <%= hidden_field_tag :total_safiras %>

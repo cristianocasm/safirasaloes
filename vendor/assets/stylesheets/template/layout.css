@@ -1724,7 +1724,11 @@ body.page-footer-fixed #page-content .footer-content {
     margin-right: 0px !important;
   }
   #page-content .header-content {
-    padding: 12px 10px;
+    /*padding: 12px 10px;*/
+    display: none;
+  }
+  #page-content .body-content {
+    padding: 0px;
   }
   #page-content .header-content .breadcrumb-wrapper {
     right: 10px;

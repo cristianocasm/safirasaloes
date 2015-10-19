@@ -36,7 +36,7 @@ START @SIDEBAR LEFT
         <li class="<%= active('schedules') %>">
           <%= link_to(professional_root_path, id: 'agenda', class: active('schedules')) do %>
             <span class="icon"><i class="fa fa-bullhorn"></i></span>
-            <span class="text">Estimular Cliente Divulgar Trabalho</span>
+            <span class="text">Estimular Cliente a Divulgar</span>
             <% selected('schedules') %>
           <% end %>
         </li>
@@ -44,7 +44,7 @@ START @SIDEBAR LEFT
         <li class="submenu <%= active('services') || active('professional_registrations') -%>">
             <a href="javascript:void(0);">
                 <span class="icon"><i class="fa fa-comments"></i></span>
-                <span class="text">Serviços e Contato para Divulgação</span>
+                <span class="text">Quero Divulgar...</span>
                 <% selected('services', 'professional_registrations') %>
             </a>
             <ul>

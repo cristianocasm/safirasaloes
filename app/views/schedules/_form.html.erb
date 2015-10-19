@@ -37,11 +37,13 @@
 
 <div class="form-group row no-margin">
   <div style="width: 49%; float: left;">
-    <%= f.label :início %>
+    <%= f.label :início, class: 'no-margin' %>
+    <div class="observacao">*Quando ocorrerá o atendimento?</div>
     <%= f.text_field :datahora_inicio, class: 'form-control' %>
   </div>
   <div style="width: 49%; float: right;">
-    <%= f.label :fim %>
+    <%= f.label :fim, class: 'no-margin' %>
+    <div class="observacao">*Qual a previsão para o término?</div>
     <%= f.text_field :datahora_fim, class: "form-control" %>
   </div>
 </div>

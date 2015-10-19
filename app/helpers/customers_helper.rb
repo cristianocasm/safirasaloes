@@ -2,7 +2,7 @@ module CustomersHelper
   def customer_widget_title
     case controller_name
     when 'schedules'
-      widget_title('scissors', 'Meus Serviços')
+      widget_title('scissors', 'Meus Profissionais e Serviços')
     when 'photo_logs'
       widget_title('camera', 'Enviar Fotos')
     when 'photo_log_steps'

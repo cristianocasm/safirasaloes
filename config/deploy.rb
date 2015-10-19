@@ -9,7 +9,7 @@ set :domain, '45.55.237.28'
 set :deploy_to, '/home/safira/'
 set :repository, 'https://cristianocasm@bitbucket.org/cristianocasm/safirasaloes.git'
 # set :branch, 'master'
-set :branch, 'diversos'
+set :branch, 'master'
 set :rollbar_access_token, "ec9ca75181824170925fa07796df7e56"
 set :rails_env, 'production'
 set :sidekiq_log, "#{deploy_to}#{shared_path}/log/sidekiq.log"

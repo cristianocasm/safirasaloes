@@ -12,6 +12,15 @@
   };
   $('#calendar').fullCalendar('removeEvents', <%= sc.id %>);
   $("#calendar").fullCalendar('renderEvent', myEvent);
+  /*Necessário para que classe .modal-open seja adicionada à tag body*/
+  $('#myModal').on('hidden.bs.modal', function () {
+    content = $("div.active div.carousel-caption").html();
+    $("#content-for-mobile").html(content);
+    $("#myCarouselModal").modal('show');
+  });
+  $('#myCarouselModal').on('shown.bs.modal', function () {
+    $("#myModal").unbind('hidden.bs.modal');
+  });
   $("#myModal").modal('hide');
   $('div#calendar_feedback').html('<% flash_messages() %>');
   if(window.started) { window.tour.next(4); }
@@ -21,7 +30,6 @@
       $("#schedule_price_id").val("<%= sc.price_id %>");
     }
   <% end %>
-  $("#myCarouselModal").modal('show');
 <% else %>
   $('#errors').empty()
   $('#errors').append('<%= flash_messages %>')

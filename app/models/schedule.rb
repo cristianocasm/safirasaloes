@@ -21,7 +21,7 @@
 class Schedule < ActiveRecord::Base
   CELLPHONE_REGEX = /\(\d{2}\) [9|8|7]\d{3,4}-\d{4}/
 
-  attr_accessor :feedback_msg
+  attr_accessor :feedback_msg, :data_inicio, :hora_inicio, :data_fim, :hora_fim
 
   has_many :scheduled_msgs, dependent: :destroy
   has_many :photo_logs
@@ -38,6 +38,7 @@ class Schedule < ActiveRecord::Base
   validates :datahora_inicio, date: true, date: {after_or_equal_to: Proc.new { DateTime.now } }, presence: true, on: [:create, :update]
   validates :datahora_fim, date: true, date: { after: Proc.new { :datahora_inicio } }, on: [:create, :update]
 
+  before_validation :mount_date
   before_save :deal_with_safiras_acceptance, if: Proc.new { |sc| sc.pago_com_safiras_changed? }
   before_destroy :cancel_scheduled_sms, if: Proc.new { |sc| sc.scheduled_msgs.present? }
   after_create :notify
@@ -56,6 +57,11 @@ class Schedule < ActiveRecord::Base
 
   scope :in_the_future, -> { where("datahora_fim > ?", DateTime.now) }
   scope :safiras_resgatadas, -> { where("pago_com_safiras = true").sum(:safiras_resgatadas) }
+
+  def mount_date
+    self.datahora_inicio = "#{data_inicio} #{hora_inicio}" if data_inicio.present?
+    self.datahora_fim = "#{data_fim} #{hora_fim}" if data_fim.present?
+  end
 
   def get_rewards_by_customer_and_professional
     Reward.
@@ -92,12 +98,13 @@ class Schedule < ActiveRecord::Base
   end
 
   def generate_registration_url(token)
-    routes = Rails.application.routes.url_helpers
-    routes.new_customer_registration_url(
-              host: ENV["HOST_URL"],
-              t: token,
-              s: self.id
-            )
+    "http://safirasaloes.com.br/fotos?s=#{token}#{self.id}"
+    # routes = Rails.application.routes.url_helpers
+    # routes.new_customer_registration_url(
+    #           host: ENV["HOST_URL"],
+    #           t: token,
+    #           s: self.id
+    #         )
   end
 
   def generate_invitation(ct)
@@ -149,7 +156,7 @@ class Schedule < ActiveRecord::Base
     smsScheduledForDateTime = if name == :remembering
       self.datahora_inicio - 3.hours
     elsif name == :divulgation
-      self.datahora_fim
+      self.datahora_inicio
     end
 
     day = smsScheduledForDateTime.strftime("%d")
@@ -249,7 +256,7 @@ class Schedule < ActiveRecord::Base
   def send_sms_divulgation_to(name, options)
     @divulgationTitle = "SMS divulgação (programado para #{self.datahora_fim.strftime('%d/%m/%Y às %H:%M')})"
     url = options[:regUrl] || ENV["HOST_URL"]
-    fire_to(name, options, :divulgation, true, get_date_to_send_sms_for(:divulgation)) { "Gostou do novo visual? Envie uma foto do resultado p/ #{url}, acumule pontos e troque por nossos serviços\n\n-#{options[:prNome]}" }
+    fire_to(name, options, :divulgation, true, get_date_to_send_sms_for(:divulgation)) { "Gostou do novo visual? Envie fotos do resultado p/ #{url}, acumule pontos e troque por nossos serviços\n\n-#{options[:prNome]}" }
   end
 
   def fire_to(name, options, sms_type, schedule = false, date = {})

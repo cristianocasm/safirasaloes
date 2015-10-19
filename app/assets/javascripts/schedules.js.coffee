@@ -6,11 +6,100 @@ jQuery ->
     set_bindings()
     config_callendar()
     config_carousel()
+    config_datetime_picker()
     load_events('profissional/schedules')
     # launch_typeahead()
 
+config_datetime_picker = ->
+  $('#schedule_data_inicio').datetimepicker({
+    useCurrent: false
+    locale: 'pt-br'
+    format: 'DD/MM/YYYY'
+    icons: {
+      time: 'fa fa-clock-o'
+      date: 'fa fa-calendar'
+      up: 'fa fa-chevron-up'
+      down: 'fa fa-chevron-down'
+      previous: 'fa fa-chevron-left'
+      next: 'fa fa-chevron-right'
+      today: 'fa fa-calendar-check-o'
+      clear: 'fa fa-trash-o'
+      close: 'fa fa-close'
+    }
+  })
+
+  $('#schedule_hora_inicio').datetimepicker({
+    useCurrent: false
+    locale: 'pt-br'
+    format: 'HH:mm'
+    icons: {
+      time: 'fa fa-clock-o'
+      date: 'fa fa-calendar'
+      up: 'fa fa-chevron-up'
+      down: 'fa fa-chevron-down'
+      previous: 'fa fa-chevron-left'
+      next: 'fa fa-chevron-right'
+      today: 'fa fa-calendar-check-o'
+      clear: 'fa fa-trash-o'
+      close: 'fa fa-close'
+    }
+  })
+
+
+  $('#schedule_data_fim').datetimepicker({
+    locale: 'pt-br'
+    format: 'DD/MM/YYYY'
+    icons: {
+      time: 'fa fa-clock-o'
+      date: 'fa fa-calendar'
+      up: 'fa fa-chevron-up'
+      down: 'fa fa-chevron-down'
+      previous: 'fa fa-chevron-left'
+      next: 'fa fa-chevron-right'
+      today: 'fa fa-calendar-check-o'
+      clear: 'fa fa-trash-o'
+      close: 'fa fa-close'
+    }
+  })
+
+  $('#schedule_hora_fim').datetimepicker({
+    locale: 'pt-br'
+    format: 'HH:mm'
+    icons: {
+      time: 'fa fa-clock-o'
+      date: 'fa fa-calendar'
+      up: 'fa fa-chevron-up'
+      down: 'fa fa-chevron-down'
+      previous: 'fa fa-chevron-left'
+      next: 'fa fa-chevron-right'
+      today: 'fa fa-calendar-check-o'
+      clear: 'fa fa-trash-o'
+      close: 'fa fa-close'
+    }
+  })
+
+
+
+config_video_tour = (i, d) ->
+  if (i == 0 && d == 'right') || (i == 5 && d == 'left') # Vídeo tutorial
+    $('iframe#player').attr('src', "https://www.youtube.com/embed/QUIeCtB15KY?autoplay=1")
+    $('a.carousel-control, ol.carousel-indicators').hide()
+  else
+    $('iframe#player').attr('src', "https://www.youtube.com/embed/QUIeCtB15KY")
+    $('a.carousel-control, ol.carousel-indicators').show()
+
+generate_mobile_caption = ->
+  content = $("div.active div.carousel-caption").html()
+  content = "" if content == undefined
+  $("#content-for-mobile").html(content)
+
 config_carousel = ->
-  $("#carousel-example-generic").carousel( { interval: false } )
+  $("#carousel-example-generic").carousel({ interval: false } )
+  $("#carousel-example-generic").on 'slide.bs.carousel', (e) ->
+    config_video_tour($('div.active').index(), e.direction)
+  $("#carousel-example-generic").on 'slid.bs.carousel', (e) ->
+    generate_mobile_caption() if $("#content-for-mobile").is(":visible");
+
   $('#prev_car_tour').on 'click', (e) ->
     $("#carousel-example-generic").carousel('prev')
   $('#next_car_tour').on 'click', (e) ->
@@ -23,7 +112,7 @@ config_callendar = ->
       center: 'title',
       right: 'month,agendaWeek,agendaDay,next'
     },
-    defaultView: 'agendaWeek'
+    defaultView: 'month'
     editable: true
     firstDay: 1
     fixedWeekCount: false
@@ -49,22 +138,25 @@ load_events = (source) ->
 
 assocPopOver = (event, element, view) ->
   element.popover({
-    title: createTitle(event),
+    title: event.title,
     placement: setPlacement(event, view),
     html: true,
     content: createContent(event),
-    trigger: "hover",
-    delay: { "show": 0, "hide": 1000 },
-    template: '
-    <div class="popover" role="tooltip">
-      <div class="arrow"></div>
-      <h3 class="popover-title"></h3>
-      <div class="popover-content"></div>
-    </div>'
+    trigger: "click",
+    delay: { "show": 0 },
+    container:'body',
+    template: "
+    <div class='popover' role='tooltip'>
+      <div class='arrow'></div>
+      <h3 class='popover-title' style='overflow: hidden;'></h3>
+      <div class='popover-content' style='overflow: auto;'></div>
+      <div class='popover-footer'>
+        <button type='button' class='btn btn-default btn-sm' onclick='$(this).parent().parent().popover(\"hide\")'><i class='fa fa-close'></i></button>
+        <a class='btn btn-danger btn-sm' onclick='$(this).parent().parent().popover(\"hide\")' href='/profissional/schedules/#{event.id}' data-method='delete' data-remote='true'><i class='fa fa-trash-o'></i></a>
+        <a class='btn btn-warning btn-sm' onclick='$(this).parent().parent().popover(\"hide\")' href='/profissional/schedules/#{event.id}/edit' data-remote='true'><i class='fa fa-pencil'></i></a>
+      </div>
+    </div>"
   });
-
-createTitle = (event) ->
-  "#{event.title} <a href='/profissional/schedules/#{event.id}' data-method='delete' data-remote='true'><i class='fa fa-trash-o'></i></a> <a href='/profissional/schedules/#{event.id}/edit' data-remote='true'><i class='fa fa-pencil'></i></a>"
 
 createContent = (event) ->
   "Nome: #{event.nome}<br/>Tel: #{event.telefone}<br/>Serviço: #{event.price}"
@@ -94,47 +186,29 @@ dealChangeEvent = (event, delta, revertFunc) ->
       $('#calendar').fullCalendar('refetchEvents')
       alert("Um erro inesperado ocorreu e não foi possível atualizar o horário.")
 
+$(document).on 'click', 'button#btn_agendar', ->
+  $('#calendar').fullCalendar( 'select', null)
+
 dealNewEvent = (start, end, jsEvent, view) ->
-  anoI = start.get("year")
-  mesI = start.get("month") + 1
-  diaI = start.get("date")
+  # Para o caso onde botão é utilizado (data sempre será inválida)
+  if !start.isValid() && !end.isValid()
+    start = moment().utc().add(1, 'h').startOf('hour').local()
+    end = moment().utc().add(1, 'h').startOf('hour').add(30, 'm').local()
+  else if view.name == 'month'
+    r = moment().utc().local()
+    start = start.hour(r.hour()).add(1, 'h').startOf('hour').local()
+    end = end.hour(r.hour()).subtract(1, 'd').add(1, 'h').startOf('hour').add(30, 'm').local()
 
-  anoF = end.get("year")
-  mesF = end.get("month") + 1
-  diaF = end.get("date")
-
-  if view.name == 'month'
-    hourI = 10
-    minI = 0
-    hourF = 11
-    minF = 0
-  else if view.name == 'agendaWeek' || view.name == 'agendaDay'
-    hourI = start.get("hour")
-    minI = start.get("minute")
-    hourF = end.get("hour")
-    minF = end.get("minute")
-  else
-    $("#myModalError").modal(show: true)
-    return
-
-  fillFields(anoI, mesI, diaI, hourI, minI, anoF, mesF, diaF, hourF, minF)
+  fillFields(start, end)
   $("div#errors").empty()
   $("#myModal").modal(show: true)
 
-fillFields = (anoI, mesI, diaI, hourI, minI, anoF, mesF, diaF, hourF, minF) ->
-  $("#schedule_datahora_inicio_1i").val(anoI)
-  $("#schedule_datahora_inicio_2i").val(mesI)
-  $("#schedule_datahora_inicio_3i").val(diaI)
-  $("#schedule_datahora_inicio_4i").val(pad2(hourI))
-  $("#schedule_datahora_inicio_5i").val(pad2(minI))
-  $("#schedule_datahora_fim_1i").val(anoF)
-  $("#schedule_datahora_fim_2i").val(mesF)
-  $("#schedule_datahora_fim_3i").val(diaF)
-  $("#schedule_datahora_fim_4i").val(pad2(hourF))
-  $("#schedule_datahora_fim_5i").val(pad2(minF))
 
-pad2 = (number) ->
-  (if number < 10 then '0' else '') + number
+fillFields = (i, f) ->
+  $("#schedule_data_inicio").val(i.format("DD/MM/YYYY"))
+  $("#schedule_hora_inicio").val(i.format("HH:mm"))
+  $("#schedule_data_fim").val(f.format("DD/MM/YYYY"))
+  $("#schedule_hora_fim").val(f.format("HH:mm"))
 
 ################# INICIALIZANDO UTILIZAÇÃO DE TYPEAHEAD.JS PLUGIN #################
 

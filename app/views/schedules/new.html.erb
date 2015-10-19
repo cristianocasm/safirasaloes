@@ -26,7 +26,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Marcar Horário</h4>
+            <h4 class="modal-title" id="myModalLabel">Estimular Divulgação</h4>
           </div>
           <div class="modal-body">
             <div id="errors"></div>
@@ -39,7 +39,7 @@
                   <button type="button" class="btn btn-warning btn-lg" data-dismiss="modal">Cancelar</button>
                 </li>
                 <li>
-                  <%= button_tag 'Marcar Horário', data: { disable_with: "Enviando SMS..." }, class: 'btn btn-success btn-lg btn-next', type: 'submit' %>
+                  <%= button_tag 'Estimular', data: { disable_with: "Enviando SMS..." }, class: 'btn btn-success btn-lg btn-next', type: 'submit' %>
                 </li>
               </ul>
             </div>
@@ -58,6 +58,8 @@
         </div>
         <div class="modal-body">
           <%= render "carousel_tour" %>
+          <div id="content-for-mobile">
+          </div>
         </div>
         <div class="modal-footer">
           <div class="panel-footer no-border">
@@ -95,4 +97,5 @@
 <% end %>
 
 <div id="calendar_feedback"></div>
+<div><button class="btn btn-warning btn-lg btn-block rounded mb-30 mt-20" id="btn_agendar"><div class="text-strong">INFORMAR CLIENTE E SERVIÇO</div><div class="observacao no-margin text-strong" style="font-size: 0.7em;">*Clique aqui ou na data desejada abaixo</div></btn></div>
 <div id="calendar"></div>

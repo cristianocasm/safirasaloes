@@ -19,8 +19,32 @@ module ProfessionalsHelper
         widget_title('scissors', 'Consultar Serviço')
       end
     when 'schedules'
-      widget_title('bullhorn', 'Divulgador')
+      widget_title('bullhorn', 'Estimular Cliente a Divulgar Trabalho')
     end
+  end
+
+  def professional_widget_subtitle
+    case controller_name
+    when 'professional_registrations'
+      widget_title('tty', 'Informe seu contato para que ele seja divulgado (pelos seus clientes) juntamente com fotos do serviço prestado.')
+    when 'services'
+      case action_name
+      when 'new', 'create'
+        widget_title('scissors', 'Cadastre o serviço definindo nome, preço(s) e recompensa(s) por divulgação.')
+      when 'edit', 'update'
+        widget_title('scissors', 'Altere os campos abaixo e pressione "Salvar" para atualizar o serviço.')
+      when 'index'
+        widget_title('scissors', 'Cadastre seus serviços para que você possa estimular seus clientes a divulgá-los.')
+      when 'show'
+        widget_title('scissors', "Veja abaixo os detalhes do serviço #{@service.nome.titleize}.")
+      end
+    when 'schedules'
+      widget_title('bullhorn', 'Informe o cliente e o serviço na agenda abaixo para estimulá-lo a divulgar seu trabalho.')
+    end
+  end
+
+  def selected(*options)
+    concat content_tag(:span, nil, class: 'selected') if options.include? controller_name
   end
 
   def build_tour_steps
@@ -99,7 +123,7 @@ module ProfessionalsHelper
           </div>"
         },
         {
-          element: "div.fc-view-container",
+          element: "button#btn_agendar",
           placement: "top",
           title: "Utilize nossa <b>Agenda</b><button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
           content: "
@@ -109,17 +133,14 @@ module ProfessionalsHelper
             <div class='arrow'></div>
             <h3 class='popover-title' style='background-color: #c4e2bb'></h3>
             <div class='popover-content'></div>
-            <div class='popover-navigation' style='background-color: #c4e2bb'>
-              <b>Clique</b> em <b>qualquer ponto da agenda abaixo</b> para <b>informar seu próximo cliente</b>
-            </div>
           </div>"
         },
         {
           element: "input#schedule_telefone",
           placement: "right",
-          title: "Informe o <b>telefone celular</b><button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
+          title: "Informe o <b>telefone celular</b>...<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
           content: "
-          <p>O incentivo à divulgação é feito através de <b>mensagens de texto</b> no celular do cliente. Portanto, tenha atenção especial a este campo.</p>",
+          <p>...pois o incentivo à divulgação é feito através de <b>mensagens de texto</b> no celular do cliente.</p>",
           template: "
           <div class='popover tour'>
             <div class='arrow'></div>
@@ -148,7 +169,7 @@ module ProfessionalsHelper
         },
         {
           placement: 'bottom',
-          element: "button#tutorial",
+          element: ".passos-tutorial",
           title: "Ative este tutorial<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
           content: "
           <p>Ative este tutorial novamente, sempre que desejar, através deste botão.</p>",

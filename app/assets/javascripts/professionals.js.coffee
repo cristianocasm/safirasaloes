@@ -22,14 +22,14 @@ jQuery ->
       if (elem.data('oldVal') != elem.val())
         #Updated stored value
         elem.data('oldVal', elem.val());
-        if elem.val() == cep.val() && cep.val().length == 8
+        if elem.val() == cep.val() && cep.val().replace(/\D+/g, '').length == 8
           $("#professional_cep").addClass("spinner")
           get_full_address(cep, nome, telefone, whatsapp, rua, num, bairro, comp, cidade, estado)
         else
           update_preview(nome, telefone, whatsapp, rua, num, bairro, comp, cidade, estado)
 
 get_full_address = (cep, nome, telefone, whatsapp, rua, num, bairro, comp, cidade, estado) ->
-  $.getJSON "http://api.postmon.com.br/v1/cep/#{cep.val()}", (address) ->
+  $.getJSON "http://api.postmon.com.br/v1/cep/#{cep.val().replace( /\D+/g, '')}", (address) ->
     rua.val(address.logradouro)
     bairro.val(address.bairro)
     cidade.val(address.cidade)

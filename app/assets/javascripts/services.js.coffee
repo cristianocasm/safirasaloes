@@ -77,5 +77,9 @@ activate_calculator = (e) ->
   saf = $(e).val().match(/\d+/)
   saf == null ? 0 : saf[0]
   cred = parseFloat(saf / 2).toFixed(2)
-  $(e).siblings("span.bootstrap-touchspin-postfix").text("equivale a R$ #{cred}")
+  calc = $(e).siblings("span.bootstrap-touchspin-postfix")
+  calc.text("equivale a R$ #{cred}")
+  calc.bind 'click', (event) ->
+    $(e).focus()
+
 

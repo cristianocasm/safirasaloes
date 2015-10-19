@@ -13,6 +13,7 @@
  *= require_tree .
  *= require_self
  *= require third-part/bootstrap
+ *= require third-part/bootstrap-datetimepicker
  *= require third-part/font-awesome
  *= require third-part/fullcalendar
  *= require third-part/bootstrap-tour

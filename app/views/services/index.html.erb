@@ -18,8 +18,7 @@
           <td><%= number_to_currency(service.prices.first.preco) %></td>
           <td><%= rec = service.prices.first.recompensa_divulgacao; pluralize(rec, 'safira') %> (<%= number_to_currency(rec.to_f / 2) %>)</td>
         <% else %>
-          <td><i>Clique para ver os preços</i></td>
-          <td><i>Clique para ver as recompensas</i></td>
+          <td colspan="2"><i>Clique para ver os preços e recompensas</i></td>
         <% end %>
         <td>
           <%= link_to service, class: 'btn btn-success btn-xs', title: 'Consultar' do %>
@@ -38,15 +37,14 @@
           <td colspan="4">
             <% service.prices_ordered.each do |price| %>
               <div class="mt-10">
-                <strong><%= "#{price.descricao}:" %></strong>
-              </div>
-              <div class="ml-20">
-                <strong>Preço</strong>
-                <%= number_to_currency(price.preco) %>
-              </div>
-              <div class="ml-20">
-                <strong>Recompensa Por Divulgação:</strong>
-                <%= rec = price.recompensa_divulgacao; pluralize(rec, 'safira') %> (<%= number_to_currency(rec.to_f / 2) %>)
+                <strong><%= "#{service.nome}" %></strong>
+                para
+                <strong><%= "#{price.descricao}: " %></strong>
+                <strong><%= number_to_currency(price.preco) %></strong>
+                com recompensa por divulgação de 
+                <strong>
+                  <%= rec = price.recompensa_divulgacao; pluralize(rec, 'safira') %> (<%= number_to_currency(rec.to_f / 2) %>)
+                </strong>
               </div>
             <% end %>
           </td>

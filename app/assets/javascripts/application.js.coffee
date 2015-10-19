@@ -21,6 +21,7 @@
 #= require third-part/jquery.easing.1.3
 #= require third-part/bootbox
 #= require third-part/moment
+#= require third-part/bootstrap-datetimepicker
 #= require third-part/fullcalendar
 #= require third-part/pt-br
 #= require third-part/jquery.maskedinput
@@ -36,6 +37,9 @@
 #= require custom
 #= require_tree .
 #= require_self
+
+$(document).on 'hidden.bs.modal', '#myCarouselModal', (e) ->
+  $('iframe#player').attr('src', "https://www.youtube.com/embed/QUIeCtB15KY")
 
 # Aplica máscara aos campos de dinheiro
 $(document).on 'click, focus', 'input:text.money', ->
@@ -54,6 +58,9 @@ $(document).on 'click, focus', 'input:text.recompensa', ->
     affixesStay: false,
     thousands: ''
     })
+
+$(document).on 'click, focus', 'input:text.cep', ->
+  $(this).mask('99.999-999')
 
 # Aplica máscara aos campos de telefone
 $(document).on 'click, focus', 'input:text.telefone', ->
@@ -92,8 +99,8 @@ $(document).on('focusout', 'input:text.telefone', ->
 ).trigger 'focusout'
 
 # Tutorial
-if $('button#tutorial').length
-  tour = $('button#tutorial')
+if $('.passos-tutorial').length
+  tour = $('.passos-tutorial')
   autoStart = tour.data().autoStart
   
   tour = tour.data().tour
@@ -119,7 +126,7 @@ if $('button#tutorial').length
   # tour.setCurrentStep(0)
   tour.restart() if autoStart
   window.tour = tour
-  $('button#tutorial').click ->
+  $('.passos-tutorial').click ->
     tour.restart()
     tour.init(true)
 
@@ -153,3 +160,17 @@ gen_restful_url = (link) ->
   
   link.attr 'href', ->
     this.href + '?' + params
+
+
+$('div.modal').on 'show.bs.modal', ->
+  modal = this
+  hash = modal.id
+  window.location.hash = hash
+
+  window.onhashchange = ->
+    if !location.hash
+      $(modal).modal('hide')
+  
+$('div.modal').on 'hidden.bs.modal', ->
+  hash = @id
+  history.pushState '', document.title, window.location.pathname

@@ -1,39 +1,24 @@
 <%= content_for :title, 'Consultar Serviço | SafiraSalões' %>
 <p id="notice"><%= notice %></p>
 
-<fieldset class="border-left dotted green">
-  <div class="form-group col-sm-12">
-    <strong class="col-sm-2">Nome:</strong>
-    <div class="col-sm-4">
-      <%= @service.nome %>
-    </div>
-  </div>
-</fieldset>
-
-
 <% @service.prices_ordered.each do |price| %>
   <fieldset class="border-left dotted orange mt-30">
-    <% unless @service.preco_fixo %>
-      <div class="form-group col-sm-12">
-        <strong class="col-sm-2">Descrição: </strong>
-        <div class="col-sm-6">
-          <%= price.descricao %>
-        </div>
-      </div>
-    <% end %>
-
     <div class="form-group col-sm-12">
-      <strong class="col-sm-2">Preço: </strong>
-      <div class="col-sm-4">
+      <span class="text-strong">
+        <%= @service.nome %>
+      </span>
+      para
+      <span class="text-strong">
+        <%= price.descricao.blank? ? 'todos os clientes' : price.descricao %>
+      </span>
+      :
+      <span class="text-strong">
         <%= number_to_currency(price.preco) %>
-      </div>
-    </div>
-
-    <div class="form-group col-sm-12">
-      <strong class="col-sm-2">Recompensa Por Divulgação: </strong>
-      <div class="col-sm-4">
+      </span>
+      com recompensa por divulgação de
+      <span class="text-strong">
         <%= rec = price.recompensa_divulgacao; pluralize(rec, 'safira') %> (<%= number_to_currency(rec.to_f / 2) %>)
-      </div>
+      </span>
     </div>
   </fieldset>
 <% end %>

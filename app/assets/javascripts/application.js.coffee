@@ -38,6 +38,9 @@
 #= require_tree .
 #= require_self
 
+$(document).on 'hidden.bs.modal', '#myCarouselModal', (e) ->
+  $('iframe#player').attr('src', "https://www.youtube.com/embed/QUIeCtB15KY")
+
 # Aplica máscara aos campos de dinheiro
 $(document).on 'click, focus', 'input:text.money', ->
   $(this).maskMoney({

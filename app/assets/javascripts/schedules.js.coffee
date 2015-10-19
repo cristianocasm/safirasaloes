@@ -14,6 +14,7 @@ config_datetime_picker = ->
   $('#schedule_datahora_inicio').datetimepicker({
     useCurrent: false
     locale: 'pt-br'
+    # format: 'DD/MM/YYYY'
     icons: {
       time: 'fa fa-clock-o'
       date: 'fa fa-calendar'
@@ -29,6 +30,7 @@ config_datetime_picker = ->
 
   $('#schedule_datahora_fim').datetimepicker({
     locale: 'pt-br'
+    # format: 'HH/mm'
     icons: {
       time: 'fa fa-clock-o'
       date: 'fa fa-calendar'
@@ -42,8 +44,26 @@ config_datetime_picker = ->
     }
   })
 
+config_video_tour = (i, d) ->
+  if (i == 0 && d == 'right') || (i == 5 && d == 'left') # Vídeo tutorial
+    $('iframe#player').attr('src', "https://www.youtube.com/embed/QUIeCtB15KY?autoplay=1")
+    $('a.carousel-control, ol.carousel-indicators').hide()
+  else
+    $('iframe#player').attr('src', "https://www.youtube.com/embed/QUIeCtB15KY")
+    $('a.carousel-control, ol.carousel-indicators').show()
+
+generate_mobile_caption = ->
+  content = $("div.active div.carousel-caption").html()
+  content = "" if content == undefined
+  $("#content-for-mobile").html(content)
+
 config_carousel = ->
-  $("#carousel-example-generic").carousel( { interval: false } )
+  $("#carousel-example-generic").carousel({ interval: false } )
+  $("#carousel-example-generic").on 'slide.bs.carousel', (e) ->
+    config_video_tour($('div.active').index(), e.direction)
+  $("#carousel-example-generic").on 'slid.bs.carousel', (e) ->
+    generate_mobile_caption() if $("#content-for-mobile").is(":visible");
+
   $('#prev_car_tour').on 'click', (e) ->
     $("#carousel-example-generic").carousel('prev')
   $('#next_car_tour').on 'click', (e) ->

@@ -1,6 +1,33 @@
-/*Evita que conteúdo vá sendo jogado para a esquerda com o acréscimo de 15px de padding
-a cada vez que o modal de tutorial é ativado logo após o de agendamento*/
-body { padding-right: 0px !important}
+@media (max-width: 499px) {
+  div.carousel-caption {
+    display: none;
+  }
+  
+  span.control-left {
+    left: 5px !important;
+  }
+
+  span.control-right {
+    right: 5px !important;
+  }
+
+  div.carousel-inner {
+    padding: 0px 60px;
+  }
+
+  div#content-for-mobile > h3 {
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: underline;
+  }
+}
+
+@media (min-width: 500px) {
+  div#content-for-mobile {
+    display: none;
+  }
+}
 
 div.observacao {
   font-style: italic;

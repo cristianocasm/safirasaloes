@@ -11,10 +11,10 @@ jQuery ->
     # launch_typeahead()
 
 config_datetime_picker = ->
-  $('#schedule_datahora_inicio').datetimepicker({
+  $('#schedule_data_inicio').datetimepicker({
     useCurrent: false
     locale: 'pt-br'
-    # format: 'DD/MM/YYYY'
+    format: 'DD/MM/YYYY'
     icons: {
       time: 'fa fa-clock-o'
       date: 'fa fa-calendar'
@@ -28,9 +28,10 @@ config_datetime_picker = ->
     }
   })
 
-  $('#schedule_datahora_fim').datetimepicker({
+  $('#schedule_hora_inicio').datetimepicker({
+    useCurrent: false
     locale: 'pt-br'
-    # format: 'HH/mm'
+    format: 'HH:mm'
     icons: {
       time: 'fa fa-clock-o'
       date: 'fa fa-calendar'
@@ -43,6 +44,41 @@ config_datetime_picker = ->
       close: 'fa fa-close'
     }
   })
+
+
+  $('#schedule_data_fim').datetimepicker({
+    locale: 'pt-br'
+    format: 'DD/MM/YYYY'
+    icons: {
+      time: 'fa fa-clock-o'
+      date: 'fa fa-calendar'
+      up: 'fa fa-chevron-up'
+      down: 'fa fa-chevron-down'
+      previous: 'fa fa-chevron-left'
+      next: 'fa fa-chevron-right'
+      today: 'fa fa-calendar-check-o'
+      clear: 'fa fa-trash-o'
+      close: 'fa fa-close'
+    }
+  })
+
+  $('#schedule_hora_fim').datetimepicker({
+    locale: 'pt-br'
+    format: 'HH:mm'
+    icons: {
+      time: 'fa fa-clock-o'
+      date: 'fa fa-calendar'
+      up: 'fa fa-chevron-up'
+      down: 'fa fa-chevron-down'
+      previous: 'fa fa-chevron-left'
+      next: 'fa fa-chevron-right'
+      today: 'fa fa-calendar-check-o'
+      clear: 'fa fa-trash-o'
+      close: 'fa fa-close'
+    }
+  })
+
+
 
 config_video_tour = (i, d) ->
   if (i == 0 && d == 'right') || (i == 5 && d == 'left') # Vídeo tutorial
@@ -169,8 +205,10 @@ dealNewEvent = (start, end, jsEvent, view) ->
 
 
 fillFields = (i, f) ->
-  $("#schedule_datahora_inicio").val(i.format("DD/MM/YYYY HH:mm"))
-  $("#schedule_datahora_fim").val(f.format("DD/MM/YYYY HH:mm"))
+  $("#schedule_data_inicio").val(i.format("DD/MM/YYYY"))
+  $("#schedule_hora_inicio").val(i.format("HH:mm"))
+  $("#schedule_data_fim").val(f.format("DD/MM/YYYY"))
+  $("#schedule_hora_fim").val(f.format("HH:mm"))
 
 ################# INICIALIZANDO UTILIZAÇÃO DE TYPEAHEAD.JS PLUGIN #################
 

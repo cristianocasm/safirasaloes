@@ -135,7 +135,11 @@ class SchedulesController < ApplicationController
           :nome,
           :telefone,
           :datahora_inicio,
+          :data_inicio,
+          :hora_inicio,
           :datahora_fim,
+          :data_fim,
+          :hora_fim,
           :observacao,
           :pago_com_safiras,
           :price_attributes => [:on_schedule_form]

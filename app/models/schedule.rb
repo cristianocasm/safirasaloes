@@ -21,7 +21,7 @@
 class Schedule < ActiveRecord::Base
   CELLPHONE_REGEX = /\(\d{2}\) [9|8|7]\d{3,4}-\d{4}/
 
-  attr_accessor :feedback_msg
+  attr_accessor :feedback_msg, :data_inicio, :hora_inicio, :data_fim, :hora_fim
 
   has_many :scheduled_msgs, dependent: :destroy
   has_many :photo_logs
@@ -38,6 +38,7 @@ class Schedule < ActiveRecord::Base
   validates :datahora_inicio, date: true, date: {after_or_equal_to: Proc.new { DateTime.now } }, presence: true, on: [:create, :update]
   validates :datahora_fim, date: true, date: { after: Proc.new { :datahora_inicio } }, on: [:create, :update]
 
+  before_validation :mount_date
   before_save :deal_with_safiras_acceptance, if: Proc.new { |sc| sc.pago_com_safiras_changed? }
   before_destroy :cancel_scheduled_sms, if: Proc.new { |sc| sc.scheduled_msgs.present? }
   after_create :notify
@@ -56,6 +57,11 @@ class Schedule < ActiveRecord::Base
 
   scope :in_the_future, -> { where("datahora_fim > ?", DateTime.now) }
   scope :safiras_resgatadas, -> { where("pago_com_safiras = true").sum(:safiras_resgatadas) }
+
+  def mount_date
+    self.datahora_inicio = "#{data_inicio} #{hora_inicio}" if data_inicio.present?
+    self.datahora_fim = "#{data_fim} #{hora_fim}" if data_fim.present?
+  end
 
   def get_rewards_by_customer_and_professional
     Reward.

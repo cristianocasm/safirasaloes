@@ -39,12 +39,22 @@
   <div style="width: 49%; float: left;">
     <%= f.label :início, class: 'no-margin' %>
     <div class="observacao">*Quando ocorrerá o atendimento?</div>
-    <%= f.text_field :datahora_inicio, class: 'form-control' %>
+    <div style="width: 63%; float: left;">
+      <%= f.text_field :data_inicio, class: 'form-control' %>
+    </div>
+    <div style="width: 37%; float: right;">
+      <%= f.text_field :hora_inicio, class: 'form-control' %>
+    </div>
   </div>
   <div style="width: 49%; float: right;">
     <%= f.label :fim, class: 'no-margin' %>
     <div class="observacao">*Qual a previsão para o término?</div>
-    <%= f.text_field :datahora_fim, class: "form-control" %>
+    <div style="width: 63%; float: left;">
+      <%= f.text_field :data_fim, class: "form-control" %>
+    </div>
+    <div style="width: 37%; float: right;">
+      <%= f.text_field :hora_fim, class: "form-control" %>
+    </div>
   </div>
 </div>
 

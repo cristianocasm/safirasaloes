@@ -12,8 +12,10 @@ $("#schedule_telefone").val("<%= sc.telefone %>")
 $("#schedule_customer_id").val(<%= sc.customer_id %>)
 $("#schedule_price_id").val(<%= sc.price_id %>)
 $("#schedule_id").val(<%= sc.id %>)
-$("#schedule_datahora_inicio").val("<%= sc.datahora_inicio.strftime('%d/%m/%Y %H:%M') %>")
-$("#schedule_datahora_fim").val("<%= sc.datahora_fim.strftime('%d/%m/%Y %H:%M') %>")
+$("#schedule_data_inicio").val("<%= sc.datahora_inicio.strftime('%d/%m/%Y') %>")
+$("#schedule_hora_inicio").val("<%= sc.datahora_inicio.strftime('%H:%M') %>")
+$("#schedule_data_fim").val("<%= sc.datahora_fim.strftime('%d/%m/%Y') %>")
+$("#schedule_hora_fim").val("<%= sc.datahora_fim.strftime('%H:%M') %>")
 
 // Tratando utilização de Safiras para pagamento
 <% if sc.pago_com_safiras %>

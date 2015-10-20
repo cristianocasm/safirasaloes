@@ -99,7 +99,7 @@ config_carousel = ->
     config_video_tour($('div.active').index(), e.direction)
   $("#carousel-example-generic").on 'slid.bs.carousel', (e) ->
     generate_mobile_caption() if $("#content-for-mobile").is(":visible");
-    woopra.track('tour_taken') if $('div.active').index() == 5
+    woopra.track('tour_taken') if( ($('div.active').index() == 5) && (typeof woopra != 'undefined') )
 
   $('#prev_car_tour').on 'click', (e) ->
     $("#carousel-example-generic").carousel('prev')

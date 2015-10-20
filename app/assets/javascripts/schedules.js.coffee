@@ -187,7 +187,7 @@ dealChangeEvent = (event, delta, revertFunc) ->
       $('#calendar').fullCalendar('refetchEvents')
       alert("Um erro inesperado ocorreu e não foi possível atualizar o horário.")
 
-$(document).on 'click', 'button#btn_agendar', ->
+$(document).on 'click', 'button#btn_agendar, button.btn_tour_agendar', ->
   $('#calendar').fullCalendar( 'select', null)
 
 dealNewEvent = (start, end, jsEvent, view) ->

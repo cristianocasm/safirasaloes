@@ -108,6 +108,7 @@ module ProfessionalsHelper
       steps: [
         {
           orphan: true,
+          backdrop: true,
           title: "<i>O boca-a-boca é a melhor forma de divulgação</i><button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
           content: "
           <p>O <b>SafiraSalões</b> <b>incentivará</b> seus clientes a <b>divulgar</b> nas redes sociais <b>seu contato profissional</b>\
@@ -133,53 +134,9 @@ module ProfessionalsHelper
             <div class='arrow'></div>
             <h3 class='popover-title' style='background-color: #c4e2bb'></h3>
             <div class='popover-content'></div>
-          </div>"
-        },
-        {
-          element: "input#schedule_telefone",
-          placement: "right",
-          title: "Informe o <b>telefone celular</b>...<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
-          content: "
-          <p>...pois o incentivo à divulgação é feito através de <b>mensagens de texto</b> no celular do cliente.</p>",
-          template: "
-          <div class='popover tour'>
-            <div class='arrow'></div>
-            <h3 class='popover-title' style='background-color: #c4e2bb'></h3>
-            <div class='popover-content'></div>
             <div class='popover-navigation' style='background-color: #c4e2bb'>
-              Preencha os campos para continuar
-            </div>
-          </div>"
-        },
-        {
-          placement: 'bottom',
-          element: "a#reward_creation_link",
-          title: "Estimule e Fidelize<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
-          content: "
-          <p><b>Estimule</b> seus clientes a <b>divulgar</b> o serviço agendado criando uma recompensa por divulgação.</p>",
-          template: "
-          <div class='popover tour'>
-            <div class='arrow'></div>
-            <h3 class='popover-title' style='background-color: #c4e2bb'></h3>
-            <div class='popover-content'></div>
-            <div class='popover-navigation' style='background-color: #c4e2bb'>
-              <button class='btn btn-success' data-role='next'>Próximo »</button>
-            </div>
-          </div>"
-        },
-        {
-          placement: 'bottom',
-          element: ".passos-tutorial",
-          title: "Ative este tutorial<button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
-          content: "
-          <p>Ative este tutorial novamente, sempre que desejar, através deste botão.</p>",
-          template: "
-          <div class='popover tour'>
-            <div class='arrow'></div>
-            <h3 class='popover-title' style='background-color: #c4e2bb'></h3>
-            <div class='popover-content'></div>
-            <div class='popover-navigation' style='background-color: #c4e2bb'>
-              <button class='btn btn-success' data-role='next'>Terminar</button>
+              <button class='btn btn-danger' data-role='prev'>« </button>
+              <button class='btn btn-success btn_tour_agendar' data-role='next'>Quero informar cliente »</button>
             </div>
           </div>"
         }

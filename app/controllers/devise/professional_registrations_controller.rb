@@ -3,8 +3,8 @@ include WoopraRailsSDK
 class Devise::ProfessionalRegistrationsController < Devise::RegistrationsController
 
   def edit
-    @step_taken = current_professional.taken_step.tela_cadastro_contato_acessada?
-    current_professional.update_taken_step(tela_cadastro_contato_acessada: true) unless @step_taken
+    # @step_taken = current_professional.taken_step.tela_cadastro_contato_acessada?
+    # current_professional.update_taken_step(tela_cadastro_contato_acessada: true) unless @step_taken
     super
   end
 

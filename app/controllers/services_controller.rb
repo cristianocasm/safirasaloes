@@ -6,8 +6,8 @@ class ServicesController < ApplicationController
   # GET /services
   # GET /services.json
   def index
-    @step_taken = current_professional.taken_step.tela_listagem_servicos_acessada?
-    current_professional.update_taken_step(tela_listagem_servicos_acessada: true) unless @step_taken
+    # @step_taken = current_professional.taken_step.tela_listagem_servicos_acessada?
+    # current_professional.update_taken_step(tela_listagem_servicos_acessada: true) unless @step_taken
     @services = current_professional.services_ordered
   end
 
@@ -18,16 +18,16 @@ class ServicesController < ApplicationController
 
   # GET /services/new
   def new
-    @step_taken = current_professional.taken_step.tela_cadastro_servico_acessada?
-    current_professional.update_taken_step(tela_cadastro_servico_acessada: true) unless @step_taken
+    # @step_taken = current_professional.taken_step.tela_cadastro_servico_acessada?
+    # current_professional.update_taken_step(tela_cadastro_servico_acessada: true) unless @step_taken
     @service = Service.new
     @service.prices.build
   end
 
   # GET /services/1/edit
   def edit
-    @step_taken = current_professional.taken_step.tela_edicao_servico_acessada?
-    current_professional.update_taken_step(tela_edicao_servico_acessada: true) unless @step_taken
+    # @step_taken = current_professional.taken_step.tela_edicao_servico_acessada?
+    # current_professional.update_taken_step(tela_edicao_servico_acessada: true) unless @step_taken
   end
 
   # POST /services

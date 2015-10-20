@@ -177,38 +177,7 @@ class Schedule < ActiveRecord::Base
   end
 
   def generate_msg_for_feedback(confirmationSMSId, rememberingSMSId, divulgationSMSId)
-    msgSent = ""
-    msgSent += case confirmationSMSId.body.match(/(\d);(\d+)/)[1].to_i
-    when 1
-      I18n.t('schedule.created.sms.login_error', action: 'enviar', sms_type: 'SMS de confirmação de horário')
-    when 2
-      I18n.t('schedule.created.sms.no_credits_error', action: 'enviar', sms_type: 'SMS de confirmação de horário')
-    when 3
-      I18n.t('schedule.created.sms.invalid_cellphone_error', action: 'enviar', sms_type: 'SMS de confirmação de horário')
-    when 4
-      I18n.t('schedule.created.sms.invalid_msg_error', action: 'enviar', sms_type: 'SMS de confirmação de horário')
-    when 5, 6
-      self.scheduled_msgs.create(api_id: confirmationSMSId.body.match(/(\d);(\d+)/)[2].to_i)
-      I18n.t('schedule.created.sms.confirmation.success', sms_content: @confirmation, sms_title: @confirmationTitle)
-    end
-
-    msgSent = "As seguintes mensagens foram <b>enviadas</b> para <i>#{self.telefone}</i>:<br /><ul>#{msgSent}</ul>"
-
     msgScheduled = ""
-    msgScheduled += case rememberingSMSId.body.match(/(\d);(\d+)/)[1].to_i
-    when 1
-      I18n.t('schedule.created.sms.login_error', action: 'agendar', sms_type: 'SMS de aproximação de horário')
-    when 2
-      I18n.t('schedule.created.sms.no_credits_error', action: 'agendar', sms_type: 'SMS de aproximação de horário')
-    when 3
-      I18n.t('schedule.created.sms.invalid_cellphone_error', action: 'agendar', sms_type: 'SMS de aproximação de horário')
-    when 4
-      I18n.t('schedule.created.sms.invalid_msg_error', action: 'agendar', sms_type: 'SMS de aproximação de horário')
-    when 5, 6
-      self.scheduled_msgs.create(api_id: rememberingSMSId.body.match(/(\d);(\d+)/)[2].to_i)
-      I18n.t('schedule.created.sms.remembering.success', sms_content: @remembering, sms_title: @rememberingTitle)
-    end
-
     msgScheduled += case divulgationSMSId.body.match(/(\d);(\d+)/)[1].to_i
     when 1
       I18n.t('schedule.created.sms.login_error', action: 'agendar', sms_type: 'SMS para estimular divulgação')
@@ -226,9 +195,9 @@ class Schedule < ActiveRecord::Base
       I18n.t('schedule.created.sms.divulgation.success', sms_content: @divulgation, sms_title: @divulgationTitle, link: link)
     end
 
-    msgScheduled = "As seguintes mensagens foram <b>programadas</b> para envio:<br /><ul>#{msgScheduled}</ul>"
+    msgScheduled = "Cliente agendado com sucesso!<br/>Enquanto você estiver atendendo ele, <b>enviaremos instruções para o telefone dele</b> para que ele divulgue \"<b>#{self.price.nome}</b>\" #{msgScheduled}"
 
-    self.feedback_msg = msgSent + msgScheduled
+    self.feedback_msg = msgScheduled
   end
 
   def get_edit_url_for(srv)
@@ -254,7 +223,7 @@ class Schedule < ActiveRecord::Base
   end
 
   def send_sms_divulgation_to(name, options)
-    @divulgationTitle = "SMS divulgação (programado para #{self.datahora_fim.strftime('%d/%m/%Y às %H:%M')})"
+    @divulgationTitle = "SMS com instruções para divulgar <b>#{self.price.nome}</b>"
     url = options[:regUrl] || ENV["HOST_URL"]
     fire_to(name, options, :divulgation, true, get_date_to_send_sms_for(:divulgation)) { "Gostou do novo visual? Envie fotos do resultado p/ #{url}, acumule pontos e troque por nossos serviços\n\n-#{options[:prNome]}" }
   end

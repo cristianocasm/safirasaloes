@@ -58,6 +58,9 @@
                     }
                 }
                 function getPlaceholder(i) {
+                    // ------------------>>>>>>>>>>>>>>>>>>>> INÍCIO - ADICIONADO POR CRISTIANO ALENCAR EM 20/10/2015
+                    if (i === 14) { return " " } // Esta linha garante que placeholder não exiba "_" no caracter opcional de telefone
+                    // ------------------>>>>>>>>>>>>>>>>>>>> FIM ADICIONADO POR CRISTIANO ALENCAR EM 20/10/2015
                     return settings.placeholder.charAt(i < settings.placeholder.length ? i : 0);
                 }
                 function seekNext(pos) {

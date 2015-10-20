@@ -65,9 +65,8 @@ $(document).on 'click, focus', 'input:text.cep', ->
 # Aplica máscara aos campos de telefone
 $(document).on 'click, focus', 'input:text.telefone', ->
   elm = $(this)
-  placeholder = { placeholder: " " }
   mask = if elm.val().length > 14 then "(99) 99999-9999" else "(99) 9999-9999?9"
-  elm.mask(mask, placeholder)
+  elm.mask(mask)
 
 $(document).on 'click', 'a.sms_success_link', (event) ->
   title = event.toElement.dataset.title.replace(/%0A/g,"<br/>")

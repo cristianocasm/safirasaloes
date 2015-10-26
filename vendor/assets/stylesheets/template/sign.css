@@ -30,13 +30,29 @@ body.page-boxed #sign-wrapper form {
     width: 970px;
   }
 }
-#sign-wrapper {
-  width: 350px;
-  margin: 0px auto;
-  padding-top: 5%;
-  height: 100%;
-  position: relative;
+@media (max-width: 360px) {
+  #sign-wrapper {
+    width: 100%;
+    margin: 0px auto;
+    padding-top: 0%;
+    height: 100%;
+    position: relative;
+  }
 }
+@media (min-width: 361px) {
+  #sign-wrapper {
+    width: 360px;
+    margin: 0px auto;
+    padding-top: 0%;
+    height: 100%;
+    position: relative;
+  }
+}
+
+div.sign-body {
+  padding: 0px !important;
+}
+
 #sign-wrapper a {
   font-size: 13px;
 }
@@ -81,7 +97,7 @@ body.page-boxed #sign-wrapper form {
   padding: 0 15px;
 }
 #sign-wrapper .form-group:last-child {
-  margin-bottom: 0;
+  margin-bottom: 0px;
 }
 #sign-wrapper .form-group .input-group .input-group-addon {
   border: none;
@@ -106,7 +122,7 @@ body.page-boxed #sign-wrapper form {
 }
 #sign-wrapper .brand {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 #sign-wrapper .brand > img {
   display: block;
@@ -132,7 +148,8 @@ body.page-boxed #sign-wrapper form {
   color: white;
 }
 .sign-body {
-  background-color: rgba(234, 234, 236, 0.72);
+  /*background-color: rgba(234, 234, 236, 0.72);*/
+  background-color: rgba(234, 234, 236, 1);
   margin: 0px;
   padding: 15px 0px;
 }
@@ -214,6 +231,6 @@ body.page-boxed #sign-wrapper form {
 }
 @media (max-width: 360px) {
   #sign-wrapper form {
-    width: 95% !important;
+    /*width: 95% !important;*/
   }
 }

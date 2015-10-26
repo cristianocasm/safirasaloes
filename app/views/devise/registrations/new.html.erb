@@ -1,22 +1,23 @@
 <%= content_for :title, 'Cadastrar | SafiraSalões' %>
 
+<div id="cadastre">
+  <%= image_tag "cadastre.png" %>
+</div>
+
 <!-- Login form -->
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { class: "sign-in form-horizontal shadow rounded no-overflow" }) do |f| %>
-    <div>
-      <div class="form-group">
-        <div style="padding: 10px;">
-            <span><i class="fa fa-lock"></i> Cadastrar</span>
-        </div>
-      </div><!-- /.form-group -->
-    </div><!-- /.sign-header -->
     <div class="sign-body">
       <div class="form-group" style="margin-top: 5%;">
         <%= link_to '/auth/facebook?scope=email&action=signup_or_signin', class: 'btn btn-primary btn-lg btn-block', style: 'background-color: #3b5998; font-size: 18px; border-radius: 6px;' do %>
-          <i class='fa fa-facebook'> <span style="padding-left: 20px"><b>Cadastrar com o Facebook</b></span> </i>
+          <span><i class='fa fa-facebook'></i><b style="padding-left: 20px">Cadastre com o Facebook</b></span>
         <% end %>
 
         <div class="hr">
           <div class="text-divider">ou</div>
+        </div>
+
+        <div class="centered">
+          Cadastre com seu email
         </div>
       </div>
       <div class="form-group">
@@ -45,6 +46,6 @@
     </div><!-- /.sign-footer -->
 <% end %><!-- /.form-horizontal -->
 
-<p class="text-muted text-center sign-link">Voltar para
-  <%= link_to "Entrar", new_session_path(resource_name) %>
+<p class="text-muted text-center sign-link">Já é cadastrado?
+  <%= link_to "Entre agora", new_session_path(resource_name) %>
 </p>

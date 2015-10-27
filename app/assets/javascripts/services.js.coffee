@@ -42,14 +42,18 @@ jQuery ->
   # Exibe/Esconde row da tabela que contém os preços de um
   # serviço com preço variável quando a row principal é
   # clicada
-  $('table').on 'click', 'tr.preco_variavel', (event) ->
-    $(this).next().fadeToggle(1000)
+  $('table').on 'click', 'a.preco_variavel', (e) ->
+    details = $(this).closest('tr').next()
+    target = $(e.target).closest('a')
+    
+    if details.is(':visible')
+      target.removeClass('active')
+    else
+      $("tr.contem_precos_e_recompensas:visible").fadeToggle()
+      target.addClass('active')
 
-  # Esconde row da tabela que contém os preços de um
-  # serviço com preço variável quando um click é dado
-  # sobre ela
-  $('table').on 'click', 'tr.contem_precos_e_recompensas', (event) ->
-    $(this).fadeOut(1000)
+    details.fadeToggle(1000)
+    event.preventDefault()
 
 set_fixed_price = (bool) ->
   $('#service_preco_fixo').val(bool)

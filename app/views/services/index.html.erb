@@ -3,53 +3,48 @@
 <table id="table" class="table table-striped table-bordered table-hover table-success">
   <thead>
     <tr>
-      <th>Nome</th>
-      <th>Preco</th>
-      <th>Recompensa Divulgação</th>
+      <th>Serviço</th>
       <th>Ações</th>
     </tr>
   </thead>
 
   <tbody>
     <% @services.each do |service| %>
-      <tr <%= "class=preco_variavel" unless service.preco_fixo %>>
+      <tr>
         <td><%= service.nome %></td>
-        <% if service.preco_fixo %>
-          <td><%= number_to_currency(service.prices.first.preco) %></td>
-          <td><%= rec = service.prices.first.recompensa_divulgacao; pluralize(rec, 'safira') %> (<%= number_to_currency(rec.to_f / 2) %>)</td>
-        <% else %>
-          <td colspan="2"><i>Clique para ver os preços e recompensas</i></td>
-        <% end %>
-        <td>
-          <%= link_to service, class: 'btn btn-success btn-xs', title: 'Consultar' do %>
+        <td class="no-break-line">
+          <%= link_to '#', class: 'btn btn-success btn-xs preco_variavel', title: 'Consultar' do %>
             <i class='fa fa-eye fa-border'></i>
+            <div class="sub-title ">Consultar</div>
           <% end %>
           <%= link_to edit_service_path(service), class: 'btn btn-warning btn-xs', title: 'Editar' do %>
             <i class='fa fa-pencil fa-border'></i>
+            <div class="sub-title">Alterar</div>
           <% end %>
           <%= link_to service, method: :delete, data: { confirm: 'Deletar registro?' }, class: 'btn btn-danger btn-xs', title: 'Excluir' do %>
-            <i class='fa fa-times fa-border'></i>
+            <i class='fa fa-trash fa-border'></i>
+            <div class="sub-title">Excluir</div>
           <% end %>
         </td>
       </tr>
-      <% unless service.preco_fixo %>
-        <tr class="contem_precos_e_recompensasv collapse">
-          <td colspan="4">
-            <% service.prices_ordered.each do |price| %>
-              <div class="mt-10">
-                <strong><%= "#{service.nome}" %></strong>
-                para
-                <strong><%= "#{price.descricao}: " %></strong>
-                <strong><%= number_to_currency(price.preco) %></strong>
-                com recompensa por divulgação de 
-                <strong>
-                  <%= rec = price.recompensa_divulgacao; pluralize(rec, 'safira') %> (<%= number_to_currency(rec.to_f / 2) %>)
-                </strong>
-              </div>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
+      <tr class="contem_precos_e_recompensas collapse">
+        <td colspan="2">
+          <ul>
+          <% service.prices_ordered.each do |price| %>
+            <li>
+              <strong><%= "#{service.nome}" %></strong>
+              para
+              <strong><%= "#{price.descricao}: " %></strong>
+              <strong><%= number_to_currency(price.preco) %></strong>
+              com recompensa por divulgação de 
+              <strong>
+                <%= rec = price.recompensa_divulgacao; pluralize(rec, 'safira') %> (<%= number_to_currency(rec.to_f / 2) %>)
+              </strong>
+            </li>
+          <% end %>
+          </ul>
+        </td>
+      </tr>
     <% end %>
   </tbody>
 </table>

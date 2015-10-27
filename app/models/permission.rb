@@ -25,28 +25,15 @@ class Permission < Struct.new(:resource)
     return false if resource.nil?
     if resource.instance_of?(Professional)
       return false if resource.status_equal_to?(:bloqueado) || resource.status_equal_to?(:suspenso)
-      return true if( !resource.has_contato_definido? && ( controller != "devise/professional_registrations" || !action.in?(%w[edit update]) ) && !tentando_cadastrar_servico?(controller, action) ) 
-    end
-    false
-  end
-
-  def forcar_cadastro_de_servico?(controller, action)
-    return false if resource.nil?
-    if resource.instance_of?(Professional)
-      return false if resource.status_equal_to?(:bloqueado) || resource.status_equal_to?(:suspenso)
-      return true if( !resource.has_servico_definido? && ( controller != "services" || !action.in?(%w[new create]) ) && !tentando_cadastrar_contato?(controller, action) ) 
+      return true if(contato_nao_definido?(controller, action) ) 
     end
     false
   end
 
   private
 
-  def tentando_cadastrar_contato?(controller, action)
-    !resource.has_contato_definido? && controller == "devise/professional_registrations" && action.in?(%w[edit update])
-  end
-
-  def tentando_cadastrar_servico?(controller, action)
-    !resource.has_servico_definido? && controller == "services" && action.in?(%w[new create])
+  def contato_nao_definido?(controller, action)
+    !resource.has_contato_definido? && !controller.in?(%w[sign_up_steps devise/professional_registrations])
   end
 
   def professional_permission(controller, action)

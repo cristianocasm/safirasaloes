@@ -14,13 +14,13 @@ class Devise::ProfessionalRegistrationsController < Devise::RegistrationsControl
 
     if update_resource(resource, account_update_params)
       yield resource if block_given?
-      if is_flashing_format?
+      if is_flashing_format? && !cadastrando?
         flash_key = update_needs_confirmation?(resource, prev_unconfirmed_email) ?
           :update_needs_confirmation : :updated
         set_flash_message :notice, flash_key
       end
       sign_in resource_name, resource, :bypass => true
-      respond_with resource, :location => ( /sign_up_steps/.match(request.referer) ? after_update_path_for(resource) : edit_professional_registration_path )
+      respond_with resource, :location => ( cadastrando? ? after_update_path_for(resource) : edit_professional_registration_path )
     else
       clean_up_passwords resource
       flash[:error] = flash_errors(resource)
@@ -78,5 +78,9 @@ class Devise::ProfessionalRegistrationsController < Devise::RegistrationsControl
     
     flash.clear
     sign_up_steps_path
+  end
+
+  def cadastrando?
+    @cadastrando ||= /sign_up_steps/.match(request.referer)
   end
 end

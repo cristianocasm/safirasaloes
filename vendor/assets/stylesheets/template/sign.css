@@ -50,7 +50,7 @@ body.page-boxed #sign-wrapper form {
 }
 
 div.sign-body {
-  padding: 0px !important;
+  padding: 0px;
 }
 
 #sign-wrapper a {

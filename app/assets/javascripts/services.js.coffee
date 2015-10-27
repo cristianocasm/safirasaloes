@@ -55,6 +55,21 @@ jQuery ->
     details.fadeToggle(1000)
     event.preventDefault()
 
+  $("a.add_fields").popover({
+    title: "Preço varia? <a style='float: right' onclick='$(this).parent().parent().popover(\"hide\")'><i class='fa fa-close'></i></a>",
+    placement: 'right',
+    content: 'Adicione um novo preço',
+    trigger: "hover",
+    container: 'body',
+    html: true,
+    template: "
+    <div class='popover' role='tooltip'>
+      <div class='arrow'></div>
+      <h3 class='popover-title' style='overflow: hidden; background-color: #f6bb42; color: white;'></h3>
+      <div class='popover-content' style='overflow: auto;'></div>
+    </div>"
+  }).popover('show')
+
 set_fixed_price = (bool) ->
   $('#service_preco_fixo').val(bool)
 

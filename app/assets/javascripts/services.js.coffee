@@ -56,8 +56,8 @@ jQuery ->
     event.preventDefault()
 
   $("a.add_fields").popover({
-    title: "Preço varia? <a style='float: right' onclick='$(this).parent().parent().popover(\"hide\")'><i class='fa fa-close'></i></a>",
-    placement: 'right',
+    title: "Preço varia? <a style='float: right' onclick='$(this).parent().parent().popover(\"destroy\")'><i class='fa fa-close'></i></a>",
+    placement: 'bottom',
     content: 'Adicione um novo preço',
     trigger: "hover",
     container: 'body',
@@ -69,6 +69,16 @@ jQuery ->
       <div class='popover-content' style='overflow: auto;'></div>
     </div>"
   }).popover('show')
+
+  examples = [
+    { label: 'todos os clientes', category: 'Ex: Preço Fixo'},
+    { label: 'cabelo curto', category: 'Ex: Preço Variável'},
+    { label: 'cabelo médio', category: 'Ex: Preço Variável'},
+    { label: 'cabelo longo', category: 'Ex: Preço Variável'},
+    { label: 'com escova', category: 'Ex: Preço Variável'},
+    { label: 'sem escova', category: 'Ex: Preço Variável'}
+  ]
+  $( ".descricao" ).catcomplete({ delay: 0, source: examples });
 
 set_fixed_price = (bool) ->
   $('#service_preco_fixo').val(bool)

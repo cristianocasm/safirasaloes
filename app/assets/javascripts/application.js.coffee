@@ -33,6 +33,8 @@
 #= require third-part/modal-carousel
 #= require third-part/modal-local
 #= require third-part/carousel-fit
+#= require jquery-ui/autocomplete
+#= require third-part/jquery.autocomplete.category
 #= require template/apps
 #= require custom
 #= require_tree .

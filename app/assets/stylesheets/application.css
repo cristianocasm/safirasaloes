@@ -18,6 +18,7 @@
  *= require third-part/fullcalendar
  *= require third-part/bootstrap-tour
  *= require third-part/jquery.bootstrap-touchspin
+ *= require jquery-ui/autocomplete
  *= require template/reset
  *= require template/layout
  *= require template/components

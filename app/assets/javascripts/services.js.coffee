@@ -4,6 +4,7 @@
 jQuery ->
   if $('form.service_form').length
     initialize_calculators()
+    add_examples_to_description_field()
 
   # Remove campos para a definição de novo preço no cadastro de serviços.
   $('form').on 'click', '.remove_fields', (event) ->
@@ -23,6 +24,7 @@ jQuery ->
     initialize_calculator($(this).prev().find(".recompensa")[0])
     activate_popovers()
     set_fixed_price(false)
+    add_examples_to_description_field()
     $('div.optional').show()
     event.preventDefault()
 
@@ -52,7 +54,7 @@ jQuery ->
       $("tr.contem_precos_e_recompensas:visible").fadeToggle()
       target.addClass('active')
 
-    details.fadeToggle(1000)
+    details.fadeToggle(500)
     event.preventDefault()
 
   $("a.add_fields").popover({
@@ -70,14 +72,16 @@ jQuery ->
     </div>"
   }).popover('show')
 
-  examples = [
-    { label: 'todos os clientes', category: 'Ex: Preço Fixo'},
-    { label: 'cabelo curto', category: 'Ex: Preço Variável'},
-    { label: 'cabelo médio', category: 'Ex: Preço Variável'},
-    { label: 'cabelo longo', category: 'Ex: Preço Variável'},
-    { label: 'com escova', category: 'Ex: Preço Variável'},
-    { label: 'sem escova', category: 'Ex: Preço Variável'}
-  ]
+examples = [
+  { label: 'todos os clientes', category: 'Ex: Preço Fixo'},
+  { label: 'cabelo curto', category: 'Ex: Preço Variável'},
+  { label: 'cabelo médio', category: 'Ex: Preço Variável'},
+  { label: 'cabelo longo', category: 'Ex: Preço Variável'},
+  { label: 'com escova', category: 'Ex: Preço Variável'},
+  { label: 'sem escova', category: 'Ex: Preço Variável'}
+]
+
+add_examples_to_description_field = ->
   $( ".descricao" ).catcomplete({ delay: 0, source: examples });
 
 set_fixed_price = (bool) ->

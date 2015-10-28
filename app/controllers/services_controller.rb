@@ -46,7 +46,7 @@ class ServicesController < ApplicationController
         
         current_professional.update_taken_step(servico_cadastrado: true)
       end
-      redirect_to @service, flash: { success: 'Serviço criado com sucesso.' }
+      redirect_to @service, flash: { success: generate_msg }
     else
       flash.now[:error] = flash_errors(@service)
       render :new
@@ -57,7 +57,7 @@ class ServicesController < ApplicationController
   # PATCH/PUT /services/1.json
   def update
     if @service.update(service_params)
-      redirect_to @service, flash: { success: 'Serviço atualizado com sucesso.' }
+      redirect_to @service, flash: { success: generate_msg }
     else
       flash.now[:error] = flash_errors(@service)
       render :edit
@@ -91,24 +91,11 @@ class ServicesController < ApplicationController
       params.require(:service).permit(:nome, :preco_fixo, prices_attributes: [:id, :descricao, :preco, :recompensa_divulgacao, :_destroy])
     end
 
-    # def generate_msg
-    #   msgDefault = '<p>Serviço criado com sucesso.</p>'
-      
-    #   unless current_professional.taken_step.horario_cadastrado
-    #     msgCustom = "<p><b>PARABÉNS!</b> A partir de agora você pode utilizar a agenda
-    #     do SafiraSalões (clicando em <b>'MINHA AGENDA'</b>) para que:</p>
-    #     <ol>
-    #       <li>Seu cliente seja <b>convidado a divulgar</b> o serviço prestado por você sempre que ele for agendado;</li>
-    #       <li>Seu cliente seja <b>recompensado</b> sempre que ele realizar a divulgação do serviço prestado por você;</li>
-    #       <li>Seu cliente seja <b>alertado sobre o hórário agendado</b>;</li>
-    #       <li>Seu cliente seja alertado (3 horas antes do horário marcado) sobre a <b>aproximação do horário agendado</b>;</li>
-    #     </ol>
-    #     <p>Ou seja, utilize a agenda do SafiraSalões para (1) <b>aumentar a divulgação boca-a-boca dos seus serviços</b>, (2) <b>fidelizar</b> e (3) <b>melhorar o
-    #     relacionamento com o seu cliente</b> e (4) <b>diminuir prejuízos com ausências</b>.</p>
-    #     <p>Para agendar seus clientes clique em <b>'MINHA AGENDA'</b>. Você poderá cadastrar outros de seus serviços a qualquer momento clicando em <b>'MEUS SERVIÇOS'</b>.</p>"
-    #     msgDefault = msgDefault + msgCustom
-    #   end
-
-    #   msgDefault
-    # end
+    def generate_msg
+      "
+      <p>
+        Parabéns! Você pode agora <a href='#{professional_root_path(servico: @service.prices.first.id)}' style='text-decoration: underline'>estimular a divulgação boca-a-boca de '#{@service.nome}' clicando aqui</a>.
+      </p>
+      "
+    end
 end

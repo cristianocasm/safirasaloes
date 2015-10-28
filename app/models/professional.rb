@@ -181,7 +181,7 @@ class Professional < ActiveRecord::Base
   end
 
   def services_ordered
-    services.includes(:prices).order(:nome)
+    services.order(:nome)
   end
 
   def has_contato_definido?

@@ -8,6 +8,7 @@ jQuery ->
     config_carousel()
     config_datetime_picker()
     load_events('profissional/schedules')
+    launch_modal()
     # launch_typeahead()
 
 config_datetime_picker = ->
@@ -77,8 +78,6 @@ config_datetime_picker = ->
       close: 'fa fa-close'
     }
   })
-
-
 
 config_video_tour = (i, d) ->
   if (i == 0 && d == 'right') || (i == 5 && d == 'left') # Vídeo tutorial
@@ -189,6 +188,16 @@ dealChangeEvent = (event, delta, revertFunc) ->
 
 $(document).on 'click', 'button#btn_agendar, button.btn_tour_agendar', ->
   $('#calendar').fullCalendar( 'select', null)
+
+
+launch_modal = ->
+  params = window.location.search.substring(1)
+  param = params.match(/servico=\d+/g)
+
+  if param != null
+    service_id = param[0].match(/servico=\d+/g)[0].split('=')[1]
+    $('#schedule_price_id').val(service_id)
+    $('#calendar').fullCalendar( 'select', null)
 
 dealNewEvent = (start, end, jsEvent, view) ->
   # Para o caso onde botão é utilizado (data sempre será inválida)

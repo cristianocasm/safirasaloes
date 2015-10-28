@@ -13,11 +13,15 @@
       <tr>
         <td><%= service.nome %></td>
         <td class="no-break-line">
-          <%= link_to '#', class: 'btn btn-success btn-xs preco_variavel', title: 'Consultar' do %>
+          <%= link_to professional_root_path(servico: service.prices.first.id), class: 'btn btn-success btn-xs', title: 'Divulgar' do %>
+            <i class='fa fa-bullhorn fa-border'></i>
+            <div class="sub-title">Divulgar</div>
+          <% end %>
+          <%= link_to '#', class: 'btn btn-primary btn-xs preco_variavel', title: 'Consultar' do %>
             <i class='fa fa-eye fa-border'></i>
             <div class="sub-title ">Consultar</div>
           <% end %>
-          <%= link_to edit_service_path(service), class: 'btn btn-warning btn-xs', title: 'Editar' do %>
+          <%= link_to edit_service_path(service), class: 'btn btn-warning btn-xs', title: 'Alterar' do %>
             <i class='fa fa-pencil fa-border'></i>
             <div class="sub-title">Alterar</div>
           <% end %>

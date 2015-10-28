@@ -31,9 +31,8 @@ class Schedule < ActiveRecord::Base
   belongs_to :price, :inverse_of => :schedules
   accepts_nested_attributes_for :price
 
-  validates_presence_of :professional
+  validates_presence_of :professional, :telefone, :nome
   validates_presence_of :price, message: I18n.t('schedule.not_created.price.blank')
-  validates_presence_of :telefone
   validates_format_of :telefone, with: CELLPHONE_REGEX, message: I18n.t('schedule.not_created.celular.invalido'), unless: Proc.new { |sc| sc.telefone.blank? }
   validates :datahora_inicio, date: true, date: {after_or_equal_to: Proc.new { DateTime.now } }, presence: true, on: [:create, :update]
   validates :datahora_fim, date: true, date: { after: Proc.new { :datahora_inicio } }, on: [:create, :update]

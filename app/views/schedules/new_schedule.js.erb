@@ -23,12 +23,12 @@
   });
   $("#myModal").modal('hide');
   $('div#calendar_feedback').html('<% flash_messages() %>');
-  if(window.started) { window.tour.next(4); }
   <% if current_professional.creating_first_service? %>
     if($("div#service_field>input#schedule_price_attributes_service_nome").length) {
       $("div#service_field").html('<%= select_tag :schedule_price_id, options_from_collection_for_select(current_professional.prices.includes(:service), "id", "nome"), name: "schedule[price_id]", class: "form-control input-lg" %>');
       $("#schedule_price_id").val("<%= sc.price_id %>");
     }
+    $("#reward_definition").html('<%= link_to "Clique aqui para criar uma recompensa para #{sc.price.service.nome}", services_path(service: sc.price.service.id), id: "reward_definition_link", style: "text-decoration: underline" %>');
   <% end %>
 <% else %>
   $('#errors').empty()

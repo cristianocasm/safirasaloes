@@ -79,25 +79,37 @@ config_datetime_picker = ->
     }
   })
 
-config_video_tour = (i, d) ->
-  if (i == 0 && d == 'right') || (i == 5 && d == 'left') # Vídeo tutorial
-    $('iframe#player').attr('src', "https://www.youtube.com/embed/QUIeCtB15KY?autoplay=1")
-    $('a.carousel-control, ol.carousel-indicators').hide()
-  else
-    $('iframe#player').attr('src', "https://www.youtube.com/embed/QUIeCtB15KY")
-    $('a.carousel-control, ol.carousel-indicators').show()
+# config_video_tour = (i, d) ->
+#   if (i == 0 && d == 'right') || (i == 5 && d == 'left') # Vídeo tutorial
+#     $('iframe#player').attr('src', "https://www.youtube.com/embed/QUIeCtB15KY?autoplay=1")
+#     $('a.carousel-control, ol.carousel-indicators').hide()
+#   else
+#     $('iframe#player').attr('src', "https://www.youtube.com/embed/QUIeCtB15KY")
+#     $('a.carousel-control, ol.carousel-indicators').show()
 
 generate_mobile_caption = ->
   content = $("div.active div.carousel-caption").html()
   content = "" if content == undefined
   $("#content-for-mobile").html(content)
 
+change_next_button = (i) ->
+  if (i == 4) && $("#reward_definition_link").size() > 0
+    $('a.carousel-control, ol.carousel-indicators').hide()
+    $("#next_car_tour").text("Criar Recompensa")
+    $("#next_car_tour").attr('href', '')
+  else
+    $('a.carousel-control, ol.carousel-indicators').show()
+    $("#next_car_tour").text("Próximo")
+    $("#next_car_tour").removeAttr('href')
+
+
 config_carousel = ->
   $("#carousel-example-generic").carousel({ interval: false } )
-  $("#carousel-example-generic").on 'slide.bs.carousel', (e) ->
-    config_video_tour($('div.active').index(), e.direction)
+  # $("#carousel-example-generic").on 'slide.bs.carousel', (e) ->
+  #   config_video_tour($('div.active').index(), e.direction)
   $("#carousel-example-generic").on 'slid.bs.carousel', (e) ->
-    generate_mobile_caption() if $("#content-for-mobile").is(":visible");
+    generate_mobile_caption() if $("#content-for-mobile").is(":visible")
+    change_next_button($('div.active').index())
     woopra.track('tour_taken') if( ($('div.active').index() == 5) && (typeof woopra != 'undefined') )
 
   $('#prev_car_tour').on 'click', (e) ->

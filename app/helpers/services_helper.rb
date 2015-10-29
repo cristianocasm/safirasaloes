@@ -26,6 +26,14 @@ module ServicesHelper
     generate_div_for_price_deletion(f, hide_optionals, scheduled, persisted)
   end
 
+  def generate_html_options(service_id)
+    options = { class: 'btn btn-warning btn-xs rounded' }
+    
+    options.tap do |o|
+      o.merge!(class: 'btn btn-warning btn-xs rounded fire-on-load') if params[:service].to_i == service_id
+    end
+  end
+
   private
 
   def generate_div_for_price_deletion(f, hide_optionals, scheduled, persisted)

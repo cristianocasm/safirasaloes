@@ -21,7 +21,7 @@
             <i class='fa fa-eye fa-border'></i>
             <div class="sub-title ">Consultar</div>
           <% end %>
-          <%= link_to edit_service_path(service), class: 'btn btn-warning btn-xs rounded', title: 'Alterar' do %>
+          <%= link_to edit_service_path(service), generate_html_options(service.id) do %>
             <i class='fa fa-pencil fa-border'></i>
             <div class="sub-title">Alterar</div>
           <% end %>

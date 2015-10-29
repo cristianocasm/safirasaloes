@@ -13,19 +13,19 @@
       <tr>
         <td><%= service.nome %></td>
         <td class="no-break-line">
-          <%= link_to professional_root_path(servico: service.prices.first.id), class: 'btn btn-success btn-xs', title: 'Divulgar' do %>
+          <%= link_to professional_root_path(servico: service.prices.first.id), class: 'btn btn-success btn-xs rounded', title: 'Divulgar' do %>
             <i class='fa fa-bullhorn fa-border'></i>
             <div class="sub-title">Divulgar</div>
           <% end %>
-          <%= link_to '#', class: 'btn btn-primary btn-xs preco_variavel', title: 'Consultar' do %>
+          <%= link_to '#', class: 'btn btn-primary btn-xs rounded preco_variavel', title: 'Consultar' do %>
             <i class='fa fa-eye fa-border'></i>
             <div class="sub-title ">Consultar</div>
           <% end %>
-          <%= link_to edit_service_path(service), class: 'btn btn-warning btn-xs', title: 'Alterar' do %>
+          <%= link_to edit_service_path(service), class: 'btn btn-warning btn-xs rounded', title: 'Alterar' do %>
             <i class='fa fa-pencil fa-border'></i>
             <div class="sub-title">Alterar</div>
           <% end %>
-          <%= link_to service, method: :delete, data: { confirm: 'Deletar registro?' }, class: 'btn btn-danger btn-xs', title: 'Excluir' do %>
+          <%= link_to service, method: :delete, data: { confirm: 'Deletar registro?' }, class: 'btn btn-danger btn-xs rounded', title: 'Excluir' do %>
             <i class='fa fa-trash fa-border'></i>
             <div class="sub-title">Excluir</div>
           <% end %>

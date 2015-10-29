@@ -57,7 +57,7 @@ div.sign-body {
   font-size: 13px;
 }
 #sign-wrapper form {
-  background-color: #ffffff;
+  background-color: #f3f3f4;
 }
 #sign-wrapper form.rounded .sign-header {
   -webkit-border-top-left-radius: 3px;
@@ -148,8 +148,6 @@ div.sign-body {
   color: white;
 }
 .sign-body {
-  /*background-color: rgba(234, 234, 236, 0.72);*/
-  background-color: rgba(234, 234, 236, 1);
   margin: 0px;
   padding: 15px 0px;
 }

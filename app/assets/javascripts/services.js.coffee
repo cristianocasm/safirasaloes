@@ -99,7 +99,7 @@ $(".fire-on-load").popover({
 
 add_examples_to_description_field = ->
   $(".descricao").catcomplete({ delay: 0, source: examples, minLength: 0 });
-  $(".descricao").click ->
+  $(".descricao").on 'focus, click', ->
     $(this).catcomplete("search", "")
 
 set_fixed_price = (bool) ->

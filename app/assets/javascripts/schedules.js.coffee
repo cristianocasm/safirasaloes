@@ -95,12 +95,12 @@ generate_mobile_caption = ->
 change_next_button = (i) ->
   if (i == 4) && $("#reward_definition_link").size() > 0
     $('a.carousel-control, ol.carousel-indicators').hide()
-    $("#next_car_tour").text("Criar Recompensa")
-    $("#next_car_tour").attr('href', '')
+    $("#next_car_tour").addClass('hide')
+    $("#create_reward_link").removeClass('hide')
   else
     $('a.carousel-control, ol.carousel-indicators').show()
-    $("#next_car_tour").text("Próximo")
-    $("#next_car_tour").removeAttr('href')
+    $("#next_car_tour").removeClass('hide')
+    $("#create_reward_link").addClass('hide')
 
 
 config_carousel = ->

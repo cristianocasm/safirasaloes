@@ -23,13 +23,25 @@
   });
   $("#myModal").modal('hide');
   $('div#calendar_feedback').html('<% flash_messages() %>');
+  
+  // Se profissional está criado seu primeiro serviço no formulário de agendamento, então é necessário
+  // transformar este campo em um selectOne
   <% if current_professional.creating_first_service? %>
     if($("div#service_field>input#schedule_price_attributes_service_nome").length) {
       $("div#service_field").html('<%= select_tag :schedule_price_id, options_from_collection_for_select(current_professional.prices.includes(:service), "id", "nome"), name: "schedule[price_id]", class: "form-control input-lg" %>');
       $("#schedule_price_id").val("<%= sc.price_id %>");
     }
-    $("#reward_definition").html('<%= link_to "Clique aqui para criar uma recompensa para #{sc.price.service.nome}", services_path(service: sc.price.service.id), id: "reward_definition_link", style: "text-decoration: underline" %>');
   <% end %>
+
+  // Se recompemsa por divulgação é zero, estimulo sua criação.
+  <% if sc.price.recompensa_divulgacao.zero? %>
+    $("#reward_definition").html('<%= link_to "Clique aqui para criar uma recompensa para #{sc.price.nome}", services_path(service: sc.price.service.id), id: "reward_definition_link", style: "text-decoration: underline" %>');
+    $("#create_reward_link").attr('href', "<%= services_path(service: sc.price.service.id) %>");
+  <% else %>
+    $("#reward_definition").html('');
+    $("#create_reward_link").attr('href', '');
+  <% end %>
+  $("#carousel-example-generic").carousel(0);
 <% else %>
   $('#errors').empty()
   $('#errors').append('<%= flash_messages %>')

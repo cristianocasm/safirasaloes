@@ -1,6 +1,6 @@
 <%- sc = @schedule -%>
 
-<% if sc.persisted? %>
+<% if sc.errors.blank? %>
   var myEvent = {
     id:    <%= sc.id %>,
     title: '<%= sc.nome %>',

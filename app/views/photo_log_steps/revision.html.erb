@@ -1,21 +1,5 @@
 <%= content_for :title, 'Revisão | SafiraSalões' %>
 
-<div class="padd">
-  <ul class="current-status" style="display: inline-block">
-    <li>
-      <span><i class='fa fa-check-circle fa-3x' style="color: green"></i></span>
-      <span class="bold" style="font-size:33px">Fotos Carregadas</span>
-    </li>
-    <li>
-      <span><i class='fa fa-check-circle fa-3x' style="color: green"></i></span>
-      <span class="bold" style="font-size:33px">Comentários Inseridos</span>
-    </li>
-    <li>
-      <% prof_info_step %>
-    </li>
-    <li>
-      <% fb_permission_step %>
-    </li>
-  </ul>
-  <% submit_to_fb_button %>
-</div>
+<%= form_for :photos, :url => wizard_path, :html => { :method => :put, class: 'sign-in form-horizontal shadow rounded no-overflow' } do |f| -%>
+  <% generate_revision_step %>
+<% end %>

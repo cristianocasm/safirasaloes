@@ -57,6 +57,26 @@ class Schedule < ActiveRecord::Base
   scope :in_the_future, -> { where("datahora_fim > ?", DateTime.now) }
   scope :safiras_resgatadas, -> { where("pago_com_safiras = true").sum(:safiras_resgatadas) }
 
+  def in_future?
+    self.datahora_fim > DateTime.now
+  end
+
+  def in_past?
+    ( self.datahora_fim + 12.hours ) < DateTime.now
+  end
+
+  def can_send_photo?
+    (in_future? ? :future : ( in_past? ? :past : :yes ) )
+  end
+
+  def nome_cliente
+    self.customer.try(:nome) || self.nome
+  end
+
+  def nome_profissional
+    self.professional.nome
+  end
+
   def mount_date
     self.datahora_inicio = "#{data_inicio} #{hora_inicio}" if data_inicio.present?
     self.datahora_fim = "#{data_fim} #{hora_fim}" if data_fim.present?
@@ -98,19 +118,11 @@ class Schedule < ActiveRecord::Base
 
   def generate_registration_url(token)
     "http://safirasaloes.com.br/fotos?s=#{token}#{self.id}"
-    # routes = Rails.application.routes.url_helpers
-    # routes.new_customer_registration_url(
-    #           host: ENV["HOST_URL"],
-    #           t: token,
-    #           s: self.id
-    #         )
   end
 
   def generate_invitation(ct)
-    unless ct.present?
-      ci = CustomerInvitation.create(schedule_id: self.id)
-      generate_registration_url(ci.token)
-    end
+    ci = self.customer_invitation || CustomerInvitation.create(schedule_id: self.id)
+    generate_registration_url(ci.token)
   end
 
   def get_professional_cellphone
@@ -139,7 +151,7 @@ class Schedule < ActiveRecord::Base
 
     options = {
       srvNome: self.price.service.nome,
-      dataInicio: self.datahora_inicio.strftime('%d/%m/%Y'),
+      dataInicio: self.datahora_inicio.strftime('%d/%m'),
       horaInicio: self.datahora_inicio.strftime('%H:%M'),
       prNome: self.professional.nome,
       ctTel: self.telefone.gsub(/\D/, ''),
@@ -194,7 +206,7 @@ class Schedule < ActiveRecord::Base
       I18n.t('schedule.created.sms.divulgation.success', sms_content: @divulgation, sms_title: @divulgationTitle, link: link)
     end
 
-    msgScheduled = "Cliente agendado com sucesso!<br/>Enquanto você estiver atendendo ele, <b>enviaremos instruções para o telefone dele</b> para que ele divulgue \"<b>#{self.price.nome}</b>\" #{msgScheduled}"
+    msgScheduled = "Cliente agendado com sucesso!<br/><b>Enviaremos instruções para o telefone dele</b> (durante o atendimento), para que ele divulgue \"<b>#{self.price.nome}</b>\" #{msgScheduled}"
 
     self.feedback_msg = msgScheduled
   end
@@ -204,27 +216,16 @@ class Schedule < ActiveRecord::Base
   end
 
   def send_sms_confirmation_to(name, options)
-    @confirmationTitle = "SMS de confirmação"
-    fire_to(name, options, :confirmation) { "Olá\n\nSeu horário para #{options[:srvNome]} foi marcado para #{options[:dataInicio]} às #{options[:horaInicio]}\n\n-#{options[:prNome]}" }
+    fire_to(name, options, :confirmation) { "Olá\n\nSeu horário foi marcado para #{options[:dataInicio]} às #{options[:horaInicio]}\n\nTenho novidades! Acesse #{options[:regUrl]} e descubra\n\n-#{options[:prNome]}" }
   end
 
   def send_sms_remembering_to(name, options)
-    @rememberingTitle = "SMS lembrete (programado para #{ ( self.datahora_inicio - 3.hours).strftime('%d/%m/%Y às %H:%M') })"
-
-    content = "Não esqueça seu horário hoje às #{options[:horaInicio]} p/ #{options[:srvNome]}\n\n"
-    content += if options[:regUrl]
-      "Quer receber este e outros serviços grátis? Pergunte-me como e eu te explico\n\n-#{options[:prNome]}"
-    else
-      "*Logo após envie uma foto do novo visual, acumule pontos e troque por nossos serviços\n\n-#{options[:prNome]}"
-    end
-
-    fire_to(name, options, :remembering, true, get_date_to_send_sms_for(:remembering)) { content }
+    fire_to(name, options, :remembering, true, get_date_to_send_sms_for(:remembering)) { "Não esqueça seu horário hoje às #{options[:horaInicio]}\n\nLogo após acesse #{options[:regUrl]}, acumule pontos e troque por meus serviços\n\n-#{options[:prNome]}" }
   end
 
   def send_sms_divulgation_to(name, options)
     @divulgationTitle = "SMS com instruções para divulgar <b>#{self.price.nome}</b>"
-    url = options[:regUrl] || ENV["HOST_URL"]
-    fire_to(name, options, :divulgation, true, get_date_to_send_sms_for(:divulgation)) { "Gostou do novo visual? Envie fotos do resultado p/ #{url}, acumule pontos e troque por nossos serviços\n\n-#{options[:prNome]}" }
+    fire_to(name, options, :divulgation, true, get_date_to_send_sms_for(:divulgation)) { "Gostou do novo visual? Envie fotos do resultado p/ #{options[:regUrl]}, acumule pontos e troque por meus serviços\n\n-#{options[:prNome]}" }
   end
 
   def fire_to(name, options, sms_type, schedule = false, date = {})

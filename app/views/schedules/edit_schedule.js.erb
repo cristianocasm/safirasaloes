@@ -23,7 +23,7 @@ $("#schedule_hora_fim").val("<%= sc.datahora_fim.strftime('%H:%M') %>")
   $('input#schedule_pago_com_safiras').prop('checked', true)
   $("input#total_safiras").val('<%= rws.total_safiras %>')
   $('div#pagamento_com_safiras').show()
-<% elsif rws.present? && rws.total_safiras >= (sc.price.preco * 2) %>
+<% elsif rws.present? && rws.total_safiras >= (sc.price.preco? ? (sc.price.preco * 2) : 0) %>
   $('input#schedule_pago_com_safiras').prop('disabled', false)
   $("input#total_safiras").val('<%= rws.total_safiras %>')
   $('div#pagamento_com_safiras').show()

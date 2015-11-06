@@ -21,6 +21,7 @@
 #  uid                    :string(255)
 #  oauth_token            :string(255)
 #  oauth_expires_at       :datetime
+#  avatar_url             :string(255)
 #
 
 require 'test_helper'

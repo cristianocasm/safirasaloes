@@ -6,6 +6,18 @@ jQuery ->
     load_existing_files()
     initialize_fileupload_plugin()
     set_possible_errors()
+    config_carousel()
+
+generate_mobile_caption = ->
+  content = $("div.active div.carousel-caption").html()
+  content = "" if content == undefined
+  $("#content-for-mobile").html(content)
+
+config_carousel = ->
+  $("#myCustomerCarouselModal").bind "show.bs.modal", ->
+    generate_mobile_caption()
+  $("#customer_carousel").on 'slid.bs.carousel', (e) ->
+    generate_mobile_caption() if $("#content-for-mobile").is(":visible")
 
 # Detect file input support - Reference: http://bit.ly/1G9PyLc
 fileInputSupported = ->
@@ -73,12 +85,10 @@ generateDownloadTemplate = (o) ->
     row = $('' +
       if !file.error
         "<tr class='template-download fade'>" +
-        "<td class='preview'><img src='#{file.thumbnail_url}' alt='#{file.name}' class='preview'></td>" +
-        "<td class='name'></td>" +
+        "<td class='preview' align='center'><img src='#{file.thumbnail_url}' alt='#{file.name}' class='preview'></td>" +
         generateResultButton(file) +
         "</tr>"
       )
-    row.find('.name').text file.name
     rows = rows.add(row)
   $('.hidden').removeClass('hidden') if rows.length > 0
   rows
@@ -88,13 +98,11 @@ generateUploadTemplate = (o) ->
   $.each o.files, (index, file) ->
     row = $('' +
       '<tr class="template-upload fade">' +
-      '<td class="preview" style="vertical-align: middle;"><span class="fade"></span></td>' +
-      '<td class="name"></td>' +
+      '<td class="preview" align="center" style="vertical-align: middle;"><span class="fade"></span></td>' +
       '<td class="schedule_id" style="display:none;"><input type="text" name="photo_log[schedule_id]"></input></td>' +
       content(file, o, index) +
       cancel_button(index) +
       '</tr>')
-    row.find('.name').text file.name
     row.find('.schedule_id input').val($("#photo_log_schedule_id").val())
     rows = rows.add(row)
   rows
@@ -109,8 +117,8 @@ content = (file, o, index) ->
   if file.error
     "<td class='error' colspan='2'><span class='label label-important'>#{locale.fileupload.error}</span> #{locale.fileupload.errors[file.error] || file.error}</td>"
   else if o.files.valid && !index
-    '<td><div class="progress progress-success progress-striped active"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div></td>'
+    '<td style="vertical-align: middle;"><div class="progress progress-success progress-striped active"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div></td>'
 
 cancel_button = (index) ->
   if !index
-    "<td class='cancel' style='vertical-align: middle;'><button class='btn btn-warning hide_on_step_2 cancel_button'><i class='fa fa-ban'></i><span> #{locale.fileupload.cancel}</span></button></td>"
+    "<td class='cancel' style='vertical-align: middle;'><button class='btn btn-warning hide_on_step_2 cancel_button rounded'><i class='fa fa-ban'></i><span> #{locale.fileupload.cancel}</span></button></td>"

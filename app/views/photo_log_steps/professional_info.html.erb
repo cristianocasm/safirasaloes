@@ -1,53 +1,58 @@
 <%= content_for :title, 'Inserir Dados do Profissional | SafiraSalões' %>
 
-<div class="panel panel-danger">
-  <div class="panel-heading">
-    <h3 class="panel-title"><b>ATENÇÃO!</b></h3> Para receber as recompensas, você deverá inserir as informações abaixo nas descrições de suas fotos.
-  </div>
-  <div class="panel-body prof-info">
-    <%= simple_format @prof_info  %>
-  </div>
-  <div class="panel-footer">
-    <button type="button" class="btn btn-block btn-warning" id="prependProfInfoButton"><h4 style="
-color: white;"><b>Insira por Mim</b></h4></button>
-  </div>      
-</div>
 
-<div class="row">
-  <div class="col-md-12">
-    <div class="widget">
-      <div class="widget-content">
-        <div class="padd scroll-chat">
-          <ul class="chats">
-            <% for photo in @photos %>
-              <li class="by-me">
-                <div class="avatar pull-left">
-                  <%= image_tag photo.image.url(:small), class: 'preview' %>
-                </div>
-                <div class="chat-content">
-                  <%= photo.description %>
-                  <div class="clearfix"></div>
-                </div>
-              </li>
-            <% end %>
-          </ul>
-        </div>
+<%= form_for :photos, :url => wizard_path, :html => { :method => :put, class: 'sign-in form-horizontal shadow rounded no-overflow' } do |f| -%>
+
+  <div class="panel-body prof-info hidden"><%= simple_format @prof_info  %></div>
+  
+  <div class="sign-header no-padding">
+    <div class="form-group">
+      <div class="sign-text-without-before italic">
+        <% if @professional.avatar_url.present? %>
+          <%= image_tag @professional.avatar_url, class: "img-circle" %>
+        <% end %>
+        
+        <p style="text-transform: none;"><strong><%= @ctNome.titleize %></strong>, você se importaria em inserir minhas <span class="text-strong">informações de contato</span> na sua publicação? Preparei uma <span class="text-strong">recompensa especial</span> pra isso.</p>
+
+        <p><button type="button" class="btn btn-block btn-warning rounded" id="prependProfInfoButton">Ok! Insira por Mim</button></p>
       </div>
     </div>
   </div>
-</div>
 
-<div class="panel-footer mt-30">
-  <ul class="pager wizard no-margin">
-    <li class="mr-15">
-      <%= link_to previous_wizard_path(photos: params['photos']), class: 'btn btn-warning btn-lg' do %>
-        <span><i class="fa fa-angle-double-left"></i></span> Voltar
-      <% end %>
-    </li>
-    <li>
-      <%= link_to next_wizard_path, id: 'photo_log_step_prof_info', class: 'btn btn-success btn-lg' do %>
-    Próximo Passo <span><i class="fa fa-angle-double-right"></i></span>
-  <% end %>
-    </li>
-  </ul>
-</div>
+    <div class="sign-body" style="padding: 15px 0px;">
+      <div class="form-group">
+        
+        <!-- Aqui começa marcação para fotos-->
+        <ul class="chats no-padding">
+          <% for photo in @photos %>
+            <li class="by-me">
+              <div class="avatar pull-left">
+                <%= image_tag photo.image.url(:small), class: 'preview' %>
+              </div>
+              <div class="chat-content">
+                <%= photo.description %>
+                <div class="clearfix"></div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+
+
+      </div>
+    </div>
+  
+  <div class="panel-footer">
+    <ul class="pager wizard no-margin">
+      <li class="mr-15">
+        <%= link_to previous_wizard_path(s: params[:s]), class: 'btn btn-warning btn-lg' do %>
+          <span><i class="fa fa-angle-double-left"></i></span> Voltar
+        <% end %>
+      </li>
+      <li>
+        <%= link_to next_wizard_path(s: params[:s]), id: 'photo_log_step_prof_info', class: 'btn btn-success btn-lg' do %>
+      Próximo Passo <span><i class="fa fa-angle-double-right"></i></span>
+    <% end %>
+      </li>
+    </ul>
+  </div>
+<% end %>

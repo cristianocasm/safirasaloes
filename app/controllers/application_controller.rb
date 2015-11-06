@@ -16,14 +16,15 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     track_login_event(resource) if Rails.env.production?
+    super
     
-    if resource.instance_of?(Customer) && resource.can_send_photo?
-      flash.clear
-      flash[:success] = "Parabéns! Você está habilitado a enviar as fotos do serviço prestado e GANHAR SAFIRAS!"
-      new_photo_log_path
-    else
-      super
-    end
+    # if resource.instance_of?(Customer) && resource.can_send_photo?
+    #   flash.clear
+    #   flash[:success] = "Parabéns! Você está habilitado a enviar as fotos do serviço prestado e GANHAR SAFIRAS!"
+    #   new_photo_log_path
+    # else
+    #   super
+    # end
   end
 
   def configure_permitted_parameters
@@ -96,7 +97,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate!
-    self.send "authenticate_#{resource_name}!" unless ( controller_name.in?(%w[static_pages notifications]) )
+    self.send "authenticate_#{resource_name}!" unless ( controller_name.in?(%w[static_pages notifications photo_logs photo_log_steps]) )
   end
 
   def current_permission

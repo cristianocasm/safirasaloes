@@ -14,14 +14,13 @@
 #  image_file_size    :integer
 #  image_updated_at   :datetime
 #  posted             :boolean          default(FALSE)
-#  prof_info_allowed  :boolean          default(FALSE)
 #
 
 class PhotoLog < ActiveRecord::Base
   belongs_to :customer
   belongs_to :schedule
 
-  validates_presence_of :customer
+  # validates_presence_of :customer
   validates_presence_of :schedule
 
   has_attached_file :image, :styles => { :small => "80x80>" },
@@ -39,6 +38,8 @@ class PhotoLog < ActiveRecord::Base
                             Time.zone.now
                           )
                         }
+
+  scope :find_not_posted_by_ids_and_schedule, -> (ids, schedule_id) { where(id: ids, schedule_id: schedule_id, posted: false) }
 
   def to_jq_upload
     {
@@ -60,6 +61,6 @@ class PhotoLog < ActiveRecord::Base
 
   def gen_msg(prof)
     desc = self.description.present? ? "---\n#{self.description}" : ""
-    self.prof_info_allowed ? prof.contact_info + desc : desc
+    prof.contact_info + desc
   end
 end

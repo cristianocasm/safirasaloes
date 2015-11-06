@@ -8,6 +8,9 @@ class Permission < Struct.new(:resource)
     return true if controller == "omniauth_callbacks" && action.in?(%w[facebook])
     return true if controller == "devise/professional_confirmations" && action.in?(%w[new create show])
     return true if controller == "devise/passwords" && action.in?(%w[new create edit update])
+    return true if controller == "photo_logs" && action.in?(%w[new create index])
+    return true if controller == "photo_log_steps" && action.in?(%w[index show update])
+    
     if resource.instance_of? Professional
       return professional_permission(controller, action)
     elsif resource.instance_of? Customer

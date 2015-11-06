@@ -21,6 +21,7 @@
 #  uid                    :string(255)
 #  oauth_token            :string(255)
 #  oauth_expires_at       :datetime
+#  avatar_url             :string(255)
 #
 
 class Customer < ActiveRecord::Base
@@ -41,7 +42,7 @@ class Customer < ActiveRecord::Base
 
   after_create :update_schedule
 
-  scope :find_by_provider_and_uid_or_email, -> (provider, uid, email) { where("( ( provider=? AND uid=? ) OR email=? )", provider, uid, email) }
+  scope :find_by_provider_and_uid, -> (provider, uid) { where("provider = ? AND uid = ?", provider, uid) }
   scope :filter_by_email, -> (query) { select(:id, :nome, :email, :telefone).where("email LIKE '%#{query}%'") }
   scope :filter_by_telefone, -> (query) { select(:id, :nome, :email, :telefone).where("telefone LIKE '%#{query}%'") }
 
@@ -49,7 +50,7 @@ class Customer < ActiveRecord::Base
     sc = Schedule.find(self.schedule_invitation)
     sc.update_attribute(:customer_id, self.id)
     self.update_attribute(:telefone, sc.telefone)
-    CustomerInvitation.find_by_schedule_id(self.schedule_invitation).delete
+    # CustomerInvitation.find_by_schedule_id(self.schedule_invitation).delete
   end
 
   def schedules_not_more_than_12_hours_ago
@@ -60,15 +61,15 @@ class Customer < ActiveRecord::Base
     self.schedules_not_more_than_12_hours_ago.any?
   end
 
-  def save_provider_uid(auth)
-    authData = {
-                  provider: auth.provider,
-                  uid: auth.uid,
-                  oauth_token: auth.credentials.token,
-                  oauth_expires_at: Time.at(auth.credentials.expires_at)
-                } 
-    update_attributes(authData)
-  end
+  # def save_provider_uid(auth)
+  #   authData = {
+  #                 provider: auth.provider,
+  #                 uid: auth.uid,
+  #                 oauth_token: auth.credentials.token,
+  #                 oauth_expires_at: Time.at(auth.credentials.expires_at)
+  #               } 
+  #   update_attributes(authData)
+  # end
 
   def facebook
     @facebook ||= Koala::Facebook::API.new(oauth_token)
@@ -76,6 +77,19 @@ class Customer < ActiveRecord::Base
   rescue Koala::Facebook::APIError => e
     logger.info e.to_s
     nil # or consider a custom null object
+  end
+
+  def self.create_with_omniauth(auth, params)
+    create! do |customer|
+      customer.provider = auth.provider
+      customer.uid = auth.uid
+      customer.oauth_token = auth.credentials.token
+      customer.oauth_expires_at =  Time.at(auth.credentials.expires_at)
+      customer.email = auth.info.email
+      customer.avatar_url = auth.info.image
+      customer.schedule_invitation = params['schedule']
+      customer.nome = auth.extra.raw_info.first_name
+    end
   end
 
   def gave_fb_permissions?
@@ -97,9 +111,10 @@ class Customer < ActiveRecord::Base
   def get_rewards_by(postedPhotos)
     pp = postedPhotos.first
     sc = pp.schedule
+
     if sc.recompensa_fornecida
       0
-    elsif pp.prof_info_allowed
+    else
       rw = Reward.find_or_initialize_by(professional_id: sc.professional_id, customer_id: self.id)
       rw.total_safiras = rw.total_safiras + sc.price.recompensa_divulgacao
       if rw.save
@@ -131,5 +146,19 @@ class Customer < ActiveRecord::Base
 
   def my_professionals
     self.professionals.includes(:services).where(status_id: Status.where("nome IN ('testando', 'assinante')")).distinct
+  end
+
+  # Sobrescrevendo método que ativa validações no e-mail
+  # para que e-mail não seja obrigatório nos casos onde
+  # cadastro é realizado com sistemas de terceiros.
+  def email_required?
+    super && provider.blank? && uid.blank?
+  end
+
+  # Sobrescrevendo método que ativa validações no password
+  # para que password não seja obrigatório nos casos onde
+  # cadastro é realizado com sistemas de terceiros.
+  def password_required?
+    super && provider.blank? && uid.blank?
   end
 end

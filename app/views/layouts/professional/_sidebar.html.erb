@@ -15,7 +15,7 @@ START @SIDEBAR LEFT
     <!-- Start left navigation - profile shortcut -->
     <div class="sidebar-content">
         <div class="media">
-            <a class="pull-left has-notif avatar" href="page-profile.html">
+            <a class="pull-left has-notif avatar">
                 <% if current_professional.avatar_url.present? %>
                     <%= image_tag current_professional.avatar_url %>
                 <% end %>

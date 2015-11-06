@@ -15,10 +15,10 @@ START @SIDEBAR LEFT
     <!-- Start left navigation - profile shortcut -->
     <div class="sidebar-content">
         <div class="media">
-            <a class="pull-left has-notif avatar" href="page-profile.html">
-                <%# if current_customer.avatar_url.present? %>
-                    <%# image_tag current_customer.avatar_url %>
-                <%# end %>
+            <a class="pull-left has-notif avatar">
+                <% if current_customer.avatar_url.present? %>
+                    <%= image_tag current_customer.avatar_url %>
+                <% end %>
                 <!-- <i class="online"></i> -->
             </a>
             <div class="media-body">
@@ -32,13 +32,14 @@ START @SIDEBAR LEFT
     <!-- Start left navigation - menu -->
     <ul class="sidebar-menu">
 
-        <!-- Start navigation - dashboard -->
+        <!-- Start navigation - dashboard
         <li class="<%= active(['photo_logs', 'photo_log_steps']) %>">
           <%= link_to(new_photo_log_path, id: 'envio_fotos') do %>
             <span class="icon"><i class="fa fa-camera"></i></span>
             <span class="text">Enviar Fotos</span>
           <% end %>
         </li>
+         -->
 
         <li class="<%= active('schedules') %>">
           <%= link_to(customer_root_path, id: 'meus_servicos') do %>

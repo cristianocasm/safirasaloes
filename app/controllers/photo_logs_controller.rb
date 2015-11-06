@@ -1,10 +1,17 @@
 class PhotoLogsController < ApplicationController
   before_action :set_photo_log, only: [:destroy]
+  layout "login"#, only: [:new, :index]
 
   # GET /photo_logs
   # GET /photo_logs.json
   def index
-    @photo_logs = current_customer.photo_logs.not_posted
+    @photo_logs = if (ctm = current_customer)
+      current_customer.photo_logs.not_posted # levar em consideração aqui o schedule correto
+    else
+      photo_ids = session[:photo_ids]
+      schedule_id = session[:schedule_id]
+      PhotoLog.find_not_posted_by_ids_and_schedule(photo_ids, schedule_id)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -14,19 +21,24 @@ class PhotoLogsController < ApplicationController
 
   # GET /photo_logs/new
   def new
-    if current_customer.can_send_photo?
-      @photoLog = current_customer.photo_logs.new
-      @scs = current_customer.schedules_not_more_than_12_hours_ago
-    else
-      redirect_to customer_root_path, flash: { error: "Você não foi atendido por um profissional nas últimas 12 horas e, por isso, ainda não pode enviar fotos." }
+    if invited?
+      @schedule = Schedule.find_by_id(@sc)
+      if @schedule
+        @ctNome = @schedule.nome_cliente
+        @professional = @schedule.professional
+        @can_send_photo = @schedule.can_send_photo?
+        session[:schedule_id] = @sc
+      else # Trata caso onde profissional deleta esse agendamento
+        @can_send_photo = :no
+      end
     end
   end
 
   # POST /photo_logs
   # POST /photo_logs.json
   def create
-    @photoLog = current_customer.photo_logs.create(photo_log_params)
-
+    @photoLog = PhotoLog.create(photo_log_params)
+    
     respond_to do |format|
       if @photoLog.persisted?
         format.html {
@@ -61,5 +73,15 @@ class PhotoLogsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def photo_log_params
       params.require(:photo_log).permit(:image, :description, :schedule_id)
+    end
+
+    def invited?
+      @sc = @token = nil
+      if params[:s]
+        @sc = params[:s][ 4...params[:s].size]
+        @token = params[:s][0..3]
+      end
+
+      CustomerInvitation.find_by_schedule_and_token(@sc, @token).present?
     end
 end

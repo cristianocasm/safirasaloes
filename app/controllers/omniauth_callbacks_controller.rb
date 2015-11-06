@@ -1,4 +1,6 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+
+  # Função que lida com o retorno do Facebook
   def facebook
     auth = request.env['omniauth.params']
     
@@ -18,51 +20,58 @@ private
   def signup_or_signin_with_facebook
     auth = request.env["omniauth.auth"]
     resource = Professional.find_by_provider_and_uid_or_email(auth.provider, auth.uid, auth.info.email) ||
-                  Customer.find_by_provider_and_uid_or_email(auth.provider, auth.uid, auth.info.email).try(:first)
+                  Customer.find_by_provider_and_uid(auth.provider, auth.uid).try(:first)
     if resource.present?
       resource_name = resource.class.to_s.downcase.to_sym
       sign_in(resource_name, resource)
       redirect_to after_sign_in_path_for(resource)
     else
       resource = Professional.create_with_omniauth(auth)
-      resource_name = resource.class.to_s.downcase.to_sym
-      sign_in(resource_name, resource)
+      sign_in(:professional, resource)
       track_signup_event(resource) if Rails.env.production?
       redirect_to sign_up_steps_path
     end
 
-    # auth = request.env["omniauth.auth"]
-    # resource = Professional.find_by_provider_and_uid_or_email(auth.provider, auth.uid, auth.info.email) ||
-    #               Customer.find_by_provider_and_uid_or_email(auth.provider, auth.uid, auth.info.email).try(:first) ||
-    #               Professional.create_with_omniauth(auth)
-    # resource_name = resource.class.to_s.downcase.to_sym
-    # sign_in(resource_name, resource)
-    # redirect_to after_sign_in_path_for(resource)
-
   end
 
-  # Função abaixo publica as fotos do cliente no Facebook e fornece
-  # a devida recompensa.
+  # Função abaixo publica as fotos do cliente no Facebook,
+  # cadastra-o (se não estiver cadastrado), autentica-o e
+  # fornece a devida recompensa.
   def publish_photos
-    current_customer.save_provider_uid(request.env["omniauth.auth"])
-    pendingPostings = current_customer.photo_logs.not_posted
-    postedPhotos = post(pendingPostings).try(:compact)
-    rwd = current_customer.get_rewards_by(postedPhotos) unless postedPhotos.blank?
+    auth = request.env["omniauth.auth"]
+    params = request.env['omniauth.params']
+    
+    # Faz cadastro (se não estiver cadastrado) e o autentica
+    # no sistema.
+    customer = Customer.find_by_provider_and_uid(auth.provider, auth.uid).try(:first)
+    customer = Customer.create_with_omniauth(auth, params) unless customer.present?
+    sign_in(:customer, customer)
 
-    msg = "PARABÉNS! Suas fotos foram enviadas com sucesso. "
-    msg = msg + "Recompensa ganha: #{rwd}" unless rwd.zero?
+    # Publica fotos no Facebook
+    # pendingPostings = current_customer.photo_logs.not_posted
+    if customer.fb_publish_action_granted?
+      pendingPostings = PhotoLog.where(id: params['photos'])
+      pendingPostings.update_all(customer_id: current_customer.id)
+      pendingPostings.reload # Garante que atualização acima é refletida nos objetos atualizados
+      postedPhotos = post(pendingPostings).try(:compact)
+      rwd = current_customer.get_rewards_by(postedPhotos) unless postedPhotos.blank?
 
-    flash[:success] = msg
-    redirect_to customer_root_path, flash: { success: msg }
+      msg = "PARABÉNS! Suas fotos foram postadas no Facebook com sucesso. "
+      msg = msg + "Recompensa ganha: #{rwd}" unless rwd.zero?
+
+      redirect_to customer_root_path, flash: { success: msg }
+    else
+      redirect_to photo_log_step_path(id: :revision, photos: params['photos'], prof_info_allowed: true), flash: { error: "Para ser recompensado permita que o SafiraSalões poste as fotos em seu perfil." }
+    end
   end
 
   def post(pendingPostings)
     prof = pendingPostings.first.schedule.professional
-    pendingPostings.each do |photo|
+    pendingPostings.map do |photo|
       begin
         photo.submit_to_fb(prof)
       rescue Koala::Facebook::APIError => e
-        logger.info e.to_s
+        logger.info "\n\n\n\n\n\n\n\n#{e.to_s}\n\n\n\n\n\n\n\n"
         nil
       end
     end

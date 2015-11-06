@@ -1,21 +1,15 @@
 class PhotoLogStepsController < ApplicationController
   include Wicked::Wizard
   steps :comments, :professional_info, :revision
+  layout "login"
 
   def show
-    case step
-    when :comments
-      if_no_photos_redirect_to_first_step and return
-    when :professional_info
-      if_no_photos_redirect_to_first_step and return
-      @prof_info = @photos.first.schedule.professional.contact_info
-    when :revision
-      if_no_photos_redirect_to_first_step and return
-      if params['prof_info_allowed'].present? && params['prof_info_allowed'].in?(%w[true false])
-        @prof_info_allowed = params['prof_info_allowed']
-        @photos.update_all(prof_info_allowed: params['prof_info_allowed'])
-      end
+
+    case step; when :comments
+      session[:photo_ids] = params['photos'] if params[:photos]
     end
+    
+    check_photos_inserted_and_recover_parameters
     
     render_wizard
   end
@@ -24,7 +18,12 @@ class PhotoLogStepsController < ApplicationController
     ids = []
 
     params["photos"].each do |key, val|
-      pl = current_customer.photo_logs.find_by_id(key)
+      # pl = current_customer.photo_logs.find_by_id(key)
+      
+      # Fazer dessa forma (ao invés de fazer como acima) cria um problema de segurança
+      # onde qualquer pessoa pode acessar qualquer foto salva em nosso servidor, bastando
+      # para isso que ele altere no navegador os ids das fotos
+      pl = PhotoLog.find_by_id(key)
 
       if pl.present?
         pl.update_attribute(:description, val["description"])
@@ -32,40 +31,37 @@ class PhotoLogStepsController < ApplicationController
       end
     end
 
-    redirect_to next_wizard_path(photos: ids)
-  end
-
-  def finish_wizard_path
-    pendingPostings = current_customer.photo_logs.where(id: params['photos'])
-    postedPhotos = post(pendingPostings).try(:compact)
-    rwd = current_customer.get_rewards_by(postedPhotos) unless postedPhotos.blank?
-
-    msg = "PARABÉNS! Suas fotos foram enviadas com sucesso. "
-    msg = msg + "Recompensa ganha: #{rwd}" unless rwd.zero?
-    
-    flash[:success] = msg
-    customer_root_path
+    redirect_to next_wizard_path(s: params[:s])
   end
 
   private
 
-  def if_no_photos_redirect_to_first_step
-    @photos = current_customer.photo_logs.where(id: params['photos'])
-    if @photos.blank?
-      redirect_to new_photo_log_path, flash: { error: 'Carregue pelo menos 1 foto.' }
-      true
+  def recover_parameters
+    @sc = session[:schedule_id]
+    @schedule = Schedule.find_by_id(@sc)
+    if @schedule
+      @ctNome = @schedule.nome_cliente
+      @professional = @schedule.professional
+      @can_send_photo = @schedule.can_send_photo?
+      @prof_info = @professional.contact_info # para passo 'professional_info'
+      @prof_info_allowed = params['prof_info_allowed'] # para passo 'revision'
     end
   end
 
-  def post(pendingPostings)
-    prof = pendingPostings.first.schedule.professional
-    pendingPostings.each do |photo|
-      begin
-        photo.submit_to_fb(prof)
-      rescue Koala::Facebook::APIError => e
-        logger.info e.to_s
-        nil
-      end
+  def check_photos_inserted_and_recover_parameters
+    # # @photos = current_customer.photo_logs.where(id: params['photos'])
+    
+    # Fazer dessa forma (ao invés de fazer como acima) cria um problema de segurança
+    # onde qualquer pessoa pode acessar qualquer foto salva em nosso servidor, bastando
+    # para isso que ele altere no navegador os ids das fotos
+    photo_ids = session[:photo_ids]
+    schedule_id = session[:schedule_id]
+    @photos = PhotoLog.find_not_posted_by_ids_and_schedule(photo_ids, schedule_id)
+    if @photos.blank?
+      redirect_to new_photo_log_path, flash: { error: 'Carregue pelo menos 1 foto.' }
+    else
+      recover_parameters
     end
   end
+
 end

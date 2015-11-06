@@ -1,20 +1,36 @@
 <%= content_for :title, 'Comentar Fotos | SafiraSalões' %>
 
-<%= form_for :photos, :url => wizard_path, :html => { :method => :put, class: 'form-horizontal' } do |f| -%>
-  <% for photo in @photos %>
+<%= form_for :photos, :url => wizard_path, :html => { :method => :put, class: 'sign-in form-horizontal shadow rounded no-overflow' } do |f| -%>
+  
+  <%= hidden_field_tag :s, params[:s] -%>
+  <div class="sign-header no-padding">
     <div class="form-group">
-      <div class="col-xs-3 col-md-2 col-lg-2">
-        <%= image_tag photo.image.url(:small), class: "preview" %>
+      <div class="sign-text-without-before italic">
+        <% if @professional.avatar_url.present? %>
+          <%= image_tag @professional.avatar_url, class: "img-circle" %>
+        <% end %>
+        <p style="text-transform: none;"><strong><%= @ctNome.titleize %></strong>, diga o que você achou do meu trabalho <span class="text-strong">comentando as fotos</span> ou pule para o próximo passo.</p>
       </div>
-      <div class="col-xs-9 col-md-8 col-lg-5">
-        <%= f.text_area :description, class: "form-control", placeholder: "Escreva aqui um comentário para sua foto...", name: "photos[#{photo.id}][description]", value: photo.description %>
+    </div>
+  </div>
+
+  <% for photo in @photos %>
+    <div class="sign-body" style="padding: 15px 0px;">
+      <div class="form-group">
+        <div class="pull-left">
+          <%= image_tag photo.image.url(:small), class: "preview" %>
+        </div>
+        <div class="pull-right">
+          <%= f.text_area :description, class: "form-control", placeholder: "O que achou do novo visual?", name: "photos[#{photo.id}][description]", value: photo.description %>
+        </div>
       </div>
     </div>
   <% end %>
+  
   <div class="panel-footer mt-30">
     <ul class="pager wizard no-margin">
       <li class="mr-15">
-        <%= link_to new_photo_log_path, class: 'btn btn-warning btn-lg' do %>
+        <%= link_to new_photo_log_path(s: params[:s]), class: 'btn btn-warning btn-lg' do %>
           <span><i class="fa fa-angle-double-left"></i></span> Voltar
         <% end %>
       </li>

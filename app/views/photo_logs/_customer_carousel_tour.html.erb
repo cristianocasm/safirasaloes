@@ -1,0 +1,56 @@
+<!-- Início Carousel -->
+<div id="customer_carousel" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#customer_carousel" data-slide-to="0" class="active"></li>
+    <li data-target="#customer_carousel" data-slide-to="1"></li>
+    <li data-target="#customer_carousel" data-slide-to="2"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+
+    <div class="item active">
+      <%= image_tag "tutorial/0. agendar.jpg", alt: 'Parabéns', class: "tales" %>
+      <div class="carousel-caption">
+        <h3>Receba o Serviço</h3>
+        <p>Compareça ao meu estabelecimento no dia <span class="text-strong"><%= @schedule.try(:datahora_inicio).try(:strftime, '%d/%m/%Y às %H:%M') %></span> para receber o serviço '<span class="text-strong"><%= @schedule.try(:price).try(:service).try(:nome).try(:titleize) %></span>'. Não se atrase ;-)</p>
+      </div>
+    </div>
+    
+    <div class="item">
+      <%= image_tag("tutorial/3. foto.jpg", :alt => "Tirar Foto", class: "tales") %>
+      <div class="carousel-caption">
+        <h3>Poste Fotos</h3>
+
+        <p>Logo após, utilize o <span class="text-strong">SafiraSalões</span> (acessando o link enviado para seu celular) para <span class="text-strong">postar no seu Facebook fotos</span> do seu <span class="text-strong">novo visual</span>. Capriche na pose!</p>
+      </div>
+    </div>
+    
+    <div class="item">
+      <%= image_tag("tutorial/5. recompensa.jpg", :alt => "Fidelização", class: "tales") %>
+      <div class="carousel-caption">
+        <h3>Ganhe Recompensas</h3>
+
+        <p>Tão logo as fotos sejam postadas, você recebe <span class="text-strong">recompensas</span> que podem ser <span class="text-strong">trocadas por meus serviços</span>. Gostou? Me conte o que achou quando chegar no meu salão ;-)</p>
+      </div>
+    </div>
+
+
+  </div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#customer_carousel" role="button" data-slide="prev">
+    <span class="control-left fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fa fa-chevron-left fa-stack-1x"></i>
+    </span>
+  </a>
+  <a class="right carousel-control" href="#customer_carousel" role="button" data-slide="next">
+    <span class="control-right fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fa fa-chevron-right fa-stack-1x"></i>
+    </span>
+  </a>
+</div>
+<!-- Fim Carousel -->

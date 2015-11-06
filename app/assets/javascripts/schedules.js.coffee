@@ -112,11 +112,6 @@ config_carousel = ->
     change_next_button($('div.active').index())
     woopra.track('tour_taken') if( ($('div.active').index() == 5) && (typeof woopra != 'undefined') )
 
-  $('#prev_car_tour').on 'click', (e) ->
-    $("#carousel-example-generic").carousel('prev')
-  $('#next_car_tour').on 'click', (e) ->
-    $("#carousel-example-generic").carousel('next')
-
 config_callendar = ->
   $('#calendar').fullCalendar({
     header: {

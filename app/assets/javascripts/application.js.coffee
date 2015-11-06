@@ -85,6 +85,12 @@ $(document).on 'click', 'a.sms_success_link', (event) ->
   $("#smsContent").modal('show')
   event.preventDefault()
 
+$('#prev_car_tour').on 'click', (e) ->
+  $('[data-ride="carousel"]').carousel('prev')
+  
+$('#next_car_tour').on 'click', (e) ->
+  $('[data-ride="carousel"]').carousel('next')
+
 # Aplica máscara aos campos de telefone
 $(document).on('focusout', 'input:text.telefone', ->
   phone = undefined
@@ -160,7 +166,10 @@ gen_restful_url = (link) ->
   params = $.param('photos': params)
   
   link.attr 'href', ->
-    this.href + '?' + params
+    if this.href.indexOf('?') == -1
+      this.href + '?' + params
+    else
+      this.href + '&' + params
 
 
 $('div.modal').on 'show.bs.modal', ->

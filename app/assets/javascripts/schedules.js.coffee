@@ -260,7 +260,7 @@ set_bindings = ->
   $('select#schedule_price_id').change check_whether_show_checkbox_for_safira_acceptance
   $('#myModal').bind 'hide.bs.modal', reset_form
   $('#myModal').on 'shown.bs.modal', (e) ->
-    window.tour.next() if window.started
+    window.tour.end() if ( ( typeof window.tour ) != 'undefined' )
   $('input.twitter-typeahead').on 'typeahead:selected', (jQueryObj, selectedObj, datasetName) -> fill_form_with_customers_information(jQueryObj, selectedObj, datasetName)
   watch_over_customer_fields()
 
@@ -397,4 +397,6 @@ start_typeahead = (engine, elm, key, minLength) ->
 check_whether_doubt = ->
   # if $.cookie('doubt') == true
   $("#myModal").bind 'hidden.bs.modal.doubtTour', ->
+    $("#doubtTour").bind 'show.bs.modal', (e) ->
+      generate_mobile_caption(e)
     $("#doubtTour").modal('show')

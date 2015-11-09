@@ -77,9 +77,6 @@ $(document).on 'click', 'a.sms_success_link', (event) ->
   content = event.toElement.dataset.content.replace(/%0A/g,"<br/>")
   content = decodeURIComponent(content)
 
-  if window.started
-    window.tour.end()
-
   $("#smsContentLabel").html(title)
   $("#smsContentBody").html(content)
   $("#smsContent").modal('show')

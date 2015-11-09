@@ -39,7 +39,7 @@ module ProfessionalsHelper
         widget_title('scissors', "Veja abaixo os detalhes do serviço #{@service.nome.titleize}.")
       end
     when 'schedules'
-      widget_title('bullhorn', 'Informe o cliente e o serviço na agenda abaixo para estimulá-lo a divulgar seu trabalho.')
+      widget_title('bullhorn', 'Informe o cliente e o serviço na agenda abaixo para estimulá-lo a divulgar seu trabalho - selecione uma data.')
     end
   end
 
@@ -124,36 +124,25 @@ module ProfessionalsHelper
           </div>"
         },
         {
-          element: "button#btn_agendar",
+          element: "#calendar table:nth(0)",
           placement: "top",
           title: "Utilize nossa <b>Agenda</b><button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
           content: "
-          <p><b>Informe</b> quem é <b>seu próximo cliente</b> e o SafiraSalões irá incentivá-lo a <b>divulgar seu trabalho</b>.</p>",
+          <p><b>Informe seu próximo cliente</b> e iremos incentivá-lo a <b>divulgar seu trabalho</b>.</p>",
           template: "
           <div class='popover tour'>
             <div class='arrow'></div>
             <h3 class='popover-title' style='background-color: #c4e2bb'></h3>
             <div class='popover-content'></div>
             <div class='popover-navigation' style='background-color: #c4e2bb'>
-              <button class='btn btn-danger' data-role='prev'>« </button>
-              <button class='btn btn-success btn_tour_agendar' data-role='next'>Quero informar cliente »</button>
+              <button class='btn btn-danger rounded' data-role='prev'>« </button>
+              <button class='btn btn-success rounded btn_tour_agendar pull-right'>Informar cliente »</button>
             </div>
           </div>"
         }
       ],
       backdrop: false,
       keyboard: false,
-      template: "
-      <div class='popover tour'>
-        <div class='arrow'></div>
-        <h3 class='popover-title' style='background-color: #c4e2bb'></h3>
-        <div class='popover-content'></div>
-        <div class='popover-navigation' style='background-color: #c4e2bb'>
-          <button class='btn btn-success' data-role='next'> »</button>
-          <button class='btn btn-danger' data-role='prev'>« </button>
-          <button class='btn btn-default' data-role='end' style='float: none !important;'>x</button>
-        </div>
-      </div>"
     }.to_json
   end
 

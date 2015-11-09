@@ -36,16 +36,13 @@ class ServicesController < ApplicationController
     @service = current_professional.services.new(service_params)
 
     if @service.save
-      unless current_professional.taken_step.servico_cadastrado?
-        
-        if Rails.env.production?
-          woopra = WoopraTracker.new(request)
-          woopra.config( domain: "safirasaloes.com.br" )
-          woopra.track('professional_created_service', {}, true)
-        end
-        
-        current_professional.update_taken_step(servico_cadastrado: true)
+      if Rails.env.production?
+        woopra = WoopraTracker.new(request)
+        woopra.config( domain: "safirasaloes.com.br" )
+        woopra.track('professional_createdupdated_service', {action: 'Created'}, true)
       end
+        
+      current_professional.update_taken_step(servico_cadastrado: true) unless current_professional.taken_step.servico_cadastrado?
       redirect_to @service, flash: { success: generate_msg }
     else
       flash.now[:error] = flash_errors(@service)
@@ -57,6 +54,11 @@ class ServicesController < ApplicationController
   # PATCH/PUT /services/1.json
   def update
     if @service.update(service_params)
+      if Rails.env.production?
+        woopra = WoopraTracker.new(request)
+        woopra.config( domain: "safirasaloes.com.br" )
+        woopra.track('professional_createdupdated_service', {action: 'Updated'}, true)
+      end
       redirect_to @service, flash: { success: generate_msg }
     else
       flash.now[:error] = flash_errors(@service)

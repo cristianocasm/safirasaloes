@@ -93,5 +93,6 @@ class PhotoLogsController < ApplicationController
       when :yes; woopra.track('divulgating', { when: 'durante', step: 0 }, true)
       when :future; woopra.track('divulgating', { when: 'antes', step: 0 }, true)
       when :past; woopra.track('divulgating', { when: 'depois', step: 0 }, true)
+      end
     end
 end

@@ -72,6 +72,7 @@ class PhotoLogStepsController < ApplicationController
     when 'comments'; woopra.track('divulgating', { when: 'durante', step: 1 }, true)
     when 'professional_info'; woopra.track('divulgating', { when: 'durante', step: 2 }, true)
     when 'revision'; woopra.track('divulgating', { when: 'durante', step: 3 }, true)
+    end
   end
 
 end

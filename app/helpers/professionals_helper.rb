@@ -157,7 +157,7 @@ module ProfessionalsHelper
           element: "div.panel",
           content: "
           <p>Esta é a área onde você terá controle total sobre seus serviços.</p>
-          <p>Sempre que quiser acessá-la basta procurar pela opção 'Meus Serviços'
+          <p>Sempre que quiser acessá-la basta procurar pela opção 'Quero Divulgar...' > 'Meus Serviços'
           no menu lateral (esquerda).</p>
           ",
           template: "

@@ -10,6 +10,7 @@ class PhotoLogStepsController < ApplicationController
     end
     
     check_photos_inserted_and_recover_parameters
+    notice_woopra() if Rails.env.production?
     
     render_wizard
   end
@@ -62,6 +63,15 @@ class PhotoLogStepsController < ApplicationController
     else
       recover_parameters
     end
+  end
+
+  def notice_woopra
+    woopra = WoopraTracker.new(request)
+    woopra.config( domain: "safirasaloes.com.br" )
+    case params['id']
+    when 'comments'; woopra.track('divulgating', { when: 'durante', step: 1 }, true)
+    when 'professional_info'; woopra.track('divulgating', { when: 'durante', step: 2 }, true)
+    when 'revision'; woopra.track('divulgating', { when: 'durante', step: 3 }, true)
   end
 
 end

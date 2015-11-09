@@ -239,7 +239,7 @@ class Schedule < ActiveRecord::Base
   end
 
   def get_sms_prefix(name, options)
-    ( name == :professional ) ? "SafiraSalões: SMS enviado p/#{options[:ctTel]}: " : ""
+    ( name == :professional ) ? "SafiraSalões: SMS enviado: " : ""
   end
 
   def fire(msg, tel, schedule = false, date = {})

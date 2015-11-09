@@ -28,6 +28,7 @@ class PhotoLogsController < ApplicationController
         @professional = @schedule.professional
         @can_send_photo = @schedule.can_send_photo?
         session[:schedule_id] = @sc
+        notice_woopra() if Rails.env.production?
       else # Trata caso onde profissional deleta esse agendamento
         @can_send_photo = :no
       end
@@ -83,5 +84,14 @@ class PhotoLogsController < ApplicationController
       end
 
       CustomerInvitation.find_by_schedule_and_token(@sc, @token).present?
+    end
+
+    def notice_woopra
+      woopra = WoopraTracker.new(request)
+      woopra.config( domain: "safirasaloes.com.br" )
+      case @can_send_photo
+      when :yes; woopra.track('divulgating', { when: 'durante', step: 0 }, true)
+      when :future; woopra.track('divulgating', { when: 'antes', step: 0 }, true)
+      when :past; woopra.track('divulgating', { when: 'depois', step: 0 }, true)
     end
 end

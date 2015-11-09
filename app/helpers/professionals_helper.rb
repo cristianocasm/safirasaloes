@@ -109,7 +109,7 @@ module ProfessionalsHelper
         {
           orphan: true,
           backdrop: true,
-          title: "<i>O boca-a-boca é a melhor forma de divulgação</i><button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
+          title: "<i>O boca-a-boca é a melhor divulgação</i><button type='button' class='close' data-role='end'><span aria-hidden='true'>&times;</span></button>",
           content: "
           <p>O <b>SafiraSalões</b> <b>incentivará</b> seus clientes a <b>divulgar</b> nas redes sociais <b>seu contato profissional</b>\
           juntamente com as <b>fotos</b> do visual <b>criado por você</b>.</p>",

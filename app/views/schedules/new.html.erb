@@ -58,7 +58,7 @@
         </div>
         <div class="modal-body">
           <%= render "carousel_tour" %>
-          <div id="content-for-mobile">
+          <div class="content-for-mobile">
           </div>
         </div>
         <div class="modal-footer">
@@ -77,6 +77,48 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="doubtTour" tabindex="-1" role="dialog" aria-labelledby="doubtTourLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header italic">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          
+          <div class="media">
+            <a class="pull-left has-notif avatar">
+              <img alt="Picture" src="http://graph.facebook.com/1127817237243897/picture" style="border-radius: 100%; border: 2px solid;">
+            </a>
+
+            <div class="media-body">
+              <h4 class="media-heading">Dúvidas, <span><%= current_professional.nome.titleize %>?</span></h4>
+              <small>Sou o Cristiano e irei te mostrar como usar o SafiraSalões!</small>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-body">
+          <%= render "carousel_doubt_tour" %>
+          <div class="content-for-mobile">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="panel-footer no-border">
+            <ul class="pager wizard no-margin">
+              <li class="mr-15">
+                <button type="button" class="btn btn-warning btn-lg" id="prev_car_tour1">Anterior</button>
+              </li>
+              <li>
+                <button type="button" class="btn btn-success btn-lg" id="next_car_tour1">Próximo</button>
+                <button type="button" class="btn btn-success btn-lg hide" id="activate_modal">Agendar Cliente</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <!-- Modal -->
   <div class="modal fade" id="smsContent" tabindex="-1" role="dialog" aria-labelledby="smsContentLabel" aria-hidden="true">
     <div class="modal-dialog">

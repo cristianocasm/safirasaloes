@@ -12,10 +12,14 @@
   };
   $('#calendar').fullCalendar('removeEvents', <%= sc.id %>);
   $("#calendar").fullCalendar('renderEvent', myEvent);
+  
+  /*Garante que modal de dúvida não é exibido*/
+  $("#myModal").unbind('hidden.bs.modal.doubtTour');
+
   /*Necessário para que classe .modal-open seja adicionada à tag body*/
   $('#myModal').on('hidden.bs.modal', function () {
     content = $("div.active div.carousel-caption").html();
-    $("#content-for-mobile").html(content);
+    $(".content-for-mobile").html(content);
     $("#myCarouselModal").modal('show');
   });
   $('#myCarouselModal').on('shown.bs.modal', function () {

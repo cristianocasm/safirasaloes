@@ -17,7 +17,7 @@ class Devise::ProfessionalRegistrationsController < Devise::RegistrationsControl
       if is_flashing_format? && !cadastrando?
         flash_key = update_needs_confirmation?(resource, prev_unconfirmed_email) ?
           :update_needs_confirmation : :updated
-        set_flash_message :notice, flash_key
+        set_flash_message :success, flash_key, link: professional_root_path
       end
       sign_in resource_name, resource, :bypass => true
       respond_with resource, :location => ( cadastrando? ? after_update_path_for(resource) : edit_professional_registration_path )

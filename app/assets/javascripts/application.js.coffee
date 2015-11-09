@@ -86,10 +86,16 @@ $(document).on 'click', 'a.sms_success_link', (event) ->
   event.preventDefault()
 
 $('#prev_car_tour').on 'click', (e) ->
-  $('[data-ride="carousel"]').carousel('prev')
+  $('#carousel-example-generic').carousel('prev')
   
 $('#next_car_tour').on 'click', (e) ->
-  $('[data-ride="carousel"]').carousel('next')
+  $('#carousel-example-generic').carousel('next')
+
+$('#prev_car_tour1').on 'click', (e) ->
+  $('#carousel-doubt-tour').carousel('prev')
+  
+$('#next_car_tour1').on 'click', (e) ->
+  $('#carousel-doubt-tour').carousel('next')
 
 # Aplica máscara aos campos de telefone
 $(document).on('focusout', 'input:text.telefone', ->

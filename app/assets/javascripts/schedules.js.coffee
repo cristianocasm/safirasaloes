@@ -87,10 +87,10 @@ config_datetime_picker = ->
 #     $('iframe#player').attr('src', "https://www.youtube.com/embed/QUIeCtB15KY")
 #     $('a.carousel-control, ol.carousel-indicators').show()
 
-generate_mobile_caption = ->
-  content = $("div.active div.carousel-caption").html()
+generate_mobile_caption = (e) ->
+  content = $("##{e.target.id} div.active div.carousel-caption").html()
   content = "" if content == undefined
-  $("#content-for-mobile").html(content)
+  $(".content-for-mobile").html(content)
 
 change_next_button = (i) ->
   if (i == 4) && $("#reward_definition_link").size() > 0
@@ -102,22 +102,35 @@ change_next_button = (i) ->
     $("#next_car_tour").removeClass('hide')
     $("#create_reward_link").addClass('hide')
 
+change_next_button1 = (i) ->
+  if (i == 3)
+    $("#next_car_tour1").addClass('hide')
+    $("#activate_modal").removeClass('hide')
+  else
+    $("#next_car_tour1").removeClass('hide')
+    $("#activate_modal").addClass('hide')
+
 
 config_carousel = ->
   $("#carousel-example-generic").carousel({ interval: false } )
   # $("#carousel-example-generic").on 'slide.bs.carousel', (e) ->
   #   config_video_tour($('div.active').index(), e.direction)
   $("#carousel-example-generic").on 'slid.bs.carousel', (e) ->
-    generate_mobile_caption() if $("#content-for-mobile").is(":visible")
+    generate_mobile_caption(e) if $(".content-for-mobile").is(":visible")
     change_next_button($('div.active').index())
-    woopra.track('tour_taken') if( ($('div.active').index() == 5) && (typeof woopra != 'undefined') )
+    woopra.track('tour_taken') if( ($('div.active').index() == 4) && (typeof woopra != 'undefined') )
+  $("#carousel-doubt-tour").carousel({ interval: false })
+  $("#carousel-doubt-tour").on 'slid.bs.carousel', (e) ->
+    generate_mobile_caption(e) if $(".content-for-mobile").is(":visible")
+    change_next_button1($('div.active').eq(1).index())
 
 config_callendar = ->
   $('#calendar').fullCalendar({
     header: {
       left: 'prev',
       center: 'title',
-      right: 'month,agendaWeek,agendaDay,next'
+      right: 'next'
+      # right: 'month,agendaWeek,agendaDay,next'
     },
     defaultView: 'month'
     editable: true
@@ -139,6 +152,8 @@ config_callendar = ->
     eventRender:     (event, element, view) -> assocPopOver(event, element, view)
     select:     (start, end, jsEvent, view) -> dealNewEvent(start, end, jsEvent, view)
   })
+
+  check_whether_doubt()
 
 load_events = (source) ->
   $('#calendar').fullCalendar('addEventSource', source)
@@ -193,9 +208,16 @@ dealChangeEvent = (event, delta, revertFunc) ->
       $('#calendar').fullCalendar('refetchEvents')
       alert("Um erro inesperado ocorreu e não foi possível atualizar o horário.")
 
-$(document).on 'click', 'button#btn_agendar, button.btn_tour_agendar', ->
-  $('#calendar').fullCalendar( 'select', null)
-
+$(document).on 'click', 'button#btn_agendar, button.btn_tour_agendar, button#activate_modal', (e) ->
+  if e.toElement.id == 'activate_modal'
+    $('#doubtTour').on 'hidden.bs.modal', ->
+      $('#calendar').fullCalendar( 'select', null)
+    $('#myModal').on 'shown.bs.modal', ->
+      $("#doubtTour").unbind('hidden.bs.modal')
+    $("#myModal").unbind('hidden.bs.modal.doubtTour')
+    $("#doubtTour").modal('hide')
+  else
+    $('#calendar').fullCalendar( 'select', null)
 
 launch_modal = ->
   params = window.location.search.substring(1)
@@ -371,3 +393,8 @@ start_typeahead = (engine, elm, key, minLength) ->
       source: engine.ttAdapter()
     }
   )
+
+check_whether_doubt = ->
+  # if $.cookie('doubt') == true
+  $("#myModal").bind 'hidden.bs.modal.doubtTour', ->
+    $("#doubtTour").modal('show')

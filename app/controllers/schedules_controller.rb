@@ -27,6 +27,13 @@ class SchedulesController < ApplicationController
   def new
     @step_taken = current_professional.taken_step.tela_cadastro_horario_acessada?
     unless @step_taken
+
+      # Cria flag que será utilizado para verificar
+      # se profissional possui alguma dúvida em relação
+      # ao sistema. Dessa forma, poderemos ativar um
+      # tutorial específico para repassar nossa proposta
+      # de valor e explicar sobre o sistema
+      cookies[:doubt] = true
       
       if Rails.env.production?
         woopra = WoopraTracker.new(request)
@@ -54,6 +61,11 @@ class SchedulesController < ApplicationController
     @schedule.assign_attributes(schedule_params)
     set_price_on_schedule if current_professional.creating_first_service?
     if @schedule.save
+      
+      # Se profissional agendou um cliente não será
+      # necessário acompanhá-lo com um tutorial tira-dúvidas
+      cookies.delete(:doubt)
+      
       flash.now[:success] = @schedule.feedback_msg
 
       unless current_professional.taken_step.horario_cadastrado?

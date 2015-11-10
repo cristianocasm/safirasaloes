@@ -70,7 +70,7 @@ class PhotoLogStepsController < ApplicationController
     woopra.config( domain: "safirasaloes.com.br" )
     case params['id']
     when 'comments'; woopra.track('divulgating', { when: 'durante', step: 1 }, true)
-    when 'professional_info'; woopra.track('divulgating', { when: 'durante', step: 2 }, true)
+    when 'professional_info'; woopra.track('divulgating', { when: 'durante', step: 2 }, true) if params['prof_info_allowed'] == 'true'
     when 'revision'; woopra.track('divulgating', { when: 'durante', step: 3 }, true)
     end
   end

@@ -89,6 +89,7 @@ class PhotoLogsController < ApplicationController
     def notice_woopra
       woopra = WoopraTracker.new(request)
       woopra.config( domain: "safirasaloes.com.br" )
+      woopra.identify(email: @professional.email)
       case @can_send_photo
       when :yes; woopra.track('divulgating', { when: 'durante', step: 0 }, true)
       when :future; woopra.track('divulgating', { when: 'antes', step: 0 }, true)

@@ -59,10 +59,11 @@ private
       msg = "PARABÉNS! Suas fotos foram postadas no Facebook com sucesso. "
       msg = msg + "Recompensa ganha: #{rwd}" unless rwd.zero?
 
-      notice_woopra() if Rails.env.production?
+      notice_woopra('sim') if Rails.env.production?
 
       redirect_to customer_root_path, flash: { success: msg }
     else
+      notice_woopra('não') if Rails.env.production?
       redirect_to photo_log_step_path(id: :revision, photos: params['photos'], prof_info_allowed: true), flash: { error: "Para ser recompensado permita que o SafiraSalões poste as fotos em seu perfil." }
     end
   end
@@ -79,9 +80,9 @@ private
     end
   end
 
-  def notice_woopra
+  def notice_woopra(published)
     woopra = WoopraTracker.new(request)
     woopra.config( domain: "safirasaloes.com.br" )
-    woopra.track('published', {}, true)
+    woopra.track('published', { published: published }, true)
   end
 end

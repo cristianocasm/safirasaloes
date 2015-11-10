@@ -73,14 +73,14 @@ class ApplicationController < ActionController::Base
           avatar: resource.avatar_url
         )
         woopra.track('professional_login', {}, true)
-      elsif resource.instance_of?(Customer)
-        woopra = WoopraTracker.new(request)
-        woopra.config( domain: "safirasaloes.com.br" )
-        woopra.identify(
-          email: resource.email,
-          user_type: 'customer'
-        )
-        woopra.track('customer_login', {}, true)
+      # elsif resource.instance_of?(Customer)
+      #   woopra = WoopraTracker.new(request)
+      #   woopra.config( domain: "safirasaloes.com.br" )
+      #   woopra.identify(
+      #     email: resource.email,
+      #     user_type: 'customer'
+      #   )
+      #   woopra.track('customer_login', {}, true)
       end
   end
 

@@ -395,8 +395,8 @@ start_typeahead = (engine, elm, key, minLength) ->
   )
 
 check_whether_doubt = ->
-  # if $.cookie('doubt') == true
-  $("#myModal").bind 'hidden.bs.modal.doubtTour', ->
-    $("#doubtTour").bind 'show.bs.modal', (e) ->
-      generate_mobile_caption(e)
-    $("#doubtTour").modal('show')
+  if $.cookie('doubt') == true
+    $("#myModal").bind 'hidden.bs.modal.doubtTour', ->
+      $("#doubtTour").bind 'show.bs.modal', (e) ->
+        generate_mobile_caption(e)
+      $("#doubtTour").modal('show')

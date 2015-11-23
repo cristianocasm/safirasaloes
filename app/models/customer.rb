@@ -26,40 +26,38 @@
 
 class Customer < ActiveRecord::Base
 
-  attr_accessor :schedule_invitation
+  # attr_accessor :schedule_invitation
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable,
-         :validatable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable,
+          :trackable, :validatable
+  
   has_many :rewards
-  has_many :schedules
-  has_many :professionals, through: :schedules
-  has_many :photo_logs
+  has_many :professionals, through: :rewards
+  # has_many :schedules
+  # has_many :photo_logs
 
-  # after_commit :find_last_schedule, unless: Proc.new { |ct| ct.schedule_recovered }
-
-  after_create :update_schedule
+  # after_create :update_schedule
 
   scope :find_by_provider_and_uid, -> (provider, uid) { where("provider = ? AND uid = ?", provider, uid) }
   scope :filter_by_email, -> (query) { select(:id, :nome, :email, :telefone).where("email LIKE '%#{query}%'") }
   scope :filter_by_telefone, -> (query) { select(:id, :nome, :email, :telefone).where("telefone LIKE '%#{query}%'") }
 
-  def update_schedule
-    sc = Schedule.find(self.schedule_invitation)
-    sc.update_attribute(:customer_id, self.id)
-    self.update_attribute(:telefone, sc.telefone)
-    # CustomerInvitation.find_by_schedule_id(self.schedule_invitation).delete
-  end
+  # def update_schedule
+  #   sc = Schedule.find(self.schedule_invitation)
+  #   sc.update_attribute(:customer_id, self.id)
+  #   self.update_attribute(:telefone, sc.telefone)
+  #   # CustomerInvitation.find_by_schedule_id(self.schedule_invitation).delete
+  # end
 
-  def schedules_not_more_than_12_hours_ago
-    @sc ||= self.schedules.not_more_than_12_hours_ago
-  end
+  # def schedules_not_more_than_12_hours_ago
+  #   @sc ||= self.schedules.not_more_than_12_hours_ago
+  # end
   
-  def can_send_photo?
-    self.schedules_not_more_than_12_hours_ago.any?
-  end
+  # def can_send_photo?
+  #   self.schedules_not_more_than_12_hours_ago.any?
+  # end
 
   # def save_provider_uid(auth)
   #   authData = {
@@ -92,36 +90,53 @@ class Customer < ActiveRecord::Base
     end
   end
 
-  def gave_fb_permissions?
-    @gave ||= self.uid.present? &&
-                self.oauth_expires_in_the_future? &&
-                self.fb_publish_action_granted?
-  end
+  # def gave_fb_permissions?
+  #   @gave ||= self.uid.present? &&
+  #               self.oauth_expires_in_the_future? &&
+  #               self.fb_publish_action_granted?
+  # end
 
-  def oauth_expires_in_the_future?
-    self.oauth_expires_at.present? && self.oauth_expires_at > Time.zone.now
-  end
+  # def oauth_expires_in_the_future?
+  #   self.oauth_expires_at.present? && self.oauth_expires_at > Time.zone.now
+  # end
 
-  def fb_publish_action_granted?
-    self.facebook.get_object("me/permissions").any? do |p|
-      p['permission'] == 'publish_actions' && p['status'] == 'granted'
+  # def fb_publish_action_granted?
+  #   self.facebook.get_object("me/permissions").any? do |p|
+  #     p['permission'] == 'publish_actions' && p['status'] == 'granted'
+  #   end
+  # end
+
+  # def get_rewards_by(postedPhotos)
+  #   pp = postedPhotos.first
+  #   sc = pp.schedule
+
+  #   if sc.recompensa_fornecida
+  #     0
+  #   else
+  #     rw = Reward.find_or_initialize_by(professional_id: sc.professional_id, customer_id: self.id)
+  #     rw.total_safiras = rw.total_safiras + sc.price.recompensa_divulgacao
+  #     if rw.save
+  #       sc.update_attribute(:recompensa_fornecida, true)
+  #       sc.price.recompensa_divulgacao
+  #     end
+  #   end
+  # end
+
+  # Deverá ser invocada somente após o cadastro do cliente
+  def get_rewards_by(photoId)
+    invitation = CustomerInvitation.find_by_photo_id(photoId)
+    recompensa = 0
+    
+    unless invitation.recovered
+      photo = invitation.photo
+      prof = photo.professional
+      recompensa = photo.safiras
+
+      rw = Reward.find_or_initialize_by(professional_id: prof, customer_id: self.id)
+      rw.total_safiras +=  recompensa
+      rw.save and invitation.update_attribute(:recovered, true)
     end
-  end
 
-  def get_rewards_by(postedPhotos)
-    pp = postedPhotos.first
-    sc = pp.schedule
-
-    if sc.recompensa_fornecida
-      0
-    else
-      rw = Reward.find_or_initialize_by(professional_id: sc.professional_id, customer_id: self.id)
-      rw.total_safiras = rw.total_safiras + sc.price.recompensa_divulgacao
-      if rw.save
-        sc.update_attribute(:recompensa_fornecida, true)
-        sc.price.recompensa_divulgacao
-      end
-    end
   end
 
   # def find_last_schedule
@@ -140,12 +155,12 @@ class Customer < ActiveRecord::Base
     self.rewards.find_by_professional_id(pr_id).try(:total_safiras) || 0
   end
 
-  def future_schedules
-    self.schedules.includes(:service).in_the_future
-  end
+  # def future_schedules
+  #   self.schedules.includes(:service).in_the_future
+  # end
 
   def my_professionals
-    self.professionals.includes(:services).where(status_id: Status.where("nome IN ('testando', 'assinante')")).distinct
+    self.professionals.where(status_id: Status.where("nome IN ('testando', 'assinante')")).distinct
   end
 
   # Sobrescrevendo método que ativa validações no e-mail

@@ -373,7 +373,7 @@ body.page-sidebar-minimize-auto #sidebar-left .sidebar-menu > li > a > .icon {
 }
 body.page-sidebar-minimize #sidebar-left .sidebar-menu > li > a > .icon:after,
 body.page-sidebar-minimize-auto #sidebar-left .sidebar-menu > li > a > .icon:after {
-  left: 22px;
+  left: 36px;
 }
 body.page-sidebar-minimize #sidebar-left .sidebar-menu > li > a > .icon i,
 body.page-sidebar-minimize-auto #sidebar-left .sidebar-menu > li > a > .icon i {
@@ -2184,7 +2184,7 @@ body.page-footer-fixed #page-content .footer-content {
   position: absolute;
   top: 0px;
   bottom: 0px;
-  left: 15px;
+  left: 29px;
   z-index: -1;
 }
 .sidebar-menu > li > a > .icon i {

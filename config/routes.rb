@@ -6,8 +6,6 @@ Rails.application.routes.draw do
     
   devise_for :professionals, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'profissional/senha', confirmation: 'profissional/confirmar', unlock: 'profissional/desbloquear', sign_up: 'profissional/cadastrar' }, controllers: { sessions: 'sessions', registrations: 'devise/professional_registrations', confirmations: 'devise/professional_confirmations' }
   devise_for :customers, path: "", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'cliente/senha', confirmation: 'cliente/confirmar', unlock: 'cliente/desbloquear' }, controllers: { sessions: 'sessions' }, skip: ['registrations']
-  devise_for :admins, path: "acesso_restrito", path_names: { sign_in: 'entrar', sign_out: 'sair', password: 'senha' }
-  
 
   as :customer do
 
@@ -15,14 +13,14 @@ Rails.application.routes.draw do
     get '/auth/failure', to: redirect('/')
     
     scope 'cliente' do
-      root 'schedules#meus_servicos_por_profissionais', as: :customer_root
-      get 'cadastrar', to: 'customers#new', as: :new_customer_registration
-      post 'cadastrar', to: 'customers#create', as: :customer_registration
+      # root 'schedules#meus_servicos_por_profissionais', as: :customer_root
+      # get 'cadastrar', to: 'customers#new', as: :new_customer_registration
+      # post 'cadastrar', to: 'customers#create', as: :customer_registration
 
-      get 'politica_privacidade', to: 'static_pages#privacy'
+      # get 'politica_privacidade', to: 'static_pages#privacy'
 
-      resources :photo_logs, only: [:new, :create, :index, :destroy]
-      resources :photo_log_steps, only: [:index, :show, :update]
+      # resources :photos, only: [:index] # Acho que esse index é público, porém com id do profissional -> Não é resources!
+      # resources :photo_log_steps, only: [:index, :show, :update]
     end
   end
 
@@ -32,27 +30,22 @@ Rails.application.routes.draw do
     get '/auth/failure', to: redirect('/')
     
     scope 'profissional' do
-      root 'schedules#new', as: :professional_root
+      root 'photos#new', as: :professional_root
+
+      resources :photos, only: [:new, :create, :destroy]
       
-      post :filter_by_email, to: 'customers#filter_by_email'
-      post :filter_by_telefone, to: 'customers#filter_by_telefone'
-      post 'get_customer_rewards/:customer_id', to: 'rewards#get_customer_rewards', as: :get_customer_rewards
+      # post :filter_by_email, to: 'customers#filter_by_email'
+      # post :filter_by_telefone, to: 'customers#filter_by_telefone'
+      # post 'get_customer_rewards/:customer_id', to: 'rewards#get_customer_rewards', as: :get_customer_rewards
       post 'notificacao', to: 'notifications#new', as: :new_notification
-      resources :services
-      resources :statuses
-      resources :schedules do
-        post :get_last_two_months_scheduled_customers, on: :collection
-        # get :show_invitation_template, on: :member
-      end
+      # resources :services
+      # resources :statuses
+      # resources :schedules do
+      #   post :get_last_two_months_scheduled_customers, on: :collection
+      #   # get :show_invitation_template, on: :member
+      # end
 
       resources :sign_up_steps, only: [:index, :show, :update]
-    end
-  end
-
-  as :admin do
-    scope 'admin' do
-      root 'dashboard#index', as: :admin_root
-      put 'taken_steps', to: 'dashboard#taken_steps', as: :taken_steps
     end
   end
 

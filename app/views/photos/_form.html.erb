@@ -1,0 +1,55 @@
+<!-- Formulário só é exibido caso haja suporte do SO e/ou navegador -->
+<div id="create_photo_form" class="hidden">
+  
+  <%= form_for Photo.new, :html => { :multipart => true, :id => "fileupload", class: 'tab-content form-horizontal service_form'  } do |f| %>
+    
+    <div class="form-group">
+      <%= label_tag :invitation_customer_telefone, 'Celular do cliente' %>
+      <div class="observacao">*Enviaremos um SMS convidando seu cliente a divulgar seu trabalho</div>
+      <%= text_field_tag :invitation, nil, name: 'invitation[customer_telefone]', id: 'invitation_customer_telefone', class: "form-control telefone", autocomplete: "off", onkeypress: 'return event.charCode >= 48 && event.charCode <= 57' %>
+      <div class='error' id='invitation_customer_telefone_error'>Informe um telefone válido. Ex: (99) 9999-9999 ou (99) 99999-9999</div>
+    </div>
+    
+    <div class="form-group">
+      <%= label_tag :invitation_recompensa, 'Recompensa Por Divulgação:' %>
+      <div class="observacao">*Recompense seu cliente para estimular a divulgação e fidelizá-lo</div>
+      <div>
+        <%= text_field_tag :invitation, nil, name: 'invitation[recompensa]', id: 'invitation_recompensa', class: "recompensa form-control", placeholder: "Ex: 10 safiras", onkeypress: 'return event.charCode >= 48 && event.charCode <= 57', maxlength: 11 %>
+      </div>
+    </div>
+
+    <!-- The loading indicator is shown during image processing -->
+    <div class='form-group hidden'>
+      <div class='fileupload-loading'></div>
+      <br />
+    </div>
+
+    <!-- The table listing the files available for upload/download -->
+    <div class='form-group hidden'>
+      <table class='table table-striped'>
+        <tbody class='files' data-toggle='modal-gallery' data-target='#modal-gallery'></tbody>
+      </table>
+    </div>
+
+    <div class='form-group'>
+      <span class='btn btn-warning rounded fileinput-button'>
+        <i class='fa fa-camera'></i>
+        <span> Adicionar Fotos</span>
+        <%= f.file_field :image, multiple: true, name: 'photo[image]', class: 'col-sm-12', style: 'height: 100%; padding: 0px;' %>
+      </span>
+      <div class='error' id='insert_photo_error'>Insira pelo menos 1 foto mostrando seu trabalho</div>
+    </div>
+
+    <div class="panel-footer">
+      <ul class="pager wizard">
+        <li class="mr-15">
+          <button id='send' class='btn btn-success btn-lg rounded' data-disable-with="Convidando Cliente a Divulgar..."><i class='fa fa-send-o'></i> Enviar Para Cliente Divulgar</button>
+        </li>
+      </ul>
+    </div>
+  
+  <% end %>
+
+</div>
+
+

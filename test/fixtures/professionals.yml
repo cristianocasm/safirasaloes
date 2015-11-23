@@ -29,12 +29,10 @@
 #  estado                 :string(255)
 #  complemento            :string(255)
 #  profissao              :string(255)
-#  local_trabalho         :string(255)
 #  status_id              :integer
 #  data_expiracao_status  :datetime
 #  contato_definido       :boolean          default(FALSE)
-#  site                   :string(255)
-#  pagina_facebook        :string(255)
+#  site_slug              :string(255)
 #  whatsapp               :string(255)
 #  transacao_pagseguro    :string(255)
 #  provider               :string(255)

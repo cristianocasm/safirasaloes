@@ -29,12 +29,10 @@
 #  estado                 :string(255)
 #  complemento            :string(255)
 #  profissao              :string(255)
-#  local_trabalho         :string(255)
 #  status_id              :integer
 #  data_expiracao_status  :datetime
 #  contato_definido       :boolean          default(FALSE)
-#  site                   :string(255)
-#  pagina_facebook        :string(255)
+#  site_slug              :string(255)
 #  whatsapp               :string(255)
 #  transacao_pagseguro    :string(255)
 #  provider               :string(255)
@@ -47,18 +45,18 @@
 class Professional < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :lockable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable,
-         :validatable, :timeoutable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable,
+          :trackable, :validatable, :timeoutable
 
   belongs_to :status
-  has_many :schedules
-  has_many :services
-  has_many :prices, through: :services
+  # has_many :schedules
+  # has_many :services
+  # has_many :prices, through: :services
+  # has_many :taken_step
   has_many :rewards
-  has_one :taken_step
+  has_many :photos
 
-  before_create :define_status, :build_taken_step
+  before_create :define_status
   # Os dois 'unless' abaixo foram introduzidos para que
   # profissionl possa alterar sua senha, mesmo se
   # ainda não tiver definido seu nome e/ou dados de contato.
@@ -69,20 +67,20 @@ class Professional < ActiveRecord::Base
   # ficar em branco caso ele altere a senha - o que levaria a erros!!!
   validates_presence_of :nome, on: :update, unless: lambda { |pr| pr.encrypted_password_changed? }
   validate :contato_fornecido?,
-           :formato_pagina_facebook,
-           :formato_site,
+           # :formato_pagina_facebook,
+           # :formato_site,
             on: :update, unless: lambda { |pr| pr.encrypted_password_changed? }
 
-  # Início Scopes Para Geração de Relatórios
-  scope :count_cadastros, -> (start, hend) { where(created_at: start..hend).order("DATE(professionals.created_at) ASC").group("DATE(created_at)").count }
-  scope :count_confirmacoes, -> (start, hend) { where(created_at: start .. hend).where("confirmed_at IS NOT NULL").order("DATE(professionals.created_at) ASC").group("DATE(created_at)").count }
-  scope :count_tela_cadastro_contato_acessada, -> (start, hend) { joins(:taken_step).where("(professionals.created_at BETWEEN '#{start}' AND '#{hend}') AND taken_steps.tela_cadastro_contato_acessada = true").order("DATE(professionals.created_at) ASC").group("DATE(professionals.created_at)").count }
-  scope :count_contato_cadastrado, -> (start, hend) { joins(:taken_step).where("(professionals.created_at BETWEEN '#{start}' AND '#{hend}') AND taken_steps.contato_cadastrado = true").order("DATE(professionals.created_at) ASC").group("DATE(professionals.created_at)").count }
-  scope :count_tela_cadastro_servico_acessada, -> (start, hend) { joins(:taken_step).where("(professionals.created_at BETWEEN '#{start}' AND '#{hend}') AND taken_steps.tela_cadastro_servico_acessada = true").order("DATE(professionals.created_at) ASC").group("DATE(professionals.created_at)").count }
-  scope :count_servico_cadastrado, -> (start, hend) { joins(:taken_step).where("(professionals.created_at BETWEEN '#{start}' AND '#{hend}') AND taken_steps.servico_cadastrado = true").order("DATE(professionals.created_at) ASC").group("DATE(professionals.created_at)").count }
-  scope :count_tela_cadastro_horario_acessada, -> (start, hend) { joins(:taken_step).where("(professionals.created_at BETWEEN '#{start}' AND '#{hend}') AND taken_steps.tela_cadastro_horario_acessada = true").order("DATE(professionals.created_at) ASC").group("DATE(professionals.created_at)").count }
-  scope :count_horario_cadastrado, -> (start, hend) { joins(:taken_step).where("(professionals.created_at BETWEEN '#{start}' AND '#{hend}') AND taken_steps.horario_cadastrado = true").order("DATE(professionals.created_at) ASC").group("DATE(professionals.created_at)").count }
-  # Fim Scopes Para Geração de Relatórios
+  # # Início Scopes Para Geração de Relatórios
+  # scope :count_cadastros, -> (start, hend) { where(created_at: start..hend).order("DATE(professionals.created_at) ASC").group("DATE(created_at)").count }
+  # scope :count_confirmacoes, -> (start, hend) { where(created_at: start .. hend).where("confirmed_at IS NOT NULL").order("DATE(professionals.created_at) ASC").group("DATE(created_at)").count }
+  # scope :count_tela_cadastro_contato_acessada, -> (start, hend) { joins(:taken_step).where("(professionals.created_at BETWEEN '#{start}' AND '#{hend}') AND taken_steps.tela_cadastro_contato_acessada = true").order("DATE(professionals.created_at) ASC").group("DATE(professionals.created_at)").count }
+  # scope :count_contato_cadastrado, -> (start, hend) { joins(:taken_step).where("(professionals.created_at BETWEEN '#{start}' AND '#{hend}') AND taken_steps.contato_cadastrado = true").order("DATE(professionals.created_at) ASC").group("DATE(professionals.created_at)").count }
+  # scope :count_tela_cadastro_servico_acessada, -> (start, hend) { joins(:taken_step).where("(professionals.created_at BETWEEN '#{start}' AND '#{hend}') AND taken_steps.tela_cadastro_servico_acessada = true").order("DATE(professionals.created_at) ASC").group("DATE(professionals.created_at)").count }
+  # scope :count_servico_cadastrado, -> (start, hend) { joins(:taken_step).where("(professionals.created_at BETWEEN '#{start}' AND '#{hend}') AND taken_steps.servico_cadastrado = true").order("DATE(professionals.created_at) ASC").group("DATE(professionals.created_at)").count }
+  # scope :count_tela_cadastro_horario_acessada, -> (start, hend) { joins(:taken_step).where("(professionals.created_at BETWEEN '#{start}' AND '#{hend}') AND taken_steps.tela_cadastro_horario_acessada = true").order("DATE(professionals.created_at) ASC").group("DATE(professionals.created_at)").count }
+  # scope :count_horario_cadastrado, -> (start, hend) { joins(:taken_step).where("(professionals.created_at BETWEEN '#{start}' AND '#{hend}') AND taken_steps.horario_cadastrado = true").order("DATE(professionals.created_at) ASC").group("DATE(professionals.created_at)").count }
+  # # Fim Scopes Para Geração de Relatórios
 
   def self.find_by_provider_and_uid_or_email(provider, uid, email)
     professional = self.where("( ( provider=? AND uid=? ) OR email=? )", provider, uid, email).try(:first)
@@ -100,29 +98,29 @@ class Professional < ActiveRecord::Base
     end
   end
 
-  def creating_first_service?
-    @first ||= self.services.size == 0
-  end
+  # def creating_first_service?
+  #   @first ||= self.services.size == 0
+  # end
 
-  def self.taken_steps_report(start, hend)
-    cad = count_cadastros(start, hend)
-    totalDays = (hend - start).to_i
+  # def self.taken_steps_report(start, hend)
+  #   cad = count_cadastros(start, hend)
+  #   totalDays = (hend - start).to_i
     
-    xLabels = generate_x_labels(cad, start, hend)
-    dadosNorm = normalizar(
-                  formatar(cad, "Nº Cadastros", "#ff6c24", start, hend),
-                  formatar(count_confirmacoes(start, hend), "Nº Confirmados", "#ee5b13", start, hend),
-                  formatar(count_tela_cadastro_contato_acessada(start, hend), "Nº TC Contato", "#dd4a13", start, hend),
-                  formatar(count_contato_cadastrado(start, hend), "Nº Contato Cad", "#cc4a13", start, hend),
-                  formatar(count_tela_cadastro_servico_acessada(start, hend), "Nº TC Servico", "#bb4a13", start, hend),
-                  formatar(count_servico_cadastrado(start, hend), "Nº Serviço Cad", "#aa4a13", start, hend),
-                  formatar(count_tela_cadastro_horario_acessada(start, hend), "Nº TC Horário", "#994a13", start, hend),
-                  formatar(count_horario_cadastrado(start, hend), "Nº Horário Cad", "#884a13", start, hend),
-                  totalDays
-                )
+  #   xLabels = generate_x_labels(cad, start, hend)
+  #   dadosNorm = normalizar(
+  #                 formatar(cad, "Nº Cadastros", "#ff6c24", start, hend),
+  #                 formatar(count_confirmacoes(start, hend), "Nº Confirmados", "#ee5b13", start, hend),
+  #                 formatar(count_tela_cadastro_contato_acessada(start, hend), "Nº TC Contato", "#dd4a13", start, hend),
+  #                 formatar(count_contato_cadastrado(start, hend), "Nº Contato Cad", "#cc4a13", start, hend),
+  #                 formatar(count_tela_cadastro_servico_acessada(start, hend), "Nº TC Servico", "#bb4a13", start, hend),
+  #                 formatar(count_servico_cadastrado(start, hend), "Nº Serviço Cad", "#aa4a13", start, hend),
+  #                 formatar(count_tela_cadastro_horario_acessada(start, hend), "Nº TC Horário", "#994a13", start, hend),
+  #                 formatar(count_horario_cadastrado(start, hend), "Nº Horário Cad", "#884a13", start, hend),
+  #                 totalDays
+  #               )
 
-    return  [ xLabels, dadosNorm ]
-  end
+  #   return  [ xLabels, dadosNorm ]
+  # end
 
   def update_taken_step(step)
     step.each { |key, val| self.taken_step.update_attribute(key.to_sym, val) }
@@ -161,36 +159,36 @@ class Professional < ActiveRecord::Base
     end
   end
 
-  def formato_pagina_facebook
-    return if pagina_facebook.blank?
-    unless /https:\/\/www\.facebook\.com\/.+/ =~ self[:pagina_facebook]
-      errors.add :pagina_facebook, "deve começar com 'https://www.facebook.com/'"
-    end
-  end
+  # def formato_pagina_facebook
+  #   return if pagina_facebook.blank?
+  #   unless /https:\/\/www\.facebook\.com\/.+/ =~ self[:pagina_facebook]
+  #     errors.add :pagina_facebook, "deve começar com 'https://www.facebook.com/'"
+  #   end
+  # end
 
-  def formato_site
-    return if site.blank?
-    unless /http:\/\/www\..+/ =~ self[:site]
-      errors.add :site, "deve começar com 'http://www.'"
-    end
-  end
+  # def formato_site
+  #   return if site.blank?
+  #   unless /http:\/\/www\..+/ =~ self[:site]
+  #     errors.add :site, "deve começar com 'http://www.'"
+  #   end
+  # end
 
-  def schedules_to_calendar(start, hend)
-    scs = self.schedules.where(updated_at: start..hend).includes(price: :service)
-    transform(scs)
-  end
+  # def schedules_to_calendar(start, hend)
+  #   scs = self.schedules.where(updated_at: start..hend).includes(price: :service)
+  #   transform(scs)
+  # end
 
-  def services_ordered
-    services.order(:nome)
-  end
+  # def services_ordered
+  #   services.order(:nome)
+  # end
 
   def has_contato_definido?
     self.contato_definido
   end
 
-  def has_servico_definido?
-    !self.services.blank?
-  end
+  # def has_servico_definido?
+  #   !self.services.blank?
+  # end
   
   def suspenso?
     true if self.status.nome == 'suspenso'
@@ -228,76 +226,76 @@ class Professional < ActiveRecord::Base
 
   private
 
-  def self.normalizar(cadastros, confirmacoes, tCContato, contatoCad, tCServico, servicoCad, tCHorario, horarioCad, totalDays)
-    totalDays.times do |i|
+  # def self.normalizar(cadastros, confirmacoes, tCContato, contatoCad, tCServico, servicoCad, tCHorario, horarioCad, totalDays)
+  #   totalDays.times do |i|
 
-      cad = cadastros[:data][i][1]
+  #     cad = cadastros[:data][i][1]
       
-      unless cadastros[:data][i][1] == 0
-        cadastros[:data][i][1] = (( cad.to_f / cad )*100).round(0)         # C2
-        confirmacoes[:data][i][1] = (( confirmacoes[:data][i][1].to_f / cad )*100).round(0)   # C3
-        tCContato[:data][i][1] = (( tCContato[:data][i][1].to_f / cad )*100).round(0)         # C4
-        contatoCad[:data][i][1] = (( contatoCad[:data][i][1].to_f / cad )*100).round(0)       # C5
-        tCServico[:data][i][1] = (( tCServico[:data][i][1].to_f / cad )*100).round(0)         # C6
-        servicoCad[:data][i][1] = (( servicoCad[:data][i][1].to_f / cad )*100).round(0)       # C7
-        tCHorario[:data][i][1] = (( tCHorario[:data][i][1].to_f / cad )*100).round(0)         # C8
-        horarioCad[:data][i][1] = (( horarioCad[:data][i][1].to_f / cad )*100).round(0)       # C9
-      end
+  #     unless cadastros[:data][i][1] == 0
+  #       cadastros[:data][i][1] = (( cad.to_f / cad )*100).round(0)         # C2
+  #       confirmacoes[:data][i][1] = (( confirmacoes[:data][i][1].to_f / cad )*100).round(0)   # C3
+  #       tCContato[:data][i][1] = (( tCContato[:data][i][1].to_f / cad )*100).round(0)         # C4
+  #       contatoCad[:data][i][1] = (( contatoCad[:data][i][1].to_f / cad )*100).round(0)       # C5
+  #       tCServico[:data][i][1] = (( tCServico[:data][i][1].to_f / cad )*100).round(0)         # C6
+  #       servicoCad[:data][i][1] = (( servicoCad[:data][i][1].to_f / cad )*100).round(0)       # C7
+  #       tCHorario[:data][i][1] = (( tCHorario[:data][i][1].to_f / cad )*100).round(0)         # C8
+  #       horarioCad[:data][i][1] = (( horarioCad[:data][i][1].to_f / cad )*100).round(0)       # C9
+  #     end
 
-    end
+  #   end
 
-    return  [
-              cadastros,
-              confirmacoes,
-              tCContato,
-              contatoCad,
-              tCServico,
-              servicoCad,
-              tCHorario,
-              horarioCad
-            ]
-  end
+  #   return  [
+  #             cadastros,
+  #             confirmacoes,
+  #             tCContato,
+  #             contatoCad,
+  #             tCServico,
+  #             servicoCad,
+  #             tCHorario,
+  #             horarioCad
+  #           ]
+  # end
 
-  def self.formatar(data, label, color, start, _end)
-    arr = generate_data_array(data, start, _end)
-    {
-      label: label,
-      data: arr,
-      color: color
-    }
-  end
+  # def self.formatar(data, label, color, start, _end)
+  #   arr = generate_data_array(data, start, _end)
+  #   {
+  #     label: label,
+  #     data: arr,
+  #     color: color
+  #   }
+  # end
 
-  def self.generate_data_array(data, start, _end)
-    i = -1
-    arr = []
-    data.default = 0
-    start.upto(_end-1.day) { |date| arr << [ (i += 1) , data[date] ] }
-    arr
-  end
+  # def self.generate_data_array(data, start, _end)
+  #   i = -1
+  #   arr = []
+  #   data.default = 0
+  #   start.upto(_end-1.day) { |date| arr << [ (i += 1) , data[date] ] }
+  #   arr
+  # end
 
-  def self.generate_x_labels(data, start, _end)
-    i = -1
-    arr = []
-    data.default = 0
-    start.upto(_end-1.day) { |date| arr << [ (i += 1) , date.strftime('%d/%m') ] }
-    arr
-  end
+  # def self.generate_x_labels(data, start, _end)
+  #   i = -1
+  #   arr = []
+  #   data.default = 0
+  #   start.upto(_end-1.day) { |date| arr << [ (i += 1) , date.strftime('%d/%m') ] }
+  #   arr
+  # end
 
 
-  def transform(scs)
-    scs.map do |sc|
-      {
-        id:    sc.id,
-        title: sc.nome,
-        email: sc.email,
-        nome: sc.nome,
-        telefone: sc.telefone,
-        price: sc.price.nome,
-        start: sc.datahora_inicio,
-        end:   sc.datahora_fim
-      }
-    end
-  end
+  # def transform(scs)
+  #   scs.map do |sc|
+  #     {
+  #       id:    sc.id,
+  #       title: sc.nome,
+  #       email: sc.email,
+  #       nome: sc.nome,
+  #       telefone: sc.telefone,
+  #       price: sc.price.nome,
+  #       start: sc.datahora_inicio,
+  #       end:   sc.datahora_fim
+  #     }
+  #   end
+  # end
 
   def update_status
     if status_expired?

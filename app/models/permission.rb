@@ -41,23 +41,25 @@ class Permission < Struct.new(:resource)
 
   def professional_permission(controller, action)
     if resource.testando? || resource.assinante?
-      return true if controller == "services" && action.in?(%w[new index update create edit show destroy])
-      return true if controller == "schedules" && action.in?(%w[new index update create edit show destroy get_last_two_months_scheduled_customers show_invitation_template])
-      return true if controller == "customers" && action.in?(%w[filter_by_email filter_by_telefone])
-      return true if controller == "devise/professional_registrations" && action.in?(%w[edit update])
-      return true if controller == "rewards" && action.in?(%w[get_customer_rewards])
-      return true if controller == "sign_up_steps" && action.in?(%w[index show update])
+      return true if controller == "photos" && action.in?(%w[new create])
+      # return true if controller == "services" && action.in?(%w[new index update create edit show destroy])
+      # return true if controller == "schedules" && action.in?(%w[new index update create edit show destroy get_last_two_months_scheduled_customers show_invitation_template])
+      # return true if controller == "photos" && action.in?(%w[new])
+      # return true if controller == "customers" && action.in?(%w[filter_by_email filter_by_telefone])
+      # return true if controller == "devise/professional_registrations" && action.in?(%w[edit update])
+      # return true if controller == "rewards" && action.in?(%w[get_customer_rewards])
+      # return true if controller == "sign_up_steps" && action.in?(%w[index show update])
     end
 
-    return true if resource.bloqueado? && controller == "schedules" && action.in?(%w[new index])
-    return true if resource.suspenso? && controller == "schedules" && action.in?(%w[new])
+    # return true if resource.bloqueado? && controller == "schedules" && action.in?(%w[new index])
+    # return true if resource.suspenso? && controller == "schedules" && action.in?(%w[new])
     return false
   end
 
   def customer_permission(controller, action)
-    return true if controller.in?(%w[photo_logs]) && action.in?(%w[create new index destroy send_to_fb])
-    return true if controller.in?(%w[schedules]) && action.in?(%w[meus_servicos_por_profissionais])
-    return true if controller.in?(%w[photo_log_steps]) && action.in?(%w[index show update])
+    # return true if controller.in?(%w[photo_logs]) && action.in?(%w[create new index destroy send_to_fb])
+    # return true if controller.in?(%w[schedules]) && action.in?(%w[meus_servicos_por_profissionais])
+    # return true if controller.in?(%w[photo_log_steps]) && action.in?(%w[index show update])
     return false
   end
 

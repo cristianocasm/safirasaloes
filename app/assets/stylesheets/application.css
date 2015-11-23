@@ -13,11 +13,8 @@
  *= require_tree .
  *= require_self
  *= require third-part/bootstrap
- *= require third-part/bootstrap-datetimepicker
  *= require third-part/font-awesome
- *= require third-part/fullcalendar
  *= require third-part/bootstrap-tour
- *= require third-part/jquery.bootstrap-touchspin
  *= require jquery-ui/autocomplete
  *= require template/reset
  *= require template/layout
@@ -26,4 +23,23 @@
  *= require template/themes/default.theme
  *= require template/sign
  *= require template/custom
+ */
+
+ /*
+  * require_tree .
+  * require_self
+  * require third-part/bootstrap
+  * require third-part/bootstrap-datetimepicker
+  * require third-part/font-awesome
+  * require third-part/fullcalendar
+  * require third-part/bootstrap-tour
+  * require third-part/jquery.bootstrap-touchspin
+  * require jquery-ui/autocomplete
+  * require template/reset
+  * require template/layout
+  * require template/components
+  * require template/plugins
+  * require template/themes/default.theme
+  * require template/sign
+  * require template/custom
  */

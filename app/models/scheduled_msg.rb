@@ -2,11 +2,11 @@
 #
 # Table name: scheduled_msgs
 #
-#  id          :integer          not null, primary key
-#  schedule_id :integer
-#  api_id      :integer
+#  id                     :integer          not null, primary key
+#  api_id                 :integer
+#  customer_invitation_id :integer
 #
 
 class ScheduledMsg < ActiveRecord::Base
-  belongs_to :schedule
+  belongs_to :customer_invitation
 end

@@ -2,12 +2,6 @@ include WoopraRailsSDK
 
 class Devise::ProfessionalRegistrationsController < Devise::RegistrationsController
 
-  def edit
-    # @step_taken = current_professional.taken_step.tela_cadastro_contato_acessada?
-    # current_professional.update_taken_step(tela_cadastro_contato_acessada: true) unless @step_taken
-    super
-  end
-
   def update
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
@@ -33,7 +27,7 @@ class Devise::ProfessionalRegistrationsController < Devise::RegistrationsControl
   protected
 
   def update_resource(resource, params)
-    if (persisted = resource.update_without_password(params)) && !resource.taken_step.contato_cadastrado?
+    if (persisted = resource.update_without_password(params))
     
       if Rails.env.production?
         woopra = WoopraTracker.new(request)
@@ -41,28 +35,9 @@ class Devise::ProfessionalRegistrationsController < Devise::RegistrationsControl
         woopra.track('professional_defined_contact', {}, true)
       end
       
-      resource.update_taken_step(contato_cadastrado: true)
     end
     persisted
   end
-
-  # # Registra no woopra evento relacionado ao cadastro
-  # # do profissional no plano free trial e o redireciona
-  # # para a home page - local no qual ele é avisado sobre
-  # # a necessidade de confirmação do e-mail.
-  # def after_inactive_sign_up_path_for(resource)
-  #   if Rails.env.production?
-  #     woopra = WoopraTracker.new(request)
-  #     woopra.config( domain: "safirasaloes.com.br" )
-  #     woopra.identify(
-  #       email: params[:professional][:email],
-  #       user_type: 'professional'
-  #     )
-  #     woopra.track('professional_signed_up', { plan: 'trial' }, true)
-  #   end
-
-  #   new_professional_session_path
-  # end
 
   def after_sign_up_path_for(resource)
     

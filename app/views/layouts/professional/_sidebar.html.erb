@@ -33,36 +33,20 @@ START @SIDEBAR LEFT
     <ul class="sidebar-menu">
 
         <!-- Start navigation - dashboard -->
-        <li class="<%= active('schedules') %>">
-          <%= link_to(professional_root_path, id: 'agenda', class: active('schedules')) do %>
+        <li class="<%= active('photos') %>">
+          <%= link_to(new_photo_path, id: 'photo', class: active('photos')) do %>
             <span class="icon"><i class="fa fa-bullhorn"></i></span>
-            <span class="text">Estimular Cliente a Divulgar</span>
-            <% selected('schedules') %>
+            <span class="text">Divulgar Trabalho</span>
+            <% selected('photos') %>
           <% end %>
         </li>
 
-        <li class="submenu <%= active('services') || active('professional_registrations') -%>">
-            <a href="javascript:void(0);">
-                <span class="icon"><i class="fa fa-comments"></i></span>
-                <span class="text">Quero Divulgar...</span>
-                <% selected('services', 'professional_registrations') %>
-            </a>
-            <ul>
-                <li class="<%= active('services') %>">
-                  <%= link_to(services_path, id: 'servicos', class: active('services')) do %>
-                    <span class="icon"><i class="fa fa-scissors"></i></span>
-                    <span class="text">Meus Serviços</span>
-                  <% end %>
-                </li>
-                <li class="<%= active('professional_registrations') %>">
-                  <%= link_to(edit_professional_registration_path) do %>
-                    <span class="icon"><i class="fa fa-tty"></i></span>
-                    <span class="text">Meu Contato Profissional</span>
-                  <% end %>
-                </li>
-            </ul>
+        <li>
+          <%= link_to(new_photo_path, id: 'site') do %>
+            <span class="icon"><i class="fa fa-heartbeat"></i></span>
+            <span class="text">Meu Site</span>
+          <% end %>
         </li>
-        
         
         <!--/ End navigation - dashboard -->
 

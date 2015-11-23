@@ -11,7 +11,7 @@ module ApplicationHelper
     flash.each do |msg_type, message|
     # Verificação abaixo faz-se necessária já que devise utiliza o comando
     # flash[:timedout] = true
-    # para fazer verificação quanto a expiração da sessão. Assim sendo,
+    # para fazer verificação quanto à expiração da sessão. Assim sendo,
     # caso ela não seja realizada, a instrução html_safe é invocada em
     # um objeto da classe TrueClass, o que ocasiona o lançamento de erro
     # NoMethodError.

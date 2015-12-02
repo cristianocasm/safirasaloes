@@ -12,7 +12,12 @@ jQuery ->
 
 validate_form_on_submit = ->
   $("#fileupload").submit (e) ->
-    validate_fields()
+    if validate_fields()
+      phone = $("#invitation_customer_telefone").val().replace(/\D/g, '')
+      $("#invitation_customer_telefone").val(phone)
+      return true
+    else
+      return false
 
 initialize_calculators = ->
   $('form .recompensa').each (i, e) ->
@@ -20,7 +25,7 @@ initialize_calculators = ->
 
 initialize_calculator = (e) ->
   $(e).TouchSpin(
-    postfix: "equivale a R$ 0.00 em descontos"
+    postfix: "igual a R$ 0.00 em descontos futuros"
     min: 0
     max: 1000000000
   )
@@ -35,7 +40,7 @@ activate_calculator = (e) ->
   saf == null ? 0 : saf[0]
   cred = parseFloat(saf / 2).toFixed(2)
   calc = $(e).siblings("span.bootstrap-touchspin-postfix")
-  calc.text("equivale a R$ #{cred} em descontos")
+  calc.text("equivale a R$ #{cred} em créditos")
   calc.bind 'click', (event) ->
     $(e).focus()
 

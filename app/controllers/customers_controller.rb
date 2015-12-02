@@ -1,5 +1,6 @@
 class CustomersController < Devise::RegistrationsController
   before_action :set_customer, only: [:show, :edit, :update, :destroy]
+  layout 'customer/customer', only: [:minhas_safiras_por_profissionais]
 
   # GET /customers
   # GET /customers.json
@@ -59,20 +60,9 @@ class CustomersController < Devise::RegistrationsController
     end
   end
 
-  # # POST "/customers/filter"
-  # def filter_by_email
-  #   ctms = Customer.filter_by_email(params[:e])
-  #   respond_to do |format|
-  #     format.json { render json: ctms.to_json, status: :ok }
-  #   end
-  # end
-
-  # def filter_by_telefone
-  #   ctms = Customer.filter_by_telefone(params[:t])
-  #   respond_to do |format|
-  #     format.json { render json: ctms.to_json, status: :ok }
-  #   end
-  # end
+  def minhas_safiras_por_profissionais
+    @rwd = current_customer.rewards
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

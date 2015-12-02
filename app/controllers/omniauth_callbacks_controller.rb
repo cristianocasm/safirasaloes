@@ -6,8 +6,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     
     if auth['action'] == 'signup_or_signin'
       signup_or_signin_with_facebook
-    elsif auth['action'] == 'publish_photos'
-      publish_photos
+    elsif auth['action'] == 'signup_customer'
+      signup_customer
     end
   end
  
@@ -34,51 +34,57 @@ private
 
   end
 
-  # Função abaixo publica as fotos do cliente no Facebook,
-  # cadastra-o (se não estiver cadastrado), autentica-o e
-  # fornece a devida recompensa.
-  def publish_photos
+  # Função abaixo cadastra o cliente que fez sua primeira divulgação e
+  # decidiu cadastrar-se, além de autenticá-lo no sistema
+  def signup_customer
+    # auth = request.env["omniauth.auth"]
+    # params = request.env['omniauth.params']
+    
+    # # Faz cadastro (se não estiver cadastrado) e o autentica no sistema.
+    # customer = Customer.find_by_provider_and_uid(auth.provider, auth.uid).try(:first)
+    # customer = Customer.create_with_omniauth(auth, params) unless customer.present?
+    # sign_in(:customer, customer)
+
+    # # Publica fotos no Facebook pendingPostings = current_customer.photo_logs.not_posted
+    # if customer.fb_publish_action_granted?
+    #   pendingPostings = PhotoLog.where(id: params['photos'])
+    #   pendingPostings.update_all(customer_id: current_customer.id)
+    #   pendingPostings.reload # Garante que atualização acima é refletida nos objetos atualizados
+    #   postedPhotos = post(pendingPostings).try(:compact)
+    #   rwd = current_customer.get_rewards_by(postedPhotos) unless postedPhotos.blank?
+
+    #   msg = "PARABÉNS! Suas fotos foram postadas no Facebook com sucesso. "
+    #   msg = msg + "Recompensa ganha: #{rwd}" unless rwd.zero?
+
+    #   notice_woopra('sim') if Rails.env.production?
+
+    #   redirect_to customer_root_path, flash: { success: msg }
+    # else
+    #   notice_woopra('não') if Rails.env.production?
+    #   redirect_to photo_log_step_path(id: :revision, photos: params['photos'], prof_info_allowed: true), flash: { error: "Para ser recompensado permita que o SafiraSalões poste as fotos em seu perfil." }
+    # end
     auth = request.env["omniauth.auth"]
     params = request.env['omniauth.params']
     
-    # Faz cadastro (se não estiver cadastrado) e o autentica
-    # no sistema.
-    customer = Customer.find_by_provider_and_uid(auth.provider, auth.uid).try(:first)
-    customer = Customer.create_with_omniauth(auth, params) unless customer.present?
+    # Faz cadastro (se não estiver cadastrado) e o autentica no sistema.
+    # customer = Customer.find_by_provider_and_uid(auth.provider, auth.uid).try(:first)
+    customer = Customer.create_with_omniauth(auth, params)
     sign_in(:customer, customer)
 
-    # Publica fotos no Facebook
-    # pendingPostings = current_customer.photo_logs.not_posted
-    if customer.fb_publish_action_granted?
-      pendingPostings = PhotoLog.where(id: params['photos'])
-      pendingPostings.update_all(customer_id: current_customer.id)
-      pendingPostings.reload # Garante que atualização acima é refletida nos objetos atualizados
-      postedPhotos = post(pendingPostings).try(:compact)
-      rwd = current_customer.get_rewards_by(postedPhotos) unless postedPhotos.blank?
-
-      msg = "PARABÉNS! Suas fotos foram postadas no Facebook com sucesso. "
-      msg = msg + "Recompensa ganha: #{rwd}" unless rwd.zero?
-
-      notice_woopra('sim') if Rails.env.production?
-
-      redirect_to customer_root_path, flash: { success: msg }
-    else
-      notice_woopra('não') if Rails.env.production?
-      redirect_to photo_log_step_path(id: :revision, photos: params['photos'], prof_info_allowed: true), flash: { error: "Para ser recompensado permita que o SafiraSalões poste as fotos em seu perfil." }
-    end
+    redirect_to customer_root_path, flash: { success: 'Cadastro realizado e recompensas salvas com sucesso.' }
   end
 
-  def post(pendingPostings)
-    prof = pendingPostings.first.schedule.professional
-    pendingPostings.map do |photo|
-      begin
-        photo.submit_to_fb(prof)
-      rescue Koala::Facebook::APIError => e
-        logger.info "\n\n\n\n\n\n\n\n#{e.to_s}\n\n\n\n\n\n\n\n"
-        nil
-      end
-    end
-  end
+  # def post(pendingPostings)
+  #   prof = pendingPostings.first.schedule.professional
+  #   pendingPostings.map do |photo|
+  #     begin
+  #       photo.submit_to_fb(prof)
+  #     rescue Koala::Facebook::APIError => e
+  #       logger.info "\n\n\n\n\n\n\n\n#{e.to_s}\n\n\n\n\n\n\n\n"
+  #       nil
+  #     end
+  #   end
+  # end
 
   def notice_woopra(published)
     woopra = WoopraTracker.new(request)

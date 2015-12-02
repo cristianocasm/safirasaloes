@@ -26,23 +26,30 @@
 
 class Customer < ActiveRecord::Base
 
-  # attr_accessor :schedule_invitation
+  # Foto divulgada - a qual permitiu o cadastro
+  attr_accessor :photo_id
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
           :trackable, :validatable
   
+  has_many :reward_logs
   has_many :rewards
   has_many :professionals, through: :rewards
-  # has_many :schedules
-  # has_many :photo_logs
+  has_many :customer_invitations
 
-  # after_create :update_schedule
 
   scope :find_by_provider_and_uid, -> (provider, uid) { where("provider = ? AND uid = ?", provider, uid) }
-  scope :filter_by_email, -> (query) { select(:id, :nome, :email, :telefone).where("email LIKE '%#{query}%'") }
-  scope :filter_by_telefone, -> (query) { select(:id, :nome, :email, :telefone).where("telefone LIKE '%#{query}%'") }
+
+  # Cliente só pode cadastrar se realizou divulgação. Nesse sentido ele é recompensado
+  # logo após o cadastro
+  after_create :reward_customer
+
+  def reward_customer
+    pId = self.photo_id
+    Photo.find(pId).customer_invitation.award_rewards(self.id, pId)
+  end
 
   # def update_schedule
   #   sc = Schedule.find(self.schedule_invitation)
@@ -85,8 +92,9 @@ class Customer < ActiveRecord::Base
       customer.oauth_expires_at =  Time.at(auth.credentials.expires_at)
       customer.email = auth.info.email
       customer.avatar_url = auth.info.image
-      customer.schedule_invitation = params['schedule']
       customer.nome = auth.extra.raw_info.first_name
+      customer.telefone = params['telefone']
+      customer.photo_id = params['photo_id']
     end
   end
 
@@ -122,38 +130,21 @@ class Customer < ActiveRecord::Base
   #   end
   # end
 
-  # Deverá ser invocada somente após o cadastro do cliente
-  def get_rewards_by(photoId)
-    invitation = CustomerInvitation.find_by_photo_id(photoId)
-    recompensa = 0
-    
-    unless invitation.recovered
-      photo = invitation.photo
-      prof = photo.professional
-      recompensa = photo.safiras
-
-      rw = Reward.find_or_initialize_by(professional_id: prof, customer_id: self.id)
-      rw.total_safiras +=  recompensa
-      rw.save and invitation.update_attribute(:recovered, true)
-    end
-
-  end
-
   # def find_last_schedule
   #   GetLastScheduleWorker.perform_async(self.email, self.telefone, self.id)
   # end
 
-  def safiras_somadas
-    self.rewards.
-            joins('left outer join professionals on rewards.professional_id = professionals.id').
-            joins('left outer join statuses on professionals.status_id = statuses.id').
-            where("statuses.nome in ('testando', 'assinante')").
-            sum(:total_safiras)
-  end
+  # def safiras_somadas
+  #   self.rewards.
+  #           joins('left outer join professionals on rewards.professional_id = professionals.id').
+  #           joins('left outer join statuses on professionals.status_id = statuses.id').
+  #           where("statuses.nome in ('testando', 'assinante')").
+  #           sum(:total_safiras)
+  # end
 
-  def safiras_per(pr_id)
-    self.rewards.find_by_professional_id(pr_id).try(:total_safiras) || 0
-  end
+  # def safiras_per(pr_id)
+  #   self.rewards.find_by_professional_id(pr_id).try(:total_safiras) || 0
+  # end
 
   # def future_schedules
   #   self.schedules.includes(:service).in_the_future

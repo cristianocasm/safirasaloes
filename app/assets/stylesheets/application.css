@@ -23,6 +23,7 @@
  *= require template/themes/default.theme
  *= require template/sign
  *= require template/custom
+ *= require third-part/pages/gallery
  */
 
  /*

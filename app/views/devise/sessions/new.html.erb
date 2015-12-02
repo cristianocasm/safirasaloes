@@ -9,49 +9,61 @@
         <i class='fa fa-facebook'> <span style="padding-left: 20px"><b>Entre com o Facebook</b></span> </i>
       <% end %>
 
-      <div class="hr">
-        <div class="text-divider">ou</div>
-      </div>
+      <% unless params[:customer] == 'true' %>
+        <div class="hr">
+          <div class="text-divider">ou</div>
+        </div>
 
-      <div class="centered">
-        Entre com seu email e senha
-      </div>
+        <div class="centered">
+          Entre com seu email e senha
+        </div>
+      <% end %>
+
     </div>
-    <div class="form-group">
-        <div class="input-group input-group-lg rounded no-overflow">
-          <%= f.text_field :email, class: "form-control input-sm", placeholder: "Email" %>
-          <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-        </div>
-    </div><!-- /.form-group -->
-    <div class="form-group">
-        <div class="input-group input-group-lg rounded no-overflow">
-          <%= f.password_field :password, class: "form-control  input-sm", placeholder: "Senha" %>
-          <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-        </div>
-    </div><!-- /.form-group -->
+
+    <% unless params[:customer] == 'true' %>
+      <div class="form-group">
+          <div class="input-group input-group-lg rounded no-overflow">
+            <%= f.text_field :email, class: "form-control input-sm", placeholder: "Email" %>
+            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+          </div>
+      </div><!-- /.form-group -->
+      <div class="form-group">
+          <div class="input-group input-group-lg rounded no-overflow">
+            <%= f.password_field :password, class: "form-control  input-sm", placeholder: "Senha" %>
+            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+          </div>
+      </div><!-- /.form-group -->
+    <% end %>
+
   </div><!-- /.sign-body -->
-  <div class="sign-footer">
-    <div class="form-group" style="margin-bottom: 5px;">
-      <div class="row">
-        <div class="col-xs-6">
-          <div class="ckbox ckbox-success">
-            <%= f.check_box :remember_me %>
-            <%= f.label :remember_me, 'Lembrar', class: 'rounded' %>
+
+  <% unless params[:customer] == 'true' %>
+    <div class="sign-footer">
+      <div class="form-group" style="margin-bottom: 5px;">
+        <div class="row">
+          <div class="col-xs-6">
+            <div class="ckbox ckbox-success">
+              <%= f.check_box :remember_me %>
+              <%= f.label :remember_me, 'Lembrar', class: 'rounded' %>
+            </div>
+          </div>
+          
+          <div class="col-xs-6 text-right">
+            <%= link_to "Esqueceu a senha?", new_password_path(resource_name) %><br />
           </div>
         </div>
-        
-        <div class="col-xs-6 text-right">
-          <%= link_to "Esqueceu a senha?", new_password_path(resource_name) %><br />
-        </div>
-      </div>
-    </div><!-- /.form-group -->
-    <div class="form-group">
-      <%= button_tag 'Entrar', class: "btn btn-theme btn-lg btn-block no-margin rounded", id: "login-btn", type: 'submit' %>
-    </div><!-- /.form-group -->
-  </div><!-- /.sign-footer -->
+      </div><!-- /.form-group -->
+      <div class="form-group">
+        <%= button_tag 'Entrar', class: "btn btn-theme btn-lg btn-block no-margin rounded", id: "login-btn", type: 'submit' %>
+      </div><!-- /.form-group -->
+    </div><!-- /.sign-footer -->
+  <% end %>
+
 <% end %><!-- /.form-horizontal -->
 <!--/ Login form -->
-
-<p class="text-muted text-center sign-link">Não é cadastrado?
-  <%= link_to "Cadastre-se grátis", new_registration_path(resource_name) %><br />
-</p>
+<% unless params[:customer] == 'true' %>
+  <p class="text-muted text-center sign-link">Não é cadastrado?
+    <%= link_to "Cadastre-se grátis", new_registration_path(resource_name) %><br />
+  </p>
+<% end %>

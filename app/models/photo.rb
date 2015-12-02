@@ -11,6 +11,7 @@
 #  image_file_size        :integer
 #  image_updated_at       :datetime
 #  customer_invitation_id :integer
+#  professional_id        :integer
 #
 
 class Photo < ActiveRecord::Base
@@ -19,7 +20,7 @@ class Photo < ActiveRecord::Base
 
   belongs_to :professional
   belongs_to :customer_invitation
-  has_one :reward
+  has_one :reward_log
 
   # # validates_presence_of :customer
   # validates_presence_of :schedule

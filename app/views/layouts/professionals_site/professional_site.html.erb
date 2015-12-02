@@ -19,17 +19,13 @@
         <!--<link href="../../../img/ico/apple-touch-icon.png" rel="shortcut icon">-->
         <%= favicon_link_tag      'favicon.png', rel: "shortcut icon" %>
         <!--/ END FAVICONS -->
-        
+
         <!-- START @FONT STYLES -->
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet">
         <!--/ END FONT STYLES -->
-        
-        <%= stylesheet_link_tag   'application', media: 'all' %>
-        <%= render "layouts/fb_pixel.html" if Rails.env.production? %>
+
         <%= render "layouts/hotjar.html" if Rails.env.production? %>
-        <!-- Se profissional ainda não cadastrou informações de contato e não há errors na edição de suas informações, quer dizer
-        que ele está acessando a tela de edição das informações de contato pela primeira vez. Logo, pixel do FB tem que ser carregado para contabilizar conversão  -->
-        <%= render "layouts/customer/woopra.html" if Rails.env.production? %>
+        <%= stylesheet_link_tag   'application', media: 'all' %>
         <%= csrf_meta_tags %>
 
         <!-- START @IE SUPPORT -->
@@ -82,24 +78,73 @@
   |=========================================================================================================================|
 
   -->
-    <body>
+    <body class="page-header-fixed">
         <%= render "layouts/fb_sdk.html" %>
 
         <!--[if lt IE 9]>
-        <p class="upgrade-browser">Oppsss!! Você está usando um navegador <strong>desatualizado</strong>. Por favor <a href="http://browsehappy.com/" target="_blank">atualize seu navegador</a> para melhor utilizar nosso sistema.</p>
+        <p class="upgrade-browser">Upps!! You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
         <!-- START @WRAPPER -->
         <section id="wrapper">
-          <%= render "layouts/customer/main_header" %>
-          <div class="content">
-            <%= render "layouts/customer/sidebar" %>
-            <%= yield :modals %>
-            <%= render "layouts/customer/main_content" %>
-          </div>
-          <%= javascript_include_tag 'application' %>
-          <%# render "layouts/customer/webengage_professional" if Rails.env.production? %>
-          <%# subscribe_to "/customer/order_exchanges/#{current_customer.id}" %>
+
+            <!-- START @PAGE CONTENT -->
+            <section id="page-content" style="margin-left: 0px !important">
+
+                <!-- Start page header -->
+                <div class="header-content" style="display: inherit">
+                    <h2>
+                        <%= @professional.nome %> <span>Galeria de Fotos</span>
+                            <% if @professional.whatsapp.present? %>
+                                <div class='observacao'>
+                                    <i class='fa fa-whatsapp'></i> <%= @professional.whatsapp %>
+                                </div>
+                            <% end %>
+                            <% if @professional.telefone.present? %>
+                                <div class='observacao'>
+                                    <i class='fa fa-phone'></i> <%= @professional.telefone %>
+                                </div>
+                            <% end %>
+                    </h2>
+                </div><!-- /.header-content -->
+                <!--/ End page header -->
+
+                <!-- Start body content -->
+                <div class="body-content animated fadeIn">
+
+                    <!-- <div class="row">
+                        <div class="col-md-12">
+                            <div class="pull-left">
+                                <button class="filter btn btn-primary btn-sm" data-filter="all">All</button>
+                                <button class="filter btn btn-primary btn-sm" data-filter=".category-people">People</button>
+                                <button class="filter btn btn-primary btn-sm" data-filter=".category-food" id="food">Food</button>
+                                <button class="filter btn btn-primary btn-sm" data-filter=".category-animal">Animal</button>
+                                <button class="filter btn btn-primary btn-sm" data-filter=".category-nature">Nature</button>
+                                <button class="filter btn btn-primary btn-sm" data-filter="none">None</button>
+                            </div>
+                            <div class="pull-right">
+                                <button class="sort btn btn-danger btn-sm" data-sort="random">Random</button>
+                                <button class="sort btn btn-danger btn-sm" data-sort="value:asc">Ascending</button>
+                                <button class="sort btn btn-danger btn-sm" data-sort="value:desc">Descending</button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div> -->
+
+                    <% generate_back_button_for_professional %>
+                    <%= yield %>
+
+                </div><!-- /.body-content -->
+                <!--/ End body content -->
+
+                <!-- Start footer content -->
+                <footer class="footer-content">
+                    2015 - 2016 - <span id="copyright-year"></span> &copy; SafiraSalões
+                </footer><!-- /.footer-content -->
+                <!--/ End footer content -->
+
+            </section><!-- /#page-content -->
+            <!--/ END PAGE CONTENT -->
 
         </section><!-- /#wrapper -->
         <!--/ END WRAPPER -->
@@ -109,6 +154,8 @@
             <i class="fa fa-angle-up"></i>
         </div><!-- /#back-top -->
         <!--/ END BACK TOP -->
+
+        <%= javascript_include_tag 'application' %>
 
     </body>
     <!--/ END BODY -->

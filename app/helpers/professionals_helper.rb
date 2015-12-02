@@ -1,4 +1,24 @@
 module ProfessionalsHelper
+  def generate_back_button_for_professional
+    if current_professional.present? && @professional.id == current_professional.id
+      # flash.now[:success] = "Convide seus clientes a divulgar seu trabalho e as fotos inseridas serão expostas aqui para que interessados conheçam mais sobre seu trabalho e contato"
+      # flash.now[:success] = "Sempre que você convidar um cliente a divulgar seu trabalho, as fotos inseridas serão expostas aqui para que interessados conheçam mais sobre seu trabalho tão logo eles vejam a divulgação feita pelo seu cliente"
+      # flash.now[:success] = "Sempre que você convidar um cliente a divulgar seu trabalho, as fotos inseridas serão expostas aqui"
+      flash.now[:success] = "
+        <ol>
+          <li>Convide seus clientes a divulgar seu trabalho;</li>
+          <li>O SafiraSalões irá expôr aqui as fotos fornecidas por você;</li>
+          <li>O boca-a-boca atrairá pessoas para esta página;</li>
+          <li>Os interessados entrarão em contato para marcar horário</li>
+        </ol>
+      "
+      flash_messages
+      flash.clear
+      flash.now[:error] = "<a href='#{professional_root_path}' class='btn btn-success btn-sm btn-block rounded text-strong'>CONVIDAR CLIENTE A DIVULGAR</a>"
+      flash_messages(permanent: true)
+    end
+  end
+
   def nome_profissional
     current_professional.nome
   end

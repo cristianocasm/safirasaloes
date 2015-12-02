@@ -117,7 +117,7 @@ class Schedule < ActiveRecord::Base
   end
 
   def generate_registration_url(token)
-    "http://safirasaloes.com.br/fotos?s=#{token}#{self.id}"
+    "http://safirasaloes.com.br/fotos/#{token}"
   end
 
   def generate_invitation(ct)

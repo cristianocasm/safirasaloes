@@ -1,0 +1,28 @@
+<%= content_for :title, 'Minhas Recompensas | SafiraSalões' %>
+
+<div class="row">
+  <% @rwd.each do |rwd| %>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+      <div class="panel rounded shadow">
+          <div class="panel-body bg-facebook">
+              <ul class="inner-all list-unstyled">
+                  <li class="text-center">
+                    <% if rwd.professional.avatar_url.present? %>
+                      <%= image_tag rwd.professional.avatar_url, class: "img-circle img-bordered-success", alt: rwd.professional.nome.titleize, data: { 'no-retina' => "" } %>
+                    <% end %>
+                  </li>
+                  <li class="text-center">
+                      <h4 class="text-capitalize"><%= rwd.professional.nome.titleize %></h4>
+                      <p class="text-muted text-capitalize"><span><i class="fa fa-diamond"></i></span> <%= pluralize(rwd.total_safiras, 'safira') %></p>
+                  </li>
+                  <li>
+                    <button class="btn btn-success text-center btn-block change-safiras-button" style="white-space: normal">Trocar por Descontos</button>
+                  </li>
+              </ul><!-- /.list-unstyled -->
+          </div><!-- /.panel-body -->
+      </div><!-- /.panel -->
+    </div>
+
+
+  <% end %>
+</div>

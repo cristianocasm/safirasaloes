@@ -1,5 +1,69 @@
 module PhotosHelper
 
+  def get_fb_parameters_for_sharing_button(photo, on_site = false)
+    params = {
+      method: 'feed',
+      link: professionals_site_url(@professional.site_slug),
+      picture: "#{ENV['HOST_URL']}#{photo.image.url}",
+      name: @professional.nome.titleize,
+      caption: @professional.endereco,
+      description: "Marque seu horário: #{@professional.telefone} - #{@professional.whatsapp}",
+    }
+
+    params.tap do |p|
+      unless on_site
+        p[:photo_id] = photo.id
+        p[:telefone] = photo.customer_invitation.customer_telefone
+        p[:recompensar] = true
+      end
+    end
+  end
+
+  def generate_gallery
+    concat(content_tag(:ul, id: 'gallery') do
+      @photos.each do |photo|
+        concat(content_tag(:li, class: 'mix category-people') do # category-* é utilizado para filtragem
+          concat(content_tag(:div, class: 'gallery-item rounded shadow') do
+            
+            concat(button_tag(class: "gallery-love rounded fb-enjoy btn", data: get_fb_parameters_for_sharing_button(photo, true)) do
+              concat(content_tag(:i, ' Curtir', class: 'fa fa-thumbs-o-up', style: 'display: inline'))
+            end)
+
+            concat(content_tag(:a, href: "javascript:void(0);", class: "gallery-img") do
+              concat(image_tag(photo.image.url, class: "img-responsive full-width", style: 'border: 2px solid #81b71a;'))
+            end)
+
+            concat(content_tag(:div, class: "gallery-details") do
+              concat(content_tag(:div, class: "gallery-summary") do
+                concat(content_tag(:p, photo.description))
+              end)
+            end)
+
+            if @professional.avatar_url.present?
+              concat(content_tag(:div, class: 'gallery-author') do
+                concat(content_tag(:div, class: 'media') do
+                  
+                  concat(content_tag(:div, class: 'media-left') do
+                    concat(content_tag(:a, href: '#') do
+                      concat(image_tag(@professional.avatar_url, class: 'media-object img-circle'))
+                    end)
+                  end)
+
+                  concat(content_tag(:div, class: 'media-body') do
+                    concat(content_tag(:h4, @professional.nome.titleize, class: 'media-heading text-capitalize'))
+                    # concat(content_tag(:span, @professional.profissoes, class: 'text-capitalize'))
+                  end)
+
+                end)
+              end)
+            end
+
+          end)
+        end)
+      end
+    end)
+  end
+
   # def generate_send_photo_step(f)
   #   case @can_send_photo
   #   when :yes; generate_photo_form(f)

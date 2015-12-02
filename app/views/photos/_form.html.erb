@@ -9,6 +9,17 @@
       <%= text_field_tag :invitation, nil, name: 'invitation[customer_telefone]', id: 'invitation_customer_telefone', class: "form-control telefone", autocomplete: "off", onkeypress: 'return event.charCode >= 48 && event.charCode <= 57' %>
       <div class='error' id='invitation_customer_telefone_error'>Informe um telefone válido. Ex: (99) 9999-9999 ou (99) 99999-9999</div>
     </div>
+
+    <div class="alert alert-success fade in get_safiras_div">
+      <div>Este cliente acumulou <span class='gathered_credits'></span> em créditos divulgando seu trabalho. Resgate esses créditos concedendo <span class='gathered_credits'></span> de desconto no ato do pagamento.</div>
+      <div class="mt-10 mb-10">
+        <%= label_tag :get_safiras_yes, 'RESGATAR CRÉDITOS', class: 'text-strong' %>
+        <%= radio_button_tag :get_safiras, 'yes', false, name: 'invitation[get_safiras]',class: 'get_safiras' %>
+        <%= label_tag :get_safiras_no, 'CLIENTE NÃO DESEJA O RESGATE', class: 'text-strong' %>
+        <%= radio_button_tag :get_safiras, 'no', true, name: 'invitation[get_safiras]',class: 'get_safiras' %>
+      </div>
+      <%= hidden_field_tag :invitation, nil, name: 'invitation[customer_id]', id: 'invitation_customer_id' %>
+    </div>
     
     <div class="form-group">
       <%= label_tag :invitation_recompensa, 'Recompensa Por Divulgação:' %>

@@ -1,38 +1,44 @@
 class PhotosController < ApplicationController
   before_action :set_photo, only: [:destroy]
-  # layout "login"#, only: [:new, :index]
+  layout Proc.new {
+    if params[:action] == 'index'
+      if current_customer.present?
+        'customer/customer'
+      else
+        'login'
+      end
+    elsif params[:action] == 'my_site'
+        'professionals_site/professional_site'
+    else
+      'professional/professional'
+    end
+  }
 
   # GET /photo
   # GET /photo.json
   def index
-    @photos = if (ctm = current_customer)
-      current_customer.photos.not_posted # levar em consideração aqui o schedule correto
+    ci = CustomerInvitation.find_by_token(params[:token])
+
+    if ci.present?
+      byebug
+      if already_signed_but_not_logged_in?(ci.customer)
+        sign_out(current_customer) if current_customer # desloga se outro cliente estiver logado
+        session[:previous_url] = request.fullpath      # guarda link para divulgação para redirecionar devolta após o login
+        flash[:error] = "#{ci.customer.nome}, faça login para que sua recompensa seja salva após a divulgação"
+        redirect_to new_customer_session_path(customer: true)
+      else
+        @photos = ci.photos
+        @professional =  @photos.first.professional
+      end
+
     else
-      photo_ids = session[:photo_ids]
-      schedule_id = session[:schedule_id]
-      Photo.find_not_posted_by_ids_and_schedule(photo_ids, schedule_id)
+      render 'static_pages/error_404', layout: false
     end
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @photos.map{|photo| photo.to_jq_upload } }
-    end
   end
 
   # GET /photo/new
   def new
-    # if invited?
-    #   @schedule = Schedule.find_by_id(@sc)
-    #   if @schedule
-    #     @ctNome = @schedule.nome_cliente
-    #     @professional = @schedule.professional
-    #     @can_send_photo = @schedule.can_send_photo?
-    #     session[:schedule_id] = @sc
-    #     notice_woopra() if Rails.env.production?
-    #   else # Trata caso onde profissional deleta esse agendamento
-    #     @can_send_photo = :no
-    #   end
-    # end
   end
 
   # POST /photo
@@ -64,19 +70,6 @@ class PhotosController < ApplicationController
 
     end
 
-    # respond_to do |format|
-    #   if @photo.persisted?
-    #     format.html {
-    #       render :json => [@photo.to_jq_upload].to_json,
-    #       :content_type => 'text/html',
-    #       :layout => false
-    #     }
-    #     format.json { render json: {files: [@photo.to_jq_upload]}, status: :created, location: @photo }
-    #   else
-    #     format.html { render action: "new" }
-    #     format.json { render json: @photo.errors, status: :unprocessable_entity }
-    #   end
-    # end
   end
 
   # DELETE /photo/1
@@ -86,6 +79,16 @@ class PhotosController < ApplicationController
     respond_to do |format|
       format.html { redirect_to photos_url, notice: 'Photo log was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def my_site
+    @professional = Professional.find_by_site_slug(params[:site_slug])
+    
+    if @professional.present?
+      @photos = @professional.photos
+    else
+      render 'static_pages/error_404', layout: false
     end
   end
 
@@ -101,17 +104,11 @@ class PhotosController < ApplicationController
     end
 
     def customer_invitation_params
-      params.require(:invitation).permit(:customer_telefone, :safiras, photo_ids: [])
+      params.require(:invitation).permit(:customer_telefone, :recompensa, :get_safiras, :customer_id, photo_ids: [])
     end
 
-    def invited?
-      @sc = @token = nil
-      if params[:s]
-        @sc = params[:s][ 4...params[:s].size]
-        @token = params[:s][0..3]
-      end
-
-      CustomerInvitation.find_by_schedule_and_token(@sc, @token).present?
+    def already_signed_but_not_logged_in?(customer)
+      customer.present? && customer != current_customer
     end
 
     def notice_woopra

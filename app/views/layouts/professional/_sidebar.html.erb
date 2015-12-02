@@ -36,13 +36,13 @@ START @SIDEBAR LEFT
         <li class="<%= active('photos') %>">
           <%= link_to(new_photo_path, id: 'photo', class: active('photos')) do %>
             <span class="icon"><i class="fa fa-bullhorn"></i></span>
-            <span class="text">Divulgar Trabalho</span>
+            <span class="text">Convidar Cliente a Divulgar</span>
             <% selected('photos') %>
           <% end %>
         </li>
 
         <li>
-          <%= link_to(new_photo_path, id: 'site') do %>
+          <%= link_to(professionals_site_path(current_professional.site_slug), id: 'site') do %>
             <span class="icon"><i class="fa fa-heartbeat"></i></span>
             <span class="text">Meu Site</span>
           <% end %>

@@ -17,6 +17,12 @@
 #= require third-part/jquery.nicescroll
 #= require third-part/bootstrap
 
+# >>> 
+#= require third-part/jquery.mixitup
+
+# >>> PERMITE A CRIAÇÃO DE CAIXAS DE DIÁLOGO UTILIZANDO OS 'MODAIS' DO BOOTSTRAP DE MODO SUCINTO <<<
+#= require third-part/bootbox
+
 #= require third-part/jquery.bootstrap-touchspin
 #= require third-part/jquery.maskedinput
 #= require third-part/jquery-maskmoney.min
@@ -69,14 +75,14 @@
 # $(document).on 'hidden.bs.modal', '#myCarouselModal', (e) ->
 #   $('iframe#player').attr('src', "https://www.youtube.com/embed/QUIeCtB15KY")
 
-# Aplica máscara aos campos de dinheiro
-$(document).on 'click, focus', 'input:text.money', ->
-  $(this).maskMoney({
-    prefix: 'R$ ',
-    precision: 2,
-    affixesStay: false,
-    thousands: ''
-    })
+# # Aplica máscara aos campos de dinheiro
+# $(document).on 'click, focus', 'input:text.money', ->
+#   $(this).maskMoney({
+#     prefix: 'R$ ',
+#     precision: 2,
+#     affixesStay: false,
+#     thousands: ''
+#     })
 
 # Aplica máscara aos campos de recompensa
 $(document).on 'click, focus', 'input:text.recompensa', ->
@@ -87,8 +93,8 @@ $(document).on 'click, focus', 'input:text.recompensa', ->
     thousands: ''
     })
 
-$(document).on 'click, focus', 'input:text.cep', ->
-  $(this).mask('99.999-999')
+# $(document).on 'click, focus', 'input:text.cep', ->
+#   $(this).mask('99.999-999')
 
 # Aplica máscara aos campos de telefone
 $(document).on 'click, focus', 'input:text.telefone', ->
@@ -103,12 +109,31 @@ $(document).on('focusout', 'input:text.telefone', ->
   element = $(this)
   element.unmask()
   phone = element.val().replace(/\D/g, '')
-  if phone.length > 10
-    element.mask '(99) 99999-999?9'
+  if phone.length == 11
+    element.mask '(99) 99999-999?9', completed: get_customer(phone.length, phone)
   else
-    element.mask '(99) 9999-9999?9'
+    element.mask '(99) 9999-9999?9', completed: get_customer(phone.length, phone)
   return
 ).trigger 'focusout'
+
+get_customer = (phoneLength, phone) ->
+  if phoneLength > 9
+    $.ajax
+      url: "/profissional/get_rewards_by_customers_telephone",
+      type: 'post'
+      dataType: "json"
+      data:
+        telefone: phone
+      beforeSend: (xhr) ->
+        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+      success: (data, textStatus, jqXHR) ->
+        $('#get_safiras_no').prop('checked', true)
+        $("#invitation_customer_id").val(data.cId)
+        if data.tSafiras > 0
+          $('span.gathered_credits').text("R$ #{(data.tSafiras / 2).toFixed(2)}")
+          $(".get_safiras_div").show()
+        else
+          $(".get_safiras_div").hide()
 
 # $(document).on 'click', 'a.sms_success_link', (event) ->
 #   title = event.toElement.dataset.title.replace(/%0A/g,"<br/>")
@@ -170,6 +195,23 @@ if $('.passos-tutorial').length
 # Habilita popovers
 $('[data-toggle="popover"]').popover()
 
+$('button.change-safiras-button').popover({
+  title: 'TROQUE NO ATO DO PAGAMENTO',
+  placement: 'top',
+  content: 'Na próxima vez que for atendido(a), informe ao profissional que deseja trocar suas safiras por descontos.',
+  container:'body',
+  template: "
+  <div class='popover' role='tooltip'>
+    <div class='arrow'></div>
+    <h3 class='popover-title' style='overflow: hidden;'></h3>
+    <div class='popover-content' style='overflow: auto;'></div>
+      <div class='popover-footer'>
+      <button type='button' class='btn btn-warning btn-block' onclick='$(this).parent().parent().popover(\"hide\")'>Fechar</button>
+    </div>
+  </div>"
+})
+
+
 # # Insere na URL os ids das fotos de divulgação para que próximo passo
 # # (no processo de envio de fotos para divulgação de serviço) saiba
 # # quais fotos estão sendo enviadas
@@ -215,3 +257,24 @@ $('div.modal').on 'show.bs.modal', ->
 $('div.modal').on 'hidden.bs.modal', ->
   hash = @id
   history.pushState '', document.title, window.location.pathname
+
+# Lida com clique nos botões que levam à divulgação do trabalho
+# dos profissionais
+$('.fb-enjoy').on 'click', ->
+  that = $(this).data()
+
+  # calling the API ...
+  obj = {
+    method: that.method
+    link: that.link
+    picture: that.picture
+    name: that.name
+    caption: that.caption
+    description: that.description
+  }
+
+  callback = (response) ->
+    if response != null && typeof response.post_id != 'undefined'
+      $.post('/cliente/assign_rewards_to_customer', { 'photo_id': that.photoId, 'telefone': that.telefone, 'recompensar': that.recompensar }, null, 'script')
+
+  FB.ui(obj, callback)

@@ -12,40 +12,76 @@
 #
 
 class CustomerInvitation < ActiveRecord::Base
-  SMS_MSG = "Olá\n\nAqui estão suas fotos: _REG_URL_\n\nAcesse, compartilhe e ganhe pontos para trocar por meus serviços :D\n\n_PROF_NAME_"
+  CUSTOMERS_SMS = "Olá\n\nAqui estão suas fotos: _REG_URL_\n\nAcesse, compartilhe e ganhe pontos para trocar por meus serviços :D\n\n_PROF_NAME_"
+  PROFESSIONALS_SMS = "_CUSTOMER_INFO_ acaba de divulgar seu trabalho para os amigos.\n\nPREPARE-SE! Novos clientes vem por aí :D\n\nPARABÉNS pelo ótimo trabalho!\n\nsafirasaloes"
+
   
   has_secure_token :token
 
-  before_create :limit_token
+  attr_accessor :get_safiras
+
+  before_create :limit_token, :recover_safiras_from_customer
   after_create  :invite_customer
 
   has_many :scheduled_msgs
   has_many :photos
+  belongs_to :customer
 
-  scope :find_by_photo_and_token, -> (p, t) { where("photo_id = ? AND token = ? AND recovered = false", p, t) }
+  # scope :find_by_token, -> (t) { where("token = ? AND recovered = false", t) }
+
+  # Quando customer_id == nil, cliente não está cadastrado no safiras
+  # Assim é necessário 
+  def award_rewards(customer_id = nil, photo_id)
+    if customer_id.present?
+      unless self.recovered?
+        self.update_attribute(:customer_id, customer_id)
+
+        ctm = self.customer
+        prof = self.photos.first.professional
+
+        RewardLog.create(professional: prof, customer: ctm, safiras: self.recompensa, photo_id: photo_id)
+        self.update_attribute(:recovered, true)
+      end
+    end
+
+    ctmInfo = self.customer.try(:nome) || self.customer_telefone
+    sms = PROFESSIONALS_SMS.gsub('_CUSTOMER_INFO_', ctmInfo)
+    tel = self.photos.first.professional.get_cellphone
+    fire( sms, tel )
+  end
 
   def limit_token
     self.token = self.token[0..4]
   end
 
+  def recover_safiras_from_customer
+    if self.customer.present? && self.get_safiras == 'yes'
+      ctm = self.customer
+      prof = self.photos.first.professional
+      tSafiras = Reward.find_or_initialize_by(professional: prof, customer: ctm).total_safiras
+      
+      # Instrução abaixo criar uma recompensa negativa de valor igual ao total de safiras
+      # acumuladas pelo cliente com o profissional. Como RewardLog tem uma função para
+      # atualizar a somatória de Reward sempre que uma nova recompensa é criada, o resultado
+      # é a extração total das safiras do cliente junto ao profissional.
+      RewardLog.create(professional: prof, customer: customer, safiras: -tSafiras)
+    end
+  end
+
   def invite_customer
-    send_sms(
-      prNome: self.photos.first.professional.nome,
-      ctTel: self.customer_telefone.gsub(/\D/, ''),
-      regUrl: generate_registration_url
-    )
+    regUrl = generate_registration_url
+    prNome = self.photos.first.professional.nome
+    sms = CUSTOMERS_SMS.gsub('_REG_URL_', regUrl).gsub('_PROF_NAME_', prNome)
+    sms = CUSTOMERS_SMS.gsub('_REG_URL_', regUrl).gsub('_PROF_NAME_', prNome)
+    tel = self.customer_telefone.gsub(/\D/, '')
+    
+    fire( sms, tel )
   end
 
   private
 
   def generate_registration_url
-    "http://safirasaloes.com.br/fotos?s=#{self.token}"
-  end
-
-  def send_sms(options)
-    sms = SMS_MSG.gsub('_REG_URL_', options[:regUrl]).gsub('_PROF_NAME_', options[:prNome])
-    tel = options[:ctTel]
-    fire(sms, tel)
+    "http://safirasaloes.com.br/fotos/#{self.token}"
   end
 
   def fire(msg, tel, schedule = false, date = {})

@@ -34,17 +34,17 @@ START @SIDEBAR LEFT
 
         <!-- Start navigation - dashboard
         <li class="<%= active(['photo_logs', 'photo_log_steps']) %>">
-          <%= link_to(new_photo_log_path, id: 'envio_fotos') do %>
+          <%# link_to(new_photo_log_path, id: 'envio_fotos') do %>
             <span class="icon"><i class="fa fa-camera"></i></span>
             <span class="text">Enviar Fotos</span>
-          <% end %>
+          <%# end %>
         </li>
          -->
 
         <li class="<%= active('schedules') %>">
           <%= link_to(customer_root_path, id: 'meus_servicos') do %>
             <span class="icon"><i class="fa fa-scissors"></i></span>
-            <span class="text">Meus Profissionais e Serviços</span>
+            <span class="text">Minhas Recompensas</span>
           <% end %>
         </li>
         <!--/ End navigation - dashboard -->

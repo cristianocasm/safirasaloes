@@ -1,0 +1,45 @@
+<%= content_for :title, 'Inserir Dados do Profissional | SafiraSalões' %>
+
+
+<%= form_for :photos, :html => { :method => :put, class: 'sign-in form-horizontal shadow rounded no-overflow' } do |f| -%>
+
+  <div class="panel-body prof-info hidden"><%= simple_format @prof_info  %></div>
+  
+  <div class="sign-header no-padding">
+    <div class="form-group">
+      <div class="sign-text-without-before italic">
+        <% if @professional.avatar_url.present? %>
+          <%= image_tag @professional.avatar_url, class: "img-circle" %>
+        <% end %>
+        
+        <p style="text-transform: none;"><span class="text-strong">Compartilhe</span> com seus amigos as fotos abaixo para <span class="text-strong">ganhar pontos</span> e <span class="text-strong">trocar por meus serviços</span>.</p>
+        
+        <p style="text-transform: none;"><%= @professional.nome.titleize %></p>
+
+      </div>
+    </div>
+  </div>
+
+    <div class="sign-body" style="padding: 15px 0px;">
+      <div class="form-group">
+        
+        <!-- Aqui começa marcação para fotos-->
+        <ul class="chats no-padding">
+          <% for photo in @photos %>
+            <li class="by-me">
+              <div class="avatar pull-left">
+                <%= image_tag photo.image.url(:small), class: 'preview' %>
+              </div>
+              <div class="chat-content">
+                <%= button_tag type: 'button', class: 'btn btn-sm btn-sm-fb rounded fb-enjoy', data: get_fb_parameters_for_sharing_button(photo) do %>
+                  <i class="fa fa-thumbs-o-up"> Curtir</i>
+                <% end %>
+                <div class="clearfix"></div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+
+      </div>
+    </div>
+<% end %>

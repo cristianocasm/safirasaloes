@@ -43,6 +43,8 @@
 #
 
 class Professional < ActiveRecord::Base
+  CELLPHONE_REGEX = /\(\d{2}\) [9|8|7]\d{3,4}-\d{4}/
+  
   # Include default devise modules. Others available are:
   # :lockable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
@@ -54,6 +56,7 @@ class Professional < ActiveRecord::Base
   # has_many :prices, through: :services
   # has_many :taken_step
   has_many :rewards
+  has_many :reward_logs
   has_many :photos
 
   before_create :define_status
@@ -131,12 +134,12 @@ class Professional < ActiveRecord::Base
     contactInfo << "Responsável: #{nome.titleize} \n"
     contactInfo << (telefone.present? ? "Telefone: #{telefone}\n" : "")
     contactInfo << (whatsapp.present? ? "WhatsApp: #{whatsapp}\n" : "")
-    contactInfo << gerar_endereco
+    contactInfo << endereco
     contactInfo << (pagina_facebook.present? ? "Facebook: #{pagina_facebook}\n" : "")
     contactInfo << (site.present? ? "Site: #{site}\n" : "")
   end
 
-  def gerar_endereco
+  def endereco
     endereco = ""
     endereco << (rua.present? ? "#{rua}, " : "")
     endereco << (numero.present? ? "#{numero}, " : "")
@@ -222,6 +225,10 @@ class Professional < ActiveRecord::Base
       professional.avatar_url = auth.info.image
       professional.nome = auth.extra.raw_info.first_name
     end
+  end
+
+  def get_cellphone
+    [self.telefone, self.whatsapp].find { |tel| CELLPHONE_REGEX =~ tel } || ''
   end
 
   private

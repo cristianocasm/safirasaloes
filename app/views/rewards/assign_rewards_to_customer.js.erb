@@ -1,0 +1,36 @@
+// Se o cliente não tem sessão aberta, significa que ele também não tem cadastro no safiras.
+// Isso porque um cliente que tenha cadastro não pode mais divulgar sem antes fazer login.
+// Assim sendo, se cliente não tem sessão aberta, abro modal incentivando-o a cadastrar.
+<% if params[:recompensar].present? %>
+  <% if current_customer.blank? %>
+    bootbox.dialog({
+      title: "ÓTIMAS NOTÍCAS! <span class='text-strong'>Você foi recompensado!</span>",
+      message: "<p>Você recebeu <span class='text-strong'><%= pluralize(@ci.recompensa, 'safira') %></span> como recompensa pela divulgação realizada.</p> <p><span class='text-strong'>Salve suas recompensas</span> cadastrando-se abaixo e <span class='text-strong'>obtenha descontos</span> trocando-as com <%= @photo.professional.nome %> nos próximos atendimentos.</p>",
+      buttons: {
+        success: {
+          label: "<span style='color: white'><i class='fa fa-facebook'></i><b style='padding-left: 20px'>Cadastre com o Facebook</b></span>",
+          className: 'btn-fb btn-block',
+          callback: function() {
+            return window.location.href = "/auth/facebook?scope=email&action=signup_customer&photo_id=<%= @photo.id %>&telefone=<%= @ci.customer_telefone %>";
+          }
+        }
+      }
+    });
+  <% else %>
+    bootbox.dialog({
+      title: "ÓTIMAS NOTÍCAS! <span class='text-strong'>Você foi recompensado!</span>",
+      message: "<p>Você recebeu <span class='text-strong'><%= pluralize(@ci.recompensa, 'safira') %></span> como recompensa pela divulgação realizada.</p>",
+      buttons: {
+        success: {
+          label: "<span style='color: white'><b>Ver Minhas Recompensas</b></span>",
+          className: 'btn-fb btn-block',
+          callback: function() {
+            return window.location.href = "<%= customer_root_path %>";
+          }
+        }
+      }
+    });
+  <% end %>
+<% end %>
+
+// Se cliente presente, minha resposta deverá ser algo que mude o botão curtir mostrando que aquele conteúdo já foi curtido.

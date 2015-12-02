@@ -42,7 +42,7 @@ START @SIDEBAR LEFT
         </li>
 
         <li>
-          <%= link_to(professionals_site_path(current_professional.site_slug), id: 'site') do %>
+          <%= link_to(professionals_site_path(current_professional), id: 'site') do %>
             <span class="icon"><i class="fa fa-heartbeat"></i></span>
             <span class="text">Meu Site</span>
           <% end %>

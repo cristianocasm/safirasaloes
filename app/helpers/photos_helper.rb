@@ -3,7 +3,7 @@ module PhotosHelper
   def get_fb_parameters_for_sharing_button(photo, on_site = false)
     params = {
       method: 'feed',
-      link: professionals_site_url(@professional.site_slug),
+      link: professionals_site_url(@professional),
       picture: "#{ENV['HOST_URL']}#{photo.image.url}",
       name: @professional.nome.titleize,
       caption: @professional.endereco,

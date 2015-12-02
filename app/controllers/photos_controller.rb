@@ -83,13 +83,15 @@ class PhotosController < ApplicationController
   end
 
   def my_site
-    @professional = Professional.find_by_site_slug(params[:site_slug])
+    @professional = Professional.find(params[:slug])
+    @photos = @professional.photos
     
-    if @professional.present?
-      @photos = @professional.photos
-    else
+    # instrução abaixo garante que acesso sempre se dará na URL correta (atual) mesmo se
+    # profissional tiver mudado seu slug
+    redirect_to professionals_site_path(@professional), status: :moved_permanently if request.path != professionals_site_path(@professional)
+
+    rescue ActiveRecord::RecordNotFound => e
       render 'static_pages/error_404', layout: false
-    end
   end
 
   private

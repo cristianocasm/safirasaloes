@@ -49,6 +49,7 @@ gem 'woopra_tracker', '1.2'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+gem 'friendly_id'
 
 gem 'annotate', '~> 2.6.5'
 

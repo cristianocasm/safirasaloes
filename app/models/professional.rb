@@ -43,6 +43,9 @@
 #
 
 class Professional < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :slug_method, use: [:slugged, :history]
+
   CELLPHONE_REGEX = /\(\d{2}\) [9|8|7]\d{3,4}-\d{4}/
   
   # Include default devise modules. Others available are:
@@ -99,6 +102,16 @@ class Professional < ActiveRecord::Base
         professional.tap { |prof| prof.update_attribute(:confirmed_at, Time.now) }
       end
     end
+  end
+
+  # Cria o slug que define o site do profissional levando em conta, primeiro o nome,
+  # depois o nome e email
+  def slug_method
+    /(.+)@.+/ =~ self.email
+    [
+      :nome,
+      [:nome, Regexp.last_match(1)]
+    ]
   end
 
   # def creating_first_service?

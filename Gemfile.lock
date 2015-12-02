@@ -93,6 +93,8 @@ GEM
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.3)
+    friendly_id (5.1.0)
+      activerecord (>= 4.0.0)
     has_secure_token (0.0.2)
       activemodel
     hashie (3.4.1)
@@ -328,6 +330,7 @@ DEPENDENCIES
   date_validator (~> 0.7.1)
   devise
   fakeweb
+  friendly_id
   has_secure_token
   jbuilder (~> 2.0)
   jquery-fileupload-rails (= 0.4.1)

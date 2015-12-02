@@ -38,7 +38,7 @@ Rails.application.routes.draw do
 
   mount Sidekiq::Web, at: '/sidekiq'
 
-  get ":site_slug", to: 'photos#my_site', as: :professionals_site
+  get ":slug", to: 'photos#my_site', as: :professionals_site
 
   # Esta rota TEM que ser a última da listagem, pois
   # seu objetivo é redirecionar o usuário para uma

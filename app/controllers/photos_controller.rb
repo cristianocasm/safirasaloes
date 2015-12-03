@@ -20,7 +20,7 @@ class PhotosController < ApplicationController
     ci = CustomerInvitation.find_by_token(params[:token])
 
     if ci.present?
-      byebug
+
       if already_signed_but_not_logged_in?(ci.customer)
         sign_out(current_customer) if current_customer # desloga se outro cliente estiver logado
         session[:previous_url] = request.fullpath      # guarda link para divulgação para redirecionar devolta após o login

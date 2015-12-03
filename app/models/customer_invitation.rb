@@ -46,6 +46,7 @@ class CustomerInvitation < ActiveRecord::Base
 
     ctmInfo = self.customer.try(:nome) || self.customer_telefone
     sms = PROFESSIONALS_SMS.gsub('_CUSTOMER_INFO_', ctmInfo)
+    sms = URI.encode(sms)
     tel = self.photos.first.professional.get_cellphone
     fire( sms, tel )
   end
@@ -72,7 +73,7 @@ class CustomerInvitation < ActiveRecord::Base
     regUrl = generate_registration_url
     prNome = self.photos.first.professional.nome
     sms = CUSTOMERS_SMS.gsub('_REG_URL_', regUrl).gsub('_PROF_NAME_', prNome)
-    sms = CUSTOMERS_SMS.gsub('_REG_URL_', regUrl).gsub('_PROF_NAME_', prNome)
+    sms = URI.encode(sms)
     tel = self.customer_telefone.gsub(/\D/, '')
     
     fire( sms, tel )

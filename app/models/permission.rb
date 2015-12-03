@@ -26,7 +26,7 @@ class Permission < Struct.new(:resource)
   def forçar_cadastro_dos_dados_de_contato?(controller, action)
     return false if resource.nil?
     if resource.instance_of?(Professional)
-      return false if resource.status_equal_to?(:bloqueado) || resource.status_equal_to?(:suspenso)
+      # return false if resource.status_equal_to?(:bloqueado) || resource.status_equal_to?(:suspenso)
       return true if(contato_nao_definido?(controller, action) ) 
     end
     false

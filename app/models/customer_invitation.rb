@@ -47,7 +47,7 @@ class CustomerInvitation < ActiveRecord::Base
     ctmInfo = self.customer.try(:nome) || self.customer_telefone
     sms = PROFESSIONALS_SMS.gsub('_CUSTOMER_INFO_', ctmInfo)
     sms = URI.encode(sms)
-    tel = self.photos.first.professional.get_cellphone
+    tel = self.photos.first.professional.get_cellphone.gsub(/\D/, '')
     fire( sms, tel )
   end
 

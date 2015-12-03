@@ -9,7 +9,7 @@
       buttons: {
         success: {
           label: "<span style='color: white'><i class='fa fa-facebook'></i><b style='padding-left: 20px'>Cadastre com o Facebook</b></span>",
-          className: 'btn-fb btn-block',
+          className: 'btn-fb btn-block normal-white-space',
           callback: function() {
             return window.location.href = "/auth/facebook?scope=email&action=signup_customer&photo_id=<%= @photo.id %>&telefone=<%= @ci.customer_telefone %>";
           }

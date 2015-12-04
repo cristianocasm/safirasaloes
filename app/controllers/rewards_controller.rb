@@ -43,8 +43,10 @@ class RewardsController < ApplicationController
   end
 
   def assign_rewards_to_customer
+    @photo = Photo.find_by_id(params[:photo_id])
+    Photo.increment_counter(:share_count, @photo)
+
     if cliente_divulgando_por_recompensa?
-      @photo = Photo.find_by_id(params[:photo_id])
       @ci = @photo.customer_invitation
       @rewards = @ci.award_rewards(current_customer.try(:id), @photo.id)
     end

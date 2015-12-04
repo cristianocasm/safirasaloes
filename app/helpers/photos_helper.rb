@@ -8,11 +8,11 @@ module PhotosHelper
       name: @professional.nome.titleize,
       caption: @professional.endereco,
       description: "Marque seu horário: #{@professional.telefone} - #{@professional.whatsapp}",
+      photo_id: photo.id
     }
 
     params.tap do |p|
       unless on_site
-        p[:photo_id] = photo.id
         p[:telefone] = photo.customer_invitation.customer_telefone
         p[:recompensar] = true
       end

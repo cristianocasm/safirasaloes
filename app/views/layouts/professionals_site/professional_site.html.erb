@@ -24,6 +24,7 @@
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet">
         <!--/ END FONT STYLES -->
 
+        <%= render "layouts/woopra.html" if Rails.env.production? %>
         <%= render "layouts/hotjar.html" if Rails.env.production? %>
         <%= stylesheet_link_tag   'application', media: 'all' %>
         <%= csrf_meta_tags %>

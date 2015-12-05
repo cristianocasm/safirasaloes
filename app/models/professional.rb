@@ -49,9 +49,9 @@ class Professional < ActiveRecord::Base
   CELLPHONE_REGEX = /\(\d{2}\) [9|8|7]\d{3,4}-\d{4}/
   
   # Include default devise modules. Others available are:
-  # :lockable and :omniauthable
+  # :lockable, :omniauthable, :timeoutable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
-          :trackable, :validatable, :timeoutable
+          :trackable, :validatable
 
   belongs_to :status
   # has_many :schedules

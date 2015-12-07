@@ -2,13 +2,16 @@
 #
 # Table name: customer_invitations
 #
-#  id                :integer          not null, primary key
-#  token             :string(255)
-#  created_at        :datetime
-#  updated_at        :datetime
-#  recovered         :boolean          default(FALSE)
-#  recompensa        :integer
-#  customer_telefone :string(255)
+#  id                   :integer          not null, primary key
+#  access_token         :string(255)
+#  created_at           :datetime
+#  updated_at           :datetime
+#  recovered            :boolean          default(FALSE)
+#  recompensa           :integer
+#  customer_telefone    :string(255)
+#  customer_id          :integer
+#  invitation_status_id :integer
+#  validation_token     :string(255)
 #
 
 class CustomerInvitation < ActiveRecord::Base
@@ -16,16 +19,18 @@ class CustomerInvitation < ActiveRecord::Base
   PROFESSIONALS_SMS = "_CUSTOMER_INFO_ acaba de divulgar seu trabalho para os amigos.\n\nPREPARE-SE! Novos clientes vem por aí :D\n\nPARABÉNS pelo ótimo trabalho!\n\nsafirasaloes"
 
   
-  has_secure_token :token
+  has_secure_token :access_token, :validation_token
 
   attr_accessor :get_safiras
 
-  before_create :limit_token, :recover_safiras_from_customer
+  before_create :limit_token, :recover_safiras_from_customer, :set_invitation_status
   after_create  :invite_customer
 
   has_many :scheduled_msgs
   has_many :photos
   belongs_to :customer
+  belongs_to :invitation_status
+  belongs_to :professional
 
   # scope :find_by_token, -> (t) { where("token = ? AND recovered = false", t) }
 
@@ -52,7 +57,21 @@ class CustomerInvitation < ActiveRecord::Base
   end
 
   def limit_token
-    self.token = self.token[0..4]
+    self.access_token = self.access_token[0..4]
+  end
+
+  def visto!
+    vId = InvitationStatus.find_by_nome('visto').id
+
+    self.update_attribute(:invitation_status_id, vId)
+  end
+
+  # Um convite é definido como "visto" se tiver sido visto ou aceito
+  def visto?
+    vId = InvitationStatus.find_by_nome('visto').id
+    aId = InvitationStatus.find_by_nome('aceito')
+
+    self.invitation_status.id.in?([vId, aId])
   end
 
   def recover_safiras_from_customer
@@ -81,8 +100,12 @@ class CustomerInvitation < ActiveRecord::Base
 
   private
 
+  def set_invitation_status
+    self.invitation_status = InvitationStatus.find_by_nome('nVisto')
+  end
+
   def generate_registration_url
-    "http://safirasaloes.com.br/fotos/#{self.token}"
+    "http://safirasaloes.com.br/fotos/#{self.access_token}"
   end
 
   def fire(msg, tel, schedule = false, date = {})

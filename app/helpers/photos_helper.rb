@@ -13,7 +13,9 @@ module PhotosHelper
 
     params.tap do |p|
       unless on_site
-        p[:telefone] = photo.customer_invitation.customer_telefone
+        ci = photo.customer_invitation
+        p[:link] = p[:link] + "?v=#{ci.validation_token}" unless ci.validation_token.blank?
+        p[:telefone] = ci.customer_telefone
         p[:recompensar] = true
       end
     end
@@ -26,7 +28,7 @@ module PhotosHelper
           concat(content_tag(:div, class: 'gallery-item rounded shadow') do
             
             concat(button_tag(class: "gallery-love rounded fb-enjoy btn", data: get_fb_parameters_for_sharing_button(photo, true)) do
-              concat(content_tag(:i, ' Curtir', class: 'fa fa-thumbs-o-up', style: 'display: inline'))
+              concat(content_tag(:i, ' Compartilhar', class: 'fa fa-facebook-official', style: 'display: inline'))
             end)
 
             concat(content_tag(:a, href: "javascript:void(0);", class: "gallery-img") do
@@ -62,6 +64,11 @@ module PhotosHelper
         end)
       end
     end)
+  end
+
+  def generate_popover
+    byebug
+    ci = current_customer.customer_invitations.where("invitation_status_id = ?", InvitationStatus.find_by_nome('visto').id)
   end
 
   # def generate_send_photo_step(f)

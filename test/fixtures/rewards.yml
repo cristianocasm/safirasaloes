@@ -5,7 +5,7 @@
 #  id              :integer          not null, primary key
 #  professional_id :integer
 #  customer_id     :integer
-#  total_safiras   :integer
+#  total_safiras   :integer          default(0)
 #  created_at      :datetime
 #  updated_at      :datetime
 #

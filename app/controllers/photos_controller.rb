@@ -17,17 +17,18 @@ class PhotosController < ApplicationController
   # GET /photo
   # GET /photo.json
   def index
-    ci = CustomerInvitation.find_by_token(params[:token])
+    @ci = CustomerInvitation.find_by_access_token(params[:token])
 
-    if ci.present?
+    if @ci.present?
+      generate_flash_message
 
-      if already_signed_but_not_logged_in?(ci.customer)
+      if already_signed_but_not_logged_in?(@ci.customer)
         sign_out(current_customer) if current_customer # desloga se outro cliente estiver logado
         session[:previous_url] = request.fullpath      # guarda link para divulgação para redirecionar devolta após o login
-        flash[:error] = "#{ci.customer.nome}, faça login para que sua recompensa seja salva após a divulgação"
+        flash[:error] = "#{@ci.customer.nome}, faça login para que sua recompensa seja salva após a divulgação"
         redirect_to new_customer_session_path(customer: true)
       else
-        @photos = ci.photos
+        @photos = @ci.photos
         @professional =  @photos.first.professional
       end
 
@@ -121,6 +122,46 @@ class PhotosController < ApplicationController
       when :yes; woopra.track('divulgating', { when: 'durante', step: 0 }, true)
       when :future; woopra.track('divulgating', { when: 'antes', step: 0 }, true)
       when :past; woopra.track('divulgating', { when: 'depois', step: 0 }, true)
+      end
+    end
+
+    def generate_flash_message
+      btn = get_btn
+      msg = get_msg
+
+      flash.now[:alert] = "
+        #{get_msg}
+        #{btn}
+        Se não compartilhou, compartilhe e ganhe safiras!!!!
+      "
+      
+      unless @ci.visto?
+        @hidden = 'hidden'
+        @ci.visto!
+      end
+    end
+
+    def get_btn
+      url = text = ""
+
+      if current_customer.present?
+        url = customer_root_path(current_customer)
+        text = "<b>Ver Minhas Safiras</b>"
+      else
+        url = '/auth/facebook?scope=email&action=signup_customer&telefone=#{@ci.customer_telefone}'
+        text = "<i class='fa fa-facebook'></i><b style='padding-left: 20px'>Entre com o Facebook</b>"
+      end
+
+      "<a href='#{url}' class='btn btn-fb btn-block normal-white-space mt-10 mb-10'>
+        <span style='color: white'>#{text}</span>
+      </a>"
+    end
+
+    def get_msg
+      if current_customer.present?
+        "Já compartilhou? Então veja suas safiras"
+      else
+        "Já compartilhou? Então entre para ver suas safiras"
       end
     end
 end

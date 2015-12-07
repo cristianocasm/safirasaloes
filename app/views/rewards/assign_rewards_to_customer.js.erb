@@ -2,6 +2,9 @@
 // Isso porque um cliente que tenha cadastro não pode mais divulgar sem antes fazer login.
 // Assim sendo, se cliente não tem sessão aberta, abro modal incentivando-o a cadastrar.
 <% if params[:recompensar].present? %>
+  $(".modal").modal("hide")
+  $("div.alert.alert-warning.fade.in").addClass("hidden");
+
   <% if current_customer.blank? %>
     bootbox.dialog({
       title: "ÓTIMAS NOTÍCAS! <span class='text-strong'>Você foi recompensado!</span>",

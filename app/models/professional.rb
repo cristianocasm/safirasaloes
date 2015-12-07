@@ -32,7 +32,7 @@
 #  status_id              :integer
 #  data_expiracao_status  :datetime
 #  contato_definido       :boolean          default(FALSE)
-#  site_slug              :string(255)
+#  slug                   :string(255)
 #  whatsapp               :string(255)
 #  transacao_pagseguro    :string(255)
 #  provider               :string(255)
@@ -61,6 +61,7 @@ class Professional < ActiveRecord::Base
   has_many :rewards
   has_many :reward_logs
   has_many :photos
+  has_many :customer_invitations
 
   before_create :define_status
   # Os dois 'unless' abaixo foram introduzidos para que

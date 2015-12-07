@@ -12,6 +12,7 @@
 #  image_updated_at       :datetime
 #  customer_invitation_id :integer
 #  professional_id        :integer
+#  share_count            :integer          default(0)
 #
 
 class Photo < ActiveRecord::Base
@@ -25,9 +26,11 @@ class Photo < ActiveRecord::Base
   # # validates_presence_of :customer
   # validates_presence_of :schedule
 
-  has_attached_file :image, :styles => { :small => "80x80>" },
-                  :url  => "/assets/products/:id/:style/:basename.:extension",
-                  :path => ":rails_root/public/assets/products/:id/:style/:basename.:extension"
+  has_attached_file :image,
+                  styles: { small: "80x80>" },
+                  url: "/assets/products/:id/:style/:basename.:extension",
+                  path: ":rails_root/public/assets/products/:id/:style/:basename.:extension",
+                  use_timestamp: false
 
   validates_attachment_presence :image
   validates_attachment_content_type :image, :content_type => /(\.|\/)(gif|jpe?g|png|tiff)$/i

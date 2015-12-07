@@ -156,13 +156,15 @@ avatar_url<y:LabelModel>
     <node id="n5">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="105.0" width="145.761246200608" x="-26.823480243161214" y="669.7481003039516"/>
+          <y:Geometry height="131.23708206686933" width="145.761246200608" x="-26.823480243161214" y="656.629559270517"/>
           <y:Fill color="#E8EEF7" color2="#FF6600" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="17.96875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="129.1796875" x="8.290779350304007" y="4.0">customer_invitations</y:NodeLabel>
-          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="73.84375" modelName="custom" textColor="#000000" visible="true" width="115.8671875" x="2.0" y="29.96875">customer_telefone
+          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="101.78125" modelName="custom" textColor="#000000" visible="true" width="115.8671875" x="2.0" y="29.96875">customer_telefone
 customer_id
-token
+professional_id
+access_token
+validation_token
 recovered
 recompensa<y:LabelModel>
               <y:ErdAttributesNodeLabelModel/>
@@ -199,7 +201,6 @@ api_id<y:LabelModel>
       </data>
     </node>
     <node id="n7">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
           <y:Geometry height="90.0" width="105.0" x="39.97393617021288" y="373.5398936170212"/>
@@ -296,7 +297,6 @@ total_safiras<y:LabelModel>
       </data>
     </edge>
     <edge id="e7" source="n7" target="n4">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -307,7 +307,6 @@ total_safiras<y:LabelModel>
       </data>
     </edge>
     <edge id="e8" source="n7" target="n0">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -318,12 +317,26 @@ total_safiras<y:LabelModel>
       </data>
     </edge>
     <edge id="e9" source="n5" target="n4">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-48.527127659574774" ty="3.460106382978779">
             <y:Point x="46.05714285714279" y="632.0"/>
             <y:Point x="-149.0" y="632.0"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="crows_foot_many" target="none"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e10" source="n5" target="n0">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="54.64498480243162" ty="96.46010638297878">
+            <y:Point x="46.05714285714279" y="843.0"/>
+            <y:Point x="443.0" y="843.0"/>
+            <y:Point x="443.0" y="515.0"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="crows_foot_many" target="none"/>

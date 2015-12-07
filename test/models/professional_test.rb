@@ -32,7 +32,7 @@
 #  status_id              :integer
 #  data_expiracao_status  :datetime
 #  contato_definido       :boolean          default(FALSE)
-#  site_slug              :string(255)
+#  slug                   :string(255)
 #  whatsapp               :string(255)
 #  transacao_pagseguro    :string(255)
 #  provider               :string(255)

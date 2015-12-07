@@ -2,13 +2,16 @@
 #
 # Table name: customer_invitations
 #
-#  id                :integer          not null, primary key
-#  token             :string(255)
-#  created_at        :datetime
-#  updated_at        :datetime
-#  recovered         :boolean          default(FALSE)
-#  recompensa        :integer
-#  customer_telefone :string(255)
+#  id                   :integer          not null, primary key
+#  access_token         :string(255)
+#  created_at           :datetime
+#  updated_at           :datetime
+#  recovered            :boolean          default(FALSE)
+#  recompensa           :integer
+#  customer_telefone    :string(255)
+#  customer_id          :integer
+#  invitation_status_id :integer
+#  validation_token     :string(255)
 #
 
 require 'test_helper'

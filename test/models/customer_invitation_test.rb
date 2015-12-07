@@ -12,6 +12,7 @@
 #  customer_id          :integer
 #  invitation_status_id :integer
 #  validation_token     :string(255)
+#  professional_id      :integer
 #
 
 require 'test_helper'

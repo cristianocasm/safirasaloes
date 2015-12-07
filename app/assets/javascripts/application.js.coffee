@@ -195,22 +195,6 @@ if $('.passos-tutorial').length
 # Habilita popovers
 $('[data-toggle="popover"]').popover()
 
-$('button.change-safiras-button').popover({
-  title: 'TROQUE NO ATO DO PAGAMENTO',
-  placement: 'top',
-  content: 'Na próxima vez que for atendido(a), informe ao profissional que deseja trocar suas safiras por descontos.',
-  container:'body',
-  template: "
-  <div class='popover' role='tooltip'>
-    <div class='arrow'></div>
-    <h3 class='popover-title' style='overflow: hidden;'></h3>
-    <div class='popover-content' style='overflow: auto;'></div>
-      <div class='popover-footer'>
-      <button type='button' class='btn btn-warning btn-block' onclick='$(this).parent().parent().popover(\"hide\")'>Fechar</button>
-    </div>
-  </div>"
-})
-
 
 # # Insere na URL os ids das fotos de divulgação para que próximo passo
 # # (no processo de envio de fotos para divulgação de serviço) saiba
@@ -283,6 +267,7 @@ $('.fb-enjoy').on 'click', ->
       
       $.post('/cliente/assign_rewards_to_customer', { 'photo_id': that.photoId, 'telefone': that.telefone, 'recompensar': that.recompensar }, null, 'script')
     else
+      $("div.alert.alert-warning.fade.in").addClass("hidden")
       bootbox.dialog(
         title: "Falta só 1 passo...",
         message: "<p>Compartilhe <span class='text-strong'>pelo menos 1 foto</span> para receber as recompensas.</p>",

@@ -21,17 +21,8 @@ class PhotosController < ApplicationController
 
     if @ci.present?
       generate_flash_message
-
-      if already_signed_but_not_logged_in?(@ci.customer)
-        sign_out(current_customer) if current_customer # desloga se outro cliente estiver logado
-        session[:previous_url] = request.fullpath      # guarda link para divulgação para redirecionar devolta após o login
-        flash[:error] = "#{@ci.customer.nome}, faça login para que sua recompensa seja salva após a divulgação"
-        redirect_to new_customer_session_path(customer: true)
-      else
-        @photos = @ci.photos
-        @professional =  @photos.first.professional
-      end
-
+      @photos = @ci.photos
+      @professional =  @ci.professional
     else
       render 'static_pages/error_404', layout: false
     end
@@ -48,7 +39,7 @@ class PhotosController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @ci = CustomerInvitation.new(customer_invitation_params)
+        @ci = current_professional.customer_invitations.new(customer_invitation_params)
 
         if @ci.save
           flash.now[:success] = 'Cliente convidado a divulgar seu trabalho e fotos adicionadas ao seu site.'
@@ -86,6 +77,11 @@ class PhotosController < ApplicationController
   def my_site
     @professional = Professional.find(params[:slug])
     @photos = @professional.photos
+
+    if params[:v].present? && params[:p].present?
+      ci = CustomerInvitation.find_by_validation_token(params[:v])
+      ci.award_rewards(params[:p]) if ci.present? && !ci.recovered?
+    end
     
     # instrução abaixo garante que acesso sempre se dará na URL correta (atual) mesmo se
     # profissional tiver mudado seu slug
@@ -108,10 +104,6 @@ class PhotosController < ApplicationController
 
     def customer_invitation_params
       params.require(:invitation).permit(:customer_telefone, :recompensa, :get_safiras, :customer_id, photo_ids: [])
-    end
-
-    def already_signed_but_not_logged_in?(customer)
-      customer.present? && customer != current_customer
     end
 
     def notice_woopra
@@ -145,10 +137,10 @@ class PhotosController < ApplicationController
       url = text = ""
 
       if current_customer.present?
-        url = customer_root_path(current_customer)
+        url = customer_root_path
         text = "<b>Ver Minhas Safiras</b>"
       else
-        url = '/auth/facebook?scope=email&action=signup_customer&telefone=#{@ci.customer_telefone}'
+        url = "/auth/facebook?scope=email&action=signup_customer&telefone=#{@ci.customer_telefone}"
         text = "<i class='fa fa-facebook'></i><b style='padding-left: 20px'>Entre com o Facebook</b>"
       end
 

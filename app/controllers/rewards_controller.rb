@@ -48,7 +48,7 @@ class RewardsController < ApplicationController
 
     if cliente_divulgando_por_recompensa?
       @ci = @photo.customer_invitation
-      @rewards = @ci.award_rewards(current_customer.try(:id), @photo.id)
+      @rewards = @ci.award_rewards(@photo.id)
     end
 
     respond_to do |format|

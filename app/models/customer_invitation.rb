@@ -12,6 +12,7 @@
 #  customer_id          :integer
 #  invitation_status_id :integer
 #  validation_token     :string(255)
+#  professional_id      :integer
 #
 
 class CustomerInvitation < ActiveRecord::Base
@@ -34,25 +35,24 @@ class CustomerInvitation < ActiveRecord::Base
 
   # scope :find_by_token, -> (t) { where("token = ? AND recovered = false", t) }
 
+  scope :seen, -> { where("invitation_status_id = ?", InvitationStatus.find_by_nome('visto').id) }
+
   # Quando customer_id == nil, cliente não está cadastrado no safiras
   # Assim é necessário 
-  def award_rewards(customer_id = nil, photo_id)
-    if customer_id.present?
-      unless self.recovered?
-        self.update_attribute(:customer_id, customer_id)
+  def award_rewards(photo_id)
 
-        ctm = self.customer
-        prof = self.photos.first.professional
+    unless self.recovered?
+      ctm = self.customer
+      prof = self.professional
 
-        RewardLog.create(professional: prof, customer: ctm, safiras: self.recompensa, photo_id: photo_id)
-        self.update_attribute(:recovered, true)
-      end
+      RewardLog.create(professional: prof, customer: ctm, safiras: self.recompensa, photo_id: photo_id)
+      self.update_attributes(recovered: true, invitation_status: InvitationStatus.find_by_nome('aceito'))
     end
 
     ctmInfo = self.customer.try(:nome) || self.customer_telefone
     sms = PROFESSIONALS_SMS.gsub('_CUSTOMER_INFO_', ctmInfo)
     sms = URI.encode(sms)
-    tel = self.photos.first.professional.get_cellphone.gsub(/\D/, '')
+    tel = self.professional.get_cellphone.gsub(/\D/, '')
     fire( sms, tel )
   end
 
@@ -75,9 +75,15 @@ class CustomerInvitation < ActiveRecord::Base
   end
 
   def recover_safiras_from_customer
-    if self.customer.present? && self.get_safiras == 'yes'
+    if self.customer.blank?
+      ctm = Customer.find_or_initialize_by(telefone: self.customer_telefone)
+      ctm.save(validate: false) unless ctm.persisted?
+      self.customer = ctm
+    end
+
+    if self.get_safiras == 'yes'
       ctm = self.customer
-      prof = self.photos.first.professional
+      prof = self.professional
       tSafiras = Reward.find_or_initialize_by(professional: prof, customer: ctm).total_safiras
       
       # Instrução abaixo criar uma recompensa negativa de valor igual ao total de safiras
@@ -90,7 +96,7 @@ class CustomerInvitation < ActiveRecord::Base
 
   def invite_customer
     regUrl = generate_registration_url
-    prNome = self.photos.first.professional.nome
+    prNome = self.professional.nome
     sms = CUSTOMERS_SMS.gsub('_REG_URL_', regUrl).gsub('_PROF_NAME_', prNome)
     sms = URI.encode(sms)
     tel = self.customer_telefone.gsub(/\D/, '')

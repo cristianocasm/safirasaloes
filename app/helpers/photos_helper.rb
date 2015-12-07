@@ -14,7 +14,7 @@ module PhotosHelper
     params.tap do |p|
       unless on_site
         ci = photo.customer_invitation
-        p[:link] = p[:link] + "?v=#{ci.validation_token}" unless ci.validation_token.blank?
+        p[:link] = p[:link] + "?v=#{ci.validation_token}&p=#{photo.id}" unless ci.validation_token.blank?
         p[:telefone] = ci.customer_telefone
         p[:recompensar] = true
       end
@@ -66,9 +66,63 @@ module PhotosHelper
     end)
   end
 
-  def generate_popover
-    byebug
-    ci = current_customer.customer_invitations.where("invitation_status_id = ?", InvitationStatus.find_by_nome('visto').id)
+  def generate_popover(profId)
+    @safirasPendentesPorProfessional ||= current_customer.customer_invitations.seen.group(:professional_id).sum(:recompensa)
+    safirasPendentes = @safirasPendentesPorProfessional[profId]
+    content = ''
+    content = "<p class='mt-10'><span class='text-strong'>#{pluralize(safirasPendentes, 'safira')} não foram recuperadas. Faça a divulgação (se ainda não fez) e clique na foto postada no Facebook para recuperá-las.</p>" if safirasPendentes
+
+    {
+      title: "TROQUE NO ATO DO PAGAMENTO",
+      toggle: 'popover',
+      placement: 'bottom',
+      container:'body',
+      html: true,
+      content: "Na próxima vez que for atendido(a), informe ao profissional que deseja trocar suas safiras por descontos.#{content}",
+      template: "<div class='popover' role='tooltip'>
+                   <div class='arrow'></div>
+                   <h3 class='popover-title' style='overflow: hidden;'></h3>
+                   <div class='popover-content' style='overflow: auto;'></div>
+                     <div class='popover-footer'>
+                     <button type='button' class='btn btn-warning btn-block' onclick='$(this).parent().parent().popover(\"hide\")'>Fechar</button>
+                   </div>
+                 </div>"
+    }
+  end
+
+  def show_safiras_per_professional
+    concat(content_tag(:div, class: 'row') do
+      @my_professionals.each do |prof|
+        concat(content_tag(:div, class: 'col-lg-3 col-md-3 col-sm-6 col-xs-6') do
+          concat(content_tag(:div, class: 'panel rounded shadow') do
+            concat(content_tag(:div, class: 'panel-body bg-facebook') do
+              concat(content_tag(:ul, class: 'inner-all list-unstyled') do
+                
+                concat(content_tag(:li, class: 'text-center') do
+                  if prof.avatar_url.present?
+                    concat(tag(:img, src: prof.avatar_url, class: "img-circle img-bordered-success", alt: prof.nome.titleize, data: { 'no-retina' => "" }))
+                  end
+                end)
+
+                concat(content_tag(:li, class: 'text-center') do
+                  concat(content_tag(:h4, prof.nome.titleize, class: 'text-capitalize'))
+                  concat(content_tag(:p, class: 'text-muted text-capitalize') do
+                    concat(content_tag(:span) do
+                      concat(content_tag(:i, nil, class: 'fa fa-diamond'))
+                      concat(pluralize(prof.rewards.find_by_customer_id(current_customer).try(:total_safiras), 'safira'))
+                    end)
+                  end)
+                end)
+
+                concat(content_tag(:li, 'Trocar por Descontos', class: 'btn btn-success text-center btn-block change-safiras-button', style: 'white-space: normal', data: generate_popover(prof.id)))
+
+              end)
+            end)
+          end)
+        end)
+      end
+    end)
+
   end
 
   # def generate_send_photo_step(f)

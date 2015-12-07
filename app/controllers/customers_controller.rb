@@ -61,7 +61,7 @@ class CustomersController < Devise::RegistrationsController
   end
 
   def minhas_safiras_por_profissionais
-    @rwd = current_customer.rewards
+    @my_professionals = current_customer.customer_invitations.map(&:professional).uniq
   end
 
   private

@@ -44,12 +44,12 @@ class Customer < ActiveRecord::Base
 
   # Cliente só pode cadastrar se realizou divulgação. Nesse sentido ele é recompensado
   # logo após o cadastro
-  after_create :reward_customer
+  # after_create :reward_customer
 
-  def reward_customer
-    pId = self.photo_id
-    Photo.find(pId).customer_invitation.award_rewards(self.id, pId)
-  end
+  # def reward_customer
+  #   pId = self.photo_id
+  #   Photo.find(pId).customer_invitation.award_rewards(self.id, pId)
+  # end
 
   # def update_schedule
   #   sc = Schedule.find(self.schedule_invitation)
@@ -84,17 +84,17 @@ class Customer < ActiveRecord::Base
     nil # or consider a custom null object
   end
 
-  def self.create_with_omniauth(auth, params)
-    create! do |customer|
-      customer.provider = auth.provider
-      customer.uid = auth.uid
-      customer.oauth_token = auth.credentials.token
-      customer.oauth_expires_at =  Time.at(auth.credentials.expires_at)
-      customer.email = auth.info.email
-      customer.avatar_url = auth.info.image
-      customer.nome = auth.extra.raw_info.first_name
-      customer.telefone = params['telefone']
-      customer.photo_id = params['photo_id']
+  def update_with_omniauth(auth, params)
+    self.tap do |o|
+      o.update!({
+        provider: auth.provider,
+        uid: auth.uid,
+        oauth_token: auth.credentials.token,
+        oauth_expires_at:  Time.at(auth.credentials.expires_at),
+        email: auth.info.email,
+        avatar_url: auth.info.image,
+        nome: auth.extra.raw_info.first_name
+      })
     end
   end
 

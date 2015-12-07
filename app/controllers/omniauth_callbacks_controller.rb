@@ -68,7 +68,7 @@ private
     
     # Faz cadastro (se não estiver cadastrado) e o autentica no sistema.
     # customer = Customer.find_by_provider_and_uid(auth.provider, auth.uid).try(:first)
-    customer = Customer.create_with_omniauth(auth, params)
+    customer = Customer.find_by_telefone(params['telefone']).update_with_omniauth(auth, params)
     sign_in(:customer, customer)
 
     redirect_to customer_root_path, flash: { success: 'Cadastro realizado e recompensas salvas com sucesso.' }

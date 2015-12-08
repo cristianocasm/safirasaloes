@@ -9,7 +9,51 @@ jQuery ->
     set_possible_errors()
     validate_form_on_submit()
     # config_carousel()
+  if $("form.cliente-divulgando-fotos").length
+    fb_buttons_code()
+fb_buttons_code = ->
+  # Lida com clique nos botões que levam à divulgação do trabalho
+  # dos profissionais
+  $('.fb-enjoy').on 'click', ->
+    that = $(this).data()
 
+    # calling the API ...
+    obj = {
+      method: that.method
+      link: that.link
+      picture: that.picture
+      name: that.name
+      caption: that.caption
+      description: that.description
+    }
+
+    callback = (response) ->
+      if response != null && typeof response.post_id != 'undefined'
+        
+        bootbox.dialog(
+          title: "Aguarde...",
+          message: "Estamos fornecendo suas safiras."
+        )
+        
+        $.post('/cliente/assign_rewards_to_customer', { 'photo_id': that.photoId, 'telefone': that.telefone, 'recompensar': that.recompensar }, null, 'script')
+      else
+        $("div.alert.alert-warning.fade.in").addClass("hidden")
+        bootbox.dialog(
+          title: "Falta só 1 passo...",
+          message: "<p>Compartilhe <span class='text-strong'>pelo menos 1 foto</span> para receber as recompensas.</p>",
+          buttons:
+            danger:
+              label: "Não. Obrigado."
+              className: 'btn-default'
+            success:
+              label: "OK! Vamos lá!"
+              className: 'btn-success'
+        )
+
+
+
+    FB.ui(obj, callback)
+    $("div.alert.alert-warning.fade.in").removeClass("hidden")
 validate_form_on_submit = ->
   $("#fileupload").submit (e) ->
     if validate_fields()

@@ -1,5 +1,6 @@
 jQuery ->
   if $('#gallery').length
+    fb_buttons()
     mixitup()
 
 mixitup = ->
@@ -12,3 +13,23 @@ mixitup = ->
     $('#gallery').mixItUp 'setOptions', animation: easing: 'ease'
     return
   ), 1000
+
+fb_buttons = ->
+  $('.fb-enjoy').on 'click', ->
+    that = $(this).data()
+
+    # calling the API ...
+    obj = {
+      method: that.method
+      link: that.link
+      picture: that.picture
+      name: that.name
+      caption: that.caption
+      description: that.description
+    }
+
+    callback = (response) ->
+      if response != null && typeof response.post_id != 'undefined'      
+        $.post('/cliente/assign_rewards_to_customer', { 'photo_id': that.photoId, 'telefone': that.telefone, 'recompensar': that.recompensar }, null, 'script')
+        
+    FB.ui(obj, callback)

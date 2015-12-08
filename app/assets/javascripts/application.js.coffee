@@ -242,49 +242,6 @@ $('div.modal').on 'hidden.bs.modal', ->
   hash = @id
   history.pushState '', document.title, window.location.pathname
 
-# Lida com clique nos botões que levam à divulgação do trabalho
-# dos profissionais
-$('.fb-enjoy').on 'click', ->
-  that = $(this).data()
-
-  # calling the API ...
-  obj = {
-    method: that.method
-    link: that.link
-    picture: that.picture
-    name: that.name
-    caption: that.caption
-    description: that.description
-  }
-
-  callback = (response) ->
-    if response != null && typeof response.post_id != 'undefined'
-      
-      bootbox.dialog(
-        title: "Aguarde...",
-        message: "Estamos fornecendo suas safiras."
-      )
-      
-      $.post('/cliente/assign_rewards_to_customer', { 'photo_id': that.photoId, 'telefone': that.telefone, 'recompensar': that.recompensar }, null, 'script')
-    else
-      $("div.alert.alert-warning.fade.in").addClass("hidden")
-      bootbox.dialog(
-        title: "Falta só 1 passo...",
-        message: "<p>Compartilhe <span class='text-strong'>pelo menos 1 foto</span> para receber as recompensas.</p>",
-        buttons:
-          danger:
-            label: "Não. Obrigado."
-            className: 'btn-default'
-          success:
-            label: "OK! Vamos lá!"
-            className: 'btn-success'
-      )
-
-
-
-  FB.ui(obj, callback)
-  $("div.alert.alert-warning.fade.in").removeClass("hidden")
-
 # Garante que botões do Facebook só são visíveis quando toda a página é carregada
 jQuery ->
   $(".aguarde").hide()

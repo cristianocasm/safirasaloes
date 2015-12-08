@@ -188,7 +188,7 @@ Iniciada?<y:LabelModel>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
           <y:Geometry height="48.0" width="196.0" x="503.0" y="334.0"/>
-          <y:Fill color="#B7C9E3" color2="#B7C9E3" transparent="false"/>
+          <y:Fill color="#FF0000" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="31.9375" modelName="custom" textColor="#000000" visible="true" width="172.65625" x="11.671875" y="8.03125">InvitationStatus = Accepted
 Convida a cadastrar<y:LabelModel>
@@ -280,7 +280,7 @@ deve ser compartilhada"<y:LabelModel>
       <data key="d6">
         <y:GenericNode configuration="com.yworks.flowchart.process">
           <y:Geometry height="72.0" width="318.0" x="350.0" y="680.3333333333333"/>
-          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+          <y:Fill color="#FF0000" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="73.84375" modelName="custom" textColor="#000000" visible="true" width="299.9453125" x="9.02734375" y="-0.921875">Mostra:
    1. Safiras Pendentes (informa que recebimento

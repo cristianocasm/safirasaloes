@@ -76,7 +76,8 @@ class PhotosController < ApplicationController
 
   def my_site
     @professional = Professional.find(params[:slug])
-    @photos = @professional.photos
+    c = {}
+    @photos = @professional.photos.to_a.keep_if { |p, d| !c.has_key?(p.image_fingerprint) and c[p.image_fingerprint] = true  }
 
     if params[:v].present? && params[:p].present?
       ci = CustomerInvitation.find_by_validation_token(params[:v])

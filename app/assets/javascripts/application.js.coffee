@@ -98,37 +98,37 @@ get_customer = (phoneLength, phone) ->
         else
           $(".get_safiras_div").hide()
 
-# Tutorial
-if $('.passos-tutorial').length
-  tour = $('.passos-tutorial')
-  autoStart = tour.data().autoStart
+# # Tutorial
+# if $('.passos-tutorial').length
+#   tour = $('.passos-tutorial')
+#   autoStart = tour.data().autoStart
   
-  tour = tour.data().tour
-  tour['onHidden'] = (tour) ->
-    window.started = false
-  tour['onShown'] = (tour) ->
-    window.started = true
-    stp = tour.getStep(tour._current)
-    elm = stp.element
-    plc = stp.placement
-    if plc == 'bottom'
-      $('html, body').animate(
-        {
-          scrollTop: $(elm).offset().top
-        }, 1000);
-    else if plc == 'top'
-      $('html, body').animate(
-        {
-          scrollTop: $(".popover-title").offset().top
-        }, 1000);
-  tour = new Tour(tour)
-  tour.init()
-  # tour.setCurrentStep(0)
-  tour.restart() if autoStart
-  window.tour = tour
-  $('.passos-tutorial').click ->
-    tour.restart()
-    tour.init(true)
+#   tour = tour.data().tour
+#   tour['onHidden'] = (tour) ->
+#     window.started = false
+#   tour['onShown'] = (tour) ->
+#     window.started = true
+#     stp = tour.getStep(tour._current)
+#     elm = stp.element
+#     plc = stp.placement
+#     if plc == 'bottom'
+#       $('html, body').animate(
+#         {
+#           scrollTop: $(elm).offset().top
+#         }, 1000);
+#     else if plc == 'top'
+#       $('html, body').animate(
+#         {
+#           scrollTop: $(".popover-title").offset().top
+#         }, 1000);
+#   tour = new Tour(tour)
+#   tour.init()
+#   # tour.setCurrentStep(0)
+#   tour.restart() if autoStart
+#   window.tour = tour
+#   $('.passos-tutorial').click ->
+#     tour.restart()
+#     tour.init(true)
 
 # Habilita popovers
 $('[data-toggle="popover"]').popover()

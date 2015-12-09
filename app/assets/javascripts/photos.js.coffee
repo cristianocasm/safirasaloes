@@ -11,6 +11,7 @@ jQuery ->
     # config_carousel()
   if $("form.cliente-divulgando-fotos").length
     fb_buttons_code()
+
 fb_buttons_code = ->
   # Lida com clique nos botões que levam à divulgação do trabalho
   # dos profissionais
@@ -54,6 +55,13 @@ fb_buttons_code = ->
 
     FB.ui(obj, callback)
     $("div.alert.alert-warning.fade.in").removeClass("hidden")
+
+  show_fb_buttons()
+
+show_fb_buttons = ->
+  $(".aguarde").hide()
+  $(".share_buttons").show()
+
 validate_form_on_submit = ->
   $("#fileupload").submit (e) ->
     if validate_fields()

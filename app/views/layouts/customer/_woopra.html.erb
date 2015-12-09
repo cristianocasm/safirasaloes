@@ -11,7 +11,9 @@ woopra.config({
 // Identify customer
 woopra.identify({
     email: "<%= current_customer.email %>",
-    user_type: 'customer'
+    name: "<%= current_customer.nome %>",
+    user_type: 'customer',
+    avatar: "<%= current_customer.avatar_url %>"
 });
  
 // track

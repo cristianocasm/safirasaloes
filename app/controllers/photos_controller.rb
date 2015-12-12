@@ -42,7 +42,8 @@ class PhotosController < ApplicationController
         @ci = current_professional.customer_invitations.new(customer_invitation_params)
 
         if @ci.save
-          flash.now[:success] = 'Cliente convidado a divulgar seu trabalho e fotos adicionadas ao seu site.'
+          flash.now[:success] = "
+          Cliente convidado a divulgar seu trabalho e fotos adicionadas ao seu site. <a href='whatsapp://send?text=#{@ci.customers_whatsapp_message}' class='btn btn-warning btn-block'>Convide-o também via whatsapp</a>"
           render :new
         else
           render :new

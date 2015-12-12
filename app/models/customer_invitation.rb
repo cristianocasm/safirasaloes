@@ -16,7 +16,34 @@
 #
 
 class CustomerInvitation < ActiveRecord::Base
+  # ****** CÓDIGOS EMOJI WHATSAPP
+  # Face sorridente com boca aberta: \u{1F603}
+  # Coração: \u{2665}
+  # Face sorridente com olhos sorridentes e boca aberta:  \u{1F604}
+  # Presente: \u{1F381}
+  # Saco dinheiro: \u{1F4B0}
+  # Bola de Festa estourando}: \u{1F38A}
+  # Confetes: \u{1F389}
+  # Palmas: \u{1F44F}
+
   CUSTOMERS_SMS = "Olá\n\nAqui estão suas fotos: _REG_URL_\n\nAcesse, compartilhe e ganhe pontos para trocar por meus serviços :D\n\n_PROF_NAME_"
+  CUSTOMERS_WHATSAPP = "Olá!
+
+  Muito obrigado por sua presença em meu salão. \u{1F603}
+
+  Pra mim significa muito essa confiança depositada em mim e em meu trabalho. Obrigado de \u{2665}
+
+  Quero atender você cada vez melhor, então aproveito a oportunidade para deixar você à vontade para sugerir melhorias ou enviar críticas. Isso me ajudaria a melhorar cada vez mais \u{1F604}
+
+  Lembra das fotos que tiramos? Aqui estão elas: _REG_URL_ \u{1F38A}\u{1F38A}\u{1F44F}
+
+  Eu ficaria muito grato se você pudesse compartilhá-las com os amigos, porque ajudaria a divulgar meu trabalho :D. Inclusive preparei uma recompensa especial pra você caso compartilhe \u{1F4B0}\u{1F4B0}
+
+  Abraços,
+
+  _PROF_NAME_
+  "
+  
   PROFESSIONALS_SMS = "_CUSTOMER_INFO_ acaba de divulgar seu trabalho para os amigos.\n\nPREPARE-SE! Novos clientes vem por aí :D\n\nPARABÉNS pelo ótimo trabalho!\n\nsafirasaloes"
 
   
@@ -95,13 +122,24 @@ class CustomerInvitation < ActiveRecord::Base
   end
 
   def invite_customer
-    regUrl = generate_registration_url
-    prNome = self.professional.nome
-    sms = CUSTOMERS_SMS.gsub('_REG_URL_', regUrl).gsub('_PROF_NAME_', prNome)
-    sms = URI.encode(sms)
+    sms = customers_sms_message
     tel = self.customer_telefone.gsub(/\D/, '')
     
     fire( sms, tel )
+  end
+
+  def customers_sms_message
+    regUrl = generate_registration_url
+    prNome = self.professional.nome
+    sms = CUSTOMERS_SMS.gsub('_REG_URL_', regUrl).gsub('_PROF_NAME_', prNome)
+    URI.encode(sms)
+  end
+
+  def customers_whatsapp_message
+    regUrl = generate_registration_url
+    prNome = self.professional.nome
+    sms = CUSTOMERS_WHATSAPP.gsub('_REG_URL_', regUrl).gsub('_PROF_NAME_', prNome)
+    URI.encode(sms)
   end
 
   private

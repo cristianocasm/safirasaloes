@@ -29,15 +29,9 @@ class CustomerInvitation < ActiveRecord::Base
   CUSTOMERS_SMS = "Olá\n\nAqui estão suas fotos: _REG_URL_\n\nAcesse, compartilhe e ganhe pontos para trocar por meus serviços :D\n\n_PROF_NAME_"
   CUSTOMERS_WHATSAPP = "Olá!
 
-  Muito obrigado por sua presença em meu salão. \u{1F603}
-
-  Pra mim significa muito essa confiança depositada em mim e em meu trabalho. Obrigado de \u{2665}
-
-  Quero atender você cada vez melhor, então aproveito a oportunidade para deixar você à vontade para sugerir melhorias ou enviar críticas. Isso me ajudaria a melhorar cada vez mais \u{1F604}
-
   Lembra das fotos que tiramos? Aqui estão elas: _REG_URL_ \u{1F38A}\u{1F38A}\u{1F44F}
 
-  Eu ficaria muito grato se você pudesse compartilhá-las com os amigos, porque ajudaria a divulgar meu trabalho :D. Inclusive preparei uma recompensa especial pra você caso compartilhe \u{1F4B0}\u{1F4B0}
+  Eu ficaria muito grato se você pudesse compartilhá-las com os amigos, porque ajudaria a divulgar meu trabalho. Inclusive preparei uma recompensa especial pra você caso compartilhe \u{1F4B0}\u{1F4B0}
 
   Abraços,
 

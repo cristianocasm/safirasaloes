@@ -13,9 +13,6 @@ module ProfessionalsHelper
         </ol>
       "
       flash_messages
-      flash.clear
-      flash.now[:error] = "<a href='#{professional_root_path}' class='btn btn-success btn-sm btn-block rounded text-strong'>CONVIDAR CLIENTE A DIVULGAR</a>"
-      flash_messages(permanent: true)
     end
   end
 

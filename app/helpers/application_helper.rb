@@ -7,7 +7,7 @@ module ApplicationHelper
     { success: "alert-success", error: "alert-danger", alert: "alert-warning", notice: "alert-info" }[flash_type.to_sym] || flash_type.to_s
   end
  
-  def flash_messages(opts = {})
+  def flash_messages
     flash.each do |msg_type, message|
       # Verificação abaixo faz-se necessária já que devise utiliza o comando
       # flash[:timedout] = true
@@ -16,17 +16,13 @@ module ApplicationHelper
       # um objeto da classe TrueClass, o que ocasiona o lançamento de erro
       # NoMethodError.
       unless msg_type.to_sym == :timedout || message.nil?
-        concat(content_tag(:div, message, class: "alert #{bootstrap_class_for(msg_type)} fade in #{@hidden}") do 
-          concat(close_button(opts[:permanent]))
+        concat(content_tag(:div, message, class: "alert #{bootstrap_class_for(msg_type)} fade in") do 
+          concat content_tag(:button, 'x', class: "close", data: { dismiss: 'alert' })
           concat message.html_safe
         end)
       end
     end
     nil
-  end
-
-  def close_button(permanent)
-    content_tag(:button, 'x', class: "close", data: { dismiss: 'alert' }) unless permanent
   end
 
   def alertas_assinatura

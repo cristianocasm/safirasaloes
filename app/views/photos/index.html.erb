@@ -7,14 +7,22 @@
   
   <div class="sign-header no-padding">
     <div class="form-group">
-      <div class="sign-text-without-before italic">
+
+         <div class="sign-text-without-before italic">
         <% if @professional.avatar_url.present? %>
           <%= image_tag @professional.avatar_url, class: "img-circle" %>
         <% end %>
-        
-        <p style="text-transform: none;"><span class="text-strong">Compartilhe</span> com seus amigos as fotos abaixo para <span class="text-strong">ganhar <%= pluralize(@ci.recompensa, 'safira') %></span> e <span class="text-strong">trocar por descontos em meus serviços</span>.</p>
-        
         <p style="text-transform: none;"><%= @professional.nome.titleize %></p>
+      </div>
+        
+      <div>
+        <p style="text-transform: none;"><span class="text-strong">INSTRUÇÕES:</span></p>
+        <ol>
+          <li>Compartilhe pelo menos 1 foto;</li>
+          <li>Acesse seu Facebook e clique na foto compartilhada.</li>
+        </ol>
+        <p style="text-transform: none;"><span class="text-strong">RECOMPENSA: <%= pluralize(@ci.recompensa, 'safira') %></span></p>
+        
 
       </div>
     </div>

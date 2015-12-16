@@ -20,9 +20,13 @@ class PhotosController < ApplicationController
     @ci = CustomerInvitation.find_by_access_token(params[:token])
 
     if @ci.present?
-      generate_flash_message
       @photos = @ci.photos
       @professional =  @ci.professional
+
+      if @ci.nVisto?
+        @ci.visto!
+        cookies[@ci.id] = @ci.validation_token # Usado para saber se profissional está validando
+      end
     else
       render 'static_pages/error_404', layout: false
     end
@@ -81,8 +85,12 @@ class PhotosController < ApplicationController
     @photos = @professional.photos.to_a.keep_if { |p, d| !c.has_key?(p.image_fingerprint) and c[p.image_fingerprint] = true  }
 
     if params[:v].present? && params[:p].present?
-      ci = CustomerInvitation.find_by_validation_token(params[:v])
-      ci.award_rewards(params[:p]) if ci.present? && !ci.recovered?
+      @ci = CustomerInvitation.find_by_validation_token(params[:v])
+      
+      if @ci.present? && !@ci.recovered?
+        @ci.award_rewards(params[:p])
+        notify_customer if cookies[@ci.id] == params[:v]
+      end
     end
     
     # instrução abaixo garante que acesso sempre se dará na URL correta (atual) mesmo se
@@ -119,43 +127,32 @@ class PhotosController < ApplicationController
       end
     end
 
-    def generate_flash_message
-      btn = get_btn
-      msg = get_msg
-
-      flash.now[:alert] = "
-        #{get_msg}
-        #{btn}
-        Se não compartilhou, compartilhe e ganhe safiras!!!!
-      "
-      
-      unless @ci.visto?
-        @hidden = 'hidden'
-        @ci.visto!
-      end
+    def notify_customer
+      cookies.delete(@ci.id)
+      flash.now[:alert] = "<p>PARABÉNS! Você recebeu <span class='text-strong'>#{ ActionController::Base.helpers.pluralize(@ci.recompensa, 'safira') }</span> como recompensa pela divulgação realizada e poderá trocá-las com #{@ci.professional.nome.titleize} nos próximos atendimentos.</p>"
     end
 
-    def get_btn
-      url = text = ""
+    # def get_btn
+    #   url = text = ""
 
-      if current_customer.present?
-        url = customer_root_path
-        text = "<b>Ver Minhas Safiras</b>"
-      else
-        url = "/auth/facebook?scope=email&action=signup_customer&telefone=#{@ci.customer_telefone}"
-        text = "<i class='fa fa-facebook'></i><b style='padding-left: 20px'>Entre com o Facebook</b>"
-      end
+    #   if current_customer.present?
+    #     url = customer_root_path
+    #     text = "<b>Ver Minhas Safiras</b>"
+    #   else
+    #     url = "/auth/facebook?scope=email&action=signup_customer&telefone=#{@ci.customer_telefone}"
+    #     text = "<i class='fa fa-facebook'></i><b style='padding-left: 20px'>Entre com o Facebook</b>"
+    #   end
 
-      "<a href='#{url}' class='btn btn-fb btn-block normal-white-space mt-10 mb-10'>
-        <span style='color: white'>#{text}</span>
-      </a>"
-    end
+    #   "<a href='#{url}' class='btn btn-fb btn-block normal-white-space mt-10 mb-10'>
+    #     <span style='color: white'>#{text}</span>
+    #   </a>"
+    # end
 
-    def get_msg
-      if current_customer.present?
-        "Já compartilhou? Então veja suas safiras"
-      else
-        "Já compartilhou? Então entre para ver suas safiras"
-      end
-    end
+    # def get_msg
+    #   if current_customer.present?
+    #     "Já compartilhou? Então veja suas safiras"
+    #   else
+    #     "Já compartilhou? Então entre para ver suas safiras"
+    #   end
+    # end
 end

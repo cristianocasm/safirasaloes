@@ -81,6 +81,11 @@ class CustomerInvitation < ActiveRecord::Base
     self.access_token = self.access_token[0..4]
   end
 
+  def nVisto?
+    nVistoId = InvitationStatus.find_by_nome('nVisto').id
+    self.invitation_status.id == nVistoId
+  end
+
   def visto!
     vId = InvitationStatus.find_by_nome('visto').id
 
